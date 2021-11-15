@@ -1,0 +1,104 @@
+diff -crB --binary sbl6/segalib/dma/dma_cpum.c sbl6_patch/segalib/dma/dma_cpum.c
+*** sbl6/segalib/dma/dma_cpum.c	1996-02-08 05:23:16.000000000 -0500
+--- sbl6_patch/segalib/dma/dma_cpum.c	2021-11-14 20:07:08.000000000 -0500
+***************
+*** 39,44 ****
+--- 39,45 ----
+   * C VIRTUAL TYPES DEFINITIONS
+   */
+  #include "sega_xpt.h"
++ #include "sega_csh.h"
+  
+  /*
+   * USER SUPPLIED INCLUDE FILES
+***************
+*** 371,374 ****
+      return(DMA_CPU_END);                    /* 正常終了をリターン            */
+  }
+  
+! 
+\ No newline at end of file
+--- 372,375 ----
+      return(DMA_CPU_END);                    /* 正常終了をリターン            */
+  }
+  
+! 
+diff -crB --binary sbl6/segalib/dma/dma_scu1.c sbl6_patch/segalib/dma/dma_scu1.c
+*** sbl6/segalib/dma/dma_scu1.c	1996-02-08 05:23:18.000000000 -0500
+--- sbl6_patch/segalib/dma/dma_scu1.c	2021-11-14 20:08:26.000000000 -0500
+***************
+*** 35,40 ****
+--- 35,41 ----
+  /*
+   * C STANDARD LIBRARY FUNCTIONS/MACROS DEFINES
+   */
++ #include <string.h>
+  
+  /*
+   * C VIRTUAL TYPES DEFINITIONS
+***************
+*** 238,241 ****
+      }
+  }
+  
+! 
+\ No newline at end of file
+--- 239,242 ----
+      }
+  }
+  
+! 
+diff -crB --binary sbl6/segalib/gfs/gfs.c sbl6_patch/segalib/gfs/gfs.c
+*** sbl6/segalib/gfs/gfs.c	2021-11-14 19:22:22.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs.c	2021-11-14 20:53:32.000000000 -0500
+***************
+*** 28,33 ****
+--- 28,34 ----
+  #include    "gfs_dir.h"
+  #include    "gfs_trn.h"
+  #include    "gfs_cdc.h"
++ #include    "gfs_buf.h"
+  
+  
+  #if !defined(USE_SGL)
+diff -crB --binary sbl6/segalib/gfs/gfs_mmb.c sbl6_patch/segalib/gfs/gfs_mmb.c
+*** sbl6/segalib/gfs/gfs_mmb.c	1996-02-08 05:23:36.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_mmb.c	2021-11-14 20:12:48.000000000 -0500
+***************
+*** 23,28 ****
+--- 23,29 ----
+  #include    "gfs_mmc.h"
+  #include    "gfs_mmb.h"
+  #include    "gfs_trn.h"
++ #include    "gfs_mmf.h"
+  
+  /*****************************************************************************
+   *      定数マクロ
+diff -crB --binary sbl6/segalib/mth/mth_dsp.c sbl6_patch/segalib/mth/mth_dsp.c
+*** sbl6/segalib/mth/mth_dsp.c	1996-02-08 05:25:02.000000000 -0500
+--- sbl6_patch/segalib/mth/mth_dsp.c	2021-11-14 20:09:08.000000000 -0500
+***************
+*** 15,20 ****
+--- 15,24 ----
+   */
+  
+  /*
++  * C STANDARD LIBRARY FUNCTIONS/MACROS DEFINES
++  */
++ #include <string.h>
++ /*
+   * USER SUPPLIED INCLUDE FILES
+   */
+  #include "sega_mth.h"
+***************
+*** 160,163 ****
+  }
+  
+  /*  end of file */
+! 
+\ No newline at end of file
+--- 164,167 ----
+  }
+  
+  /*  end of file */
+! 
