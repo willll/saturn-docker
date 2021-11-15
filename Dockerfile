@@ -32,7 +32,7 @@ ENV ROOTDIR=$PWD/toolchain
 ENV DOWNLOADDIR=$PWD/toolchain/download
 ENV QTIFWDIR=./installer
 
-ENV PROGRAM_PREFIX=sh-
+ENV PROGRAM_PREFIX=sh-elf-
 ENV NCPU=1
 ENV CREATEINSTALLER="NO"
 
@@ -112,6 +112,21 @@ RUN . ./versions.sh && \
 
 RUN rm -rf "$SATURN_TMP"
 
+# Set GCC flags
+ENV CXXFLAGS=""
+ENV LD_LIBRARY_PATH="${INSTALLDIR}/lib:${LD_LIBRARY_PATH}"
+ENV CPATH="${INSTALLDIR}/include:${CPATH}"
+ENV COMPILER_PATH="${INSTALLDIR}/include:${COMPILER_PATH}"
+ENV C_INCLUDE_PATH="${INSTALLDIR}/include:${C_INCLUDE_PATH}"
+ENV CPLUS_INCLUDE_PATH="${INSTALLDIR}/include:${CPLUS_INCLUDE_PATH}"
+ENV MAKEFLAGS="-j$(nproc)"
+ENV CC=${INSTALLDIR}/bin/${PROGRAM_PREFIX}gcc
+ENV CXX=${INSTALLDIR}/bin/${PROGRAM_PREFIX}g++
+
+
+# Set PATH to access compilers
+ENV PATH="${INSTALLDIR}/bin:${PATH}"
+
 # Install SGL
 RUN git clone https://github.com/SaturnSDK/Saturn-SDK-SGL.git "$SATURN_TMP"
 WORKDIR "${SATURN_TMP}"
@@ -121,25 +136,21 @@ RUN DOWNLOADDIR=$SATURN_TMP SRCDIR=$SATURN_TMP BUILDDIR=$SATURN_SGL \
     $SATURN_TMP/convert.sh && $SATURN_TMP/copyheaders.sh"
 
 # Install SBL
-RUN git clone https://github.com/shicky256/saturndevsbl.git "$SATURN_SBL"
+#RUN git clone https://github.com/shicky256/saturndevsbl.git "$SATURN_SBL"
+COPY Resources/dl-sbl6.sh $SATURN_TMP
+RUN $SATURN_TMP/dl-sbl6.sh
+COPY Resources/sbl6 $SATURN_TMP
+COPY Resources/build-sbl6.sh $SATURN_TMP
+COPY Resources/sbl6.patch $SATURN_TMP
+RUN $SATURN_TMP/build-sbl6.sh
 
 # Install Jo Engine
-RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_JOENGINE"
+#RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_JOENGINE"
 
 # Clean up temporay files
 RUN rm -rf "$SATURN_TMP"
 
-# Set GCC flags
-ENV CXXFLAGS=""
-ENV LD_LIBRARY_PATH="${INSTALLDIR}/lib:${LD_LIBRARY_PATH}"
-ENV CPATH="${INSTALLDIR}/include:${CPATH}"
-ENV COMPILER_PATH="${INSTALLDIR}/include:${COMPILER_PATH}"
-ENV C_INCLUDE_PATH="${INSTALLDIR}/include:${C_INCLUDE_PATH}"
-ENV CPLUS_INCLUDE_PATH="${INSTALLDIR}/include:${CPLUS_INCLUDE_PATH}"
-ENV MAKEFLAGS="-j$(nproc)"
 
-# Set PATH to access compilers
-ENV PATH="${INSTALLDIR}/bin:${PATH}"
 
 # Set Volume and Workdir
 VOLUME /saturn
