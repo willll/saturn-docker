@@ -139,16 +139,19 @@ RUN DOWNLOADDIR=$SATURN_TMP SRCDIR=$SATURN_TMP BUILDDIR=$SATURN_SGL \
 #RUN git clone https://github.com/shicky256/saturndevsbl.git "$SATURN_SBL"
 COPY Resources/dl-sbl6.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sbl6.sh
-COPY Resources/sbl6 $SATURN_TMP
+COPY Resources/sbl6 $SATURN_TMP/sbl6_
 COPY Resources/build-sbl6.sh $SATURN_TMP
 COPY Resources/sbl6.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6.sh
+
+ENV SEGALIB=${SATURN_SBL}/segalib
+ENV SEGASMP=${SATURN_SBL}/segasmp
 
 # Install Jo Engine
 #RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_JOENGINE"
 
 # Clean up temporay files
-RUN rm -rf "$SATURN_TMP"
+#RUN rm -rf "$SATURN_TMP"
 
 
 
