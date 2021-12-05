@@ -6,6 +6,7 @@
 # * https://github.com/shicky256/SaturnDev
 # * https://github.com/johannes-fetz/joengine
 # * https://github.com/SaturnSDK/Saturn-SDK-SGL
+# * https://github.com/Pixinn/docker-vbcc-amiga
 
 FROM ubuntu:latest as linux
 MAINTAINER willll "XXX@XXX.XXX"
@@ -18,7 +19,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV SATURN_ROOT=/opt/saturn
 ENV SATURN_SGL=$SATURN_ROOT/sgl
 ENV SATURN_SBL=$SATURN_ROOT/sbl
+ENV SATURN_CMAKE=$SATURN_ROOT/cmake
 ENV SATURN_JOENGINE=$SATURN_ROOT/joengine
+ENV SATURN_CD=$SATURN_ROOT/cd_resources
 
 ENV SATURN_TMP=$SATURN_ROOT/tmp
 ENV PWD=$SATURN_TMP
@@ -45,7 +48,6 @@ ENV OBJFORMAT=ELF
 ENV BINUTILS_CFLAGS="-s"
 ENV GCC_BOOTSTRAP_FLAGS="--with-cpu=m2"
 ENV GCC_FINAL_FLAGS="--with-cpu=m2 --with-sysroot=$SYSROOTDIR"
-
 
 # Core Packages
 RUN apt-get update && apt-get install -y locales \
@@ -87,16 +89,20 @@ RUN apt-get update && apt-get install -y \
 	rm -r /var/lib/apt/lists/*
 
 # Base Directories
-RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" "${SATURN_JOENGINE}" "${SATURN_TMP}"  && \
+RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
+  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_TMP}"  && \
 	chmod -R 777 "$SATURN_ROOT" && \
 	chmod -R 777 "$SATURN_SGL" && \
 	chmod -R 777 "$SATURN_SBL" && \
+	chmod -R 777 "$SATURN_CMAKE" && \
 	chmod -R 777 "$SATURN_JOENGINE" && \
   chmod -R 777 "$SATURN_TMP"
 
 WORKDIR "${SATURN_TMP}"
 
+#
 # Install base tools
+#
 
 RUN git clone https://github.com/willll/Saturn-SDK-GCC-SH2.git "$SATURN_TMP"
 
@@ -108,11 +114,11 @@ RUN dos2unix *
 RUN chmod +x *.sh
 
 RUN . ./versions.sh && \
- ./build-elf.sh
+      ./build-elf.sh
 
 RUN rm -rf "$SATURN_TMP"
 
-# Set GCC flags
+# Set GCC env variables and flags
 ENV CXXFLAGS=""
 ENV LD_LIBRARY_PATH="${INSTALLDIR}/lib:${LD_LIBRARY_PATH}"
 ENV CPATH="${INSTALLDIR}/include:${CPATH}"
@@ -122,12 +128,24 @@ ENV CPLUS_INCLUDE_PATH="${INSTALLDIR}/include:${CPLUS_INCLUDE_PATH}"
 ENV MAKEFLAGS="-j$(nproc)"
 ENV CC=${INSTALLDIR}/bin/${PROGRAM_PREFIX}gcc
 ENV CXX=${INSTALLDIR}/bin/${PROGRAM_PREFIX}g++
-
+ENV AR=${INSTALLDIR}/bin/${PROGRAM_PREFIX}ar
+ENV AS=${INSTALLDIR}/bin/${PROGRAM_PREFIX}as
+ENV LD=${INSTALLDIR}/bin/${PROGRAM_PREFIX}ld
+ENV RANLIB=${INSTALLDIR}/bin/${PROGRAM_PREFIX}ranlib
 
 # Set PATH to access compilers
 ENV PATH="${INSTALLDIR}/bin:${PATH}"
 
+# Set Cmake configuration file
+COPY Resources/sega_saturn.cmake $SATURN_CMAKE
+
+# install Files for ISO creation
+COPY Resources/CD $SATURN_CD
+
+#
 # Install SGL
+#
+
 RUN git clone https://github.com/SaturnSDK/Saturn-SDK-SGL.git "$SATURN_TMP"
 WORKDIR "${SATURN_TMP}"
 RUN DOWNLOADDIR=$SATURN_TMP SRCDIR=$SATURN_TMP BUILDDIR=$SATURN_SGL \
@@ -135,10 +153,14 @@ RUN DOWNLOADDIR=$SATURN_TMP SRCDIR=$SATURN_TMP BUILDDIR=$SATURN_SGL \
   bash -c "$SATURN_TMP/download.sh && $SATURN_TMP/extract.sh && \
     $SATURN_TMP/convert.sh && $SATURN_TMP/copyheaders.sh"
 
+#
 # Install SBL
-#RUN git clone https://github.com/shicky256/saturndevsbl.git "$SATURN_SBL"
+#
+
+# Download SBL
 COPY Resources/dl-sbl6.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sbl6.sh
+
 COPY Resources/sbl6 $SATURN_TMP/sbl6_
 COPY Resources/build-sbl6.sh $SATURN_TMP
 COPY Resources/sbl6.patch $SATURN_TMP
@@ -147,17 +169,18 @@ RUN $SATURN_TMP/build-sbl6.sh
 ENV SEGALIB=${SATURN_SBL}/segalib
 ENV SEGASMP=${SATURN_SBL}/segasmp
 
+#
 # Install Jo Engine
+#
+
 #RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_JOENGINE"
 
 # Clean up temporay files
 #RUN rm -rf "$SATURN_TMP"
 
-
-
 # Set Volume and Workdir
 VOLUME /saturn
-WORKDIR /saturn
+WORKDIR /opt/saturn/tmp/sbl6/segasmp/bin
 
 # Bash Settings
 RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc && \
