@@ -1,11 +1,21 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(CMAKE_C_COMPILER_WORKS 1)
-set(CMAKE_CXX_COMPILER_WORKS 1)
+SET(CMAKE_SYSTEM_NAME "SEGA SATURN")
 
-project( segalib )
+set(SEGALIB_DESTINATION_LIB segalib/lib)
 
-add_compile_options(-Wall -Wpointer-sign -m2 -O2)
+project(segalib
+        VERSION 6.1
+        DESCRIPTION "Sega Saturn SBL"
+        LANGUAGES C ASM)
+
+add_compile_options(  -Wall
+                      -Wpointer-sign
+                      -m2
+                      -Os
+                      -finline-functions
+                      -fomit-frame-pointer
+)
 
 add_subdirectory(bpl)
 add_subdirectory(cmp)
@@ -14,9 +24,14 @@ add_subdirectory(dbg)
 add_subdirectory(dma)
 add_subdirectory(dsp)
 add_subdirectory(gfs)
-add_subdirectory(int)
+#add_subdirectory(int)
 add_subdirectory(mem)
 add_subdirectory(mpg)
 add_subdirectory(mth)
+add_subdirectory(scl)
+add_subdirectory(spr)
+add_subdirectory(cdc)
+add_subdirectory(per)
+add_subdirectory(stm)
 
-#install(TARGETS include DESTINATION include)
+install(DIRECTORY include DESTINATION segalib)

@@ -2,7 +2,11 @@ set(SOURCES cmp.h cmplrun.c cmplrunb.c cmplrund.c cmplrunw.c cmpltool.c sega_cmp
 
 add_compile_definitions(_SH MODEL_S)
 
-ADD_LIBRARY( sega_cmp.a STATIC
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+ADD_LIBRARY( sega_cmp STATIC
              ${SOURCES} )
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+SET_TARGET_PROPERTIES(sega_cmp PROPERTIES PREFIX "")
+
+install(TARGETS sega_cmp DESTINATION ${SEGALIB_DESTINATION_LIB})
