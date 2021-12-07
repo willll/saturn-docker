@@ -19,7 +19,7 @@ target_compile_options(bup PUBLIC -g -O0 -Wall -m2)
 target_link_options(bup PUBLIC
     "SHELL:-Xlinker -Map -Xlinker ${PROJECT_NAME}.map"
     "SHELL:-nostartfiles"
-    "SHELL:-T ${CMAKE_CURRENT_SOURCE_DIR}/lnk_cof.x"
+    "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/lnk_cof.x"
 )
 
 target_link_libraries(bup PUBLIC ${SEGALIB}/lib/sega_scl.a )
