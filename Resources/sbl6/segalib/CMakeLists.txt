@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-SET(CMAKE_SYSTEM_NAME "SEGA SATURN")
+SET(CMAKE_SYSTEM_NAME Generic)
 
 set(SEGALIB_DESTINATION_LIB segalib/lib)
 
