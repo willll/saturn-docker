@@ -18,7 +18,7 @@ target_link_options(Basic.elf PUBLIC
     "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Source/Saturn.lnk"
 )
 
-add_custom_target(run ALL DEPENDS Basic.elf Basic.bin)
+add_custom_target(run_Basic ALL DEPENDS Basic.elf Basic.bin)
 
 add_custom_command(OUTPUT Basic.bin
                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}

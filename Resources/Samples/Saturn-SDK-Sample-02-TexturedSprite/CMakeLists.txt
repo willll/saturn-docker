@@ -11,18 +11,27 @@ set(SOURCES
 
 add_compile_definitions(MODEL_S)
 
-add_executable(TexturedSprite ${SOURCES})
+add_executable(TexturedSprite.elf ${SOURCES})
 
-target_include_directories(TexturedSprite PUBLIC
+target_include_directories(TexturedSprite.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 
-target_compile_options(TexturedSprite PUBLIC -g -O0 -Wall -m2 )
+target_compile_options(TexturedSprite.elf PUBLIC -g -O0 -Wall -m2 )
 
-target_link_options(TexturedSprite PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
-    "SHELL:-nostartfiles"
-    "SHELL:-T${SATURN_SAMPLE_COMMON}/Source/Saturn.lnk"
+target_link_options(TexturedSprite.elf PUBLIC
+    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+    "SHELL:-Xlinker --strip-debug"
+    "SHELL:-m2 -nostartfiles"
+    "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Source/Saturn.lnk"
 )
 
-install(TARGETS TexturedSprite DESTINATION ${SAMPLES_DESTINATION}/${TARGET_NAME} )
-install(DIRECTORY Source DESTINATION ${SAMPLES_DESTINATION}/${TARGET_NAME})
+add_custom_target(run_TexturedSprite ALL DEPENDS TexturedSprite.elf TexturedSprite.bin)
+
+add_custom_command(OUTPUT TexturedSprite.bin
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                   COMMAND ${CMAKE_OBJCOPY}
+                   ARGS -O binary TexturedSprite.elf TexturedSprite.bin )
+
+install(TARGETS TexturedSprite.elf DESTINATION ${SAMPLES_DESTINATION}/TexturedSprite )
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/TexturedSprite.bin DESTINATION ${SAMPLES_DESTINATION}/TexturedSprite )
+install(DIRECTORY Source DESTINATION ${SAMPLES_DESTINATION}/TexturedSprite )

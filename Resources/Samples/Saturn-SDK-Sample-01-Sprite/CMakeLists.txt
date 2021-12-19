@@ -11,18 +11,27 @@ set(SOURCES
 
 add_compile_definitions(MODEL_S)
 
-add_executable(Sprite ${SOURCES})
+add_executable(Sprite.elf ${SOURCES})
 
-target_include_directories(Sprite PUBLIC
+target_compile_options(Sprite.elf  PUBLIC -g -O0 -Wall -m2 -MMD)
+
+target_include_directories(Sprite.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 
-target_compile_options(Sprite PUBLIC -g -O0 -Wall -m2 )
-
-target_link_options(Sprite PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
-    "SHELL:-nostartfiles"
-    "SHELL:-T${SATURN_SAMPLE_COMMON}/Source/Saturn.lnk"
+target_link_options(Sprite.elf PUBLIC
+    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+    "SHELL:-Xlinker --strip-debug"
+    "SHELL:-m2 -nostartfiles"
+    "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Source/Saturn.lnk"
 )
 
-install(TARGETS Sprite DESTINATION ${SAMPLES_DESTINATION}/${TARGET_NAME} )
-install(DIRECTORY Source DESTINATION ${SAMPLES_DESTINATION}/${TARGET_NAME})
+add_custom_target(run_Sprite ALL DEPENDS Sprite.elf Sprite.bin)
+
+add_custom_command(OUTPUT Sprite.bin
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                   COMMAND ${CMAKE_OBJCOPY}
+                   ARGS -O binary Sprite.elf Sprite.bin )
+
+install(TARGETS Sprite.elf DESTINATION ${SAMPLES_DESTINATION}/Sprite )
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/Sprite.bin DESTINATION ${SAMPLES_DESTINATION}/Sprite )
+install(DIRECTORY Source DESTINATION ${SAMPLES_DESTINATION}/Sprite )

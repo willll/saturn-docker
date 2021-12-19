@@ -11,20 +11,27 @@ set(SOURCES
 
 add_compile_definitions(MODEL_S)
 
-add_executable(CDBrowser ${SOURCES})
+add_executable(CDBrowser.elf ${SOURCES})
 
-target_include_directories(CDBrowser PUBLIC
+target_include_directories(CDBrowser.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 
-target_compile_options(CDBrowser PUBLIC -g -O0 -Wall -m2 )
+target_compile_options(CDBrowser.elf PUBLIC -g -O0 -Wall -m2 )
 
-target_link_options(TexturedSprite PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
-    "SHELL:-nostartfiles"
-    "SHELL:-T${SATURN_SAMPLE_COMMON}/Source/Saturn.lnk"
+target_link_options(CDBrowser.elf PUBLIC
+    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+    "SHELL:-Xlinker --strip-debug"
+    "SHELL:-m2 -nostartfiles"
+    "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Source/Saturn.lnk"
 )
 
-target_link_libraries(CDBrowser PUBLIC /Source/Source/crt0s.a )
+add_custom_target(run_CDBrowser ALL DEPENDS CDBrowser.elf CDBrowser.bin)
 
-install(TARGETS CDBrowser DESTINATION ${SAMPLES_DESTINATION}/${TARGET_NAME} )
-install(DIRECTORY Source DESTINATION ${SAMPLES_DESTINATION}/${TARGET_NAME})
+add_custom_command(OUTPUT CDBrowser.bin
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                   COMMAND ${CMAKE_OBJCOPY}
+                   ARGS -O binary CDBrowser.elf CDBrowser.bin )
+
+install(TARGETS CDBrowser.elf DESTINATION ${SAMPLES_DESTINATION}/CDBrowser )
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/CDBrowser.bin DESTINATION ${SAMPLES_DESTINATION}/CDBrowser )
+install(DIRECTORY Source DESTINATION ${SAMPLES_DESTINATION}/CDBrowser )
