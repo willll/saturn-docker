@@ -9119,7 +9119,7 @@ diff -crB --binary sbl6/segalib/spr/spr_3c.c sbl6_patch/segalib/spr/spr_3c.c
 ! /*  end of file */
 diff -crB --binary sbl6/segasmp/bup/font/fnt_cod1.c sbl6_patch/segasmp/bup/font/fnt_cod1.c
 *** sbl6/segasmp/bup/font/fnt_cod1.c	1996-02-08 05:26:36.000000000 -0500
---- sbl6_patch/segasmp/bup/font/fnt_cod1.c	2021-11-21 12:30:28.000000000 -0500
+--- sbl6_patch/segasmp/bup/font/fnt_cod1.c	2021-12-18 11:44:08.000000000 -0500
 ***************
 *** 1,3 ****
 --- 1,5 ----
@@ -9128,6 +9128,23 @@ diff -crB --binary sbl6/segasmp/bup/font/fnt_cod1.c sbl6_patch/segasmp/bup/font/
   #include	<sega_xpt.h>
   
   #define		FNT_JAPAN	1
+***************
+*** 89,95 ****
+  #ifndef __GNUC__
+  	if(wx > FntXsize)	wx = FntXsize/2 - strlen(str)*4;
+  #else
+! 	if(wx > FntXsize)	wx = FntXsize/2 - strlen((Uint8 *)str)*4;
+  #endif
+  
+  	i=0;
+--- 91,97 ----
+  #ifndef __GNUC__
+  	if(wx > FntXsize)	wx = FntXsize/2 - strlen(str)*4;
+  #else
+! 	if(wx > FntXsize)	wx = FntXsize/2 - strlen((const char *)str)*4;
+  #endif
+  
+  	i=0;
 ***************
 *** 118,121 ****
   		i++;
@@ -9142,7 +9159,7 @@ diff -crB --binary sbl6/segasmp/bup/font/fnt_cod1.c sbl6_patch/segasmp/bup/font/
 ! 
 diff -crB --binary sbl6/segasmp/bup/smpbup1.c sbl6_patch/segasmp/bup/smpbup1.c
 *** sbl6/segasmp/bup/smpbup1.c	1996-02-08 05:26:38.000000000 -0500
---- sbl6_patch/segasmp/bup/smpbup1.c	2021-11-21 12:48:00.000000000 -0500
+--- sbl6_patch/segasmp/bup/smpbup1.c	2021-12-18 11:31:22.000000000 -0500
 ***************
 *** 20,27 ****
   #include	"sega_scl.h"
@@ -9163,16 +9180,274 @@ diff -crB --binary sbl6/segasmp/bup/smpbup1.c sbl6_patch/segasmp/bup/smpbup1.c
   #define 	BUP_START_ADDR	0x6070000
   
 ***************
+*** 73,79 ****
+  	"SAT"
+  };
+  
+! void main(void)
+  {
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+--- 73,79 ----
+  	"SAT"
+  };
+  
+! int main(void)
+  {
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+***************
+*** 433,438 ****
+--- 433,440 ----
+  			PadInputWait();
+  			break;
+  	}
++ 
++ 	return 0;
+  }
+  
+  
+***************
 *** 865,868 ****
   
   	return(ret);
   }
 ! 
 \ No newline at end of file
---- 865,868 ----
+--- 867,870 ----
   
   	return(ret);
   }
+! 
+diff -crB --binary sbl6/segasmp/csh/smpcsh.c sbl6_patch/segasmp/csh/smpcsh.c
+*** sbl6/segasmp/csh/smpcsh.c	1996-02-08 05:28:00.000000000 -0500
+--- sbl6_patch/segasmp/csh/smpcsh.c	2021-12-18 11:30:38.000000000 -0500
+***************
+*** 1,13 ****
+  #include "sega_xpt.h"
+  #include "sega_csh.h"
+  
+! void main(void)
+  {
+  	CSH_Init(CSH_4WAY);
+  	CSH_AllClr();
+! 	CSH_Purge((volatile void *)0x06000008, (Uint32)0x10);
+  
+  	while(1)
+  		;
+  }
+! 
+\ No newline at end of file
+--- 1,14 ----
+  #include "sega_xpt.h"
+  #include "sega_csh.h"
+  
+! int main(void)
+  {
+  	CSH_Init(CSH_4WAY);
+  	CSH_AllClr();
+! 	CSH_Purge((void *)0x06000008, (Uint32)0x10);
+  
+  	while(1)
+  		;
++ 	return 0;
+  }
+! 
+diff -crB --binary sbl6/segasmp/dbg/smpdbg1/smpdbg10.c sbl6_patch/segasmp/dbg/smpdbg1/smpdbg10.c
+*** sbl6/segasmp/dbg/smpdbg1/smpdbg10.c	1996-02-08 05:28:04.000000000 -0500
+--- sbl6_patch/segasmp/dbg/smpdbg1/smpdbg10.c	2021-12-18 11:37:54.000000000 -0500
+***************
+*** 12,17 ****
+--- 12,18 ----
+  
+  #include	<stdio.h>
+  #include	<stdlib.h>
++ #include	<string.h>
+  #include	<machine.h>
+  
+  #define		_SPR2_
+***************
+*** 322,328 ****
+  extern Uint16	PadData1;
+  #endif
+  
+! void main()
+  {
+      Uint8  *VRAM;
+      int    i, j, l;
+--- 323,329 ----
+  extern Uint16	PadData1;
+  #endif
+  
+! int main(void)
+  {
+      Uint8  *VRAM;
+      int    i, j, l;
+***************
+*** 378,384 ****
+          if(val == 99)
+              *(Uint32*)0x6000001 = val; /* cause program error */
+      }
+  }
+  
+  /*  end of file */
+! 
+\ No newline at end of file
+--- 379,386 ----
+          if(val == 99)
+              *(Uint32*)0x6000001 = val; /* cause program error */
+      }
++     return 0;
+  }
+  
+  /*  end of file */
+! 
+diff -crB --binary sbl6/segasmp/dma/smpdma0/smpdma0.c sbl6_patch/segasmp/dma/smpdma0/smpdma0.c
+*** sbl6/segasmp/dma/smpdma0/smpdma0.c	1996-02-08 05:28:08.000000000 -0500
+--- sbl6_patch/segasmp/dma/smpdma0/smpdma0.c	2021-12-18 11:46:30.000000000 -0500
+***************
+*** 16,25 ****
+  void SDMA_CpuAllStart(void);
+  void SDMA_CpuCst(Uint32 , Uint32 ,void *, void *, Uint32);
+  Uint32 SDMA_CpuResult(Uint32);
+! Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  結果確認関数    */
+  void rev(void *, void *, Uint32, Uint32);   /*  転送先データ破壊関数        */
+  
+! void main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+--- 16,25 ----
+  void SDMA_CpuAllStart(void);
+  void SDMA_CpuCst(Uint32 , Uint32 ,void *, void *, Uint32);
+  Uint32 SDMA_CpuResult(Uint32);
+! Uint32 hikaku(void *, void *, Uint32, Uint32, char *); /*  結果確認関数    */
+  void rev(void *, void *, Uint32, Uint32);   /*  転送先データ破壊関数        */
+  
+! int main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+***************
+*** 55,60 ****
+--- 55,62 ----
+      hikaku((void *)0x00000, (void *)0x6050000, 0x400, 1, "BOOT to WORK");
+  
+      for(;;);
++     
++     return 0;
+  }
+  /****************************************************************************/
+  /*  全チャネルDMA開始                                                       */
+***************
+*** 140,146 ****
+  /****************************************************************************/
+  /*  結果比較関数                                                            */
+  /****************************************************************************/
+! Uint32 hikaku(void *src, void *dst, Uint32 cnt, Uint32 size, Sint8 *msg)
+  {
+  #if	0
+  	/*
+--- 142,148 ----
+  /****************************************************************************/
+  /*  結果比較関数                                                            */
+  /****************************************************************************/
+! Uint32 hikaku(void *src, void *dst, Uint32 cnt, Uint32 size, char *msg)
+  {
+  #if	0
+  	/*
+***************
+*** 162,168 ****
+      sprintf(pbuf, "[[ \'%s\' %08X >> %08X : %08X Count, %01X Byte ",
+       msg, src, dst, cnt, size);
+  #else
+!     sprintf(pbuf, "[[ \'%s\' %08lX >> %08lX : %08lX Count, %01lX Byte ",
+       msg, ( Uint32 )src, ( Uint32 )dst, cnt, size);
+  #endif
+      pbuf += strlen(pbuf);
+--- 164,170 ----
+      sprintf(pbuf, "[[ \'%s\' %08X >> %08X : %08X Count, %01X Byte ",
+       msg, src, dst, cnt, size);
+  #else
+!     sprintf((const char *)pbuf, "[[ \'%s\' %08lX >> %08lX : %08lX Count, %01lX Byte ",
+       msg, ( Uint32 )src, ( Uint32 )dst, cnt, size);
+  #endif
+      pbuf += strlen(pbuf);
+***************
+*** 308,311 ****
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+\ No newline at end of file
+--- 310,313 ----
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/smpspr2/smpspr20.c
+*** sbl6/segasmp/spr/smpspr2/smpspr20.c	1996-02-08 05:33:26.000000000 -0500
+--- sbl6_patch/segasmp/spr/smpspr2/smpspr20.c	2021-12-18 17:29:08.000000000 -0500
+***************
+*** 20,29 ****
+  
+  #include	<stdio.h>
+  #include	<stdlib.h>
+  
+  #define		_SPR2_
+  #include        "sega_spr.h"
+! #include        "sega_dbg.h"
+  #include        "sega_per.h"
+  
+  #include	<machine.h>
+--- 20,30 ----
+  
+  #include	<stdio.h>
+  #include	<stdlib.h>
++ #include	<string.h>
+  
+  #define		_SPR2_
+  #include        "sega_spr.h"
+! //#include        "sega_dbg.h"
+  #include        "sega_per.h"
+  
+  #include	<machine.h>
+***************
+*** 862,868 ****
+  };
+  
+  
+! void main()
+  {
+      Uint8  *VRAM;
+      Uint16 *colAddr;
+--- 863,869 ----
+  };
+  
+  
+! int main(void)
+  {
+      Uint8  *VRAM;
+      Uint16 *colAddr;
+***************
+*** 984,990 ****
+          }
+          SCL_DisplayFrame();
+      }
+  }
+  
+  /*  end of file */
+! 
+\ No newline at end of file
+--- 985,993 ----
+          }
+          SCL_DisplayFrame();
+      }
++ 
++     return 0;
+  }
+  
+  /*  end of file */
 ! 
 diff -crB --binary sbl6/segasmp/v_blank/set_vb.c sbl6_patch/segasmp/v_blank/set_vb.c
 *** sbl6/segasmp/v_blank/set_vb.c	1996-02-08 05:34:02.000000000 -0500
