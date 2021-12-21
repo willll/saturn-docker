@@ -68,11 +68,20 @@
    #define _SPR2_
 #endif
 
+/*
+ * EXTERNAL FUNCTION PROTOTYPE DECLARATIONS
+ */
+typedef void PARA_RTN(void *parm);
+void  SPR_InitSlaveSH(void);
+void  SPR_RunSlaveSH(PARA_RTN *routine, void *parm);
+void  SPR_WaitEndSlaveSH(void);
 
 /**************** SEGA_SP1.H *************************************************/
 /*
  * GLOBAL DEFINES/MACROS DEFINES
  */
+#define  FIXED32_MIN         0x80000000
+#define  FIXED32_MAX         0x7fffffff
 
 #define  VRAM_SIZE           512*1024   /* 512 Kbyte                        */
 #define  FBUF_SIZE           256*1024   /* 256 Kbyte * 2 bank               */
@@ -152,11 +161,11 @@ typedef struct SprSpStatus SprSpStatus;
  */
 extern Sint32  SpScreenX;               /* TV Screen X Size                  */
 extern Sint32  SpScreenY;               /* TV Screen Y Size                  */
-extern Uint16  SpFrameChgMode;          /* Frame Change Mode                 */
-extern Sint32  SpFrameEraseMode;        /* Frame Erase  Mode                 */
-extern Sint32  VBInterval;              /* V-Blank Interval for Frame Change */
-extern Sint32  VBIntervalCounter;       /* V-Blank Interval Counter          */
-extern Sint32  ReqDisplayFlag;          /* Display Request flag              */
+extern volatile Uint16  SpFrameChgMode;          /* Frame Change Mode                 */
+extern volatile Sint32  SpFrameEraseMode;        /* Frame Erase  Mode                 */
+extern volatile Sint32  VBInterval;              /* V-Blank Interval for Frame Change */
+extern volatile Sint32  VBIntervalCounter;       /* V-Blank Interval Counter          */
+extern volatile Sint32  ReqDisplayFlag;          /* Display Request flag              */
 extern Uint16  SpTvMode;                /* TV Mode                           */
 extern Uint16  SpFbcrMode;              /* Frame Buffer Chane Mode           */
 extern Uint16  SpDie;                   /* Double Interlace Enable Flag      */
@@ -314,6 +323,17 @@ struct SprDrawPrtyBlk {         /* 描画プライオリティブロックテーブル        */
     Uint16      botNo;          /* 末尾コマンドチェインエントリ番号          */
 };
 
+//struct Spr2WorkArea {                    /* SP2 Work Area Define             */
+//    Uint16         commandMax;           /* Command Max                      */
+//    Uint16         gourTblMax;           /* Gour Tbl Max                     */
+//    Uint16         lookupTblMax;         /* Lookup Tbl Max                   */
+//    Uint16         charMax;              /* Char Max                         */
+//    Uint16         drawPrtyBlkMax;       /* Draw Priority Block Max          */
+//    SprCharTbl     *charTbl;             /* Character Tbl Pointer            */
+//    SprCmdChain    *cmdChain;            /* Command Draw Priority Chain Tbl  */
+//    SprDrawPrtyBlk *drawPrtyBlk;         /* Draw Priority Block Start        */
+//};
+
 struct Spr2WorkArea {                    /* SP2 Work Area Define             */
     Uint16         commandMax;           /* Command Max                      */
     Uint16         gourTblMax;           /* Gour Tbl Max                     */
@@ -321,6 +341,11 @@ struct Spr2WorkArea {                    /* SP2 Work Area Define             */
     Uint16         charMax;              /* Char Max                         */
     Uint16         drawPrtyBlkMax;       /* Draw Priority Block Max          */
     SprCharTbl     *charTbl;             /* Character Tbl Pointer            */
+    SprSpCmd       *mstCmd;              /* Master Command Buffer            */
+    SprDrawPrtyBlk *mstDrawPrtyBlk;      /* Master Draw Priority Block       */
+    SprSpCmd       *slvCmd;              /* Slave Command Buffer             */
+    SprDrawPrtyBlk *slvDrawPrtyBlk;      /* Slave Draw Priority Block        */
+    SprGourTbl     *gourTbl;             /* Gour Tbl Max                     */
     SprCmdChain    *cmdChain;            /* Command Draw Priority Chain Tbl  */
     SprDrawPrtyBlk *drawPrtyBlk;         /* Draw Priority Block Start        */
 };
@@ -362,7 +387,8 @@ void   SPR_2FrameChgIntr (Uint16);
 void   SPR_2FrameEraseData (Uint16);
 void   SPR_2SetGourTbl (Uint16, SprGourTbl *);
 void   SPR_2SetLookupTbl (Uint16, SprLookupTbl *);
-void   SPR_2SetChar (Uint16, Uint16, Uint16, Uint16, Uint16, Uint8 *);
+//void   SPR_2SetChar (Uint16, Uint16, Uint16, Uint16, Uint16, Uint8 *);
+int		SPR_2SetChar(Uint16, Uint16, Uint16, Uint16, Uint16, Uint8 *);
 void   SPR_2ClrChar (Uint16);
 void   SPR_2ClrAllChar (void);
 Uint16 SPR_2GourTblNoToVram (Uint16);
@@ -485,9 +511,73 @@ struct Spr3dStatus {
     Fixed32   clipZMax;         /* 視点座標系クリップＺ最大値座標         */
     Sint32    clipLevel;        /* クリッピングレベル                     */
     MthXy     unitPixel;        /* X,Y 1.0 に対するスクリーンのピクセル数 */
+
+// WTF ?
+    Sint32    unitPixelX;       /* X 1.0 に対するスクリーンのピクセル数   */
+    Sint32    unitPixelY;       /* Y 1.0 に対するスクリーンのピクセル数   */
 };
 
 
+typedef struct TComTbl  TComTbl;
+struct TComTbl {
+    Fixed32     zSortBZMin;     /* i   フラッシュ単位前Ｚ座標最小値          */
+    int         zSftCnt;        /* i   ＺソートＺシフト数                    */
+    int         zSortBlkCnt;    /* i   Ｚソートブロック数                    */
+    Sint32      spriteDrawFlag; /* i   変形スプライト描画フラグ              */
+    Sint32      otherDrawFlag;  /* i   その他ポリゴン描画フラグ              */
+    Sint32      *unitPixel;     /* i   X,Y 1.0に対するスクリーンのピクセル数 */
+    Fixed32     *clipRatio;     /* i   ３Ｄクリッピング率 [0]=X, [1]=Y       */
+    Fixed32     *clipZ;         /* i   視点座標系クリップＺ [0]=min, [1]=max */
+    SprCharTbl  *charTbl;       /* i   スプライトキャラクタテーブル          */
+    Sint32      *vertBright;    /* i   頂点輝度テーブル                      */
+    MthXyz      *coordView3D;   /* i   ３Ｄ視点座標変換後テーブル            */
+    XyInt       *coord2D;       /* i   ２Ｄ透視変換後テーブル                */
+    int         dispFlag;       /* i   表示フラグ                            */
+    Uint16      **shdIdxTbl;    /* i   シェーディングインデックステーブル    */
+    Uint32      gourGrayTopR;   /* i   グーログレイ先頭ＶＲＡＭアドレス      */
+    Uint32      lookupTblR;     /* i   ルックアップテーブルＶＲＡＭ内位置    */
+    MthXyz      *lightVector;   /* i   光源ベクタ                            */
+    MthMatrix   *viewMatrix;    /* i   視点座標系への座標変換マトリックス    */
+    MthMatrix   *worldMatrix;   /* i   ワールド座標系への座標変換マトリックス*/
+};
+
+typedef struct T3Dto2D  T3Dto2D;
+struct T3Dto2D {
+    int         vertCount;      /* i   頂点数                                */
+    int         surfaceCount;   /* i   面数                                  */
+    SprSurface  *surfInfo;      /* i   面定義テーブル                        */
+    MthXyz      *vertPoint;     /* i   頂点座標テーブル                      */
+    MthXyz      *surfaceNormal; /* i   面の法線ベクトルテーブル              */
+    MthXyz      *vertNormal;    /* i   頂点の法線ベクトルテーブル            */
+    MthXyz      *coordView3D;   /* o   ３Ｄ視点座標変換後テーブル            */
+    XyInt       *coord2D;       /* o   ２Ｄ透視変換後テーブル                */
+    Sint32      *surfBright;    /* o   面輝度テーブル                        */
+    Sint32      *vertBright;    /* o   頂点輝度テーブル                      */
+    MthXyz      *coordWorld3D;  /* o   頂点のワールド座標テーブル            */
+};
+
+typedef struct T2DtoCmd  T2DtoCmd;
+struct T2DtoCmd {
+    int         surfaceCount;   /* i   面数                                  */
+    SprSurface  *surface;       /* i   面定義テーブル                        */
+    Sint32      *surfBright;    /* i   面輝度テーブル                        */
+    Fixed32     zSortZMin;      /* i/o フラッシュ単位現Ｚ座標最小値          */
+    Fixed32     zSortZMax;      /* i/o フラッシュ単位現Ｚ座標最大値          */
+    SprDrawPrtyBlk *prtyTbl;    /* i/o 描画プライオリティブロックテーブル    */
+    SprSpCmd    *cmdBuf;        /* o   スプライトコマンドバッファ            */
+    int         outCmdPos;      /* o   書き込みコマンド数                    */
+    SprGourTbl  *gourTblCur;    /* i/o グーロテーブルカレントアドレス        */
+    Uint32      gourTblCurR;    /* i/o グーロカレントＶＲＡＭアドレス        */
+};
+
+typedef struct GetSurfNormPara  GetSurfNormPara;
+struct GetSurfNormPara {
+    int         surfaceCount;   /* i   面数                                  */
+    SprSurface  *surface;       /* i   面定義テーブル                        */
+    MthXyz      *vertPoint;     /* i   頂点座標テーブル                      */
+    Fixed32     surfNormK;      /* i   面法線ベクトルの計算補正値            */
+    MthXyz      *surfaceNormal; /* o   面の法線ベクトルテーブル              */
+};
 
 /*
  * GLOBAL DEFINES/MACROS DEFINES
@@ -635,6 +725,32 @@ void   SPR_3GetStatus (Spr3dStatus *spr3dStatus);
 void   SPR_3CallAllCluster(SprCluster *cluster, void (*userFunc)(SprCluster*));
 void   SPR_3SetSurfNormVect(SprObject3D  *obj);
 void   SPR_3SetDrawSpeed(Sint32 hssFlag, Sint32 eosFlag, Sint32 pclpFlag);
+
+/*
+ * ＤＳＰによるマトリックス合成
+ */
+#define MTX_OP_CLEAR	1            /*　出力マトリックスエリアのクリア      */
+#define MTX_OP_REV_Z	2            /*　Ｚの符号反転合成                    */
+#define MTX_OP_MOV_XYZ	3            /*　平行移動合成                        */
+#define MTX_OP_ROT_X	4            /*　Ｘ回転移動合成                      */
+#define MTX_OP_ROT_Y	5            /*　Ｙ回転移動合成                      */
+#define MTX_OP_ROT_Z	6            /*　Ｚ回転移動合成                      */
+#define MTX_OP_END	7            /*　処理終了                            */
+
+typedef struct  SprDspMatrixOp {     /* マトリックス合成オペレーション       */
+         Fixed32     x;              /* Ｘ値                                 */
+         Fixed32     y;              /* Ｙ値                                 */
+         Fixed32     z;              /* Ｚ値                                 */
+         Sint32      opCode;         /* オペレーションコード                 */
+} SprDspMatrixOp;
+
+typedef struct  SprDspMatrixParm {   /* ＤＳＰ用マトリックス合成パラメータ   */
+         MthMatrix   *inputMatrix;   /* 入力マトリックスのアドレス           */
+         MthMatrix   *outputMatrix;  /* 出力マトリックスのアドレス           */
+         SprDspMatrixOp  op[15];     /* マトリックス合成オペレーション       */
+} SprDspMatrixParm;
+
+
 #endif /* _SPR3_ */
 
 #endif /* ifndef SEGA_SPR_H */

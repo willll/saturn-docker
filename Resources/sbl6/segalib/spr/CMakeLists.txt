@@ -1,6 +1,5 @@
 set(SOURCES ${PROJECT_SOURCE_DIR}/include/sega_spr.h
-  spr_1c.c  spr_2c.c  spr_3c0.c  spr_3c1.c  spr_3c.c
-          spr_3dsp.c spr_slv.c )
+  spr_1c.c spr_2a.s spr_2c.c spr_3a.s spr_3c.c)
 
 add_compile_definitions(_SH MODEL_S USE_DSP)
 

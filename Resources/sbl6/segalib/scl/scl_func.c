@@ -12,9 +12,7 @@
  *  MOD HISTORY:
  *	Written by K.M on 1994-06-21 Ver.1.00
  *	Updated by K.M on 1994-06-22 Ver.1.00
- *	Updated by Chikahiro Yoshida on 1995-07-19 Ver.1.00a
- *				詳細は SCL_CopyReg()のヘッダを参照
- *	Updated by N.K on 1996-03-19 Ver.1.00b
+ * 
  *------------------------------------------------------------------------
  */
 
@@ -22,14 +20,11 @@
 
 #include <sega_scl.h> 
 #include <sega_dma.h> 
-//#include	<sgl_work.h>
-//#include	<sgl.h>
+
 
 #define	DMAOFF
 
 #define	REGADDR	0x25F80000
-#define	SBL		0x00
-
 
 /* ラインスクロール、セルスクロール関連 */
 	Uint32	SclAddrLsTbl[2];
@@ -37,9 +32,9 @@
 	Uint16	SclLengthLsTbl = 0;
 	Uint16	SclLengthCsTbl = 0;
 
-/*	static	Uint16	paramode = 1;	del: no used by C.yoshida	*/
-/*	static	Uint16	blank_time;		del: no used by C.yoshida	*/
-static	Uint16	*regaddr;
+static	Uint16	paramode = 1;
+static	Uint16	blank_time;
+static	volatile Uint16	*regaddr;
 	Uint32	SclCurSclNum =0;
 	Uint16	SclProcess = 0;
 
@@ -53,22 +48,20 @@ static	Uint16	*regaddr;
 	SclNorscl	Scl_n_reg;
 	SclRotscl	Scl_r_reg;
 	SclWinscl	Scl_w_reg;
-	//SclSblSgl	Scl_flag;
 
 /* このファイルが参照する大域変数の宣言 */
 extern	SclPriBuffDirtyFlags	SclPriBuffDirty;
 extern	void	SCL_AutoExec(void);
 extern	Uint32	SCL_GetColRamMode(void);
+extern  void	SCL_PriorityInit(void);
 extern	void	SCL_VblInit(void);
 
-extern	void	SCL_PriorityInit(void);	/*  add: C.yoshida  */
 
 /*******************************************************
  *  回転マトリックスパラメータテーブルバッファ         *
  *******************************************************/
+	SclRotreg	SclRotregBuff[2];
 
-SclRotreg	_SclRotregBuff[2];
-SclRotreg	*SclRotregBuff = _SclRotregBuff;
 
 /*******************************************************
  *  回転マトリックスパラメータ係数テーブルバッファ     *
@@ -91,19 +84,13 @@ SclRotreg	*SclRotregBuff = _SclRotregBuff;
 
 	Uint16	SclRPMD;	/* 回転パラメータモード */
 
-#if	0
 	Uint16	SclRotateTableMode=0xff;
-#else
-	Uint16	SclRotateTableMode=2;
-#endif
 
 /* このファイルで定義する関数 */
 	void	SCL_ParametersInit(void);
 	void	SCL_ScrollShow(void);
 	void	SCL_PriIntProc(void);
 	void	SCL_Memcpyw(void *dest,void *src,Uint32 tcnt);
-	//void	SCL_SglOn(void);		/*	use SGL	*/
-	//void	SCL_SglOff(void);		/*	use SGL	*/
 
 extern	void   SCL_Rotate(Fixed32 xy,Fixed32 z,Fixed32 disp);
 
@@ -126,7 +113,7 @@ extern	void   SCL_Rotate(Fixed32 xy,Fixed32 z,Fixed32 disp);
  */
 void SCL_Vdp2Init(void)
 {
-/*    Uint32 i;		del:no used C.yoshida */
+    Uint32 i;
 
     SCL_VblInit();
 
@@ -146,15 +133,7 @@ void SCL_Vdp2Init(void)
 
     SclRbgKtbOffset[0] = 0;
     SclRbgKtbOffset[1] = 0;
-	
-	/*
-	**追加 1995.11.06 C.Yoshida
-	**SclRotateTableAddressはポインタだがSCL_RotateInitが呼ばれない限り
-	**初期化されることはない。SCL_RotateInitをコールする前にV_Syncにくると
-	**えらいことになる。
-	*/
-	SclRotateTableAddress = 0;
-	
+
     SCL_PriorityInit();
     SCL_ParametersInit();
 }
@@ -180,7 +159,7 @@ void SCL_ParametersInit(void)
 {
 	Uint16	i;
 
-	regaddr = (Uint16 *)REGADDR;
+	regaddr = (volatile Uint16 *)REGADDR;
 /*
  *	System Registers Area Initialization
  */
@@ -519,92 +498,52 @@ void SCL_Scale(Fixed32 Sx, Fixed32 Sy)
  * CAVEATS
  * 		used by interrupt routine only(V_BLANK)
  *		***DON'T CALL IT DIRECTLY!***
- *
- * Updated by Chikahiro Yoshida 1995-07-19
- *	修正箇所	Read onlyのVDP2レジスタに対し、書き込みして
- *				いる処理を修正した。
- *
  *------------------------------------------------------------------------
  */
 void SCL_CopyReg()
 {
 	Uint16	i;
 
-			/* 回転パラメータ係数テーブルをＶＲＡＭに転送 */
-	if(SclK_TableFlag[0] && SclRbgKtbAddr[0])	{
-		SCL_Memcpyw((void *)SclRbgKtbAddr[0],SclK_TableBuff[0],SclK_TableNum[0]*2);
-		SclK_TableFlag[0] = 0;
-	}
-		if(SclK_TableFlag[1] && SclRbgKtbAddr[1])	{
-		SCL_Memcpyw((void *)SclRbgKtbAddr[1],SclK_TableBuff[1],SclK_TableNum[1]*2);
-		SclK_TableFlag[1] = 0;
-	}
-#if	0
-	switch(SclRotateTableMode)	{
-	case 2:
+    /* 回転パラメータ係数テーブルをＶＲＡＭに転送 */
+    if(SclK_TableFlag[0] && SclRbgKtbAddr[0])
+    {
+	SCL_Memcpyw((void *)SclRbgKtbAddr[0],SclK_TableBuff[0],SclK_TableNum[0]*2);
+        SclK_TableFlag[0] = 0;
+    }
+
+    if(SclK_TableFlag[1] && SclRbgKtbAddr[1])
+    {
+	SCL_Memcpyw((void *)SclRbgKtbAddr[1],SclK_TableBuff[1],SclK_TableNum[1]*2);
+        SclK_TableFlag[1] = 0;
+    }
+
+    switch(SclRotateTableMode)
+    {	case 2:
 		SCL_Memcpyw((void *)SclRotateTableAddress,&SclRotregBuff[0],sizeof(SclRotregBuff[0])*2);
 		/*SCL_Memcpyw((void *)(SclRotateTableAddress+sizeof(SclRotregBuff[0])),
-		&SclRotregBuff[1],sizeof(SclRotregBuff[1]));*/
+				&SclRotregBuff[1],sizeof(SclRotregBuff[1]));*/
 		break;
 	case 1:
 		SCL_Memcpyw((void *)SclRotateTableAddress,&SclRotregBuff[0],sizeof(SclRotregBuff[0]));
 		break;
 	default:
 		break;
-	}
-#else
-	{
-		const	Uint32	size=0x60;	/*	sizeof(struct SclRotreg);	*/
-		const	Uint32	p=(Uint32)SclRotateTableAddress;
-		void	*const	pA=(void *)p;
-		void	*const	pB=(void *)(p+0x80);
-		
-		/*
-		**  追加 1996.03.19 N.K
-		**  SclRotateTableAddress の値の検査を追加。
-		*/
-		if (pA != NULL) {
-		    SCL_Memcpyw(pA,&SclRotregBuff[0],size);
-		    SCL_Memcpyw(pB,&SclRotregBuff[1],size);
-		}
-	}
-#endif
+    }
 
     i = 0;
 #ifdef	DMAOFF
-/*  SCL_Memcpyw(&regaddr[i], &Scl_s_reg, sizeof(SclSysreg)); del by C.Y	*/
-
-	regaddr[0] = Scl_s_reg.tvmode;		/* add				by C.Y	*/
-	regaddr[1] = Scl_s_reg.extenbl;		/* add				by C.Y	*/
-/*	regaddr[2]							del read only reg	by C.Y	*/
-	regaddr[3] = Scl_s_reg.vramsize;		/* add				by C.Y	*/
-/*	regaddr[4]							del read only reg	by C.Y	*/
-/*	regaddr[5]							del read only reg	by C.Y	*/
-/*	regaddr[6]							del reserve			by C.Y	*/
-
-	SCL_Memcpyw( &regaddr[7] , &Scl_s_reg.ramcontrl , 13*2 );
-
+    SCL_Memcpyw((void *)&regaddr[i], &Scl_s_reg, sizeof(SclSysreg));
     i += sizeof(SclSysreg) / 2;
-    SCL_Memcpyw(&regaddr[i], &Scl_d_reg, sizeof(SclDataset));
+    SCL_Memcpyw((void *)&regaddr[i], &Scl_d_reg, sizeof(SclDataset));
     i += sizeof(SclDataset) / 2;
-    SCL_Memcpyw(&regaddr[i], &Scl_n_reg, sizeof(SclNorscl));
+    SCL_Memcpyw((void *)&regaddr[i], &Scl_n_reg, sizeof(SclNorscl));
     i += sizeof(SclNorscl) / 2;
-    SCL_Memcpyw(&regaddr[i], &Scl_r_reg, sizeof(SclRotscl));
+    SCL_Memcpyw((void *)&regaddr[i], &Scl_r_reg, sizeof(SclRotscl));
     i += sizeof(SclRotscl) / 2;
-    SCL_Memcpyw(&regaddr[i], &Scl_w_reg, sizeof(SclWinscl));
+    SCL_Memcpyw((void *)&regaddr[i], &Scl_w_reg, sizeof(SclWinscl));
     i += sizeof(SclWinscl) / 2;
 #else
-/*   DMA_ScuMemCopy(&regaddr[i], &Scl_s_reg, sizeof(SclSysreg) ); by C.Y */
-
-	regaddr[0] = Scl_s_reg.tvmode;		/*	add		by C.Y	*/
-	regaddr[1] = Scl_s_reg.extenbl;		/*	add		by C.Y	*/
-/*	regaddr[2]							del: read only by C.Y	*/
-	regaddr[3] = Scl_s_reg.vramsize;
-/*	regaddr[4]							del: read only by C.Y	*/
-/*	regaddr[5]							del: read only by C.Y	*/
-/*	regaddr[6]							del: reserve	by C.Y	*/
-	SCL_Memcpyw( &regaddr[7] , &Scl_s_reg.ramcontrl , 13*2 );
-
+    DMA_ScuMemCopy(&regaddr[i], &Scl_s_reg, sizeof(SclSysreg) );
     i += sizeof(SclSysreg) / 2;
     DMA_ScuMemCopy(&regaddr[i], &Scl_d_reg, sizeof(SclDataset) );
     i += sizeof(SclDataset) / 2;
@@ -657,20 +596,18 @@ void	SCL_ScrollShow(void)
 }
 
 
-void SCL_Memcpyw(void *dest,void *src,Uint32 tcnt)	{
+void SCL_Memcpyw(void *dest,void *src,Uint32 tcnt)
+{
+    Uint32 tcr,tsize;
 
-	if((dest != NULL)&&(src != NULL))	{
+    tsize=tcnt;
+    tsize=tsize/2;
 
-		Uint32 tcr,tsize;
-		tsize=tcnt;
-		tsize=tsize/2;
-
-		for (tcr = 0;tcr < tsize;tcr++){
-			*((Uint16 *)dest) = *((Uint16 *)src);
-			dest = (Uint8 *)dest + 2;
-			src = (Uint8 *)src + 2;
-		}
-	}
+    for (tcr = 0;tcr < tsize;tcr++){
+	*((Uint16 *)dest) = *((Uint16 *)src);
+	dest = (Uint8 *)dest + 2;
+	src = (Uint8 *)src + 2;
+    }
 }
 
 
@@ -679,19 +616,13 @@ void  SCL_SetColRamMode(Uint32 ComRamMode)
 {
     switch(ComRamMode){
       case SCL_CRM15_1024:
-/*	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x0000;	*/
-	Scl_s_reg.ramcontrl = (Scl_s_reg.ramcontrl & 0x0FFF) | 0x0000;
-							/* add:() by C.yoshida */
+	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x0000;
 	break;
       case SCL_CRM15_2048:
-/*	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x1000;	*/
-	Scl_s_reg.ramcontrl = (Scl_s_reg.ramcontrl & 0x0FFF) | 0x1000;
-							/* add:() by C.yoshida */
+	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x1000;
 	break;
       case SCL_CRM24_1024:
-/*	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x2000;	*/
-	Scl_s_reg.ramcontrl = (Scl_s_reg.ramcontrl & 0x0FFF) | 0x2000;
-							/* add:() by C.yoshida */
+	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x2000;
 	break;
     }
     if(SclProcess == 0)		SclProcess = 1;
@@ -704,7 +635,7 @@ void  SCL_SetColRamMode(Uint32 ComRamMode)
  ***************************************************************/
 void  SCL_PriIntProc(void)
 {
-/*    Uint8 i;		del:no used by C.yoshida */
+    Uint8 i;
 
     SCL_AutoExec();
 
@@ -765,76 +696,3 @@ void  SCL_PriIntProc(void)
 
     return;
 }
-
-
-/*------------------------------------------------------------------------
- * NAME : SCL_Vdp2_SGLInit
- * ＳＧＬモードのデフォルトにする
- *----------------------------------------------------------------------*/
-static Uint16  tvsize[16] = { 0x0000,   	/* SPR_TV_320X224  */
-                              0x0010,       /* SPR_TV_320X240  */
-                              0x0001,       /* SPR_TV_352X224  */
-                              0x0011,       /* SPR_TV_352X240  */
-                              0x0002,       /* SPR_TV_640X224  */
-                              0x0012,       /* SPR_TV_640X240  */
-                              0x0003,       /* SPR_TV_704X224  */
-                              0x0013,       /* SPR_TV_704X240  */
-                              0x00c0,       /* SPR_TV_320X448  */
-                              0x00d0,       /* SPR_TV_320X480  */
-                              0x00c1,       /* SPR_TV_352X448  */
-                              0x00d1,       /* SPR_TV_352X480  */
-                              0x00c2,       /* SPR_TV_640X448  */
-                              0x00d2,       /* SPR_TV_640X480  */
-                              0x00c3,       /* SPR_TV_704X448  */
-                              0x00d3        /* SPR_TV_704X480  */
-                            };
-
-void SCL_Vdp2_SGLInit(Uint16 tvmod)
-{
-	/* slInitSystem のtvmode から Scl_s_reg.tvmode を再セット	*/
-	tvmod &= 0x0f ;						/* TVmode = 0 ～ 15 */
-	Scl_s_reg.tvmode |= tvsize[tvmod];
-	if(SclProcess == 0)	SclProcess = 1;
-
-
-	/* スプライトカラー演算割合	*/
-    SCL_SET_S0CCRT(8);
-    SCL_SET_S1CCRT(8);
-    SCL_SET_S2CCRT(8);
-    SCL_SET_S3CCRT(8);
-    SCL_SET_S4CCRT(8);
-    SCL_SET_S5CCRT(8);
-    SCL_SET_S6CCRT(8);
-    SCL_SET_S5CCRT(8);
-    SclPriBuffDirty.SclSpColMix = 1;
-
-	/* スプライトプライオリティ	*/
-    SCL_SET_S0PRIN(7); 
-    SCL_SET_S1PRIN(7); 
-    SCL_SET_S2PRIN(7); 
-    SCL_SET_S3PRIN(7); 
-    SCL_SET_S4PRIN(7); 
-    SCL_SET_S5PRIN(7); 
-    SCL_SET_S6PRIN(7); 
-    SCL_SET_S7PRIN(7); 
-    SclPriBuffDirty.SclSpPriNum = 1;
-
-	/* スプライトコントロール	*/
-	SCL_SET_SPTYPE(3);
-	SCL_SET_SPCLMD(1);
-	SCL_SET_SPWINEN(0);
-	SCL_SET_SPCCCS(3);
-	SCL_SET_SPCCN(0);
-
-}
-
-/*void SCL_SglOn(void){
-	SclRotregBuff = ( SclRotreg * )RotScrParA;
-	Scl_flag.sgl_flag=0x0001;
-}*/
-
-/*void SCL_SglOff(void){
-	Scl_flag.sgl_flag=0x0000;
-	SclRotregBuff = _SclRotregBuff;
-}*/
-

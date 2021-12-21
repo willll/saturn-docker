@@ -34,4 +34,29 @@ add_subdirectory(cdc)
 add_subdirectory(per)
 add_subdirectory(stm)
 
+# TODO : Should be generated once the others are done
+
+#add_library( sat INTERFACE )
+
+#SET_TARGET_PROPERTIES(sat PROPERTIES PREFIX "")
+
+#target_link_libraries(sat INTERFACE
+#            ${SEGALIB}/lib/sega_cdc.a
+#            ${SEGALIB}/lib/sega_cmp.a
+#            ${SEGALIB}/lib/sega_csh.a
+#            ${SEGALIB}/lib/sega_dbg.a
+#            ${SEGALIB}/lib/sega_dma.a
+#            ${SEGALIB}/lib/sega_dsp.a
+#            ${SEGALIB}/lib/sega_gfs.a
+#            ${SEGALIB}/lib/sega_mem.a
+#            ${SEGALIB}/lib/sega_mth.a
+#            ${SEGALIB}/lib/sega_per.a
+#            ${SEGALIB}/lib/sega_spr.a
+#            ${SEGALIB}/lib/sega_scl.a
+#            ${SEGALIB}/lib/sega_snd.a
+#            ${SEGALIB}/lib/sega_stm.a
+#            )
+
+#install(TARGETS sat DESTINATION ${SEGALIB_DESTINATION_LIB})
+
 install(DIRECTORY include DESTINATION segalib)
