@@ -23,7 +23,7 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 - [x] SGL
 - [ ] SGL Samples
 
-### SBL
+### SBL 6.01
 - [x] SBL Libs
   - [x] blp
   - [x] cdc
