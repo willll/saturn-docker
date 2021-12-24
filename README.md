@@ -1,6 +1,10 @@
 # Docker for SEGA Saturn dev
 
-## Usage :
+## Goal
+
+Get a cross platform starting point, with everything up and running out of the box
+
+## Usage
 
 build it : 
 docker build -t saturn-docker . --file ./Dockerfile
@@ -11,7 +15,7 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 ## Build status :
 
 ### Tools 
-- [x] GCC for SH2L
+- [x] GCC for SH2
 
 ### SGL
 - [x] SGL
