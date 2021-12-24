@@ -16,6 +16,8 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 
 ### Tools 
 - [x] GCC for SH2
+- [x] Cmake profile
+- [x] ISO generation tools
 
 ### SGL
 - [x] SGL
