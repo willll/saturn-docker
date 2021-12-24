@@ -12,7 +12,7 @@ docker build -t saturn-docker . --file ./Dockerfile
 Run it :
 docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 
-## Build status :
+## Build status
 
 ### Tools 
 - [x] GCC for SH2
