@@ -60,6 +60,11 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
   - [ ] pcm
   - [ ] per
   - [ ] sblsgl
+    - [ ] sblsgl00
+    - [ ] sblsgl01
+    - [ ] sblsgl02
+    - [ ] sblsgl03
+    - [ ] sblsgl04
   - [ ] scl
   - [ ] sgl
   - [ ] snd
