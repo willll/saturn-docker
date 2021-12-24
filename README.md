@@ -1,11 +1,23 @@
+# Docker for SEGA Saturn dev
+
+## Usage :
+
+build it : 
 docker build -t saturn-docker . --file ./Dockerfile
 
+Run it :
 docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 
-Build status :
-- [x] GCC for SH2
+## Build status :
+
+### Tools 
+- [x] GCC for SH2L
+
+### SGL
 - [x] SGL
 - [ ] SGL Samples
+
+### SBL
 - [x] SBL Libs
   - [x] blp
   - [x] cdc
@@ -32,15 +44,36 @@ Build status :
     - [ ] dma2
     - [ ] dma10
     - [ ] dma12 
+  - [ ] dual
+  - [ ] fld
+  - [ ] game
+  - [ ] game_cd
+  - [ ] gfs
+  - [ ] mem
+  - [ ] mpg
+  - [ ] pcm
+  - [ ] per
+  - [ ] sblsgl
+  - [ ] scl
+  - [ ] sgl
+  - [ ] snd
   - [ ] spr
     - [x] spr1
     - [x] spr7
-    - [ ] spr8 
+    - [ ] spr8
+  - [ ] stm
+  - [ ] sys
+  - [ ] tim
+
+
+### SDK Samples
 - [x] SDK Samples
   - [x] Basic
   - [x] Sprite
   - [x] Textured Sprite
   - [ ] CDBrowser
+
+### Jo Engine
 - [ ] Jo Engine
 
 
