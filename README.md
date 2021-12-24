@@ -19,7 +19,7 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 - [x] Cmake profile
 - [x] ISO generation tools
 
-### SGL
+### SGL 3.00
 - [x] SGL
 - [ ] SGL Samples
 
