@@ -60,7 +60,7 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
   - [ ] pcm
   - [ ] per
   - [ ] sblsgl
-    - [ ] sblsgl00 (Crash at runtime)
+    - [ ] sblsgl00 **(Crash at runtime)**
     - [ ] sblsgl01
     - [ ] sblsgl02
     - [ ] sblsgl03
@@ -71,7 +71,7 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
   - [ ] spr
     - [x] spr1
     - [x] spr7
-    - [ ] spr8 (Crash at runtime)
+    - [ ] spr8 **(Crash at runtime)**
   - [ ] stm
   - [ ] sys
   - [ ] tim
