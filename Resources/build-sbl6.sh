@@ -34,6 +34,13 @@ if [ $build_segalib -eq 1 ]; then
 fi
 
 #
+# convert sega_sgl to ELF
+#
+#$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
+#		$SATURN_TMP/sbl6/segalib/lib/sega_sgl.a
+cp -v $SATURN_TMP/sbl6/segalib/lib/sega_sgl.a $SATURN_SBL/segalib/lib
+
+#
 # build segasmp
 #
 if [ $build_segasmp -eq 1 ]; then
@@ -42,7 +49,7 @@ if [ $build_segasmp -eq 1 ]; then
 	cmake -S $SATURN_TMP/sbl6/segasmp/ -B $SATURN_TMP/sbl6/segasmp/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL
-	make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ && \
+	make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ VERBOSE=1 && \
 	 		make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ install
 fi
 
