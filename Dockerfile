@@ -167,12 +167,19 @@ COPY Resources/CD $SATURN_CD
 # Install SGL
 #
 
-RUN git clone https://github.com/SaturnSDK/Saturn-SDK-SGL.git "$SATURN_TMP"
+#RUN git clone https://github.com/SaturnSDK/Saturn-SDK-SGL.git "$SATURN_TMP"
 WORKDIR "${SATURN_TMP}"
-RUN DOWNLOADDIR=$SATURN_TMP SRCDIR=$SATURN_TMP BUILDDIR=$SATURN_SGL \
-  INSTALLDIR=$SATURN_SGL SATURNSDK=$SATURN_ROOT PROGRAM_PREFIX=$PROGRAM_PREFIX \
-  bash -c "$SATURN_TMP/download.sh && $SATURN_TMP/extract.sh && \
-    $SATURN_TMP/convert.sh && $SATURN_TMP/copyheaders.sh"
+#RUN DOWNLOADDIR=$SATURN_TMP SRCDIR=$SATURN_TMP BUILDDIR=$SATURN_SGL \
+#  INSTALLDIR=$SATURN_SGL SATURNSDK=$SATURN_ROOT PROGRAM_PREFIX=$PROGRAM_PREFIX \
+#  bash -c "$SATURN_TMP/download.sh && $SATURN_TMP/extract.sh && \
+#    $SATURN_TMP/convert.sh && $SATURN_TMP/copyheaders.sh"
+
+COPY Resources/dl-sgl302.sh $SATURN_TMP
+RUN $SATURN_TMP/dl-sgl302.sh
+COPY Resources/build-sgl302.sh $SATURN_TMP
+RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
+
+ENV SEGASGL=${SATURN_SGL}
 
 #
 # Install SBL
