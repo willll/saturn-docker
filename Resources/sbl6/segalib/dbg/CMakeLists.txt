@@ -1,4 +1,4 @@
-set(SOURCES dbg_disp.c dbg_moni.c)
+set(SOURCES dbg_disp.c dbg_moni.c dbg_intr.s)
 
 add_compile_definitions(_SH MODEL_S)
 

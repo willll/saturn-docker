@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-SET(CMAKE_SYSTEM_NAME "SEGA SATURN")
+SET(CMAKE_SYSTEM_NAME Generic)
 
 set(SEGASMP_DESTINATION segasmp)
 
@@ -11,9 +11,15 @@ set(CMAKE_STATIC_LIBRARY_SUFFIX ".a")
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 set(SEGALIB $ENV{SATURN_SBL}/segalib)
+set(SEGASGL $ENV{SATURN_SGL})
 
 project( segasmp VERSION 1.0
                   DESCRIPTION "Sega Saturn Samples"
                   LANGUAGES C ASM)
 
 add_subdirectory(bup)
+add_subdirectory(csh)
+add_subdirectory(dbg)
+add_subdirectory(dma)
+add_subdirectory(sblsgl)
+add_subdirectory(spr)
