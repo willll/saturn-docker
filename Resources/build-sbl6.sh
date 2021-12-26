@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 if [ ! -d $SATURN_TMP ]; then
 	mkdir -p $SATURN_TMP
 fi
