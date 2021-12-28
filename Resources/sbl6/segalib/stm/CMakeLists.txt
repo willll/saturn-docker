@@ -3,7 +3,7 @@ set(SOURCES stm_loc.h stm_acc.c  stm_init.c
 
 add_compile_definitions(_SH MODEL_S)
 
-ADD_LIBRARY( sega_stm STATIC
+add_library( sega_stm STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/gfs)

@@ -3,7 +3,7 @@ set(SOURCES ${PROJECT_SOURCE_DIR}/include/sega_spr.h
 
 add_compile_definitions(_SH MODEL_S USE_DSP)
 
-ADD_LIBRARY( sega_spr STATIC
+add_library( sega_spr STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/gfs)

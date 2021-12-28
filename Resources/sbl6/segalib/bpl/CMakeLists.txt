@@ -4,7 +4,7 @@ add_compile_definitions(_SH MODEL_S)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-ADD_LIBRARY( sega_bpl STATIC
+add_library( sega_bpl STATIC
              ${SOURCES} )
 
 SET_TARGET_PROPERTIES(sega_bpl PROPERTIES PREFIX "")

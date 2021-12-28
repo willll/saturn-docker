@@ -2,7 +2,7 @@ set(SOURCES csh_main.c)
 
 add_compile_definitions(_SH MODEL_S)
 
-ADD_LIBRARY( sega_csh STATIC
+add_library( sega_csh STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)

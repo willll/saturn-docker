@@ -5,7 +5,7 @@ set(SOURCES sega_gfs.h gfs_def.h gfs_buf.h gfs_buf.c gfs_cdb.h gfs_cdb.c
 
 add_compile_definitions(_SH MODEL_S DEBUG_LIB)
 
-ADD_LIBRARY( sega_gfs STATIC
+add_library( sega_gfs STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)

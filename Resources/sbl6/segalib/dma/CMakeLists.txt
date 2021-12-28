@@ -4,7 +4,7 @@ set(SOURCES dma_cpu0.c dma_cpu0.h dma_cpu1.c dma_cpu2.c dma_cpu3.c dma_cpu4.c
 
 add_compile_definitions(_SH MODEL_S)
 
-ADD_LIBRARY( sega_dma STATIC
+add_library( sega_dma STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)

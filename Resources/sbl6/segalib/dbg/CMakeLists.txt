@@ -2,7 +2,7 @@ set(SOURCES dbg_disp.c dbg_moni.c dbg_intr.s)
 
 add_compile_definitions(_SH MODEL_S)
 
-ADD_LIBRARY( sega_dbg STATIC
+add_library( sega_dbg STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)

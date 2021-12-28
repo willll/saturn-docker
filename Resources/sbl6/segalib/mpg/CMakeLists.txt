@@ -2,7 +2,7 @@ set(SOURCES mpg_loc.h mpg_mve.c mpg_mve2.c mpg_spc.c mpg_sys.c mpg_win.c sega_mp
 
 add_compile_definitions(_SH MODEL_S)
 
-ADD_LIBRARY( sega_mpg STATIC
+add_library( sega_mpg STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)

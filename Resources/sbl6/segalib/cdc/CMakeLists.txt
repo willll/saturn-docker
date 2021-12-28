@@ -5,7 +5,7 @@ set(SOURCES cd_int.h  cdc_bif.c  cdc_cmn.c  cdc_mbu.c
 
 add_compile_definitions(_SH MODEL_S)
 
-ADD_LIBRARY( sega_cdc STATIC
+add_library( sega_cdc STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)

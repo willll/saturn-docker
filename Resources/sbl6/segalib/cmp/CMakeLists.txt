@@ -4,7 +4,7 @@ add_compile_definitions(_SH MODEL_S)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-ADD_LIBRARY( sega_cmp STATIC
+add_library( sega_cmp STATIC
              ${SOURCES} )
 
 SET_TARGET_PROPERTIES(sega_cmp PROPERTIES PREFIX "")

@@ -8,7 +8,7 @@ scl_fu05.c  scl_pr03.c  scl_pr09.c  scl_pri.c   scl_ro05.c  scl_win3.c  )
 
 add_compile_definitions(_SH MODEL_S USE_DSP)
 
-ADD_LIBRARY( sega_scl STATIC
+add_library( sega_scl STATIC
              ${SOURCES} )
 
 include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/gfs)
