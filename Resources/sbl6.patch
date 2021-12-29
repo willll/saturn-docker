@@ -76,36 +76,15 @@ diff -crB --binary sbl6/segalib/gfs/gfs_mmb.c sbl6_patch/segalib/gfs/gfs_mmb.c
    *      定数マクロ
 diff -crB --binary sbl6/segalib/include/sega_int.h sbl6_patch/segalib/include/sega_int.h
 *** sbl6/segalib/include/sega_int.h	1996-02-08 05:23:46.000000000 -0500
---- sbl6_patch/segalib/include/sega_int.h	2021-11-21 17:42:34.000000000 -0500
+--- sbl6_patch/segalib/include/sega_int.h	2021-12-26 18:28:36.000000000 -0500
 ***************
-*** 170,175 ****
---- 170,177 ----
-  #define INT_ACK_ENA         0x1         /* 有効                              */
-  #define INT_ACK_DIS         0x0         /* 保持                              */
-  
-+ #define INT_SetScuFunc(num, hdr)    SYS_SETUINT(num, hdr)
-+ 
-  /******************************************************************************
-   *
-   * NAME:    INT_GetMsk()        -   割り込みマスクレジスタ取得
-***************
-*** 494,502 ****
-  **	込みハンドラを登録する際に細工をするようにして、ユーザには、そんなこと
-  **	は意識させないようにする。
-  */
-! void		INT_SetScuFunc( int	n, interrupt_t	handler );
-  interrupt_t	INT_GetScuFunc( int	n );
+*** 499,502 ****
   #endif
   
   #endif  /* ifndef SEGA_INT_H */
 ! 
 \ No newline at end of file
---- 496,504 ----
-  **	込みハンドラを登録する際に細工をするようにして、ユーザには、そんなこと
-  **	は意識させないようにする。
-  */
-! //void		INT_SetScuFunc( int	n, interrupt_t	handler );
-  interrupt_t	INT_GetScuFunc( int	n );
+--- 499,502 ----
   #endif
   
   #endif  /* ifndef SEGA_INT_H */
@@ -4420,7 +4399,7 @@ diff -crB --binary sbl6/segalib/include/sega_spr.h sbl6_patch/segalib/include/se
 ! /*  end of file */
 diff -crB --binary sbl6/segalib/include/sega_sys.h sbl6_patch/segalib/include/sega_sys.h
 *** sbl6/segalib/include/sega_sys.h	1996-02-08 05:23:50.000000000 -0500
---- sbl6_patch/segalib/include/sega_sys.h	2021-11-21 17:38:42.000000000 -0500
+--- sbl6_patch/segalib/include/sega_sys.h	2021-12-26 17:23:48.000000000 -0500
 ***************
 *** 3,20 ****
    *
@@ -4618,6 +4597,21 @@ diff -crB --binary sbl6/segalib/include/sega_sys.h sbl6_patch/segalib/include/se
 !         (*(Uint8*)0x6000210)
   
   #endif
+diff -crB --binary sbl6/segalib/int/int.c sbl6_patch/segalib/int/int.c
+*** sbl6/segalib/int/int.c	1996-02-08 05:23:54.000000000 -0500
+--- sbl6_patch/segalib/int/int.c	2021-12-28 19:46:12.000000000 -0500
+***************
+*** 537,540 ****
+  interrupt_t	INT_GetScuFunc( int	n ){
+  	return	__interrupt_vector[n];
+  }
+! 
+\ No newline at end of file
+--- 537,540 ----
+  interrupt_t	INT_GetScuFunc( int	n ){
+  	return	__interrupt_vector[n];
+  }
+! 
 diff -crB --binary sbl6/segalib/mth/mth_dsp.c sbl6_patch/segalib/mth/mth_dsp.c
 *** sbl6/segalib/mth/mth_dsp.c	1996-02-08 05:25:02.000000000 -0500
 --- sbl6_patch/segalib/mth/mth_dsp.c	2021-11-14 20:09:08.000000000 -0500
