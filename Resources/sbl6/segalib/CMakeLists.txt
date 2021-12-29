@@ -24,15 +24,17 @@ add_subdirectory(dbg)
 add_subdirectory(dma)
 add_subdirectory(dsp)
 add_subdirectory(gfs)
-#add_subdirectory(int)
+add_subdirectory(int)
 add_subdirectory(mem)
 add_subdirectory(mpg)
 add_subdirectory(mth)
 add_subdirectory(scl)
 add_subdirectory(spr)
 add_subdirectory(cdc)
+add_subdirectory(pcm)
 add_subdirectory(per)
 add_subdirectory(stm)
+add_subdirectory(snd)
 
 # TODO : Should be generated once the others are done
 
