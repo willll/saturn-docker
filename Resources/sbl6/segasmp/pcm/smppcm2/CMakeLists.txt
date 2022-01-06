@@ -5,7 +5,7 @@ set(SOURCES
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
 
-add_compile_definitions(MODEL_S _SH)
+add_compile_definitions(MODEL_S)
 
 
 add_executable( smppcm2.elf ${SOURCES} )
@@ -24,6 +24,7 @@ target_link_options(smppcm2.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
+target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
 target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
 target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
