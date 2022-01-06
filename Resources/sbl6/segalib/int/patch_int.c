@@ -14,3 +14,4 @@
 BOOST_PP_REPEAT(TINY_MAX_SIZE, TINY_size, ~)
 
 #undef TINY_size
+#undef TINY_MAX_SIZE
