@@ -36,6 +36,12 @@ ENV ROOTDIR=$PWD/toolchain
 ENV DOWNLOADDIR=$PWD/toolchain/download
 ENV QTIFWDIR=./installer
 
+ENV BOOST_ROOT=/opt/boost
+ENV BOOSTROOT=$BOOST_ROOT
+ENV BOOST_INCLUDEDIR=$BOOST_ROOT/include
+ENV BOOST_LIBRARYDIR=$BOOST_ROOT/lib
+ENV Boost_NO_SYSTEM_PATHS="ON"
+
 ENV PROGRAM_PREFIX=sh-elf-
 ENV NCPU=1
 ENV CREATEINSTALLER="NO"
@@ -92,7 +98,7 @@ RUN apt-get update && apt-get install -y \
 # Base Directories
 RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
   "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_TMP}" "${SATURN_CD}" \
-  "${SATURN_SAMPLES}" && \
+  "${SATURN_SAMPLES}" "${BOOST_ROOT}" && \
 	chmod -R 777 "$SATURN_ROOT" && \
 	chmod -R 777 "$SATURN_SGL" && \
 	chmod -R 777 "$SATURN_SBL" && \
@@ -100,7 +106,8 @@ RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
 	chmod -R 777 "$SATURN_JOENGINE" && \
   chmod -R 777 "$SATURN_CD" && \
   chmod -R 777 "$SATURN_SAMPLES" && \
-  chmod -R 777 "$SATURN_TMP"
+  chmod -R 777 "$SATURN_TMP" && \
+  chmod -R 777 "$BOOST_ROOT"
 
 WORKDIR "${SATURN_ROOT}"
 
@@ -119,10 +126,18 @@ RUN mv $SATURN_CD/bin/* $SATURN_CD && \
 RUN rm -rf "$SATURN_TMP"
 
 #
+# Install Boost preprocessor 1.78.0
+#
+
+RUN git clone --depth 1 --branch boost-1.78.0 \
+    https://github.com/boostorg/preprocessor.git "$BOOST_ROOT"
+
+#
 # Install base tools
 #
 
-RUN git clone https://github.com/willll/Saturn-SDK-GCC-SH2.git "$SATURN_TMP"
+RUN git clone --depth 1 --branch gcc_8.4.0 \
+    https://github.com/willll/Saturn-SDK-GCC-SH2.git "$SATURN_TMP"
 
 WORKDIR "${SATURN_TMP}"
 
@@ -157,7 +172,7 @@ ENV OBJCOPY=${INSTALLDIR}/bin/${PROGRAM_PREFIX}objcopy
 # Set PATH to access compilers
 ENV PATH="${INSTALLDIR}/bin:${PATH}"
 
-# Set Cmake configuration file
+# Set CMake configuration file
 COPY Resources/sega_saturn.cmake $SATURN_CMAKE
 
 # install Files for ISO creation
