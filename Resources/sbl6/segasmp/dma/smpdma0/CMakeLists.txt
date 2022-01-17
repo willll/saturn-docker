@@ -31,6 +31,8 @@ target_link_libraries(smpdma0.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
 target_link_libraries(smpdma0.elf PUBLIC ${SEGALIB}/lib/sega_csh.a )
 target_link_libraries(smpdma0.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
 target_link_libraries(smpdma0.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+target_link_libraries(smpdma0.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
+target_link_libraries(smpdma0.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 add_custom_target(run_dma0 ALL DEPENDS smpdma0.elf smpdma0.bin)
 
@@ -41,4 +43,4 @@ add_custom_command(OUTPUT smpdma0.bin
 
 install(TARGETS smpdma0.elf DESTINATION ${SEGASMP_DESTINATION}/dma/smpdma0 )
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/smpdma0.bin DESTINATION ${SEGASMP_DESTINATION}/dma/smpdma0 )
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${SEGASMP_DESTINATION}/dma/smpdma0/Sources )
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${SEGASMP_DESTINATION}/dma/smpdma0/Sources )

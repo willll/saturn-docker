@@ -17,7 +17,9 @@ project( segasmp VERSION 1.0
                   DESCRIPTION "Sega Saturn Samples"
                   LANGUAGES C ASM)
 
+add_subdirectory(abs)
 add_subdirectory(bup)
+add_subdirectory(cof)
 add_subdirectory(csh)
 add_subdirectory(dbg)
 add_subdirectory(dma)
