@@ -16,7 +16,7 @@
   void BOOST_PP_CAT(__interrupt_handler,n)                    \
   (void) {                                                    \
       FNC_GET_IDX(INT_GetScuFunc,n)();                        \
-      return; }
+  }
 
 BOOST_PP_REPEAT(FNC_MAX_SIZE, FNC_size, ~)
 

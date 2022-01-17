@@ -97,3 +97,6 @@ TODO
 Misc notes :
 
 https://github.com/RetroReversing/retroReversing/tree/master/pages/sega/saturn
+
+Boost preprocessor introduction :
+https://www.boost.org/doc/libs/1_76_0/libs/preprocessor/doc/AppendixA-AnIntroductiontoPreprocessorMetaprogramming.html
