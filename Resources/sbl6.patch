@@ -5000,6 +5000,78 @@ diff -crB --binary sbl6/segasmp/dma/smpdma0/smpdma0.c sbl6_patch/segasmp/dma/smp
   /*  End of File                                                             */
   /****************************************************************************/
 ! 
+diff -crB --binary sbl6/segasmp/mem/smpmem0/smpmem0.c sbl6_patch/segasmp/mem/smpmem0/smpmem0.c
+*** sbl6/segasmp/mem/smpmem0/smpmem0.c	1996-02-08 05:30:02.000000000 -0500
+--- sbl6_patch/segasmp/mem/smpmem0/smpmem0.c	2022-01-06 18:30:14.000000000 -0500
+***************
+*** 79,85 ****
+  #define	SZ_HEAP	0x10000
+  static unsigned long	__heap[SZ_HEAP];
+  
+! void main(void)
+  {
+  
+      /** BEGIN ****************************************************************/
+--- 79,85 ----
+  #define	SZ_HEAP	0x10000
+  static unsigned long	__heap[SZ_HEAP];
+  
+! int main(void)
+  {
+  
+      /** BEGIN ****************************************************************/
+***************
+*** 114,118 ****
+  
+      MEM_Free(malloc_2);
+      MEM_Free(malloc_3);
+  }
+! 
+\ No newline at end of file
+--- 114,120 ----
+  
+      MEM_Free(malloc_2);
+      MEM_Free(malloc_3);
++     
++     return 0;
+  }
+! 
+diff -crB --binary sbl6/segasmp/mem/smpmem1/smpmem1.c sbl6_patch/segasmp/mem/smpmem1/smpmem1.c
+*** sbl6/segasmp/mem/smpmem1/smpmem1.c	1996-02-08 05:30:04.000000000 -0500
+--- sbl6_patch/segasmp/mem/smpmem1/smpmem1.c	2022-01-06 18:30:32.000000000 -0500
+***************
+*** 80,86 ****
+  static unsigned char	__heap[SZ_HEAP];
+  char	sega[] = "SEGA";
+  
+! void main(void){
+  	Uint32	biggest,ui;
+  	void	*ptr,*tmp;
+  	int	i,maxcell[32];
+--- 80,86 ----
+  static unsigned char	__heap[SZ_HEAP];
+  char	sega[] = "SEGA";
+  
+! int main(void){
+  	Uint32	biggest,ui;
+  	void	*ptr,*tmp;
+  	int	i,maxcell[32];
+***************
+*** 150,154 ****
+  	/* Ç±Ç±Ç‹Ç≈Ç≠ÇÍÇŒèIóπ */
+  	for(;;)
+  		;
+  }
+! 
+\ No newline at end of file
+--- 150,156 ----
+  	/* Ç±Ç±Ç‹Ç≈Ç≠ÇÍÇŒèIóπ */
+  	for(;;)
+  		;
++ 	
++ 	return 0;
+  }
+! 
 diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c
 *** sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c	1996-02-08 05:31:22.000000000 -0500
 --- sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c	2021-12-24 16:40:22.000000000 -0500

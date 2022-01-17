@@ -1,3 +1,6 @@
+#include "sega_int.h"
+
+// Boost preprocessor includes for code generation
 #include <boost/preprocessor/repetition.hpp>
 #include <boost/preprocessor/arithmetic/sub.hpp>
 
@@ -5,13 +8,17 @@
 // Instanciate dummy interupt handlers
 //
 
-#define TINY_MAX_SIZE 256
+#define FNC_MAX_SIZE BOOST_PP_LIMIT_REPEAT
 
-#define TINY_size(z, n, unused)                                 \
+#define FNC_GET_IDX(get, idx) get(idx)
+
+#define FNC_size(z, n, unused)                                \
   void BOOST_PP_CAT(__interrupt_handler,n)                    \
-  (void) { return; }
+  (void) {                                                    \
+      FNC_GET_IDX(INT_GetScuFunc,n)();                        \
+      return; }
 
-BOOST_PP_REPEAT(TINY_MAX_SIZE, TINY_size, ~)
+BOOST_PP_REPEAT(FNC_MAX_SIZE, FNC_size, ~)
 
-#undef TINY_size
-#undef TINY_MAX_SIZE
+#undef FNC_size
+#undef FNC_MAX_SIZE

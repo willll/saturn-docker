@@ -26,13 +26,12 @@ target_link_options(bup.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(bup.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 target_link_libraries(bup.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
 target_link_libraries(bup.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
 target_link_libraries(bup.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
 target_link_libraries(bup.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
 target_link_libraries(bup.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-
+target_link_libraries(bup.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 add_custom_target(run_bup ALL DEPENDS bup.elf bup.bin)
 
