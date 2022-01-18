@@ -229,20 +229,11 @@ ENV SEGASMP=${SATURN_SBL}/segasmp
 #
 # Samples
 #
-RUN git clone https://github.com/SaturnSDK/Saturn-SDK-Sample-00-Basic.git \
-    "$SATURN_SAMPLES"/Saturn-SDK-Sample-00-Basic
-RUN git clone https://github.com/SaturnSDK/Saturn-SDK-Sample-01-Sprite.git \
-    "$SATURN_SAMPLES"/Saturn-SDK-Sample-01-Sprite
-RUN git clone https://github.com/SaturnSDK/Saturn-SDK-Sample-02-TexturedSprite.git \
-    "$SATURN_SAMPLES"/Saturn-SDK-Sample-02-TexturedSprite
-RUN git clone https://github.com/SaturnSDK/Saturn-SDK-Sample-Common.git \
-    "$SATURN_SAMPLES"/Saturn-SDK-Sample-Common
-RUN git clone https://github.com/SaturnSDK/Saturn-SDK-Sample-13-CDBrowser.git \
-    "$SATURN_SAMPLES"/Saturn-SDK-Sample-13-CDBrowser
 
+COPY Resources/dl-samples.sh $SATURN_SAMPLES
 COPY Resources/build-samples.sh $SATURN_SAMPLES
+RUN $SATURN_SAMPLES/dl-samples.sh
 COPY Resources/Samples $SATURN_SAMPLES
-
 RUN $SATURN_SAMPLES/build-samples.sh
 
 #
