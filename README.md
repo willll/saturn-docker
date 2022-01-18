@@ -91,13 +91,14 @@ TODO
   - [x] Textured Sprite
   - [ ] CDBrowser
 
-### Jo Engine
+### Jo Engine (https://www.jo-engine.org/)
 - [ ] Jo Engine
 
-### Yabause
-- [ ] Yabause
+### Yaul (https://github.com/ijacquez/libyaul)
+- [ ] Yaul
 
-Misc notes :
+
+## Misc notes :
 
 https://github.com/RetroReversing/retroReversing/tree/master/pages/sega/saturn
 
