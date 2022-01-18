@@ -30,19 +30,22 @@ TODO
 ### SBL 6.01
 - [x] SBL Libs
   - [x] blp
-  - [x] cdc
+  - [x] cdc **(copied from https://github.com/shicky256/sbl/tree/master/segalib/cdc)**
   - [x] cmp
   - [x] csh
   - [x] dbg
   - [x] dma
   - [x] dsp
   - [x] gfs
-  - [ ] int
+  - [x] int
   - [x] mem
   - [x] mpg
-  - [x] per
-  - [x] scl
-  - [x] spr
+  - [x] mth **(copied from https://github.com/shicky256/sbl/tree/master/segalib/mth)**
+  - [ ] pcm
+  - [x] per **(copied from https://github.com/shicky256/sbl/tree/master/segalib/per)**
+  - [x] scl **(copied from https://github.com/shicky256/sbl/tree/master/segalib/scl)**
+  - [ ] snd
+  - [x] spr **(copied from https://github.com/shicky256/sbl/tree/master/segalib/spr)**
   - [x] stm
 - [ ] SBL Samples
   - [x] bup
@@ -54,7 +57,7 @@ TODO
     - [ ] dma2
     - [ ] dma10
     - [ ] dma12
-  - [ ] dual
+  - [ ] dual **(required or just sample code ?)**
   - [ ] fld
   - [ ] game
   - [ ] game_cd

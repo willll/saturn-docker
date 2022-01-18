@@ -1,3 +1,29 @@
+diff -crB --binary sbl6/segalib/csh/csh_main.c sbl6_patch/segalib/csh/csh_main.c
+*** sbl6/segalib/csh/csh_main.c	1996-02-08 05:23:06.000000000 -0500
+--- sbl6_patch/segalib/csh/csh_main.c	2022-01-17 19:48:50.000000000 -0500
+***************
+*** 1,4 ****
+! /*------------------------------------------------------------------------
+   *  FILE:	csh_main.c
+   *      $Author: $Y.K
+   *      $Date: $1994-05-10
+--- 1,4 ----
+! 	/*------------------------------------------------------------------------
+   *  FILE:	csh_main.c
+   *      $Author: $Y.K
+   *      $Date: $1994-05-10
+***************
+*** 129,132 ****
+  /****************************************************************************/
+  /*	End of File																*/
+  /****************************************************************************/
+! 
+\ No newline at end of file
+--- 129,132 ----
+  /****************************************************************************/
+  /*	End of File																*/
+  /****************************************************************************/
+! 
 diff -crB --binary sbl6/segalib/dma/dma_cpum.c sbl6_patch/segalib/dma/dma_cpum.c
 *** sbl6/segalib/dma/dma_cpum.c	1996-02-08 05:23:16.000000000 -0500
 --- sbl6_patch/segalib/dma/dma_cpum.c	2021-11-14 20:07:08.000000000 -0500
@@ -50,7 +76,7 @@ diff -crB --binary sbl6/segalib/dma/dma_scu1.c sbl6_patch/segalib/dma/dma_scu1.c
 ! 
 diff -crB --binary sbl6/segalib/gfs/gfs.c sbl6_patch/segalib/gfs/gfs.c
 *** sbl6/segalib/gfs/gfs.c	2021-11-14 19:22:22.000000000 -0500
---- sbl6_patch/segalib/gfs/gfs.c	2021-11-14 20:53:32.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs.c	2022-01-17 19:50:30.000000000 -0500
 ***************
 *** 28,33 ****
 --- 28,34 ----
@@ -61,6 +87,45 @@ diff -crB --binary sbl6/segalib/gfs/gfs.c sbl6_patch/segalib/gfs/gfs.c
   
   
   #if !defined(USE_SGL)
+***************
+*** 1275,1282 ****
+   *****************************************************************************/
+  Sint32 GFS_NwExecServer(GfsHn *now_gfs)
+  {
+!     GfsSvr      *svr;
+!     Sint32      stat, i;
+  
+      svr = &MNG_SVR(gfs_mng_ptr);
+      for (i = 0; i < SVR_NFILE(svr); ++i) {
+--- 1276,1283 ----
+   *****************************************************************************/
+  Sint32 GFS_NwExecServer(GfsHn *now_gfs)
+  {
+!     GfsSvr      *svr = NULL;
+!     Sint32      stat = 0, i;
+  
+      svr = &MNG_SVR(gfs_mng_ptr);
+      for (i = 0; i < SVR_NFILE(svr); ++i) {
+diff -crB --binary sbl6/segalib/gfs/gfs_dir.c sbl6_patch/segalib/gfs/gfs_dir.c
+*** sbl6/segalib/gfs/gfs_dir.c	1996-02-08 05:23:34.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_dir.c	2022-01-17 19:51:14.000000000 -0500
+***************
+*** 680,686 ****
+  {
+      Sint32      ec, i, rdsz, fn_err = FALSE;
+      Uint8       fn_len, file_flg;
+!     Sint8       ch, *fn_buf, *ext_pos;
+  
+      if (GFDR_FILE_GFS(fp) == NULL) {
+          XA_DIR_RSIZE(dir) = 0;
+--- 680,686 ----
+  {
+      Sint32      ec, i, rdsz, fn_err = FALSE;
+      Uint8       fn_len, file_flg;
+!     Sint8       ch = 0, *fn_buf, *ext_pos;
+  
+      if (GFDR_FILE_GFS(fp) == NULL) {
+          XA_DIR_RSIZE(dir) = 0;
 diff -crB --binary sbl6/segalib/gfs/gfs_mmb.c sbl6_patch/segalib/gfs/gfs_mmb.c
 *** sbl6/segalib/gfs/gfs_mmb.c	1996-02-08 05:23:36.000000000 -0500
 --- sbl6_patch/segalib/gfs/gfs_mmb.c	2021-11-14 20:12:48.000000000 -0500
@@ -4645,6 +4710,32 @@ Only in sbl6_patch/segalib/mth: mth_mtrx.s
 Only in sbl6_patch/segalib/mth: mth_norm.s
 Only in sbl6_patch/segalib/mth: mth_ps2d.s
 Only in sbl6_patch/segalib/mth: mth_tri.s
+diff -crB --binary sbl6/segalib/scl/scl_fu03.c sbl6_patch/segalib/scl/scl_fu03.c
+*** sbl6/segalib/scl/scl_fu03.c	1995-09-29 10:38:48.000000000 -0400
+--- sbl6_patch/segalib/scl/scl_fu03.c	2022-01-17 19:53:04.000000000 -0500
+***************
+*** 417,422 ****
+--- 417,424 ----
+  
+  		    }
+  		    break;
++ 		default:
++ 			exit(0);
+  	}
+  /*
+   *	Set Map Address
+***************
+*** 475,478 ****
+  	}
+  	if(SclProcess == 0)	SclProcess = 1;
+  }
+! 
+\ No newline at end of file
+--- 477,480 ----
+  	}
+  	if(SclProcess == 0)	SclProcess = 1;
+  }
+! 
 diff -crB --binary sbl6/segalib/scl/scl_func.c sbl6_patch/segalib/scl/scl_func.c
 *** sbl6/segalib/scl/scl_func.c	1996-04-01 07:31:58.000000000 -0500
 --- sbl6_patch/segalib/scl/scl_func.c	2021-11-17 07:35:52.000000000 -0500
@@ -4732,6 +4823,230 @@ diff -crB --binary sbl6/segalib/scl/scl_func.c sbl6_patch/segalib/scl/scl_func.c
   	SclRotregBuff = _SclRotregBuff;
 ! }*/
   
+diff -crB --binary sbl6/segalib/scl/scl_pr03.c sbl6_patch/segalib/scl/scl_pr03.c
+*** sbl6/segalib/scl/scl_pr03.c	1995-08-30 22:00:00.000000000 -0400
+--- sbl6_patch/segalib/scl/scl_pr03.c	2022-01-17 19:59:22.000000000 -0500
+***************
+*** 83,92 ****
+  		}
+  	}else{
+  		for(i=0;i<Max256;i++)
+! 			if(SclColRamAlloc256[i] != 0) return((Uint32 )NULL);
+  		SclColRamAlloc2048[0] = Surface;
+  		SCL_SetColRamOffset(Surface,0,transparent);
+  		return(SCL_COLRAM_ADDR);
+  	}
+  }
+! 
+\ No newline at end of file
+--- 83,92 ----
+  		}
+  	}else{
+  		for(i=0;i<Max256;i++)
+! 			if(SclColRamAlloc256[i] != 0) return(0);
+  		SclColRamAlloc2048[0] = Surface;
+  		SCL_SetColRamOffset(Surface,0,transparent);
+  		return(SCL_COLRAM_ADDR);
+  	}
+  }
+! 
+diff -crB --binary sbl6/segalib/snd/snd_main.c sbl6_patch/segalib/snd/snd_main.c
+*** sbl6/segalib/snd/snd_main.c	1996-07-09 21:08:00.000000000 -0400
+--- sbl6_patch/segalib/snd/snd_main.c	2022-01-17 19:57:36.000000000 -0500
+***************
+*** 355,361 ****
+  
+  void SND_MoveData(Uint16 *source, Uint32 size,Uint16 data_kind, Uint16 data_no)
+  {
+!     void *adr;                                  /* “]‘—æƒAƒhƒŒƒX            */
+      Uint32 *load_mark_adr;                      /* “]‘—Ï‚İƒrƒbƒgİ’è±ÄŞÚ½  */
+  
+      GetSndMapInfo(&adr, &load_mark_adr, data_kind, data_no);
+--- 355,361 ----
+  
+  void SND_MoveData(Uint16 *source, Uint32 size,Uint16 data_kind, Uint16 data_no)
+  {
+!     void *adr = NULL;                           /* “]‘—æƒAƒhƒŒƒX            */
+      Uint32 *load_mark_adr;                      /* “]‘—Ï‚İƒrƒbƒgİ’è±ÄŞÚ½  */
+  
+      GetSndMapInfo(&adr, &load_mark_adr, data_kind, data_no);
+***************
+*** 1686,1689 ****
+  	HOST_SET_RETURN(SND_RET_SET);
+  }
+  
+! 
+\ No newline at end of file
+--- 1686,1689 ----
+  	HOST_SET_RETURN(SND_RET_SET);
+  }
+  
+! 
+diff -crB --binary sbl6/segalib/stm/stm_init.c sbl6_patch/segalib/stm/stm_init.c
+*** sbl6/segalib/stm/stm_init.c	1996-02-08 05:25:46.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_init.c	2022-01-17 20:03:48.000000000 -0500
+***************
+*** 667,673 ****
+  void    STM_CloseGrp(StmGrpHn grp)
+  {
+      StmHn               stm;
+!     Bool                close_flag = TRUE;
+  
+      STMERR_SetFunc(STM_CLOSEGRP);
+      if (grp == NULL) {
+--- 667,673 ----
+  void    STM_CloseGrp(StmGrpHn grp)
+  {
+      StmHn               stm;
+! //    Bool                close_flag = TRUE;
+  
+      STMERR_SetFunc(STM_CLOSEGRP);
+      if (grp == NULL) {
+diff -crB --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
+*** sbl6/segalib/stm/stm_svr.c	1996-02-08 05:25:48.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_svr.c	2022-01-17 20:06:06.000000000 -0500
+***************
+*** 913,919 ****
+      Sint32      nsct;
+      Sint32      sfad, efad;
+      Sint32      trfad;
+!     Bool        req;
+      Bool        complete = TRUE;
+      Bool        set = FALSE;
+      Uint8       atr;
+--- 913,919 ----
+      Sint32      nsct;
+      Sint32      sfad, efad;
+      Sint32      trfad;
+! //    Bool        req;
+      Bool        complete = TRUE;
+      Bool        set = FALSE;
+      Uint8       atr;
+***************
+*** 1022,1028 ****
+   *************************************************/
+  STM_LOCAL Bool  stm_trans(StmGrpHn grp, Uint8 cdstat)
+  {
+!     StmHn       stm, first;
+      Sint32      stat;
+      Bool        bflag;
+      Bool        ret;
+--- 1022,1029 ----
+   *************************************************/
+  STM_LOCAL Bool  stm_trans(StmGrpHn grp, Uint8 cdstat)
+  {
+! //    StmHn       stm;
+!     StmHn	first;
+      Sint32      stat;
+      Bool        bflag;
+      Bool        ret;
+***************
+*** 1036,1042 ****
+      /* ŠeƒXƒgƒŠ[ƒ€‚ğ‚P“x‚Ã‚ÂÀs‚ğ‚İ‚é       */
+      /* “]‘—’†‚Ü‚½‚Í‚Pü‚Ü‚í‚Á‚½‚ç‚¨‚í‚è         */
+      do {
+!         stm = STM_GRP_NEXTTRNS(grp);
+          ret = stm_trans_sub(grp, first, cdstat, &bflag, &stat);
+      } while(bflag == FALSE);
+  
+--- 1037,1043 ----
+      /* ŠeƒXƒgƒŠ[ƒ€‚ğ‚P“x‚Ã‚ÂÀs‚ğ‚İ‚é       */
+      /* “]‘—’†‚Ü‚½‚Í‚Pü‚Ü‚í‚Á‚½‚ç‚¨‚í‚è         */
+      do {
+!         /*stm = */STM_GRP_NEXTTRNS(grp);
+          ret = stm_trans_sub(grp, first, cdstat, &bflag, &stat);
+      } while(bflag == FALSE);
+  
+***************
+*** 1076,1082 ****
+      Sint32      ret;
+      Bool        read, trans;
+      Bool        complete;
+!     Sint32      hirq;
+      Sint32      stat;
+  
+      /* ˆ—’†‚Ìƒ^ƒXƒN‚ª‚ ‚éê‡ */
+--- 1077,1083 ----
+      Sint32      ret;
+      Bool        read, trans;
+      Bool        complete;
+! //    Sint32      hirq;
+      Sint32      stat;
+  
+      /* ˆ—’†‚Ìƒ^ƒXƒN‚ª‚ ‚éê‡ */
+***************
+*** 1222,1228 ****
+      Sint32      nsct;
+      Sint32      stat;
+      Sint32      sfad, efad;
+!     Uint16      hirq;
+  
+      STMERR_SetFunc(STM_ISCOMPLETE);
+      if (stm == NULL) {
+--- 1223,1229 ----
+      Sint32      nsct;
+      Sint32      stat;
+      Sint32      sfad, efad;
+! //    Uint16      hirq;
+  
+      STMERR_SetFunc(STM_ISCOMPLETE);
+      if (stm == NULL) {
+***************
+*** 1255,1261 ****
+   *************************************************/
+  Bool    STM_ExecTrans(StmHn stm)
+  {
+!     GfsHn       gfs;
+      Sint32      tsct;
+      GftrHn      gftr;
+      Bool        trans;
+--- 1256,1262 ----
+   *************************************************/
+  Bool    STM_ExecTrans(StmHn stm)
+  {
+! //    GfsHn       gfs;
+      Sint32      tsct;
+      GftrHn      gftr;
+      Bool        trans;
+diff -crB --binary sbl6/segalib/stm/stm_trn.c sbl6_patch/segalib/stm/stm_trn.c
+*** sbl6/segalib/stm/stm_trn.c	1996-02-08 05:25:48.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_trn.c	2022-01-17 20:03:02.000000000 -0500
+***************
+*** 142,148 ****
+  
+  void    STM_SetTrBuf(StmHn stm, void *buffer, Sint32 nunit, Sint32 unitsize)
+  {
+!     Sint32      bufsize;
+  
+      STMERR_SetFunc(STM_SETTRBUF);
+      if (stm == NULL) {
+--- 142,148 ----
+  
+  void    STM_SetTrBuf(StmHn stm, void *buffer, Sint32 nunit, Sint32 unitsize)
+  {
+! //    Sint32      bufsize;
+  
+      STMERR_SetFunc(STM_SETTRBUF);
+      if (stm == NULL) {
+***************
+*** 190,197 ****
+  
+  void    STM_ResetTrBuf(StmHn stm)
+  {
+!     Uint8       *data;
+!     Sint32      bsize;
+  
+      STMERR_SetFunc(STM_RESETTRBUF);
+      if (stm == NULL) {
+--- 190,197 ----
+  
+  void    STM_ResetTrBuf(StmHn stm)
+  {
+! //    Uint8       *data;
+! //    Sint32      bsize;
+  
+      STMERR_SetFunc(STM_RESETTRBUF);
+      if (stm == NULL) {
 diff -crB --binary sbl6/segasmp/bup/font/fnt_cod1.c sbl6_patch/segasmp/bup/font/fnt_cod1.c
 *** sbl6/segasmp/bup/font/fnt_cod1.c	1996-02-08 05:26:36.000000000 -0500
 --- sbl6_patch/segasmp/bup/font/fnt_cod1.c	2021-12-18 11:44:08.000000000 -0500
@@ -5000,6 +5315,277 @@ diff -crB --binary sbl6/segasmp/dma/smpdma0/smpdma0.c sbl6_patch/segasmp/dma/smp
   /*  End of File                                                             */
   /****************************************************************************/
 ! 
+diff -crB --binary sbl6/segasmp/dma/smpdma1/smpdma1.c sbl6_patch/segasmp/dma/smpdma1/smpdma1.c
+*** sbl6/segasmp/dma/smpdma1/smpdma1.c	1996-02-08 05:28:12.000000000 -0500
+--- sbl6_patch/segasmp/dma/smpdma1/smpdma1.c	2022-01-17 19:55:44.000000000 -0500
+***************
+*** 16,22 ****
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  void rev(void *, void *, Uint32, Uint32);   /*  “]‘—æƒf[ƒ^”j‰óŠÖ”        */
+  
+! void main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+--- 16,22 ----
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  void rev(void *, void *, Uint32, Uint32);   /*  “]‘—æƒf[ƒ^”j‰óŠÖ”        */
+  
+! int main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+***************
+*** 43,48 ****
+--- 43,50 ----
+      hikaku(src, dst, cnt, 1, "BOOT to WORK");
+  
+      for(;;) ;
++     
++     return 0;
+  }
+  /****************************************************************************/
+  /*  Œ‹‰Ê”äŠrŠÖ”                                                            */
+***************
+*** 209,212 ****
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+\ No newline at end of file
+--- 211,214 ----
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+diff -crB --binary sbl6/segasmp/dma/smpdma10/smpdma10.c sbl6_patch/segasmp/dma/smpdma10/smpdma10.c
+*** sbl6/segasmp/dma/smpdma10/smpdma10.c	1996-02-08 05:28:14.000000000 -0500
+--- sbl6_patch/segasmp/dma/smpdma10/smpdma10.c	2022-01-17 19:55:10.000000000 -0500
+***************
+*** 18,24 ****
+  Uint32 SDMA_ScuResult(Uint32);
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  
+! void main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+--- 18,24 ----
+  Uint32 SDMA_ScuResult(Uint32);
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  
+! int main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+***************
+*** 58,63 ****
+--- 58,65 ----
+      hikaku((void *)0x06050000, (void *)0x25c00000, 0x0600, 1, "ADR to ADR");
+  
+      for(;;);
++     
++     return 0;
+  }
+  /****************************************************************************/
+  /*  ƒXƒe[ƒ^ƒXæ“¾(ƒ`ƒƒƒlƒ‹w’è)                                            */
+***************
+*** 227,230 ****
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+\ No newline at end of file
+--- 229,232 ----
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+diff -crB --binary sbl6/segasmp/dma/smpdma12/smpdma12.c sbl6_patch/segasmp/dma/smpdma12/smpdma12.c
+*** sbl6/segasmp/dma/smpdma12/smpdma12.c	1996-02-08 05:28:18.000000000 -0500
+--- sbl6_patch/segasmp/dma/smpdma12/smpdma12.c	2022-01-17 19:54:56.000000000 -0500
+***************
+*** 16,22 ****
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  void rev(void *, void *, Uint32, Uint32);   /*  “]‘—æƒf[ƒ^”j‰óŠÖ”        */
+  
+! void main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+--- 16,22 ----
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  void rev(void *, void *, Uint32, Uint32);   /*  “]‘—æƒf[ƒ^”j‰óŠÖ”        */
+  
+! int main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+***************
+*** 34,39 ****
+--- 34,41 ----
+      hikaku(src, dst, cnt, 1, "WORK to VDP1");
+  
+      for(;;) ;
++     
++     return 0;
+  }
+  /****************************************************************************/
+  /*  Œ‹‰Ê”äŠrŠÖ”                                                            */
+***************
+*** 200,203 ****
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+\ No newline at end of file
+--- 202,205 ----
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+diff -crB --binary sbl6/segasmp/dma/smpdma2/smpdma2.c sbl6_patch/segasmp/dma/smpdma2/smpdma2.c
+*** sbl6/segasmp/dma/smpdma2/smpdma2.c	1996-02-08 05:28:22.000000000 -0500
+--- sbl6_patch/segasmp/dma/smpdma2/smpdma2.c	2022-01-17 19:55:28.000000000 -0500
+***************
+*** 15,21 ****
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  void rev(void *, void *, Uint32, Uint32);   /*  “]‘—æƒf[ƒ^”j‰óŠÖ”        */
+  
+! void main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+--- 15,21 ----
+  Uint32 hikaku(void *, void *, Uint32, Uint32, Sint8 *); /*  Œ‹‰ÊŠm”FŠÖ”    */
+  void rev(void *, void *, Uint32, Uint32);   /*  “]‘—æƒf[ƒ^”j‰óŠÖ”        */
+  
+! int main(void)
+  {
+      void *src, *dst;
+      Uint32 cnt;
+***************
+*** 115,120 ****
+--- 115,122 ----
+      hikaku(src, dst, cnt, 1, "BOOT to all VDP2");
+  
+      for(;;) ;
++     
++     return 0;
+  }
+  /****************************************************************************/
+  /*  Œ‹‰Ê”äŠrŠÖ”                                                            */
+***************
+*** 281,284 ****
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+\ No newline at end of file
+--- 283,286 ----
+  /****************************************************************************/
+  /*  End of File                                                             */
+  /****************************************************************************/
+! 
+diff -crB --binary sbl6/segasmp/dual/slvsamp.c sbl6_patch/segasmp/dual/slvsamp.c
+*** sbl6/segasmp/dual/slvsamp.c	1996-02-08 05:28:26.000000000 -0500
+--- sbl6_patch/segasmp/dual/slvsamp.c	2022-01-17 19:45:50.000000000 -0500
+***************
+*** 353,359 ****
+  	extern volatile void	*SlaveCommand;
+  	#define	slave_command	*( volatile Uint32 * )(( Uint32 )&SlaveCommand + 0x20000000 )
+  #endif
+! void /* ƒ}ƒXƒ^ CPU ‚ÌƒƒCƒ“ŠÖ”(ƒXƒŒ[ƒu CPU ‚ÉŠÖ” slave ‚ÌÀs‚ğˆË—Š‚·‚é) */
+    main(void)
+  {
+  #if	0
+--- 353,359 ----
+  	extern volatile void	*SlaveCommand;
+  	#define	slave_command	*( volatile Uint32 * )(( Uint32 )&SlaveCommand + 0x20000000 )
+  #endif
+! int /* ƒ}ƒXƒ^ CPU ‚ÌƒƒCƒ“ŠÖ”(ƒXƒŒ[ƒu CPU ‚ÉŠÖ” slave ‚ÌÀs‚ğˆË—Š‚·‚é) */
+    main(void)
+  {
+  #if	0
+***************
+*** 426,431 ****
+--- 426,432 ----
+  		*( Uint16 * )0x25d00002 = 0x0003;
+  	}
+  #endif
++ 	return 0;
+  }
+  
+  void /* ƒ}ƒXƒ^ CPU ‚ªÀs‚·‚éŠÖ” */
+***************
+*** 605,608 ****
+      FWBank = 1 - FWBank; /* 1 -> 0; 0 -> 1 */
+      BKBank = 1 - BKBank; /* 1 -> 0; 0 -> 1 */
+  }
+! 
+\ No newline at end of file
+--- 606,609 ----
+      FWBank = 1 - FWBank; /* 1 -> 0; 0 -> 1 */
+      BKBank = 1 - BKBank; /* 1 -> 0; 0 -> 1 */
+  }
+! 
+diff -crB --binary sbl6/segasmp/dual/spr_xpt.c sbl6_patch/segasmp/dual/spr_xpt.c
+*** sbl6/segasmp/dual/spr_xpt.c	1996-02-08 05:28:28.000000000 -0500
+--- sbl6_patch/segasmp/dual/spr_xpt.c	2022-01-17 19:40:46.000000000 -0500
+***************
+*** 1,16 ****
+  /*----------------------------------------------------------------------------
+!  *  spr_xpt.c -- SPR ƒ‰ƒCƒuƒ‰ƒŠ XPT ƒ‚ƒWƒ…[ƒ‹
+   *  Copyright(c) 1994 SEGA
+   *  Written by H.E on 1994-02-15 Ver.0.80
+   *  Updated by H.E on 1994-02-15 Ver.0.80
+   *
+!  *  ‚±‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ÍƒXƒvƒ‰ƒCƒg•\¦ˆ—‚Ìƒ}ƒVƒ“‚ÉˆË‘¶‚·‚éƒ‹[ƒ`ƒ“‚ğŠÜ‚ŞB
+   *
+!  *  fxsin                   -  ‚r‚h‚m‚ÌŒvZ
+!  *  fxcos                   -  ‚b‚n‚r‚ÌŒvZ
+!  *  dmemcpy                 -  ƒƒ‚ƒŠƒRƒs[
+   *
+!  *  ‚±‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚·‚é‚É‚ÍŸ‚ÌƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹‚ğ’è‹`‚·‚é•K—v‚ª‚ ‚éB
+   *
+   *   #include "sega_xpt.h"
+   *   #include "sega_spr.h"
+--- 1,16 ----
+  /*----------------------------------------------------------------------------
+!  *  spr_xpt.c -- SPR ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ XPT ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½[ï¿½ï¿½
+   *  Copyright(c) 1994 SEGA
+   *  Written by H.E on 1994-02-15 Ver.0.80
+   *  Updated by H.E on 1994-02-15 Ver.0.80
+   *
+!  *  ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÍƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ}ï¿½Vï¿½ï¿½ï¿½ÉˆË‘ï¿½ï¿½ï¿½ï¿½éƒ‹ï¿½[ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ŞB
+   *
+!  *  fxsin                   -  ï¿½rï¿½hï¿½mï¿½ÌŒvï¿½Z
+!  *  fxcos                   -  ï¿½bï¿½nï¿½rï¿½ÌŒvï¿½Z
+!  *  dmemcpy                 -  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½sï¿½[
+   *
+!  *  ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½É‚Íï¿½ï¿½ÌƒCï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+   *
+   *   #include "sega_xpt.h"
+   *   #include "sega_spr.h"
+***************
+*** 22,27 ****
+--- 22,28 ----
+  #include "sega_spr.h"
+  
+  #include	<machine.h>
++ #include  <string.h>
+  
+  extern Fixed32 fsin(Fixed32 degree);
+  extern Fixed32 fcos(Fixed32 degree);
+***************
+*** 77,82 ****
+  }
+  
+  /*  end of file */
+- 
+- 
+- 
+--- 78,80 ----
 diff -crB --binary sbl6/segasmp/mem/smpmem0/smpmem0.c sbl6_patch/segasmp/mem/smpmem0/smpmem0.c
 *** sbl6/segasmp/mem/smpmem0/smpmem0.c	1996-02-08 05:30:02.000000000 -0500
 --- sbl6_patch/segasmp/mem/smpmem0/smpmem0.c	2022-01-06 18:30:14.000000000 -0500
@@ -5225,7 +5811,7 @@ diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/work.c sbl6_patch/segasmp/sblsgl
 ! 
 diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/smpspr2/smpspr20.c
 *** sbl6/segasmp/spr/smpspr2/smpspr20.c	1996-02-08 05:33:26.000000000 -0500
---- sbl6_patch/segasmp/spr/smpspr2/smpspr20.c	2021-12-18 17:29:08.000000000 -0500
+--- sbl6_patch/segasmp/spr/smpspr2/smpspr20.c	2022-01-17 20:35:02.000000000 -0500
 ***************
 *** 20,29 ****
   
@@ -5251,7 +5837,7 @@ diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/sm
   
   #include	<machine.h>
 ***************
-*** 862,868 ****
+*** 862,871 ****
   };
   
   
@@ -5259,14 +5845,39 @@ diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/sm
   {
       Uint8  *VRAM;
       Uint16 *colAddr;
---- 863,869 ----
+      int    asw;
+      
+      set_imask(0);
+--- 863,874 ----
   };
   
   
 ! int main(void)
   {
       Uint8  *VRAM;
++ #if 0
       Uint16 *colAddr;
++ #endif
+      int    asw;
+      
+      set_imask(0);
+***************
+*** 887,893 ****
+  
+      SCL_DisplayFrame();
+      SCL_DisplayFrame();
+!     colAddr = (Uint16*)SCL_AllocColRam(SCL_SPR,32,OFF);
+      SCL_SetColRam(SCL_SPR,0,32,colorData);
+  
+      SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_A);
+--- 890,896 ----
+  
+      SCL_DisplayFrame();
+      SCL_DisplayFrame();
+!     /*colAddr = */(Uint16*)SCL_AllocColRam(SCL_SPR,32,OFF);
+      SCL_SetColRam(SCL_SPR,0,32,colorData);
+  
+      SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_A);
 ***************
 *** 984,990 ****
           }
@@ -5277,12 +5888,61 @@ diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/sm
   /*  end of file */
 ! 
 \ No newline at end of file
---- 985,993 ----
+--- 987,995 ----
           }
           SCL_DisplayFrame();
       }
 + 
 +     return 0;
+  }
+  
+  /*  end of file */
+! 
+diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/smpspr7/smpspr70.c
+*** sbl6/segasmp/spr/smpspr7/smpspr70.c	1996-02-08 05:33:30.000000000 -0500
+--- sbl6_patch/segasmp/spr/smpspr7/smpspr70.c	2022-01-17 19:47:28.000000000 -0500
+***************
+*** 98,104 ****
+  /* int     i, n;	95-7-26 unuse */
+  XyInt	xy;
+  MthXyz  mAngle, mPoint;
+! Uint16 *colAddr;
+  
+  #if(SYSTEM_CLOCK == 28)
+          SYS_CHGSYSCK(1);              /* ƒVƒXƒeƒ€ƒNƒƒbƒN‚ğ‚Q‚W‚l‚ÉØ‘Ö‚¦  */
+--- 98,104 ----
+  /* int     i, n;	95-7-26 unuse */
+  XyInt	xy;
+  MthXyz  mAngle, mPoint;
+! //Uint16 *colAddr;
+  
+  #if(SYSTEM_CLOCK == 28)
+          SYS_CHGSYSCK(1);              /* ƒVƒXƒeƒ€ƒNƒƒbƒN‚ğ‚Q‚W‚l‚ÉØ‘Ö‚¦  */
+***************
+*** 127,133 ****
+          SCL_DisplayFrame();
+          SCL_DisplayFrame();
+  
+!         colAddr = (Uint16*)SCL_AllocColRam(SCL_SPR,48,OFF);
+          SCL_SetColRam(SCL_SPR,0,48,colorData);
+  
+  	SPR_3Initial(&work3D);		/* ‚R‚cƒXƒvƒ‰ƒCƒg•\¦‰Šú‰» */
+--- 127,133 ----
+          SCL_DisplayFrame();
+          SCL_DisplayFrame();
+  
+!         /*colAddr = */(Uint16*)SCL_AllocColRam(SCL_SPR,48,OFF);
+          SCL_SetColRam(SCL_SPR,0,48,colorData);
+  
+  	SPR_3Initial(&work3D);		/* ‚R‚cƒXƒvƒ‰ƒCƒg•\¦‰Šú‰» */
+***************
+*** 354,357 ****
+  }
+  
+  /*  end of file */
+! 
+\ No newline at end of file
+--- 354,357 ----
   }
   
   /*  end of file */

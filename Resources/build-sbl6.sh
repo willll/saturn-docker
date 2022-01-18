@@ -18,7 +18,8 @@ patch -p0 -d $SATURN_TMP < sbl6.patch
 # Clean the code
 find $SATURN_TMP -type f -exec sed -i 's/\o32//g' {} \;
 rm $SATURN_TMP/sbl6/segalib/spr/sega_spr.h
-
+#rm $SATURN_TMP/sbl6/segasmp/dual/sega_spr.h
+#rm $SATURN_TMP/sbl6/segasmp/dual/sega_xpt.h
 
 # Inject Build System
 cp -r $SATURN_TMP/sbl6_/* $SATURN_TMP/sbl6/
