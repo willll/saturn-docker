@@ -179,6 +179,25 @@ COPY Resources/sega_saturn.cmake $SATURN_CMAKE
 COPY Resources/CD $SATURN_CD
 
 #
+# LIBRARIES SETUP
+#
+
+ENV INSTALL_SGL_LIB=1
+ENV INSTALL_SGL_SAMPLES=1
+
+ENV INSTALL_SBL_LIB=1
+ENV INSTALL_SBL_SAMPLES=1
+
+ENV INSTALL_SAMPLES=0
+
+ENV INSTALL_JO_ENGINE_LIB=0
+ENV INSTALL_JO_ENGINE_SAMPLES=0
+
+ENV INSTALL_YAUL_LIB=0
+ENV INSTALL_YAUL_SAMPLES=0
+
+
+#
 # Install SGL
 #
 
@@ -227,10 +246,17 @@ COPY Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-samples.sh
 
 #
-# Install Jo Engine
+# Install Jo Engine TODO
 #
 
 #RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_JOENGINE"
+
+#
+# Install Yaul TODO
+#
+
+#RUN git https://github.com/ijacquez/libyaul/libyaul.git "$SATURN_YAUL"
+
 
 # Clean up temporay files
 #RUN rm -rf "$SATURN_TMP"
