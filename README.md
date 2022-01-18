@@ -52,11 +52,11 @@ TODO
   - [x] csh
   - [ ] dbg
   - [ ] dma
-    - [ ] dma0
-    - [ ] dma1
-    - [ ] dma2
-    - [ ] dma10
-    - [ ] dma12
+    - [x] dma0
+    - [x] dma1
+    - [x] dma2
+    - [x] dma10
+    - [x] dma12
   - [ ] dual **(required or just sample code ?)**
   - [ ] fld
   - [ ] game
@@ -65,6 +65,7 @@ TODO
   - [ ] mem
   - [ ] mpg
   - [ ] pcm
+    - [ ] pcm2 **(Crash at runtime)**
   - [ ] per
   - [ ] sblsgl
     - [ ] sblsgl00 **(Crash at runtime)**

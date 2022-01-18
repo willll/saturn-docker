@@ -1,8 +1,6 @@
 set(SOURCES
   crt0.s
   smppcm2.c
-  ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
-  ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
 
 add_compile_definitions(MODEL_S)
