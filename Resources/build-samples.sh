@@ -4,7 +4,7 @@ if [ ! -d $SATURN_SAMPLES ]; then
 fi
 
 # Settings
-build_samples=1
+build_samples=0
 make_ISO=0
 
 cd $SATURN_SAMPLES
@@ -25,5 +25,6 @@ fi
 # make ISOs
 #
 if [ $make_ISO -eq 1 ]; then
+	# TO DO
 	mkdir -p ${SATURN_SAMPLES}/CD
 fi

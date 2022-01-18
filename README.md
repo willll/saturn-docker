@@ -66,6 +66,10 @@ TODO
   - [ ] mpg
   - [ ] pcm
     - [ ] pcm2 **(Crash at runtime)**
+    - [ ] pcm3
+    - [ ] pcm4
+    - [ ] pcm5
+    - [ ] pcm13
   - [ ] per
   - [ ] sblsgl
     - [ ] sblsgl00 **(Crash at runtime)**
@@ -83,7 +87,6 @@ TODO
   - [ ] stm
   - [ ] sys
   - [ ] tim
-
 
 ### SDK Samples
 - [x] SDK Samples
