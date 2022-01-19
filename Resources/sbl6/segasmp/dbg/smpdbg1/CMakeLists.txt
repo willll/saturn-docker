@@ -24,11 +24,9 @@ target_link_options(smpdbg1.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(smpdbg1.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
-target_link_libraries(smpdbg1.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
-target_link_libraries(smpdbg1.elf PUBLIC ${SEGALIB}/lib/sega_dbg.a )
-target_link_libraries(smpdbg1.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
 target_link_libraries(smpdbg1.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+target_link_libraries(smpdbg1.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
+
 
 add_custom_target(run_smpdbg1 ALL DEPENDS smpdbg1.elf smpdbg1.bin)
 

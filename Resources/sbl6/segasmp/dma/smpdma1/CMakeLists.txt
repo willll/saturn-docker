@@ -26,13 +26,8 @@ target_link_options(smpdma1.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(smpdma1.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
-target_link_libraries(smpdma1.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
 target_link_libraries(smpdma1.elf PUBLIC ${SEGALIB}/lib/sega_csh.a )
 target_link_libraries(smpdma1.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
-target_link_libraries(smpdma1.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-target_link_libraries(smpdma1.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
-target_link_libraries(smpdma1.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 add_custom_target(run_dma1 ALL DEPENDS smpdma1.elf smpdma1.bin)
 
