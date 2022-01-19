@@ -34,18 +34,7 @@ target_link_options(dual.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(dual.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
-#target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
-#target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_dsp.a )
-#target_link_libraries(dual.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
-
+target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 
 add_custom_target(run_dual ALL DEPENDS dual.elf dual.bin)
 

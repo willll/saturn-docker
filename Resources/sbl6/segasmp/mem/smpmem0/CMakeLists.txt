@@ -24,13 +24,7 @@ target_link_options(smpmem0.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_mem.a )
-
 
 add_custom_target(run_smpmem0 ALL DEPENDS smpmem0.elf smpmem0.bin)
 
