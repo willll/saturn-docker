@@ -33,6 +33,16 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	 		make -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ install
 
 	#
+	# build sega_sat
+	#
+	mkdir -p $SATURN_TMP/sbl6/segalib/sat/bin
+	cmake -S $SATURN_TMP/sbl6/segalib/sat -B $SATURN_TMP/sbl6/segalib/sat/bin/ \
+			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
+			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL
+	make -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ && \
+	 		make -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ install
+
+	#
 	# convert sega_sgl to ELF
 	#
 	#$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
