@@ -5,7 +5,6 @@ set(SOURCES
 
 add_compile_definitions(MODEL_S)
 
-
 add_executable( smppcm2.elf ${SOURCES} )
 
 target_include_directories(smppcm2.elf PUBLIC . ${SEGALIB}/include
@@ -23,8 +22,12 @@ target_link_options(smppcm2.elf PUBLIC
 )
 
 target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
-target_link_libraries(smppcm2.elf PUBLIC ${SEGASGL}/lib/libadp.a )
+target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_pcm.a )
+target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_adp.a )
 target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
+target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
+target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+target_link_libraries(smppcm2.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 
 add_custom_target(run_smppcm2 ALL DEPENDS smppcm2.elf smppcm2.bin)

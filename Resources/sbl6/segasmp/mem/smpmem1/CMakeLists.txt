@@ -7,7 +7,6 @@ set(SOURCES
 
 add_compile_definitions(MODEL_S _SH)
 
-
 add_executable( smpmem1.elf ${SOURCES} )
 
 target_include_directories(smpmem1.elf PUBLIC . ${SEGALIB}/include
@@ -24,9 +23,12 @@ target_link_options(smpmem1.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
+target_link_libraries(smpmem1.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
+target_link_libraries(smpmem1.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
+target_link_libraries(smpmem1.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
+target_link_libraries(smpmem1.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
 target_link_libraries(smpmem1.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(smpmem1.elf PUBLIC ${SEGALIB}/lib/sega_mem.a )
-
 
 add_custom_target(run_smpmem1 ALL DEPENDS smpmem1.elf smpmem1.bin)
 
