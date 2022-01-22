@@ -20,7 +20,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	#rm $SATURN_TMP/sbl6/segasmp/dual/sega_xpt.h
 
 	# Inject Build System
-	cp -r $SATURN_TMP/sbl6_/* $SATURN_TMP/sbl6/
+	cp --verbose -rf $SATURN_TMP/sbl6_/* $SATURN_TMP/sbl6/
 
 	#
 	# build segalib
@@ -39,15 +39,19 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	cmake -S $SATURN_TMP/sbl6/segalib/sat -B $SATURN_TMP/sbl6/segalib/sat/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL
-	make -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ && \
+	make -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ VERBOSE=1 && \
 	 		make -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ install
 
 	#
-	# convert sega_sgl to ELF
+	# convert sega_sgl and sega_adp to ELF
 	#
-	#$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
-	#		$SATURN_TMP/sbl6/segalib/lib/sega_sgl.a
-	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_sgl.a $SATURN_SBL/segalib/lib
+	for filename in sega_sgl.a; do
+		$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
+				$SATURN_TMP/sbl6/segalib/lib/$filename
+		cp -v $SATURN_TMP/sbl6/segalib/lib/$filename $SATURN_SBL/segalib/lib
+  done
+
+	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_adp.a $SATURN_SBL/segalib/lib
 
 	#
 	# build segasmp
@@ -58,7 +62,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		cmake -S $SATURN_TMP/sbl6/segasmp/ -B $SATURN_TMP/sbl6/segasmp/bin/ \
 				-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 				-DCMAKE_INSTALL_PREFIX=$SATURN_SBL
-		make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ VERBOSE=1 && \
+		make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ && \
 		 		make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ install
 
 		#

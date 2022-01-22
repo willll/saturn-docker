@@ -5658,6 +5658,41 @@ diff -crB --binary sbl6/segasmp/mem/smpmem1/smpmem1.c sbl6_patch/segasmp/mem/smp
 + 	return 0;
   }
 ! 
+diff -crB --binary sbl6/segasmp/pcm/smppcm2/smppcm2.c sbl6_patch/segasmp/pcm/smppcm2/smppcm2.c
+*** sbl6/segasmp/pcm/smppcm2/smppcm2.c	1996-02-08 05:30:16.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm2/smppcm2.c	2022-01-21 19:49:48.000000000 -0500
+***************
+*** 259,265 ****
+  	STM_Close(fp);
+  }
+  
+! void main(void)
+  {
+  	PcmHn 			pcm;
+  	StmHn			stm;
+--- 259,265 ----
+  	STM_Close(fp);
+  }
+  
+! int main(void)
+  {
+  	PcmHn 			pcm;
+  	StmHn			stm;
+***************
+*** 340,344 ****
+  			restart = 1;
+  		}
+  	}
+  }
+! 
+\ No newline at end of file
+--- 340,345 ----
+  			restart = 1;
+  		}
+  	}
++ 	return 0;
+  }
+! 
 diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c
 *** sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c	1996-02-08 05:31:22.000000000 -0500
 --- sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c	2021-12-24 16:40:22.000000000 -0500
@@ -5900,9 +5935,14 @@ diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/sm
 ! 
 diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/smpspr7/smpspr70.c
 *** sbl6/segasmp/spr/smpspr7/smpspr70.c	1996-02-08 05:33:30.000000000 -0500
---- sbl6_patch/segasmp/spr/smpspr7/smpspr70.c	2022-01-17 19:47:28.000000000 -0500
+--- sbl6_patch/segasmp/spr/smpspr7/smpspr70.c	2022-01-19 20:00:04.000000000 -0500
 ***************
-*** 98,104 ****
+*** 93,104 ****
+  static void initCluster(SprCluster *cluster);
+  static void moveCluster(SprCluster *cluster);
+  
+! void main()		/* 95-7-26  +"void"  */
+  {
   /* int     i, n;	95-7-26 unuse */
   XyInt	xy;
   MthXyz  mAngle, mPoint;
@@ -5910,7 +5950,12 @@ diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/sm
   
   #if(SYSTEM_CLOCK == 28)
           SYS_CHGSYSCK(1);              /* システムクロックを２８Ｍに切替え  */
---- 98,104 ----
+--- 93,104 ----
+  static void initCluster(SprCluster *cluster);
+  static void moveCluster(SprCluster *cluster);
+  
+! int main(void)		/* 95-7-26  +"void"  */
+  {
   /* int     i, n;	95-7-26 unuse */
   XyInt	xy;
   MthXyz  mAngle, mPoint;
@@ -5936,13 +5981,23 @@ diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/sm
   
   	SPR_3Initial(&work3D);		/* ３Ｄスプライト表示初期化 */
 ***************
+*** 203,208 ****
+--- 203,209 ----
+  	    SCL_DisplayFrame();    /* Ｖ－ＢＬＡＮＫ割り込みを待ち、       */
+  				     /* スプライト表示とスクロール動作を行う */
+      }
++     return 0;
+  }
+  
+  
+***************
 *** 354,357 ****
   }
   
   /*  end of file */
 ! 
 \ No newline at end of file
---- 354,357 ----
+--- 355,358 ----
   }
   
   /*  end of file */
