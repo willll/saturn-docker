@@ -5658,9 +5658,62 @@ diff -crB --binary sbl6/segasmp/mem/smpmem1/smpmem1.c sbl6_patch/segasmp/mem/smp
 + 	return 0;
   }
 ! 
+diff -crB --binary sbl6/segasmp/pcm/smppcm13/smppcm13.c sbl6_patch/segasmp/pcm/smppcm13/smppcm13.c
+*** sbl6/segasmp/pcm/smppcm13/smppcm13.c	1996-02-08 05:30:12.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm13/smppcm13.c	2022-01-22 12:33:56.000000000 -0500
+***************
+*** 314,320 ****
+  	}
+  }
+  
+! void main(void)
+  {
+  	/* Ｖブランクの設定 */
+  	vblInit();
+--- 314,320 ----
+  	}
+  }
+  
+! int main(void)
+  {
+  	/* Ｖブランクの設定 */
+  	vblInit();
+***************
+*** 329,335 ****
+  	PCM_Init();
+  
+  	/* ＡＤＰＣＭ使用宣言 (ADPCM伸張ﾗｲﾌﾞﾗﾘがﾘﾝｸされます) */
+! 	PCM_DeclareUseAdpcm();
+  
+  	/* ＰＣＭライブラリのエラーハンドルの設定 */
+  	PCM_SetErrFunc(errPcmFunc, NULL);
+--- 329,335 ----
+  	PCM_Init();
+  
+  	/* ＡＤＰＣＭ使用宣言 (ADPCM伸張ﾗｲﾌﾞﾗﾘがﾘﾝｸされます) */
+! 	//PCM_DeclareUseAdpcm();
+  
+  	/* ＰＣＭライブラリのエラーハンドルの設定 */
+  	PCM_SetErrFunc(errPcmFunc, NULL);
+***************
+*** 341,345 ****
+  		smp_RestartPlay();
+  #endif
+  	}
+  }
+! 
+\ No newline at end of file
+--- 341,347 ----
+  		smp_RestartPlay();
+  #endif
+  	}
++ 	
++ 	return 0;
+  }
+! 
 diff -crB --binary sbl6/segasmp/pcm/smppcm2/smppcm2.c sbl6_patch/segasmp/pcm/smppcm2/smppcm2.c
 *** sbl6/segasmp/pcm/smppcm2/smppcm2.c	1996-02-08 05:30:16.000000000 -0500
---- sbl6_patch/segasmp/pcm/smppcm2/smppcm2.c	2022-01-21 19:49:48.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm2/smppcm2.c	2022-01-22 11:58:56.000000000 -0500
 ***************
 *** 259,265 ****
   	STM_Close(fp);
@@ -5679,6 +5732,57 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm2/smppcm2.c sbl6_patch/segasmp/pcm/smp
   	PcmHn 			pcm;
   	StmHn			stm;
 ***************
+*** 279,285 ****
+  	PCM_Init();
+  
+  	/* ＡＤＰＣＭ使用宣言 (ADPCM伸張ﾗｲﾌﾞﾗﾘがﾘﾝｸされます) */
+! 	PCM_DeclareUseAdpcm();
+  
+  	/* ＰＣＭライブラリのエラーハンドルの設定 */
+  	PCM_SetErrFunc(errPcmFunc, NULL);
+--- 279,285 ----
+  	PCM_Init();
+  
+  	/* ＡＤＰＣＭ使用宣言 (ADPCM伸張ﾗｲﾌﾞﾗﾘがﾘﾝｸされます) */
+! 	//PCM_DeclareUseAdpcm();
+  
+  	/* ＰＣＭライブラリのエラーハンドルの設定 */
+  	PCM_SetErrFunc(errPcmFunc, NULL);
+***************
+*** 293,299 ****
+  		if (restart) {
+  			/* ストリームオープン */
+  			if ((stm = stmOpen(filename)) == NULL) {
+! 				return;
+  			}
+  
+  			/* 取り出し領域のリセット
+--- 293,299 ----
+  		if (restart) {
+  			/* ストリームオープン */
+  			if ((stm = stmOpen(filename)) == NULL) {
+! 				return 1;
+  			}
+  
+  			/* 取り出し領域のリセット
+***************
+*** 310,316 ****
+  			PCM_PARA_PCM_SIZE(&para) = PCM_SIZE;
+  			pcm = PCM_CreateStmHandle(&para, stm);
+  			if (pcm == NULL) {
+! 				return;
+  			}
+  
+  			/* データの転送方式の設定（ＣＤブロック→リングバッファ） */
+--- 310,316 ----
+  			PCM_PARA_PCM_SIZE(&para) = PCM_SIZE;
+  			pcm = PCM_CreateStmHandle(&para, stm);
+  			if (pcm == NULL) {
+! 				return 1;
+  			}
+  
+  			/* データの転送方式の設定（ＣＤブロック→リングバッファ） */
+***************
 *** 340,344 ****
   			restart = 1;
   		}
@@ -5691,6 +5795,38 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm2/smppcm2.c sbl6_patch/segasmp/pcm/smp
   		}
   	}
 + 	return 0;
+  }
+! 
+diff -crB --binary sbl6/segasmp/pcm/smppcm3/smppcm3.c sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c
+*** sbl6/segasmp/pcm/smppcm3/smppcm3.c	1996-02-08 05:30:18.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c	2022-01-22 12:31:40.000000000 -0500
+***************
+*** 238,244 ****
+  	PCM_Init();
+  
+  	/* ＡＤＰＣＭ使用宣言 (ADPCM伸張ﾗｲﾌﾞﾗﾘがﾘﾝｸされます) */
+! 	PCM_DeclareUseAdpcm();
+  
+  	/* ＰＣＭライブラリのエラーハンドルの設定 */
+  	PCM_SetErrFunc(errPcmFunc, NULL);
+--- 238,244 ----
+  	PCM_Init();
+  
+  	/* ＡＤＰＣＭ使用宣言 (ADPCM伸張ﾗｲﾌﾞﾗﾘがﾘﾝｸされます) */
+! 	//PCM_DeclareUseAdpcm();
+  
+  	/* ＰＣＭライブラリのエラーハンドルの設定 */
+  	PCM_SetErrFunc(errPcmFunc, NULL);
+***************
+*** 312,315 ****
+  		}
+  	}
+  }
+! 
+\ No newline at end of file
+--- 312,315 ----
+  		}
+  	}
   }
 ! 
 diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c

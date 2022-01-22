@@ -5,7 +5,6 @@ set(SOURCES
 
 add_compile_definitions(MODEL_S)
 
-
 add_executable( smppcm3.elf ${SOURCES} )
 
 target_include_directories(smppcm3.elf PUBLIC . ${SEGALIB}/include
@@ -22,12 +21,13 @@ target_link_options(smppcm3.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
+#target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
 target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
-target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_adp.a )
+#target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_adp.a )
 target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_pcm.a )
+target_link_libraries(smppcm3.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 add_custom_target(run_smppcm3 ALL DEPENDS smppcm3.elf smppcm3.bin)
 

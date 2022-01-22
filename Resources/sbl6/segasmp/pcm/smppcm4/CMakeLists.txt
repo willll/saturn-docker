@@ -27,8 +27,11 @@ target_link_options(smppcm4.elf PUBLIC
 target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
 target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
-target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_adp.a )
+#target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_adp.a )
 target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_pcm.a )
+target_link_libraries(smppcm4.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
+
 
 add_custom_target(run_smppcm4 ALL DEPENDS smppcm4.elf smppcm4.bin)
 
