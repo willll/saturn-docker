@@ -28,7 +28,7 @@ project(segalib_sat
         LANGUAGES C)
 
 add_custom_command(OUTPUT ${SEGASAT}
-                   COMMAND $ENV{AR} ARGS rv ${SEGASAT} ${LIBS})
+                   COMMAND $ENV{AR} ARGS -rcT ${SEGASAT} ${LIBS})
 
 add_custom_target(sat ALL DEPENDS ${SEGASAT})
 
