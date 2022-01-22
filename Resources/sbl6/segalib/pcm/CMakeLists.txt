@@ -5,10 +5,11 @@ set(SOURCES pcm_lib.c
             pcm_time.c
             pcm_audi.c
             pcm_aif.c
-            pcm_aif2.c
+            #pcm_aif2.c
             pcm_drv.c
             pcm_etc.c
-            pcm_adp.c)
+            #pcm_adp.c
+            )
 
 add_compile_definitions(_SH MODEL_S)
 
