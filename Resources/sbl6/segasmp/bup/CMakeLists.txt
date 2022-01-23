@@ -8,7 +8,6 @@ set(SOURCES
 
 add_compile_definitions(MODEL_S _SH)
 
-
 add_executable( bup.elf ${SOURCES} )
 
 target_include_directories(bup.elf PUBLIC . ${SEGALIB}/include
@@ -18,7 +17,7 @@ target_include_directories(bup.elf PUBLIC . ${SEGALIB}/include
 target_compile_options(bup.elf PUBLIC -Wall -m2 -MMD)
 
 target_link_options(bup.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker bup.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
@@ -41,5 +40,33 @@ add_custom_command(OUTPUT bup.bin
                    ARGS -O binary bup.elf bup.bin )
 
 install(TARGETS bup.elf DESTINATION ${SEGASMP_DESTINATION}/bup )
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/bup.bin DESTINATION ${SEGASMP_DESTINATION}/bup )
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${SEGASMP_DESTINATION}/bup/Sources )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bup.bin
+              ${CMAKE_CURRENT_BINARY_DIR}/bup.map
+        DESTINATION ${SEGASMP_DESTINATION}/bup )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bup.bin
+          DESTINATION ${SEGASMP_DESTINATION}/bup/CD
+          RENAME 0.bin )
+install(FILES $ENV{SATURN_CD}/CPY.txt
+              $ENV{SATURN_CD}/BIB.txt
+              $ENV{SATURN_CD}/ABS.txt
+              ${CMAKE_CURRENT_SOURCE_DIR}/IP.BIN
+              DESTINATION ${SEGASMP_DESTINATION}/bup/CD )
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/bup.cue DESTINATION ${SEGASMP_DESTINATION}/bup )
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cd_included_files.txt DESTINATION ${SEGASMP_DESTINATION}/bup/CD
+          RENAME FILES.txt )
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cd_excludes_files.txt DESTINATION ${SEGASMP_DESTINATION}/bup/CD
+          RENAME EXCLUDES.txt )
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${SEGASMP_DESTINATION}/bup/Sources)
+
+set(MAKE_CMD $ENV{SATURN_CD}/create_cd.sh
+    "bup" "XXX" "YYY" "IP.BIN"
+    "${CMAKE_INSTALL_PREFIX}/${SEGASMP_DESTINATION}/bup/bup.iso" )
+
+install(CODE "execute_process(COMMAND
+                                ${MAKE_CMD}
+                                WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/${SEGASMP_DESTINATION}/bup/CD
+                              )"
+        )
