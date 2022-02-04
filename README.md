@@ -12,6 +12,9 @@ docker build -t saturn-docker . --file ./Dockerfile
 Run it :
 docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 
+Use it in an IDE :
+TODO
+
 ## Content
 
 TODO
@@ -19,12 +22,15 @@ TODO
 ## Build status
 
 ### Tools
-- [x] GCC for SH2
+- [x] GCC 8.4 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
+- [ ] GDB for SH2
 - [x] Cmake profile
-- [x] ISO generation tools
+- [x] schily-tools : ISO generation tools
+- [ ] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
+
 
 ### SGL 3.02
-- [x] SGL
+- [x] SGL : Converted files **TO BE VALIDATED**
 - [ ] SGL Samples
 
 ### SBL 6.01
@@ -35,16 +41,16 @@ TODO
   - [x] csh
   - [x] dbg
   - [x] dma
-  - [x] dsp
+  - [x] dsp **TO BE VALIDATED**
   - [x] gfs
   - [x] int
   - [x] mem
   - [x] mpg
   - [x] mth **(copied from https://github.com/shicky256/sbl/tree/master/segalib/mth)**
-  - [ ] pcm
+  - [ ] pcm **TO BE VALIDATED**
   - [x] per **(copied from https://github.com/shicky256/sbl/tree/master/segalib/per)**
   - [x] scl **(copied from https://github.com/shicky256/sbl/tree/master/segalib/scl)**
-  - [ ] snd
+  - [ ] snd **TO BE VALIDATED**
   - [x] spr **(copied from https://github.com/shicky256/sbl/tree/master/segalib/spr)**
   - [x] stm
 - [ ] SBL Samples
