@@ -194,10 +194,10 @@ ENV OBJCOPY=${INSTALLDIR}/bin/${PROGRAM_PREFIX}objcopy
 ENV PATH="${INSTALLDIR}/bin:${PATH}"
 
 # Copy CMake configuration files
-COPY Resources/CMake/* $SATURN_CMAKE
+COPY Resources/CMake/* $SATURN_CMAKE/
 
 # Copy common files for all the projects
-COPY Resources/Common/* $SATURN_COMMON
+COPY Resources/Common/* $SATURN_COMMON/
 
 # Install Files for ISO creation
 COPY Resources/CD $SATURN_CD
