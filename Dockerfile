@@ -8,6 +8,9 @@
 # * https://github.com/SaturnSDK/Saturn-SDK-SGL
 # * https://github.com/Pixinn/docker-vbcc-amiga
 
+# * https://github.com/ijacquez/libyaul
+# * https://github.com/ijacquez/libyaul-docker
+
 FROM ubuntu:latest as linux
 MAINTAINER willll "XXX@XXX.XXX"
 
@@ -19,10 +22,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV SATURN_ROOT=/opt/saturn
 ENV SATURN_SGL=$SATURN_ROOT/sgl
 ENV SATURN_SBL=$SATURN_ROOT/sbl
-ENV SATURN_CMAKE=$SATURN_ROOT/cmake
+ENV SATURN_CMAKE=$SATURN_ROOT/CMake
 ENV SATURN_JOENGINE=$SATURN_ROOT/joengine
+ENV SATURN_YAUL=$SATURN_ROOT/yaul
 ENV SATURN_CD=$SATURN_ROOT/cd_resources
 ENV SATURN_SAMPLES=$SATURN_ROOT/samples
+ENV SATURN_IPMAKER=$SATURN_ROOT/IPMaker
+ENV SATURN_COMMON=$SATURN_ROOT/common
 
 ENV SATURN_TMP=$SATURN_ROOT/tmp
 ENV PWD=$SATURN_TMP
@@ -97,15 +103,18 @@ RUN apt-get update && apt-get install -y \
 
 # Base Directories
 RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
-  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_TMP}" "${SATURN_CD}" \
-  "${SATURN_SAMPLES}" "${BOOST_ROOT}" && \
+  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_TMP}" "${SATURN_CD}" \
+  "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" "${SATURN_COMMON}" "${BOOST_ROOT}" && \
 	chmod -R 777 "$SATURN_ROOT" && \
 	chmod -R 777 "$SATURN_SGL" && \
 	chmod -R 777 "$SATURN_SBL" && \
 	chmod -R 777 "$SATURN_CMAKE" && \
 	chmod -R 777 "$SATURN_JOENGINE" && \
+	chmod -R 777 "$SATURN_YAUL" && \
   chmod -R 777 "$SATURN_CD" && \
   chmod -R 777 "$SATURN_SAMPLES" && \
+  chmod -R 777 "$SATURN_IPMAKER" && \
+  chmod -R 777 "$SATURN_COMMON" && \
   chmod -R 777 "$SATURN_TMP" && \
   chmod -R 777 "$BOOST_ROOT"
 
@@ -114,15 +123,26 @@ WORKDIR "${SATURN_ROOT}"
 #
 # Install mkisofs
 #
-RUN git clone https://github.com/jobermayr/cdrtools.git "$SATURN_TMP"
+RUN git clone https://github.com/willll/schily-tools.git "$SATURN_TMP"
 
 RUN make -f $SATURN_TMP/Makefile -C $SATURN_TMP LINKMODE=static && \
     make -f $SATURN_TMP/Makefile -C $SATURN_TMP \
             INS_BASE="$SATURN_CD" INS_RBASE="$SATURN_CD" install
 
 RUN mv $SATURN_CD/bin/* $SATURN_CD && \
-   rm -rf $SATURN_CD/{bin,etc,include,lib,sbin,share}
+   rm -rf $SATURN_CD/{bin,ccs,etc,include,lib,sbin,share,xpg4}
 
+RUN rm -rf "$SATURN_TMP"
+
+#
+# Install Saturn-SDK-Tool-IPMaker 0.1
+#
+
+RUN git clone --depth 1 --branch IPMaker_0.1 \
+    https://github.com/willll/Saturn-SDK-Tool-IPMaker.git "$SATURN_TMP"
+
+COPY Resources/build-IPMaker.sh $SATURN_TMP
+RUN $SATURN_TMP/build-IPMaker.sh
 RUN rm -rf "$SATURN_TMP"
 
 #
@@ -173,10 +193,13 @@ ENV OBJCOPY=${INSTALLDIR}/bin/${PROGRAM_PREFIX}objcopy
 # Set PATH to access compilers
 ENV PATH="${INSTALLDIR}/bin:${PATH}"
 
-# Set CMake configuration file
-COPY Resources/sega_saturn.cmake $SATURN_CMAKE
+# Copy CMake configuration files
+COPY Resources/CMake/* $SATURN_CMAKE
 
-# install Files for ISO creation
+# Copy common files for all the projects
+COPY Resources/Common/* $SATURN_COMMON
+
+# Install Files for ISO creation
 COPY Resources/CD $SATURN_CD
 
 #
