@@ -13,6 +13,8 @@ set(CMAKE_STATIC_LIBRARY_PREFIX "")
 set(SEGALIB $ENV{SATURN_SBL}/segalib)
 set(SEGASGL $ENV{SATURN_SGL})
 
+set(SATURN_COMMON $ENV{SATURN_COMMON})
+
 project( segasmp VERSION 1.0
                   DESCRIPTION "Sega Saturn Samples"
                   LANGUAGES C ASM)
@@ -30,3 +32,4 @@ add_subdirectory(pcm)
 add_subdirectory(sblsgl)
 add_subdirectory(snd)
 add_subdirectory(spr)
+add_subdirectory(sys)
