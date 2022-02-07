@@ -1,34 +1,41 @@
+cmake_minimum_required(VERSION 3.12)
+
 set(SOURCES
-  crt0.s
+  ${SATURN_COMMON}/crt0.s
   sys_id.src
   smpsys.c
   )
 
+set(CD_FILES
+      0.bin
+    )
+
+set(TARGET_NAME sys)
+set(TARGET_PATH sys)
+
 add_compile_definitions(MODEL_S _SH)
 
-add_executable( smpsys.elf ${SOURCES} )
+add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-target_include_directories(smpsys.elf PUBLIC . ${SEGALIB}/include )
+target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include )
 
-target_compile_options(smpsys.elf PUBLIC -O2 -Wall -m2 -MMD)
+target_compile_options(${TARGET_NAME}.elf PUBLIC -Wall -m2 -MMD)
 
-target_link_options(smpsys.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker smpsys.map"
+target_link_options(${TARGET_NAME}.elf PUBLIC
+    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Saturn.lnk"
+    "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(smpsys.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 
-add_custom_target(run_smpsys ALL DEPENDS smpsys.elf smpsys.bin)
+add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin)
 
-add_custom_command(OUTPUT smpsys.bin
+add_custom_command(OUTPUT ${TARGET_NAME}.bin
                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                    COMMAND ${CMAKE_OBJCOPY}
-                   ARGS -O binary smpsys.elf smpsys.bin )
+                   ARGS -O binary ${TARGET_NAME}.elf ${TARGET_NAME}.bin )
 
-install(TARGETS smpsys.elf DESTINATION ${SEGASMP_DESTINATION}/sys )
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/smpsys.bin DESTINATION ${SEGASMP_DESTINATION}/sys )
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${SEGASMP_DESTINATION}/sys/Sources )
+include(${SATURN_CMAKE}/install.cmake)
