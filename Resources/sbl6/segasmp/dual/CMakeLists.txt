@@ -18,13 +18,14 @@ set(CD_FILES
     )
 
 set(TARGET_NAME dual)
-set(TARGET_PATH sblsgl/dual)
+set(TARGET_PATH dual)
 
 add_compile_definitions(MODEL_S _SH)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
+target_include_directories(${TARGET_NAME}.elf PUBLIC .
+    ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
@@ -39,6 +40,8 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 
