@@ -6,6 +6,10 @@ set(SOURCES
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
 
+set(CD_FILES
+      0.bin
+    )
+
 set(TARGET_NAME bup)
 set(TARGET_PATH bup)
 
@@ -24,7 +28,7 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${SATURN_COMMON}//Saturn.lnk"
+    "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
     "SHELL:-lc -lgcc -lm"
 )
 
@@ -48,32 +52,10 @@ add_custom_command(OUTPUT IP.BIN
                   ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
                         -t ${TARGET_NAME} -p 2 )
 
-install(TARGETS ${TARGET_NAME}.elf DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH} )
+add_custom_command(OUTPUT IP.BIN
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                  COMMAND $ENV{SATURN_IPMAKER}/IPMaker
+                  ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
+                        -t ${TARGET_NAME} -p 2 )
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.bin
-              ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map
-        DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH} )
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.bin
-          DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH}/CD
-          RENAME 0.bin )
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
-              DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH}/CD )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}.cue DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH} )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cd_included_files.txt DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH}/CD
-          RENAME FILES.txt )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cd_excludes_files.txt DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH}/CD
-          RENAME EXCLUDES.txt )
-
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${SEGASMP_DESTINATION}/${TARGET_PATH}/Sources)
-
-set(MAKE_CMD $ENV{SATURN_CD}/create_cd.sh
-    "${TARGET_NAME}" "\"SBL\"" "\"SBL\"" IP.BIN
-    "${TARGET_NAME}.iso" "${CMAKE_INSTALL_PREFIX}/${SEGASMP_DESTINATION}/${TARGET_PATH}/")
-
-install(CODE "execute_process(COMMAND
-                                ${MAKE_CMD}
-                                WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/${SEGASMP_DESTINATION}/${TARGET_PATH}/CD
-                              )"
-        )
+include(${SATURN_CMAKE}/install.cmake)
