@@ -10,7 +10,7 @@ set(CD_FILES
     )
 
 set(TARGET_NAME smpsnd1)
-set(TARGET_PATH pcm/smpsnd1)
+set(TARGET_PATH snd/smpsnd1)
 
 add_compile_definitions(MODEL_S _SH)
 
