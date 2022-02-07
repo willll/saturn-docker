@@ -1,43 +1,56 @@
+cmake_minimum_required(VERSION 3.12)
+
 set(SOURCES
-  crt0.s
+  ${SATURN_COMMON}/crt0.s
   smpmem0.c
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
 
+set(CD_FILES
+      0.bin
+    )
+
+set(TARGET_NAME smpmem0)
+set(TARGET_PATH mem/smpmem0)
+
 add_compile_definitions(MODEL_S _SH)
 
+add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-add_executable( smpmem0.elf ${SOURCES} )
-
-target_include_directories(smpmem0.elf PUBLIC . ${SEGALIB}/include
+target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
-target_compile_options(smpmem0.elf PUBLIC -Wall -m2 -MMD)
+target_compile_options(${TARGET_NAME}.elf PUBLIC -Wall -m2 -MMD)
 
-target_link_options(smpmem0.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+target_link_options(${TARGET_NAME}.elf PUBLIC
+    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Saturn.lnk"
+    "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_mem.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-target_link_libraries(smpmem0.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_mem.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
-add_custom_target(run_smpmem0 ALL DEPENDS smpmem0.elf smpmem0.bin)
+add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 
-add_custom_command(OUTPUT smpmem0.bin
+add_custom_command(OUTPUT ${TARGET_NAME}.bin
                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                    COMMAND ${CMAKE_OBJCOPY}
-                   ARGS -O binary smpmem0.elf smpmem0.bin )
+                   ARGS -O binary ${TARGET_NAME}.elf ${TARGET_NAME}.bin )
 
-install(TARGETS smpmem0.elf DESTINATION ${SEGASMP_DESTINATION}/mem/smpmem0 )
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/smpmem0.bin DESTINATION ${SEGASMP_DESTINATION}/mem/smpmem0 )
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${SEGASMP_DESTINATION}/mem/smpmem0/Sources )
+add_custom_command(OUTPUT IP.BIN
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                  COMMAND $ENV{SATURN_IPMAKER}/IPMaker
+                  ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
+                        -t ${TARGET_NAME} -p 2 )
+
+include(${SATURN_CMAKE}/install.cmake)
+include(${SATURN_CMAKE}/create_cd.cmake)

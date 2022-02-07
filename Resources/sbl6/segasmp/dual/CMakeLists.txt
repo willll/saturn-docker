@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 set(SOURCES
-  crt0.s
+  ${SATURN_COMMON}/crt0.s
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   slvsamp.c
@@ -13,37 +13,45 @@ set(SOURCES
   spr_sinc.src
   )
 
+set(CD_FILES
+      0.bin
+    )
+
+set(TARGET_NAME dual)
+set(TARGET_PATH sblsgl/dual)
+
 add_compile_definitions(MODEL_S _SH)
 
-add_executable( dual.elf ${SOURCES} )
+add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-target_include_directories(dual.elf PUBLIC .
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${SEGALIB}/include
-    ${SEGASGL}/include/sgl
+target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
-target_compile_options(dual.elf PUBLIC -g -O0 -Wall -m2)
+target_compile_options(${TARGET_NAME}.elf PUBLIC -Wall -m2 -MMD)
 
-target_link_options(dual.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+target_link_options(${TARGET_NAME}.elf PUBLIC
+    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Saturn.lnk"
+    "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(dual.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 
-add_custom_target(run_dual ALL DEPENDS dual.elf dual.bin)
+add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 
-add_custom_command(OUTPUT dual.bin
+add_custom_command(OUTPUT ${TARGET_NAME}.bin
                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                    COMMAND ${CMAKE_OBJCOPY}
-                   ARGS -O binary dual.elf dual.bin )
+                   ARGS -O binary ${TARGET_NAME}.elf ${TARGET_NAME}.bin )
 
-install(TARGETS dual.elf DESTINATION ${SEGASMP_DESTINATION}/sblsgl/dual )
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/dual.bin DESTINATION ${SEGASMP_DESTINATION}/sblsgl/dual )
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${OUTPUT_NAME}.map DESTINATION ${SEGASMP_DESTINATION}/sblsgl/dual )
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${SEGASMP_DESTINATION}/sblsgl/dual/Sources )
+add_custom_command(OUTPUT IP.BIN
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                  COMMAND $ENV{SATURN_IPMAKER}/IPMaker
+                  ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
+                        -t ${TARGET_NAME} -p 2 )
+
+include(${SATURN_CMAKE}/install.cmake)
+include(${SATURN_CMAKE}/create_cd.cmake)
