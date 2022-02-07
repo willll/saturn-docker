@@ -1,1 +1,0 @@
-/opt/saturn/sbl/segasmp/spr/smpspr2/CD/0.bin
