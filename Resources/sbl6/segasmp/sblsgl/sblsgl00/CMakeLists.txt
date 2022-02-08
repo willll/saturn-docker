@@ -4,8 +4,8 @@ set(SOURCES
   ${SATURN_COMMON}/crt0.s
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
-  polygon.c
   sblsgl00.c
+  polygon.c
   work.c
   )
 
