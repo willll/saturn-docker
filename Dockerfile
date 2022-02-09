@@ -224,19 +224,21 @@ ENV INSTALL_YAUL_SAMPLES=0
 #
 # Install SGL
 #
+ENV SEGASGL=${SATURN_SGL}
 
 COPY Resources/dl-sgl302.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sgl302.sh
 COPY Resources/build-sgl302.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
 
-ENV SEGASGL=${SATURN_SGL}
-
 #
 # Install SBL
 #
 
 # Download SBL
+ENV SEGALIB=${SATURN_SBL}/segalib
+ENV SEGASMP=${SATURN_SBL}/segasmp
+
 COPY Resources/dl-sbl6.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sbl6.sh
 
@@ -244,9 +246,6 @@ COPY Resources/sbl6 $SATURN_TMP/sbl6_
 COPY Resources/build-sbl6.sh $SATURN_TMP
 COPY Resources/sbl6.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6.sh
-
-ENV SEGALIB=${SATURN_SBL}/segalib
-ENV SEGASMP=${SATURN_SBL}/segasmp
 
 #RUN rm -rf "$SATURN_TMP"
 

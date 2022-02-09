@@ -4,17 +4,16 @@ set(SOURCES
   ${SATURN_COMMON}/crt0.s
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank2.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
-  sblsgl00.c
+  sblsgl01.c
   polygon.c
-  work.c
   )
 
 set(CD_FILES
       0.bin
     )
 
-set(TARGET_NAME sblsgl00)
-set(TARGET_PATH sblsgl/sblsgl00)
+set(TARGET_NAME sblsgl01)
+set(TARGET_PATH sblsgl/sblsgl01)
 
 add_compile_definitions(MODEL_S _SH)
 
@@ -23,7 +22,7 @@ add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 target_include_directories(${TARGET_NAME}.elf PUBLIC .
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${SEGALIB}/include
-    ${SEGASGL}/include
+    ${SEGASGL}/include/sgl
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
@@ -38,11 +37,9 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
-#target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
-#target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )

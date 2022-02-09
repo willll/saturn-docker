@@ -83,7 +83,10 @@ TODO
     - [ ] sblsgl02
     - [ ] sblsgl03
     - [ ] sblsgl04
-  - [ ] scl
+  - [x] scl
+      - [x] smpscl1
+      - [x] smpscl3
+      - [x] smpscl5
   - [ ] sgl
   - [ ] snd
   - [ ] spr

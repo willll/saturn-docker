@@ -6044,6 +6044,320 @@ diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/work.c sbl6_patch/segasmp/sblsgl
   
   }
 ! 
+diff -crB --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/sblsgl/sblsgl01/sblsgl01.c
+*** sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c	1996-02-08 05:31:26.000000000 -0500
+--- sbl6_patch/segasmp/sblsgl/sblsgl01/sblsgl01.c	2022-02-08 18:24:22.000000000 -0500
+***************
+*** 7,22 ****
+   *------------------------------------------------------------------------
+   */
+  #include    <sgl.h> 				/* use SGL  */
+! extern PDATA PD_PLANE1, PD_PLANE2, PD_PLANE3;
+  
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"..\..\v_blank\v_blank.h"
+  
+! #include	"..\graphic\cosmo2u.cha"
+! #include	"..\graphic\cosmo2u.col"
+! #include	"..\graphic\cosmo2u.map"
+  
+  /*----------------------------
+  SCROLL NBG0 Cycle Table
+--- 7,22 ----
+   *------------------------------------------------------------------------
+   */
+  #include    <sgl.h> 				/* use SGL  */
+! extern PDATA PD_PLANE1, PD_PLANE2, PD_PLANE3;
+  
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"../../v_blank/v_blank.h"
+  
+! #include	"../graphic/cosmo2u.cha"
+! #include	"../graphic/cosmo2u.col"
+! #include	"../graphic/cosmo2u.map"
+  
+  /*----------------------------
+  SCROLL NBG0 Cycle Table
+***************
+*** 49,59 ****
+  	Uint16  	BackCol,i,PadData1EW;
+  	Uint8   	*VramWorkP;
+  
+! 	static ANGLE ang1[XYZ], ang2[XYZ], ang3[XYZ];
+! 	static FIXED pos1[XYZ], pos2[XYZ], pos3[XYZ];
+! 	static ANGLE tang, aang;
+! 
+! 	slInitSystem(TV_320x224,NULL,1);
+  
+  	/* Ｖブランクルーチンをユーザー登録する場合	*/
+      SetVblank();
+--- 49,59 ----
+  	Uint16  	BackCol,i,PadData1EW;
+  	Uint8   	*VramWorkP;
+  
+! 	static ANGLE ang1[XYZ], ang2[XYZ], ang3[XYZ];
+! 	static FIXED pos1[XYZ], pos2[XYZ], pos3[XYZ];
+! 	static ANGLE tang, aang;
+! 
+! 	slInitSystem(TV_320x224,NULL,1);
+  
+  	/* Ｖブランクルーチンをユーザー登録する場合	*/
+      SetVblank();
+***************
+*** 112,135 ****
+  	start.red = start.green = start.blue = 0;
+  	end.red = end.green = end.blue = - 255;
+  
+! 	ang1[X] = ang1[Y] = ang1[Z] = DEGtoANG(0.0);
+! 	ang2[X] = ang2[Y] = ang2[Z] = DEGtoANG(0.0);
+! 	ang3[X] = ang3[Y] = ang3[Z] = DEGtoANG(0.0);
+! 	pos1[X] = toFIXED(  0.0);
+! 	pos1[Y] = toFIXED( 40.0);
+! 	pos1[Z] = toFIXED(170.0);
+! 	pos2[X] = toFIXED(  0.0);
+! 	pos2[Y] = toFIXED(-40.0);
+! 	pos2[Z] = toFIXED(  0.0);
+! 	pos3[X] = toFIXED(  0.0);
+! 	pos3[Y] = toFIXED(-40.0);
+! 	pos3[Z] = toFIXED(  0.0);
+! 	tang = DEGtoANG(0.0);
+! 	aang = DEGtoANG(2.0);
+! 
+  
+  	/******** メインループ ********/
+! 	while(-1) {
+  		PadData1EW = PadData1E;
+  		PadData1E = 0;
+  		if(PadData1EW & PAD_U){
+--- 112,135 ----
+  	start.red = start.green = start.blue = 0;
+  	end.red = end.green = end.blue = - 255;
+  
+! 	ang1[X] = ang1[Y] = ang1[Z] = DEGtoANG(0.0);
+! 	ang2[X] = ang2[Y] = ang2[Z] = DEGtoANG(0.0);
+! 	ang3[X] = ang3[Y] = ang3[Z] = DEGtoANG(0.0);
+! 	pos1[X] = toFIXED(  0.0);
+! 	pos1[Y] = toFIXED( 40.0);
+! 	pos1[Z] = toFIXED(170.0);
+! 	pos2[X] = toFIXED(  0.0);
+! 	pos2[Y] = toFIXED(-40.0);
+! 	pos2[Z] = toFIXED(  0.0);
+! 	pos3[X] = toFIXED(  0.0);
+! 	pos3[Y] = toFIXED(-40.0);
+! 	pos3[Z] = toFIXED(  0.0);
+! 	tang = DEGtoANG(0.0);
+! 	aang = DEGtoANG(2.0);
+! 
+  
+  	/******** メインループ ********/
+! 	while(-1) {
+  		PadData1EW = PadData1E;
+  		PadData1E = 0;
+  		if(PadData1EW & PAD_U){
+***************
+*** 150,190 ****
+  		if((PadData1 & PAD_B)) 	SCL_SetMosaic(SCL_NBG0,14,14);
+  		if((PadData1 & PAD_C)) 	SCL_SetMosaic(SCL_NBG0,16,16);
+  
+! 		slUnitMatrix(CURRENT);
+! 		ang1[Z] = ang2[Z] = tang;
+! 		tang += aang;
+! 		if(tang < DEGtoANG(-90.0)) {
+! 			aang = DEGtoANG(2.0);
+! 		} else if(tang > DEGtoANG(90.0)) {
+! 			aang = -DEGtoANG(2.0);
+! 		}
+! 
+! 		slPushMatrix();
+! 		{
+! 			set_poly(ang1, pos1);
+! 			slPutPolygon(&PD_PLANE1);
+! 
+! 			slPushMatrix();
+! 			{
+! 				set_poly(ang2, pos2);
+! 				slPutPolygon(&PD_PLANE2);
+! 
+! 				slPushMatrix();
+! 				{
+! 					set_poly(ang3, pos3);
+! 					ang3[Y] += DEGtoANG(5.0);
+! 					slPutPolygon(&PD_PLANE3);
+! 				}
+! 				slPopMatrix();
+! 			}	
+! 			slPopMatrix();
+! 		}
+! 		slPopMatrix();
+! 
+! 		slSynch();
+! 	}
+! }
+  
+  
+  
+! 
+\ No newline at end of file
+--- 150,190 ----
+  		if((PadData1 & PAD_B)) 	SCL_SetMosaic(SCL_NBG0,14,14);
+  		if((PadData1 & PAD_C)) 	SCL_SetMosaic(SCL_NBG0,16,16);
+  
+! 		slUnitMatrix(CURRENT);
+! 		ang1[Z] = ang2[Z] = tang;
+! 		tang += aang;
+! 		if(tang < DEGtoANG(-90.0)) {
+! 			aang = DEGtoANG(2.0);
+! 		} else if(tang > DEGtoANG(90.0)) {
+! 			aang = -DEGtoANG(2.0);
+! 		}
+! 
+! 		slPushMatrix();
+! 		{
+! 			set_poly(ang1, pos1);
+! 			slPutPolygon(&PD_PLANE1);
+! 
+! 			slPushMatrix();
+! 			{
+! 				set_poly(ang2, pos2);
+! 				slPutPolygon(&PD_PLANE2);
+! 
+! 				slPushMatrix();
+! 				{
+! 					set_poly(ang3, pos3);
+! 					ang3[Y] += DEGtoANG(5.0);
+! 					slPutPolygon(&PD_PLANE3);
+! 				}
+! 				slPopMatrix();
+! 			}	
+! 			slPopMatrix();
+! 		}
+! 		slPopMatrix();
+! 
+! 		slSynch();
+! 	}
+! }
+  
+  
+  
+! 
+diff -crB --binary sbl6/segasmp/scl/smpscl1/smpscl1.c sbl6_patch/segasmp/scl/smpscl1/smpscl1.c
+*** sbl6/segasmp/scl/smpscl1/smpscl1.c	1996-02-08 05:31:50.000000000 -0500
+--- sbl6_patch/segasmp/scl/smpscl1/smpscl1.c	2022-02-09 08:59:44.000000000 -0500
+***************
+*** 19,29 ****
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"..\..\v_blank\v_blank.h"
+  
+! #include	"..\graphic\cosmo2u.cha"
+! #include	"..\graphic\cosmo2u.col"
+! #include	"..\graphic\cosmo2u.map"
+  
+  /*----------------------------
+  SCROLL NBG0 Cycle Table
+--- 19,29 ----
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"../../v_blank/v_blank.h"
+  
+! #include	"../graphic/cosmo2u.cha"
+! #include	"../graphic/cosmo2u.col"
+! #include	"../graphic/cosmo2u.map"
+  
+  /*----------------------------
+  SCROLL NBG0 Cycle Table
+***************
+*** 152,155 ****
+  		SCL_DisplayFrame();
+  	}
+  }
+! 
+\ No newline at end of file
+--- 152,155 ----
+  		SCL_DisplayFrame();
+  	}
+  }
+! 
+diff -crB --binary sbl6/segasmp/scl/smpscl3/scldata.c sbl6_patch/segasmp/scl/smpscl3/scldata.c
+*** sbl6/segasmp/scl/smpscl3/scldata.c	1996-02-08 05:31:52.000000000 -0500
+--- sbl6_patch/segasmp/scl/smpscl3/scldata.c	2022-02-09 09:08:36.000000000 -0500
+***************
+*** 4,15 ****
+  #include	<sega_mth.h>
+  #include	<sega_scl.h>
+  
+! #include	"..\graphic\grandu.cha"
+! #include	"..\graphic\grandu.col"
+! #include	"..\graphic\grandu.map"
+! #include	"..\graphic\skyu.cha"
+! #include	"..\graphic\skyu.col"
+! #include	"..\graphic\skyu.map"
+  
+  
+  void WordCopyforVRAM(void *dest,void *src,Uint32 tcnt);
+--- 4,15 ----
+  #include	<sega_mth.h>
+  #include	<sega_scl.h>
+  
+! #include	"../graphic/grandu.cha"
+! #include	"../graphic/grandu.col"
+! #include	"../graphic/grandu.map"
+! #include	"../graphic/skyu.cha"
+! #include	"../graphic/skyu.col"
+! #include	"../graphic/skyu.map"
+  
+  
+  void WordCopyforVRAM(void *dest,void *src,Uint32 tcnt);
+***************
+*** 172,175 ****
+      }
+  }
+  
+! 
+\ No newline at end of file
+--- 172,175 ----
+      }
+  }
+  
+! 
+diff -crB --binary sbl6/segasmp/scl/smpscl5/smpscl5.c sbl6_patch/segasmp/scl/smpscl5/smpscl5.c
+*** sbl6/segasmp/scl/smpscl5/smpscl5.c	1996-02-08 05:31:56.000000000 -0500
+--- sbl6_patch/segasmp/scl/smpscl5/smpscl5.c	2022-02-09 09:12:04.000000000 -0500
+***************
+*** 19,25 ****
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"..\..\v_blank\v_blank.h"
+  
+  	Uint16		PadData1EW,PadData2EW;
+  	SclConfig	Rbg0Scfg,Rbg1Scfg;
+--- 19,25 ----
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"../../v_blank/v_blank.h"
+  
+  	Uint16		PadData1EW,PadData2EW;
+  	SclConfig	Rbg0Scfg,Rbg1Scfg;
+***************
+*** 387,390 ****
+  	/* 文字の本体 */
+  	Print256(vram,str,x,y,col,300);
+  }
+! 
+\ No newline at end of file
+--- 387,390 ----
+  	/* 文字の本体 */
+  	Print256(vram,str,x,y,col,300);
+  }
+! 
 diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/smpspr2/smpspr20.c
 *** sbl6/segasmp/spr/smpspr2/smpspr20.c	1996-02-08 05:33:26.000000000 -0500
 --- sbl6_patch/segasmp/spr/smpspr2/smpspr20.c	2022-01-17 20:35:02.000000000 -0500
