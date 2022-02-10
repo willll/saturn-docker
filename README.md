@@ -78,16 +78,17 @@ TODO
     - [ ] pcm13
   - [ ] per
   - [ ] sblsgl
-    - [ ] sblsgl00 **(Crash at runtime)**
-    - [ ] sblsgl01
-    - [ ] sblsgl02
-    - [ ] sblsgl03
-    - [ ] sblsgl04
+    - [ ] sblsgl00 **(Link errors)**
+    - [ ] sblsgl01 **(Link errors)**
+    - [ ] sblsgl02 **(Link errors)**
+    - [ ] sblsgl03 **(Link errors)**
+    - [ ] sblsgl04 **(Link errors)**
   - [x] scl
       - [x] smpscl1
       - [x] smpscl3
       - [x] smpscl5
   - [ ] sgl
+      - [ ] demo_a **(Link errors)**
   - [ ] snd
   - [ ] spr
     - [x] spr1
