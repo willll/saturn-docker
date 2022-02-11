@@ -57,6 +57,7 @@ TODO
   - [x] bup
   - [x] csh
   - [ ] dbg
+    - [ ] smpdbg1
   - [ ] dma
     - [x] dma0
     - [x] dma1
@@ -69,7 +70,10 @@ TODO
   - [ ] game_cd
   - [ ] gfs
   - [ ] mem
+    - [ ] smpmem0
+    - [ ] smpmem1
   - [ ] mpg
+    - [ ] smpmpg1
   - [ ] pcm
     - [ ] pcm2 **(Crash at runtime)**
     - [ ] pcm3
@@ -77,6 +81,11 @@ TODO
     - [ ] pcm5
     - [ ] pcm13
   - [ ] per
+    - [ ] smpper0 **(Link errors)**
+    - [ ] smpper1 **(Not tested)**
+    - [ ] smpper7 **(Link errors)**
+    - [ ] smpper8 **(Link errors)**
+    - [ ] smpper12 **(Link errors)**
   - [ ] sblsgl
     - [ ] sblsgl00 **(Link errors)**
     - [ ] sblsgl01 **(Link errors)**
@@ -99,8 +108,12 @@ TODO
     - [x] spr7
     - [ ] spr8 **(Crash at runtime)**
   - [ ] stm
-  - [ ] sys
+    - [ ] smpstm1 **(Not tested)**
+    - [ ] smpstm1 **(Not tested)**
+  - [ ] sys **(Not tested)**
   - [ ] tim
+    - [ ] smp0 **(Not tested)**
+    - [ ] smp1 **(Not tested)**
 
 ### SDK Samples
 - [x] SDK Samples
