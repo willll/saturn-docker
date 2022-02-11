@@ -5893,6 +5893,44 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm5/smppcm5.c sbl6_patch/segasmp/pcm/smp
   	}
   }
 ! 
+diff -crB --binary sbl6/segasmp/per/smpper12/test.c sbl6_patch/segasmp/per/smpper12/test.c
+*** sbl6/segasmp/per/smpper12/test.c	1996-02-08 05:30:44.000000000 -0500
+--- sbl6_patch/segasmp/per/smpper12/test.c	2022-02-10 21:24:02.000000000 -0500
+***************
+*** 6,15 ****
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"..\..\v_blank\v_blank.h"
+! #include	"..\..\scl\graphic\cosmo2u.cha"
+! #include	"..\..\scl\graphic\cosmo2u.col"
+! #include	"..\..\scl\graphic\cosmo2u.map"
+  
+  /*********** 関数プロトタイプ *************/
+  void scl_main(void);
+--- 6,15 ----
+  #include	<machine.h>
+  #include	<sega_scl.h> 
+  
+! #include	"../../v_blank/v_blank.h"
+! #include	"../../scl/graphic/cosmo2u.cha"
+! #include	"../../scl/graphic/cosmo2u.col"
+! #include	"../../scl/graphic/cosmo2u.map"
+  
+  /*********** 関数プロトタイプ *************/
+  void scl_main(void);
+***************
+*** 86,89 ****
+  	start.red = start.green = start.blue = 0;
+  	end.red = end.green = end.blue = - 255;
+  }
+! 
+\ No newline at end of file
+--- 86,89 ----
+  	start.red = start.green = start.blue = 0;
+  	end.red = end.green = end.blue = - 255;
+  }
+! 
 diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c
 *** sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c	1996-02-08 05:31:22.000000000 -0500
 --- sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c	2021-12-24 16:40:22.000000000 -0500

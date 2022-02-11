@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
-  move.c
   spr2.c
+  move.c
   image.c
-  disp.c
   test.c
   smpper12.c
   )
