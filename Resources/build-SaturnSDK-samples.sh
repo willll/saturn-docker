@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ $INSTALL_SAtURNSDK_SAMPLES -eq 1 ]; then
+if [ $INSTALL_SATURNSDK_SAMPLES -eq 1 ]; then
 
 	if [ ! -d $SATURN_SAMPLES ]; then
 		mkdir -p $SATURN_SAMPLES

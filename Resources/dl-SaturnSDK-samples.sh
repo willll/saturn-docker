@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ $INSTALL_SAtURNSDK_SAMPLES -eq 1 ]; then
+if [ $INSTALL_SATURNSDK_SAMPLES -eq 1 ]; then
 
 	git clone https://github.com/SaturnSDK/Saturn-SDK-Sample-00-Basic.git \
 	    "$SATURN_SAMPLES"/Saturn-SDK-Sample-00-Basic
