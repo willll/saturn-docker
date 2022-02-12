@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ $INSTALL_SAMPLES -eq 1 ]; then
+if [ $INSTALL_SAtURNSDK_SAMPLES -eq 1 ]; then
 
 	if [ ! -d $SATURN_SAMPLES ]; then
 		mkdir -p $SATURN_SAMPLES
@@ -18,14 +18,6 @@ if [ $INSTALL_SAMPLES -eq 1 ]; then
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SAMPLES
 	make -f $SATURN_SAMPLES/bin/Makefile -C $SATURN_SAMPLES/bin/ && \
 	 		make -f $SATURN_SAMPLES/bin/Makefile -C $SATURN_SAMPLES/bin/ install
-
-
-	#
-	# make ISOs
-	#
-
-	# TO DO
-	mkdir -p ${SATURN_SAMPLES}/CD
 
 fi
 
