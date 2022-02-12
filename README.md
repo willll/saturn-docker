@@ -42,7 +42,7 @@ TODO
   - [x] dbg
   - [x] dma
   - [x] dsp **TO BE VALIDATED**
-  - [x] gfs
+  - [ ] gfs **TO BE VALIDATED**
   - [x] int
   - [x] mem
   - [x] mpg
@@ -70,6 +70,9 @@ TODO
   - [ ] game
   - [ ] game_cd
   - [ ] gfs
+    - [ ] smpgfs1a **(Crash at runtime)**
+    - [ ] smpgfs1b **(Crash at runtime)**
+    - [ ] smpgfs2 **(Crash at runtime)**
   - [ ] mem
     - [ ] smpmem0
     - [ ] smpmem1
