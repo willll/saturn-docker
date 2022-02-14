@@ -35,12 +35,13 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+
 target_link_libraries(${TARGET_NAME}.elf PUBLIC lib3d )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC libmath )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC libutil )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC libprofl )
 
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dsp.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_csh.a )
