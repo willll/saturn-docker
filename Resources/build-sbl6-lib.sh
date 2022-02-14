@@ -53,7 +53,6 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
   done
 
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_adp.a $SATURN_SBL/segalib/lib
-	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_per.a $SATURN_SBL/segalib/lib
 fi
 
 exit 0

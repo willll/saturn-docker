@@ -34,7 +34,7 @@ add_subdirectory(scl)
 add_subdirectory(spr)
 add_subdirectory(cdc)
 add_subdirectory(pcm)
-#add_subdirectory(per)
+add_subdirectory(per)
 add_subdirectory(stm)
 add_subdirectory(snd)
 

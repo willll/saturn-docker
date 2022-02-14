@@ -9,7 +9,7 @@ if [ $INSTALL_SBL_SAMPLES -eq 1 ]; then
 
 	cd $SATURN_TMP
 
-	if [ $INSTALL_SBL_LIB -neq 1 ]; then
+	if [ $INSTALL_SBL_LIB -eq 0 ]; then
 		# diff -crB --binary sbl6/ sbl6_patch/ > sbl6.patch
 		# Patch the code
 		patch -p0 -d $SATURN_TMP < sbl6.patch

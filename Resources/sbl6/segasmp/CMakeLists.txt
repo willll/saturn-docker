@@ -20,6 +20,9 @@ project( segasmp VERSION 1.0
                   DESCRIPTION "Sega Saturn Samples"
                   LANGUAGES C ASM)
 
+set(as_flags )
+set(c_flags -Wall -m2 -MMD)
+
 add_subdirectory(abs)
 add_subdirectory(bup)
 add_subdirectory(cof)
