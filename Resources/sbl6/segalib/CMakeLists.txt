@@ -9,12 +9,14 @@ project(segalib
         DESCRIPTION "Sega Saturn SBL"
         LANGUAGES C ASM)
 
-add_compile_options(  -Wall
-                      -Wpointer-sign
-                      -m2
-                      -Os
-                      -finline-functions
-                      -fomit-frame-pointer
+set(c_flags -Wall
+            -Wpointer-sign
+            -m2
+            -Os
+            -finline-functions
+            -fomit-frame-pointer)
+
+add_compile_options(  "$<$<COMPILE_LANGUAGE:C>:${c_flags}>"
 )
 
 add_subdirectory(bpl)
@@ -32,7 +34,7 @@ add_subdirectory(scl)
 add_subdirectory(spr)
 add_subdirectory(cdc)
 add_subdirectory(pcm)
-add_subdirectory(per)
+#add_subdirectory(per)
 add_subdirectory(stm)
 add_subdirectory(snd)
 

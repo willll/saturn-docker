@@ -245,10 +245,10 @@ RUN $SATURN_TMP/dl-sbl6.sh
 
 COPY Resources/sbl6/segalib $SATURN_TMP/sbl6_/segalib
 COPY Resources/sbl6/segasmp $SATURN_TMP/sbl6_/segasmp
-COPY Resources/build-sbl6.sh $SATURN_TMP
+COPY Resources/build-sbl6-lib.sh $SATURN_TMP
 COPY Resources/build-sbl6-samples.sh $SATURN_TMP
 COPY Resources/sbl6.patch $SATURN_TMP
-RUN $SATURN_TMP/build-sbl6.sh
+RUN $SATURN_TMP/build-sbl6-lib.sh
 RUN $SATURN_TMP/build-sbl6-samples.sh
 
 RUN rm -rf "$SATURN_TMP/*"
@@ -256,8 +256,10 @@ RUN rm -rf "$SATURN_TMP/*"
 # Download SBL examples
 COPY Resources/dl-sbl6-examples.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sbl6-examples.sh
+COPY Resources/sbl6/examples $SATURN_TMP/sbl6_/examples
 COPY Resources/build-sbl6-examples.sh $SATURN_TMP
-#RUN $SATURN_TMP/build-sbl6-examples.sh
+COPY Resources/sbl6_examples.patch $SATURN_TMP
+RUN $SATURN_TMP/build-sbl6-examples.sh
 
 #RUN rm -rf "$SATURN_TMP"
 
@@ -268,7 +270,6 @@ COPY Resources/build-sbl6-examples.sh $SATURN_TMP
 COPY Resources/dl-SaturnSDK-samples.sh $SATURN_SAMPLES
 COPY Resources/build-SaturnSDK-samples.sh $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/dl-SaturnSDK-samples.sh
-COPY Resources/sbl6 $SATURN_TMP/sbl6_
 COPY Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
 
@@ -285,7 +286,7 @@ RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
 #RUN git https://github.com/ijacquez/libyaul/libyaul.git "$SATURN_YAUL"
 
 
-# Clean up temporay files
+# Clean up temporary files
 #RUN rm -rf "$SATURN_TMP"
 
 # Set Volume and Workdir

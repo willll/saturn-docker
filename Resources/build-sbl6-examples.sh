@@ -8,16 +8,25 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 		exit 1
 	fi
 
-	cd $SATURN_TMP/examples
+	cd $SATURN_TMP
+
+	# Clean the code
+	find $SATURN_TMP/examples -type f -exec sed -i 's/\o32//g' {} \;
+
+	# Patch the code
+	patch -p0 -d $SATURN_TMP < sbl6_examples.patch
+
+	# Inject Build System
+	cp --verbose -rf $SATURN_TMP/sbl6_/examples/* $SATURN_TMP/examples/
 
 	#
 	# build samples
 	#
 	mkdir -p $SATURN_TMP/examples/bin
-	cmake -S $SATURN_TMP/examples/ -B $SATURN_SAMPLES/bin/ \
+	cmake -S $SATURN_TMP/examples/ -B $SATURN_TMP/examples/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
-			-DCMAKE_INSTALL_PREFIX=$SATURN_SAMPLES/examples
-	make -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ && \
+			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL
+	make -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ VERBOSE=1 && \
 	 		make -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ install
 
 fi
