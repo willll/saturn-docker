@@ -131,6 +131,46 @@ TODO
 
 ### Yaul (https://github.com/ijacquez/libyaul)
 - [ ] Yaul
+  - [X] Yaul Library
+  - [ ] Yaul Examples
+    - [ ] arp-comm << This example is disabled
+    - [x] bcl
+    - [ ] c++
+    - [x] cd-block
+    - [x] cpu-divu
+    - [x] cpu-dmac
+    - [x] cpu-dual
+    - [x] cpu-frt
+    - [x] cpu-wdt
+    - [x] dbgio-menu
+    - [x] dbgio-usb-cart
+    - [ ] dma-queue
+    - [x] dram-cart
+    - [ ] fileserver
+    - [ ] gdb
+    - [x] scu-dsp
+    - [ ] scu-timers << This example is disabled
+    - [ ] usb-cart
+    - [x] vdp1-balls
+    - [x] vdp1-drawing
+    - [x] vdp1-interlace
+    - [x] vdp1-mic3d
+    - [x] vdp1-sega3d
+    - [x] vdp1-software-blending
+    - [x] vdp1-st-niccc
+    - [x] vdp1-uv-coords
+    - [x] vdp1-zoom-sprite
+    - [x] vdp2-24bpp-bitmap
+    - [x] vdp2-2x2-plane
+    - [x] vdp2-back-screen
+    - [x] vdp2-line-scroll
+    - [x] vdp2-nbg0
+    - [x] vdp2-normal-bitmap
+    - [x] vdp2-rbg0-bitmap
+    - [x] vdp2-rbg0
+    - [x] vdp2-reduction-bitmap
+    - [x] vdp2-special-function
+    - [x] vdp2-zooming
 
 
 ## Misc notes :
