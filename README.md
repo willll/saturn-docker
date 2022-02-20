@@ -30,7 +30,7 @@ TODO
 
 
 ### SGL 3.02
-- [x] SGL : Converted files **TO BE VALIDATED**
+- [ ] SGL 
 - [ ] SGL Samples
 
 ### SBL 6.01

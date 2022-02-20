@@ -219,8 +219,8 @@ ENV INSTALL_SATURNSDK_SAMPLES=0
 ENV INSTALL_JO_ENGINE_LIB=0
 ENV INSTALL_JO_ENGINE_SAMPLES=0
 
-ENV INSTALL_YAUL_LIB=1
-ENV INSTALL_YAUL_SAMPLES=1
+ENV INSTALL_YAUL_LIB=0
+ENV INSTALL_YAUL_SAMPLES=0
 
 
 #
@@ -278,14 +278,15 @@ RUN rm -rf "$SATURN_TMP"
 # Install Jo Engine TODO
 #
 
-#RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_JOENGINE"
+RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_TMP"
+
 #RUN rm -rf "$SATURN_TMP"
 
 #
-# Install Yaul TODO
+# Install Yaul
 #
-
-RUN git clone https://github.com/ijacquez/libyaul.git "$SATURN_TMP"
+COPY Resources/dl-yaul.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/dl-yaul.sh"
 COPY Resources/yaul/.yaul.env "$SATURN_YAUL"
 COPY Resources/yaul/env.mk "$SATURN_TMP"
 COPY Resources/yaul/pre.common.mk "$SATURN_TMP/libyaul/common/"
@@ -298,7 +299,6 @@ COPY Resources/yaul/common/ldscripts/yaul.x "$SATURN_TMP/libyaul/common/ldscript
 COPY Resources/set_env.sh "$SATURN_YAUL"
 COPY Resources/build-yaul.sh "$SATURN_TMP"
 RUN "$SATURN_YAUL/set_env.sh" "$SATURN_TMP/build-yaul.sh"
-RUN git clone https://github.com/ijacquez/libyaul-examples.git "$SATURN_YAUL/examples"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
 RUN "$SATURN_YAUL/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
 
