@@ -1,0 +1,10 @@
+*startfile:
+%:getenv(YAUL_INSTALL_ROOT /%:getenv(YAUL_ARCH_SH_PREFIX /lib/crt0%O%s)) \
+%:getenv(YAUL_INSTALL_ROOT /%:getenv(YAUL_ARCH_SH_PREFIX /lib/init%O%s)) \
+%:getenv(YAUL_INSTALL_ROOT /%:getenv(YAUL_ARCH_SH_PREFIX /lib/c++-support%O%s))
+
+*endfile:
+
+
+*lib:
+-lyaul -lgcc

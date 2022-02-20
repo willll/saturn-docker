@@ -1,0 +1,98 @@
+#!/bin/sh
+
+# Copyright (c) 2012-2016
+# See LICENSE for details.
+#
+# Dan Potter
+# Israel Jacquez <mrkotfw@gmail.com>
+
+PROGNAME="${0##*/}"
+TMPDIR="${TMPDIR:-/tmp}"
+
+AFLAGS="--fatal-warnings --isa=sh2 --big --reduce-memory-overheads"
+ARCH="elf32-sh"
+DATA_SECTION="rodata"
+
+# If empty, default to YAUL_ARCH_SH_PREFIX
+if [ -z "${YAUL_PROG_SH_PREFIX}" ]; then
+    YAUL_PROG_SH_PREFIX=$(printf "%s" "${YAUL_ARCH_SH_PREFIX}")
+fi
+
+SH_AS="${YAUL_SH_TOOLCHAIN}/bin/${YAUL_PROG_SH_PREFIX}-as"
+SH_LD="${YAUL_SH_TOOLCHAIN}/bin/${YAUL_PROG_SH_PREFIX}-ld"
+SH_OBJCOPY="${YAUL_SH_TOOLCHAIN}/bin/${YAUL_PROG_SH_PREFIX}-objcopy"
+
+panic () {
+    printf -- "${PROGNAME}: Error: %s\\n" "${1}" >&2
+    exit "${2}"
+}
+
+[ -n "${YAUL_INSTALL_ROOT}" ] || panic "Undefined YAUL_INSTALL_ROOT (install root directory)" 1
+[ -d "${YAUL_INSTALL_ROOT}" ] || panic "Invalid YAUL_INSTALL_ROOT (install root directory) value" 1
+[ -n "${YAUL_ARCH_SH_PREFIX}" ] || panic "Undefined YAUL_ARCH_SH_PREFIX (tool-chain prefix)" 1
+[ -x "${SH_AS}" ] || panic "Invalid executable \`${SH_AS}'" 1
+[ -x "${SH_LD}" ] || panic "Invalid executable \`${SH_LD}'" 1
+[ -x "${SH_OBJCOPY}" ] || panic "Invalid executable \`${SH_OBJCOPY}'" 1
+
+TMP1_FILE="$(mktemp "${TMPDIR}/XXXX" 2>/dev/null)" || panic "Couldn't create file" 1
+TMP2_FILE="$(mktemp "${TMPDIR}/XXXX" 2>/dev/null)" || panic "Couldn't create file" 1
+TMP3_FILE="$(mktemp "${TMPDIR}/XXXX" 2>/dev/null)" || panic "Couldn't create file" 1
+TMP4_FILE="$(mktemp "${TMPDIR}/XXXX" 2>/dev/null)" || panic "Couldn't create file" 1
+
+clean_up () {
+    rm -f "${TMP1_FILE}"
+    rm -f "${TMP2_FILE}"
+    rm -f "${TMP3_FILE}"
+    rm -f "${TMP4_FILE}"
+}
+
+trap '_exit_code=${?}; clean_up; exit ${_exit_code}' 0
+trap 'clean_up; exit 1' HUP INT QUIT ABRT SEGV PIPE
+
+if [ ${#} != 3 ]; then
+    printf -- "Usage: %s input-file symbol-name output-file\\n" "${PROGNAME}" >&2
+    exit 2
+fi
+
+input="${1}"
+symbol="${2}"
+output="${3}"
+
+# Gotta do a different binary target here depending on the target
+("${SH_AS}" ${AFLAGS} \
+    -o "${TMP3_FILE}" || \
+    panic "Couldn't assemble file" 1) << EOF
+.SECTION ".${DATA_SECTION}"
+.ALIGN 2
+EOF
+
+cat > "${TMP1_FILE}" << EOF
+SECTIONS
+{
+  .${DATA_SECTION} :
+  {
+     _${symbol} = .;
+     *(.data);
+     _${symbol}_end = .;
+  }
+}
+EOF
+
+"${SH_LD}" --no-warn-mismatch --format binary --oformat "${ARCH}" "${input}" \
+    --format "${ARCH}" "${TMP3_FILE}" \
+    -o "${TMP2_FILE}" -r -T "${TMP1_FILE}" >"${TMP4_FILE}" 2>&1  || {
+    panic "Couldn't link file
+>>>
+$(cat "${TMP4_FILE}")
+<<<" 1
+}
+
+"${SH_OBJCOPY}" --set-section-flags ".${DATA_SECTION}=alloc,load,data,readonly" \
+    "${TMP2_FILE}" "${output}" >"${TMP4_FILE}" 2>&1 || {
+    panic "Couldn't translate object file
+>>>
+$(cat "${TMP4_FILE}")
+<<<" 1
+}
+
+clean_up

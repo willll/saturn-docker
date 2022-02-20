@@ -94,6 +94,7 @@ RUN apt-get update && apt-get install -y \
   autogen \
 	autoconf-archive \
   xutils-dev \
+  xorriso \
 	--no-install-recommends && \
 	apt autoremove -y && \
 	## Make sure we leave any X11 related library behind
@@ -211,15 +212,15 @@ ENV INSTALL_SGL_SAMPLES=0
 
 ENV INSTALL_SBL_LIB=1
 ENV INSTALL_SBL_SAMPLES=0
-ENV INSTALL_SBL_EXAMPLES=1
+ENV INSTALL_SBL_EXAMPLES=0
 
 ENV INSTALL_SATURNSDK_SAMPLES=0
 
 ENV INSTALL_JO_ENGINE_LIB=0
 ENV INSTALL_JO_ENGINE_SAMPLES=0
 
-ENV INSTALL_YAUL_LIB=0
-ENV INSTALL_YAUL_SAMPLES=0
+ENV INSTALL_YAUL_LIB=1
+ENV INSTALL_YAUL_SAMPLES=1
 
 
 #
@@ -249,7 +250,6 @@ COPY Resources/build-sbl6-lib.sh $SATURN_TMP
 COPY Resources/build-sbl6-samples.sh $SATURN_TMP
 COPY Resources/sbl6.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6-lib.sh
-RUN $SATURN_TMP/build-sbl6-samples.sh
 
 RUN rm -rf "$SATURN_TMP/*"
 
@@ -272,19 +272,35 @@ COPY Resources/build-SaturnSDK-samples.sh $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/dl-SaturnSDK-samples.sh
 COPY Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
+RUN rm -rf "$SATURN_TMP"
 
 #
 # Install Jo Engine TODO
 #
 
 #RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_JOENGINE"
+#RUN rm -rf "$SATURN_TMP"
 
 #
 # Install Yaul TODO
 #
 
-#RUN git https://github.com/ijacquez/libyaul/libyaul.git "$SATURN_YAUL"
-
+RUN git clone https://github.com/ijacquez/libyaul.git "$SATURN_TMP"
+COPY Resources/yaul/.yaul.env "$SATURN_YAUL"
+COPY Resources/yaul/env.mk "$SATURN_TMP"
+COPY Resources/yaul/pre.common.mk "$SATURN_TMP/libyaul/common/"
+COPY Resources/yaul/Makefile "$SATURN_TMP"
+COPY Resources/yaul/tools/bin2o "$SATURN_TMP/tools/bin2o/"
+COPY Resources/yaul/tools/make-ip "$SATURN_TMP/tools/make-ip/"
+COPY Resources/yaul/common/specs/* "$SATURN_TMP/libyaul/common/specs/"
+COPY Resources/yaul/common/specs/* "$SATURN_TMP/libyaul/common/specs/"
+COPY Resources/yaul/common/ldscripts/yaul.x "$SATURN_TMP/libyaul/common/ldscripts/"
+COPY Resources/set_env.sh "$SATURN_YAUL"
+COPY Resources/build-yaul.sh "$SATURN_TMP"
+RUN "$SATURN_YAUL/set_env.sh" "$SATURN_TMP/build-yaul.sh"
+RUN git clone https://github.com/ijacquez/libyaul-examples.git "$SATURN_YAUL/examples"
+COPY Resources/build-yaul-examples.sh $SATURN_TMP
+RUN "$SATURN_YAUL/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
 
 # Clean up temporary files
 #RUN rm -rf "$SATURN_TMP"
@@ -318,4 +334,5 @@ LABEL \
 	org.label-schema.version=$BUILD_VERSION \
 	org.label-schema.docker.cmd="docker run -it --rm -v ${pwd}:/saturn saturn-docker"
 
+ENTRYPOINT ["/opt/saturn/yaul/set_env.sh"]
 CMD ["/bin/bash"]

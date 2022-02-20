@@ -1,0 +1,10 @@
+%rename asm old_asm
+*asm:
+%(old_asm) \
+--isa=sh2 \
+--big \
+--reduce-memory-overheads
+
+%rename link old_link
+*link:
+%(old_link) -T %:getenv(YAUL_INSTALL_ROOT /%:getenv(YAUL_ARCH_SH_PREFIX /lib/ldscripts/ip.x))%s
