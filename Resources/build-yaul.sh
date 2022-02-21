@@ -8,7 +8,7 @@ if [ $INSTALL_YAUL_LIB -eq 1 ]; then
 		exit 1
 	fi
 
-	cd $SATURN_TMP
+	cd $SATURN_TMP/yaul
 
 	#
 	# build yaul in release
