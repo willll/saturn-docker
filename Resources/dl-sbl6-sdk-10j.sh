@@ -7,8 +7,6 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		mkdir -p $SATURN_TMP
 	fi
 
-	cd $SATURN_TMP
-
 	curl -s -o nul -c ./cookie-file1 -s -L "https://drive.google.com/file/d/1wqc7bngPUOv_0hgyuIyCTq8l4jc_azSN/view?usp=sharing"& \
 	curl -Lb ./cookie-file1 "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' \
 	 ./cookie-file1`&id=1wqc7bngPUOv_0hgyuIyCTq8l4jc_azSN" -o $SATURN_TMP/sdk_10j.zip

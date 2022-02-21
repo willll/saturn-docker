@@ -8,8 +8,6 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 		mkdir -p $SATURN_TMP
 	fi
 
-	cd $SATURN_TMP
-
 	#
 	# download
 	#

@@ -8,8 +8,6 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 		exit 1
 	fi
 
-	cd $SATURN_TMP
-
 	curl -s -o nul -c ./cookie-file1 -s -L "https://drive.google.com/file/d/19nKbK6eFHh1cliyFYsBv-P2IGrWTc0Ci/view?usp=sharing"& \
 	curl -Lb ./cookie-file1 "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' \
 	 ./cookie-file1`&id=19nKbK6eFHh1cliyFYsBv-P2IGrWTc0Ci" -o $SATURN_TMP/examples.zip
