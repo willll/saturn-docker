@@ -42,20 +42,16 @@ ENV ROOTDIR=$PWD/toolchain
 ENV DOWNLOADDIR=$PWD/toolchain/download
 ENV QTIFWDIR=./installer
 
-ENV BOOST_ROOT=/opt/boost
+ENV BOOST_ROOT=/opt/lib/boost
 ENV BOOSTROOT=$BOOST_ROOT
 ENV BOOST_INCLUDEDIR=$BOOST_ROOT/include
 ENV BOOST_LIBRARYDIR=$BOOST_ROOT/lib
 ENV Boost_NO_SYSTEM_PATHS="ON"
 
-ENV PROGRAM_PREFIX=sh-elf-
-ENV NCPU=1
-ENV CREATEINSTALLER="NO"
+ENV CTEMPLATE_ROOT=/opt/lib/Ctemplate
 
-ENV TARGETMACH=sh-elf
-ENV BUILDMACH=i686-pc-linux-gnu
-ENV HOSTMACH=i686-pc-linux-gnu
-ENV OBJFORMAT=ELF
+ENV MAKEFLAGS=""
+#"-j$(nproc)"
 
 # Add FLAGS
 ENV BINUTILS_CFLAGS="-s"
@@ -90,6 +86,7 @@ RUN apt-get update && apt-get install -y \
   cmake \
   shtool \
   intltool \
+  libtool \
   gettext \
   autogen \
 	autoconf-archive \
@@ -104,8 +101,8 @@ RUN apt-get update && apt-get install -y \
 
 # Base Directories
 RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
-  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_TMP}" "${SATURN_CD}" \
-  "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" "${SATURN_COMMON}" "${BOOST_ROOT}" && \
+  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_TMP}" \
+  "${SATURN_CD}" "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" "${SATURN_COMMON}" && \
 	chmod -R 777 "$SATURN_ROOT" && \
 	chmod -R 777 "$SATURN_SGL" && \
 	chmod -R 777 "$SATURN_SBL" && \
@@ -116,46 +113,55 @@ RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
   chmod -R 777 "$SATURN_SAMPLES" && \
   chmod -R 777 "$SATURN_IPMAKER" && \
   chmod -R 777 "$SATURN_COMMON" && \
-  chmod -R 777 "$SATURN_TMP" && \
-  chmod -R 777 "$BOOST_ROOT"
+  chmod -R 777 "$SATURN_TMP"
 
 WORKDIR "${SATURN_ROOT}"
 
 #
+# Setup
+#
+COPY Resources/Install/setup-git.sh $SATURN_TMP
+RUN $SATURN_TMP/setup-git.sh
+
+#
 # Install mkisofs
 #
-RUN git clone https://github.com/willll/schily-tools.git "$SATURN_TMP"
-
-RUN make -f $SATURN_TMP/Makefile -C $SATURN_TMP LINKMODE=static && \
-    make -f $SATURN_TMP/Makefile -C $SATURN_TMP \
-            INS_BASE="$SATURN_CD" INS_RBASE="$SATURN_CD" install
-
-RUN mv $SATURN_CD/bin/* $SATURN_CD && \
-   rm -rf $SATURN_CD/{bin,ccs,etc,include,lib,sbin,share,xpg4}
-
-RUN rm -rf "$SATURN_TMP"
+COPY Resources/Install/build-Mkisofs.sh $SATURN_TMP
+RUN $SATURN_TMP/build-Mkisofs.sh
 
 #
 # Install Saturn-SDK-Tool-IPMaker 0.1
 #
+COPY Resources/Install/build-IPMaker.sh $SATURN_TMP
+RUN $SATURN_TMP/build-IPMaker.sh "IPMaker_0.1"
 
-RUN git clone --depth 1 --branch IPMaker_0.1 \
-    https://github.com/willll/Saturn-SDK-Tool-IPMaker.git "$SATURN_TMP"
+#
+# Install Boost preprocessor, System, filesystem, program_options 1.78.0
+#
+COPY Resources/Install/build-Boost.sh $SATURN_TMP
+RUN $SATURN_TMP/build-Boost.sh "boost-1.78.0"
 
-COPY Resources/build-IPMaker.sh $SATURN_TMP
-RUN $SATURN_TMP/build-IPMaker.sh
+#
+# Install CueMaker 0.8
+#
+COPY Resources/Install/build-CueMaker.sh $SATURN_TMP
+RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_0.8"
+
+# Clean up
 RUN rm -rf "$SATURN_TMP"
-
-#
-# Install Boost preprocessor 1.78.0
-#
-
-RUN git clone --depth 1 --branch boost-1.78.0 \
-    https://github.com/boostorg/preprocessor.git "$BOOST_ROOT"
 
 #
 # Install base tools
 #
+
+ENV PROGRAM_PREFIX=sh-elf-
+ENV NCPU=1
+ENV CREATEINSTALLER="NO"
+
+ENV TARGETMACH=sh-elf
+ENV BUILDMACH=i686-pc-linux-gnu
+ENV HOSTMACH=i686-pc-linux-gnu
+ENV OBJFORMAT=ELF
 
 RUN git clone --depth 1 --branch gcc_8.4.0 \
     https://github.com/willll/Saturn-SDK-GCC-SH2.git "$SATURN_TMP"
@@ -181,8 +187,6 @@ ENV CPATH="${INSTALLDIR}/include:${CPATH}"
 ENV COMPILER_PATH="${INSTALLDIR}/include:${COMPILER_PATH}"
 ENV C_INCLUDE_PATH="${INSTALLDIR}/include:${C_INCLUDE_PATH}"
 ENV CPLUS_INCLUDE_PATH="${INSTALLDIR}/include:${CPLUS_INCLUDE_PATH}"
-ENV MAKEFLAGS=""
-#"-j$(nproc)"
 ENV CC=${INSTALLDIR}/bin/${PROGRAM_PREFIX}gcc
 ENV CXX=${INSTALLDIR}/bin/${PROGRAM_PREFIX}g++
 ENV AR=${INSTALLDIR}/bin/${PROGRAM_PREFIX}ar
@@ -216,7 +220,7 @@ ENV INSTALL_SBL_EXAMPLES=0
 
 ENV INSTALL_SATURNSDK_SAMPLES=0
 
-ENV INSTALL_JO_ENGINE_LIB=0
+ENV INSTALL_JO_ENGINE_LIB=1
 ENV INSTALL_JO_ENGINE_SAMPLES=0
 
 ENV INSTALL_YAUL_LIB=0
@@ -261,7 +265,7 @@ COPY Resources/build-sbl6-examples.sh $SATURN_TMP
 COPY Resources/sbl6_examples.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6-examples.sh
 
-#RUN rm -rf "$SATURN_TMP"
+#RUN rm -rf "$SATURN_TMP/*"
 
 #
 # Samples
@@ -272,15 +276,19 @@ COPY Resources/build-SaturnSDK-samples.sh $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/dl-SaturnSDK-samples.sh
 COPY Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
-RUN rm -rf "$SATURN_TMP"
+RUN rm -rf "$SATURN_TMP/*"
+
 
 #
 # Install Jo Engine TODO
 #
 
-RUN git clone https://github.com/johannes-fetz/joengine.git "$SATURN_TMP"
+COPY Resources/dl-joengine.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/dl-joengine.sh"
+COPY Resources/build-joengine.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/build-joengine.sh"
 
-#RUN rm -rf "$SATURN_TMP"
+#RUN rm -rf "$SATURN_TMP/*"
 
 #
 # Install Yaul
@@ -296,14 +304,15 @@ COPY Resources/yaul/tools/make-ip "$SATURN_TMP/tools/make-ip/"
 COPY Resources/yaul/common/specs/* "$SATURN_TMP/libyaul/common/specs/"
 COPY Resources/yaul/common/specs/* "$SATURN_TMP/libyaul/common/specs/"
 COPY Resources/yaul/common/ldscripts/yaul.x "$SATURN_TMP/libyaul/common/ldscripts/"
-COPY Resources/set_env.sh "$SATURN_YAUL"
 COPY Resources/build-yaul.sh "$SATURN_TMP"
-RUN "$SATURN_YAUL/set_env.sh" "$SATURN_TMP/build-yaul.sh"
+RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul.sh"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
-RUN "$SATURN_YAUL/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
+RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
+
+# TODO : Add https://github.com/ijacquez/saturn-compos.git
 
 # Clean up temporary files
-#RUN rm -rf "$SATURN_TMP"
+#RUN rm -rf "$SATURN_TMP/*"
 
 # Set Volume and Workdir
 VOLUME /saturn
@@ -334,5 +343,5 @@ LABEL \
 	org.label-schema.version=$BUILD_VERSION \
 	org.label-schema.docker.cmd="docker run -it --rm -v ${pwd}:/saturn saturn-docker"
 
-ENTRYPOINT ["/opt/saturn/yaul/set_env.sh"]
+ENTRYPOINT ["/opt/saturn/common/set_env.sh"]
 CMD ["/bin/bash"]

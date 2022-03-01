@@ -8,10 +8,15 @@ fi
 #
 # Download
 #
-#--branch $1 \
-git clone --depth 1 \
-		--recurse-submodules \
-    https://github.com/willll/CueMaker.git "$SATURN_TMP/tmp"
+if [ "$#" -ne 1 ]; then
+	git clone --depth 1 \
+			--recurse-submodules \
+	    https://github.com/willll/CueMaker.git "$SATURN_TMP/tmp"
+else
+	git clone --depth 1 --branch $1 \
+			--recurse-submodules \
+	    https://github.com/willll/CueMaker.git "$SATURN_TMP/tmp"
+fi
 
 #
 # build CueMaker
@@ -20,9 +25,7 @@ mkdir -p $SATURN_TMP/bin
 
 cmake -S $SATURN_TMP/tmp/ \
 			-B $SATURN_TMP/bin \
-			-DCMAKE_INSTALL_PREFIX=$SATURN_CD \
-			-DCTEMPLATE_INCLUDE_DIR=$CTEMPLATE_ROOT/include \
-			-DCTEMPLATE_LIBRARIES=$CTEMPLATE_ROOT/lib
+			-DCMAKE_INSTALL_PREFIX=$SATURN_CD
 
 make -f $SATURN_TMP/bin/Makefile \
 			-C $SATURN_TMP/bin/ && \
