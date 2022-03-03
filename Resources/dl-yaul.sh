@@ -7,7 +7,7 @@ if [ $INSTALL_YAUL_LIB -eq 1 ]; then
 		mkdir -p $SATURN_TMP
 	fi
 
-  git clone --depth 1 https://github.com/johannes-fetz/joengine.git "$SATURN_TMP/yaul"
+  git clone --depth 1 https://github.com/ijacquez/libyaul.git "$SATURN_TMP/yaul"
 
 fi
 

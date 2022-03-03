@@ -215,16 +215,16 @@ ENV INSTALL_SGL_LIB=1
 ENV INSTALL_SGL_SAMPLES=1
 
 ENV INSTALL_SBL_LIB=1
-ENV INSTALL_SBL_SAMPLES=1
-ENV INSTALL_SBL_EXAMPLES=1
+ENV INSTALL_SBL_SAMPLES=0
+ENV INSTALL_SBL_EXAMPLES=0
 
-ENV INSTALL_SATURNSDK_SAMPLES=1
+ENV INSTALL_SATURNSDK_SAMPLES=0
 
-ENV INSTALL_JO_ENGINE_LIB=1
-ENV INSTALL_JO_ENGINE_SAMPLES=1
+ENV INSTALL_JO_ENGINE_LIB=0
+ENV INSTALL_JO_ENGINE_SAMPLES=0
 
-ENV INSTALL_YAUL_LIB=0
-ENV INSTALL_YAUL_SAMPLES=0
+ENV INSTALL_YAUL_LIB=1
+ENV INSTALL_YAUL_SAMPLES=1
 
 
 #
@@ -299,14 +299,14 @@ RUN rm -rf "$SATURN_TMP/*"
 COPY Resources/dl-yaul.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-yaul.sh"
 COPY Resources/yaul/.yaul.env "$SATURN_YAUL"
-COPY Resources/yaul/env.mk "$SATURN_TMP"
-COPY Resources/yaul/pre.common.mk "$SATURN_TMP/libyaul/common/"
-COPY Resources/yaul/Makefile "$SATURN_TMP"
-COPY Resources/yaul/tools/bin2o "$SATURN_TMP/tools/bin2o/"
-COPY Resources/yaul/tools/make-ip "$SATURN_TMP/tools/make-ip/"
-COPY Resources/yaul/common/specs/* "$SATURN_TMP/libyaul/common/specs/"
-COPY Resources/yaul/common/specs/* "$SATURN_TMP/libyaul/common/specs/"
-COPY Resources/yaul/common/ldscripts/yaul.x "$SATURN_TMP/libyaul/common/ldscripts/"
+COPY Resources/yaul/env.mk "$SATURN_TMP/yaul"
+COPY Resources/yaul/pre.common.mk "$SATURN_TMP/yaul/libyaul/common/"
+COPY Resources/yaul/Makefile "$SATURN_TMP/yaul"
+COPY Resources/yaul/tools/bin2o "$SATURN_TMP/yaul/tools/bin2o/"
+COPY Resources/yaul/tools/make-ip "$SATURN_TMP/yaul/tools/make-ip/"
+COPY Resources/yaul/common/specs/* "$SATURN_TMP/yaul/libyaul/common/specs/"
+COPY Resources/yaul/common/specs/* "$SATURN_TMP/yaul/libyaul/common/specs/"
+COPY Resources/yaul/common/ldscripts/yaul.x "$SATURN_TMP/yaul/libyaul/common/ldscripts/"
 COPY Resources/build-yaul.sh "$SATURN_TMP"
 RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul.sh"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
