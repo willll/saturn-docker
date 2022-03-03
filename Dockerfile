@@ -142,10 +142,10 @@ COPY Resources/Install/build-Boost.sh $SATURN_TMP
 RUN $SATURN_TMP/build-Boost.sh "boost-1.78.0"
 
 #
-# Install CueMaker 0.8
+# Install CueMaker 1.0
 #
 COPY Resources/Install/build-CueMaker.sh $SATURN_TMP
-RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_0.8"
+RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_1.0"
 
 # Clean up
 RUN rm -rf "$SATURN_TMP"
@@ -212,16 +212,16 @@ COPY Resources/CD $SATURN_CD
 #
 
 ENV INSTALL_SGL_LIB=1
-ENV INSTALL_SGL_SAMPLES=0
+ENV INSTALL_SGL_SAMPLES=1
 
 ENV INSTALL_SBL_LIB=1
-ENV INSTALL_SBL_SAMPLES=0
-ENV INSTALL_SBL_EXAMPLES=0
+ENV INSTALL_SBL_SAMPLES=1
+ENV INSTALL_SBL_EXAMPLES=1
 
-ENV INSTALL_SATURNSDK_SAMPLES=0
+ENV INSTALL_SATURNSDK_SAMPLES=1
 
 ENV INSTALL_JO_ENGINE_LIB=1
-ENV INSTALL_JO_ENGINE_SAMPLES=0
+ENV INSTALL_JO_ENGINE_SAMPLES=1
 
 ENV INSTALL_YAUL_LIB=0
 ENV INSTALL_YAUL_SAMPLES=0
@@ -265,7 +265,7 @@ COPY Resources/build-sbl6-examples.sh $SATURN_TMP
 COPY Resources/sbl6_examples.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6-examples.sh
 
-#RUN rm -rf "$SATURN_TMP/*"
+RUN rm -rf "$SATURN_TMP/*"
 
 #
 # Samples
@@ -280,15 +280,18 @@ RUN rm -rf "$SATURN_TMP/*"
 
 
 #
-# Install Jo Engine TODO
+# Install Jo Engine
 #
 
 COPY Resources/dl-joengine.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-joengine.sh"
 COPY Resources/build-joengine.sh "$SATURN_TMP"
+COPY Resources/jo-engine/jo_engine_makefile "$SATURN_TMP"
 RUN "$SATURN_TMP/build-joengine.sh"
+COPY Resources/build-joengine-samples.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/build-joengine-samples.sh"
 
-#RUN rm -rf "$SATURN_TMP/*"
+RUN rm -rf "$SATURN_TMP/*"
 
 #
 # Install Yaul
@@ -312,7 +315,7 @@ RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
 # TODO : Add https://github.com/ijacquez/saturn-compos.git
 
 # Clean up temporary files
-#RUN rm -rf "$SATURN_TMP/*"
+RUN rm -rf "$SATURN_TMP/*"
 
 # Set Volume and Workdir
 VOLUME /saturn
