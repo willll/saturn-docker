@@ -53,12 +53,8 @@ ENV CTEMPLATE_ROOT=/opt/lib/Ctemplate
 ENV MAKEFLAGS=""
 #"-j$(nproc)"
 
-# Add FLAGS
-ENV BINUTILS_CFLAGS="-s"
-ENV GCC_BOOTSTRAP_FLAGS="--with-cpu=m2"
-ENV GCC_FINAL_FLAGS="--with-cpu=m2 --with-sysroot=$SYSROOTDIR"
+ENV GCC_VERSION=8.4.0
 
-# Core Packages
 RUN apt-get update && apt-get install -y locales \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -163,7 +159,7 @@ ENV BUILDMACH=i686-pc-linux-gnu
 ENV HOSTMACH=i686-pc-linux-gnu
 ENV OBJFORMAT=ELF
 
-RUN git clone --depth 1 --branch gcc_8.4.0 \
+RUN git clone --depth 1 --branch gcc_$GCC_VERSION \
     https://github.com/willll/Saturn-SDK-GCC-SH2.git "$SATURN_TMP"
 
 WORKDIR "${SATURN_TMP}"

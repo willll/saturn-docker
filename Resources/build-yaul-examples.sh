@@ -68,11 +68,11 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 		build $example
 	done
 
-	#git clone --depth 1 https://github.com/ijacquez/saturn-compos.git "$SATURN_YAUL/compos"
+	git clone --depth 1 https://github.com/ijacquez/saturn-compos.git "$SATURN_YAUL/compos"
 
-	#cd "$SATURN_YAUL/compos"
-	#echo "BUILDING compos"
-	#make clean
+	cd "$SATURN_YAUL/compos"
+	echo "BUILDING compos"
+	SILENT=1 make clean
 	#make
 
 fi
