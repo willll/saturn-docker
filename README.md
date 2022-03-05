@@ -1,4 +1,4 @@
-# Docker for SEGA Saturn dev
+  - [ ] # Docker for SEGA Saturn dev
 
 ## Goal
 
@@ -30,7 +30,7 @@ TODO
 
 
 ### SGL 3.02
-- [ ] SGL 
+- [ ] SGL
 - [ ] SGL Samples
 
 ### SBL 6.01
@@ -127,7 +127,42 @@ TODO
   - [ ] CDBrowser
 
 ### Jo Engine (https://www.jo-engine.org/)
-- [ ] Jo Engine
+- [X] Jo Engine
+- [ ] Jo Engine Samples
+  - [X] demo1
+  - [X] demo - homing laser
+  - [X] demo - 2D storyboard
+  - [X] demo - line scroll
+  - [X] demo - 3D
+  - [X] demo - map
+  - [ ] demo - 3D map
+  - [X] demo - mode7
+  - [X] demo - 3D - programmatically
+  - [X] demo - multitap
+  - [X] demo - 8bits tga
+  - [ ] demo - nbg2 font
+  - [X] demo - advanced 3D
+  - [X] demo - paint
+  - [X] demo - audio
+  - [X] demo - printf
+  - [X] demo - background
+  - [X] demo - shooter
+  - [X] demo - backup
+  - [X] demo - simple water effect
+  - [X] demo - bullet
+  - [X] demo - software rendering
+  - [X] demo - debug console
+  - [X] demo - sonic
+  - [X] demo - everydaycute
+  - [X] demo - sprite animation
+  - [X] demo - filesystem
+  - [X] demo - tileset
+  - [X] demo - gamepad
+  - [X] demo - vdp2 plane
+  - [X] demo - gouraud shading
+  - [ ] demo - video
+  - [ ] demo - hardcoded image
+  - [X] demo - visual novel
 
 ### Yaul (https://github.com/ijacquez/libyaul)
 - [ ] Yaul

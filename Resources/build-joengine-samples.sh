@@ -21,10 +21,10 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 	for f in *\ *; do mv "$f" "${f// /_}"; done
 
 	SAMPLES=(
-					"demo1"
-					"demo_-_homing_laser"
-					"demo_-_2D_storyboard"
-					"demo_-_line_scroll"
+					'demo1'
+					'demo_-_homing_laser'
+					'demo_-_2D_storyboard'
+					'demo_-_line_scroll'
 					'demo_-_3D'
 					'demo_-_map'
 					#'demo_-_3D_map'
