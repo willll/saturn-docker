@@ -31,7 +31,7 @@
 *cc1:
 %(old_c11) \
 -nostdinc \
--isystem %:getenv(INSTALLDIR /lib/gcc/%:getenv(YAUL_ARCH_SH_PREFIX /%:getenv(GCC_VERSION  /include))) \
+-isystem %:getenv(YAUL_SH_TOOLCHAIN /lib/gcc/%:getenv(YAUL_ARCH_SH_PREFIX /%:getenv(GCC_VERSION  /include))) \
 -m2 \
 -mb \
 -ffreestanding \
