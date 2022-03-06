@@ -1,4 +1,4 @@
-set(SOURCES per_def.h  per_prt.h  per_smp.h  per_xpt.h per_prt.c )
+set(SOURCES per_prt.c )
 
 add_compile_definitions(_SH MODEL_S)
 

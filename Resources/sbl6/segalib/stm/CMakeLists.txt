@@ -1,4 +1,4 @@
-set(SOURCES stm_loc.h stm_acc.c  stm_init.c
+set(SOURCES stm_acc.c  stm_init.c
           stm_loc.c  stm.shc  stm_svr.c  stm_trn.c)
 
 add_compile_definitions(_SH MODEL_S)

@@ -1,4 +1,4 @@
-set(SOURCES bpl_main.c sega_bpl.h bpl_def.h)
+set(SOURCES bpl_main.c)
 
 add_compile_definitions(_SH MODEL_S)
 

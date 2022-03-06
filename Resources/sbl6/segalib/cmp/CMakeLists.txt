@@ -1,4 +1,4 @@
-set(SOURCES cmp.h cmplrun.c cmplrunb.c cmplrund.c cmplrunw.c cmpltool.c sega_cmp.h)
+set(SOURCES cmplrun.c cmplrunb.c cmplrund.c cmplrunw.c cmpltool.c)
 
 add_compile_definitions(_SH MODEL_S)
 

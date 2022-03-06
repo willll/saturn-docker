@@ -1,4 +1,4 @@
-set(SOURCES mpg_loc.h mpg_mve.c mpg_mve2.c mpg_spc.c mpg_sys.c mpg_win.c sega_mpg.h)
+set(SOURCES mpg_mve.c mpg_mve2.c mpg_spc.c mpg_sys.c mpg_win.c )
 
 add_compile_definitions(_SH MODEL_S)
 
