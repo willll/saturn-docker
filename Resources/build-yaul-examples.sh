@@ -73,7 +73,7 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 	cd "$SATURN_YAUL/compos"
 	echo "BUILDING compos"
 	SILENT=1 make clean
-	#make
+	make
 
 fi
 
