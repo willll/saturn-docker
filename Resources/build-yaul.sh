@@ -20,6 +20,8 @@ if [ $INSTALL_YAUL_LIB -eq 1 ]; then
 	#
   make install-tools
 
+else
+	echo "$(tput setaf 1)No YAUL library will be built$(tput sgr 0)"
 
 fi
 

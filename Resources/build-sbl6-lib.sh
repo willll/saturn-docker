@@ -53,6 +53,10 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
   done
 
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_adp.a $SATURN_SBL/segalib/lib
+
+else
+	echo "$(tput setaf 1)No SBL libraries will be built$(tput sgr 0)"
+
 fi
 
 exit 0

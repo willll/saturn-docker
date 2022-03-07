@@ -19,6 +19,9 @@ if [ $INSTALL_SATURNSDK_SAMPLES -eq 1 ]; then
 	make -f $SATURN_SAMPLES/bin/Makefile -C $SATURN_SAMPLES/bin/ && \
 	 		make -f $SATURN_SAMPLES/bin/Makefile -C $SATURN_SAMPLES/bin/ install
 
+else
+	echo "$(tput setaf 1)No SDK samples will be built$(tput sgr 0)"
+
 fi
 
 exit 0

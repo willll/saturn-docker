@@ -26,6 +26,9 @@ if [ $INSTALL_JO_ENGINE_LIB -eq 1 ]; then
 			-exec sed -i 's/^COMPILER_DIR.*$/COMPILER_DIR=$(INSTALLDIR)/g' {} \;\
 			-exec sed -i 's/^include $(COMPILER_DIR)\/COMMON\/jo_engine_makefile.*$/include $(SATURN_JOENGINE)\/common\/jo_engine_makefile/g' {} \;
 
+else
+	echo "$(tput setaf 1)No joengine libraries will be built$(tput sgr 0)"
+
 fi
 
 exit 0

@@ -45,6 +45,9 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 		echo "TODO : SGL SAMPLES"
 	fi
 
+else
+	echo "$(tput setaf 1)No SGL libraries will be built$(tput sgr 0)"
+
 fi
 
 exit 0

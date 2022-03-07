@@ -27,6 +27,9 @@ if [ $INSTALL_SBL_SAMPLES -eq 1 ]; then
 	make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ && \
 	 		make -f $SATURN_TMP/sbl6/segasmp/bin/Makefile -C $SATURN_TMP/sbl6/segasmp/bin/ install
 
+else
+	echo "$(tput setaf 1)No SBL Samples will be built$(tput sgr 0)"
+
 fi
 
 exit 0

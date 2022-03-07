@@ -67,6 +67,9 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 		make
 	done
 
+else
+	echo "$(tputsetaf 1)No joengine samples will be built$(tput sgr 0)"
+
 fi
 
 exit 0

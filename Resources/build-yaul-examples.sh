@@ -73,7 +73,10 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 	cd "$SATURN_YAUL/compos"
 	echo "BUILDING compos"
 	SILENT=1 make clean
-	make
+	SILENT=1 make
+
+else
+	echo "$(tput setaf 1)No YAUL examples will be built$(tput sgr 0)"
 
 fi
 

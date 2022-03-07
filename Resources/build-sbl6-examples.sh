@@ -29,6 +29,9 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 	make -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ VERBOSE=1 && \
 	 		make -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ install
 
+else
+	echo "$(tput setaf 1)No SBL examples will be built$(tput sgr 0)"
+
 fi
 
 exit 0
