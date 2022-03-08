@@ -16,6 +16,8 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	# Clean the code
 	find $SATURN_TMP -type f -exec sed -i 's/\o32//g' {} \;
 	rm $SATURN_TMP/sbl6/segalib/spr/sega_spr.h
+	rm $SATURN_TMP/sbl6/segalib/include/sl_def.h
+	rm $SATURN_TMP/sbl6/segalib/include/sgl.h
 	#rm $SATURN_TMP/sbl6/segasmp/dual/sega_spr.h
 	#rm $SATURN_TMP/sbl6/segasmp/dual/sega_xpt.h
 

@@ -52,7 +52,7 @@ ENV Boost_NO_SYSTEM_PATHS="ON"
 
 ENV CTEMPLATE_ROOT=/opt/lib/Ctemplate
 
-ENV MAKEFLAGS="-j $(nproc)"
+ENV MAKEFLAGS="-j 1"
 
 ENV GCC_VERSION=8.4.0
 

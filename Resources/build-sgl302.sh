@@ -41,6 +41,9 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	cp -rv $SATURN_TMP/sgl302/doc/* $1/doc
 	cp -rv $SATURN_TMP/sgl302/sddrv/* $1/sddrv
 
+	# Clean the code
+	find $1 -type f -exec sed -i 's/\o32//g' {} \;
+
 	if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 		echo "TODO : SGL SAMPLES"
 	fi
