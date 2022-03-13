@@ -4616,6 +4616,959 @@ diff -crB --binary sbl6/segalib/include/sega_sys.h sbl6_patch/segalib/include/se
 - 
 \ No newline at end of file
 --- 153,155 ----
+diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_def.h
+*** sbl6/segalib/include/sl_def.h	1996-02-08 05:23:52.000000000 -0500
+--- sbl6_patch/segalib/include/sl_def.h	2022-03-10 18:19:10.000000000 -0500
+***************
+*** 1,10 ****
+  /*							*/
+  /*  SEGA Library defines	*/
+  /*							*/
+! 
+  #ifndef SEGA_XPT_H
+  #define SEGA_XPT_H
+! 
+  /*****************************************************************************/
+  /****************************** 基本データ型宣言 *****************************/
+  /*****************************************************************************/
+--- 1,25 ----
+  /*							*/
+  /*  SEGA Library defines	*/
+  /*							*/
+! 
+  #ifndef SEGA_XPT_H
+  #define SEGA_XPT_H
+! 
+! #if 0
+! #  define ST_V				/* or ST_VE (for Enhanced ST-V) */
+! #  define TITAN
+! #endif
+! 
+! #define		shc		1
+! #define		sh_gcc		2
+! #define		Compiler	sh_gcc		/* fot Hitachi then "shc" */
+! 
+! #if Compiler == shc
+! #  define  STCNS  static const
+! #else
+! #  define  STCNS  static
+! #endif
+! 
+  /*****************************************************************************/
+  /****************************** 基本データ型宣言 *****************************/
+  /*****************************************************************************/
+***************
+*** 58,66 ****
+  #define ABS(x)          ((x) < 0 ? -(x) : (x))  /* 絶対値 */
+  
+  /*---------------------------------------------------------------------------*/
+! #endif  /* SEGA_XPT_H */
+! 
+! 
+  #ifndef SL_DEF_H
+  #define SL_DEF_H
+  
+--- 73,81 ----
+  #define ABS(x)          ((x) < 0 ? -(x) : (x))  /* 絶対値 */
+  
+  /*---------------------------------------------------------------------------*/
+! #endif  /* SEGA_XPT_H */
+! 
+! 
+  #ifndef SL_DEF_H
+  #define SL_DEF_H
+  
+***************
+*** 97,103 ****
+  typedef     FIXED	VECTOR[XYZ] ;		/* ベクトルデータ */
+  typedef     FIXED	POINT[XYZ] ;		/* 頂点の位置データ */
+  
+! #define	    CURRENT		0	/* Current Matrix */
+  
+  enum mtrx {M00 , M01 , M02 ,		/* マトリクスの要素番号 */
+  	   M10 , M11 , M12 ,
+--- 112,119 ----
+  typedef     FIXED	VECTOR[XYZ] ;		/* ベクトルデータ */
+  typedef     FIXED	POINT[XYZ] ;		/* 頂点の位置データ */
+  
+! #define	    CURRENT		0		/* Current Matrix */
+! #define	    ORIGINAL		(0.99999)	/* Original Scale */
+  
+  enum mtrx {M00 , M01 , M02 ,		/* マトリクスの要素番号 */
+  	   M10 , M11 , M12 ,
+***************
+*** 107,129 ****
+  	   } ;
+  
+  enum tvsz {
+! 	TV_320x224 ,
+! 	TV_320x240 ,
+! 	TV_352x224 ,
+! 	TV_352x240 ,
+! 	TV_640x224 ,
+! 	TV_640x240 ,
+! 	TV_704x224 ,
+! 	TV_704x240 ,
+! 
+! 	TV_320x448 ,
+! 	TV_320x480 ,
+! 	TV_352x448 ,
+! 	TV_352x480 ,
+! 	TV_640x448 ,
+! 	TV_640x480 ,
+! 	TV_704x448 ,
+! 	TV_704x480
+      } ;
+  
+  #define		_SysPause		64
+--- 123,137 ----
+  	   } ;
+  
+  enum tvsz {
+! 	TV_320x224 , TV_320x240 , TV_320x256 , TV_dummy1 ,
+! 	TV_352x224 , TV_352x240 , TV_352x256 , TV_dummy2 ,
+! 	TV_640x224 , TV_640x240 , TV_640x256 , TV_dummy3 ,
+! 	TV_704x224 , TV_704x240 , TV_704x256 , TV_dummy4 ,
+! 
+! 	TV_320x448 , TV_320x480 , TV_320x512 , TV_dummy5 ,
+! 	TV_352x448 , TV_352x480 , TV_352x512 , TV_dummy6 ,
+! 	TV_640x448 , TV_640x480 , TV_640x512 , TV_dummy7 ,
+! 	TV_704x448 , TV_704x480 , TV_704x512 , TV_dummy8
+      } ;
+  
+  #define		_SysPause		64
+***************
+*** 132,144 ****
+--- 140,155 ----
+  
+  /*----------------------------------------------------------------------------------*/
+  
++ #define     M_PI                3.1415926535897932
+  #define	    toFIXED(a)		((FIXED)(65536.0 * (a)))
+  #define	    POStoFIXED(x,y,z)	{toFIXED(x),toFIXED(y),toFIXED(z)}
+  #define	    ATTRIBUTE(f,s,t,c,g,a,d,o)	{f,(s)|(((d)>>16)&0x1c)|(o),t,(a)|(((d)>>24)&0xc0),c,g,(d)&0x3f}
+  #define	    SPR_ATTRIBUTE(t,c,g,a,d)	{t,(a)|(((d)>>24)&0xc0),c,g,(d)&0x0f3f}
+  #define	    DEGtoANG(d)		((ANGLE)((65536.0 * (d)) / 360.0))
++ #define     RADtoANG(d)         ((ANGLE)((65536.0 * (d)) / (2*M_PI)))
+  #define	    RGB(r,g,b)		(0x8000|((b)<<10)|((g)<<5)|(r))
+  #define	    DGTtoRGB(c)		(0x8000|(((c)&0x0f00)<<3)|(((c)&0x4000)>>4)|(((c)&0x00f0)<<2)|(((c)&0x2000)>>8)|(((c)&0x000f)<<1)|(((c)&0x1000)>>12))
++ #define	    SLocate(x,y,p)	((p) * Page + (y) * Line + (x))
+  
+  /*  Sprite control function */
+  
+***************
+*** 162,167 ****
+--- 173,181 ----
+  #define	    _ZmRC		(0x0b << 8)	/* Zoom base Right Center */
+  #define	    _ZmRB		(0x0f << 8)	/* Zoom base Right Bottom */
+  
++ #define	    MSBon		(1 << 15)	/* フレームバッファに書き込むＭＳＢを１にする */
++ #define	    HSSon		(1 << 12)	/* ハイスピードシュリンク有効 */
++ #define	    HSSoff		(0 << 12)	/* ハイスピードシュリンク無効(default) */
+  #define	    No_Window		(0 << 9)	/* ウィンドウの制限を受けない(default)*/
+  #define	    Window_In		(2 << 9)	/* ウィンドウの内側に表示 */
+  #define	    Window_Out		(3 << 9)	/* ウィンドウの外側に表示 */
+***************
+*** 185,209 ****
+  
+  #define	    UseTexture		(1 << 2)	/* テクスチャを貼るポリゴン */
+  #define	    UseLight		(1 << 3)	/* 光源の影響を受けるポリゴン */
+! #define	    UseClip		(1 << 4)	/* 画面外に頂点が出たら表示しない */
+! #define	    UsePalette		(1 << 5)	/*  */
+  
+! #define	    sprHflip		(1 << 4) | FUNC_Texture | (UseTexture << 16)
+! #define	    sprVflip		(1 << 5) | FUNC_Texture | (UseTexture << 16)
+! #define	    sprHVflip		(3 << 4) | FUNC_Texture | (UseTexture << 16)
+! #define	    sprNoflip		(0) | FUNC_Texture | (UseTexture << 16)
+! #define	    sprPolygon		FUNC_Polygon | ((ECdis | SPdis) << 24)
+! #define	    sprPolyLine		FUNC_PolyLine | ((ECdis | SPdis) << 24)
+! #define	    sprLine		FUNC_Line | ((ECdis | SPdis) << 24)
+  
+  #define	    No_Texture		0		/* テクスチャを使用しない時 */
+  #define	    No_Option		0		/* オプションを使用しない時 */
+  #define	    No_Gouraud		0		/* グーローシェーディングを使用しない時 */
+  #define	    No_Palet	        0		/* カラーパレットの指定がいらない時 */
+! #define	    GouraudRAM		(0x00080000 - (33*8))	/* 光源の影響用のグーローバッファ */
+  
+  typedef struct {
+!     VECTOR	 norm ;				/* 法線ベクトル */
+      Uint16	 Vertices[4] ;		/* ポリゴンを構成する頂点番号 */
+  } POLYGON ;
+  
+--- 199,234 ----
+  
+  #define	    UseTexture		(1 << 2)	/* テクスチャを貼るポリゴン */
+  #define	    UseLight		(1 << 3)	/* 光源の影響を受けるポリゴン */
+! #define	    UsePalette		(1 << 5)	/* ポリゴンのカラー */
+  
+! /* SGL Ver3.0 Add */
+! #define	    UseNearClip		(1 << 6)	/* ニア・クリッピングをする */
+! #define	    UseGouraud		(1 << 7)	/* リアルグーロー */
+! #define	    UseDepth		(1 << 4)	/* デプスキュー */
+! /* */
+! 
+! #if 0 /* SGL Ver3.0 Delete */
+! #define	    UseClip		(1 << 4)		/* 画面外に頂点が出たら表示しない */
+! #else
+! #define	    UseClip		UseNearClip		/* ニア・クリッピングをする */
+! #endif
+! 
+! #define	    sprHflip		((1 << 4) | FUNC_Texture | (UseTexture << 16))
+! #define	    sprVflip		((1 << 5) | FUNC_Texture | (UseTexture << 16))
+! #define	    sprHVflip		((3 << 4) | FUNC_Texture | (UseTexture << 16))
+! #define	    sprNoflip		((0) | FUNC_Texture | (UseTexture << 16))
+! #define	    sprPolygon		(FUNC_Polygon | ((ECdis | SPdis) << 24))
+! #define	    sprPolyLine		(FUNC_PolyLine | ((ECdis | SPdis) << 24))
+! #define	    sprLine		(FUNC_Line | ((ECdis | SPdis) << 24))
+  
+  #define	    No_Texture		0		/* テクスチャを使用しない時 */
+  #define	    No_Option		0		/* オプションを使用しない時 */
+  #define	    No_Gouraud		0		/* グーローシェーディングを使用しない時 */
+  #define	    No_Palet	        0		/* カラーパレットの指定がいらない時 */
+! #define	    GouraudRAM		(0x00080000 - (32*8))	/* 光源の影響用のグーローバッファ */
+  
+  typedef struct {
+!     VECTOR	 norm ;			/* 法線ベクトル */
+      Uint16	 Vertices[4] ;		/* ポリゴンを構成する頂点番号 */
+  } POLYGON ;
+  
+***************
+*** 214,220 ****
+      Uint16	 atrb ;			/* アトリビュートデータ(表示モード) */
+      Uint16	 colno ;		/* カラーナンバー */
+      Uint16	 gstb ;			/* グーローシェーディングテーブル */
+!     Uint16	 dir ; 			/* テクスチャの反転とファンクションナンバー */
+  } ATTR ;
+  
+  typedef struct spratr{
+--- 239,245 ----
+      Uint16	 atrb ;			/* アトリビュートデータ(表示モード) */
+      Uint16	 colno ;		/* カラーナンバー */
+      Uint16	 gstb ;			/* グーローシェーディングテーブル */
+!     Uint16	 dir ;			/* テクスチャの反転とファンクションナンバー */
+  } ATTR ;
+  
+  typedef struct spratr{
+***************
+*** 233,238 ****
+--- 258,365 ----
+      ATTR	*attbl ;		/* ポリゴンのアトリビュートテーブル */
+  } PDATA ;
+  
++ /* SGL Ver3.0 Add */
++ typedef struct {
++     POINT	*pntbl ;		/* 頂点の位置データテーブル */
++     Uint32	 nbPoint ;		/* 頂点の数 */
++     POLYGON	*pltbl ;		/* ポリゴン定義テーブル */
++     Uint32	 nbPolygon ;		/* ポリゴンの数 */
++     ATTR	*attbl ;		/* ポリゴンのアトリビュートテーブル */
++     VECTOR	*vntbl;
++ } XPDATA ;
++ /* */
++ 
++ #ifdef ST_VE
++ 
++ typedef struct {
++     Uint16	 pmod ;			/* スプライト表示モード */
++     Uint16	 colno ;		/* カラーナンバー */
++     Uint16	 CGadr ;		/* スプライトＣＧアドレス / ８ */
++     Uint16	 HVsize ;		/* Ｈサイズ/８、Ｖサイズ(ハード用) */
++ } gxATTR_VDP1 ;
++ 
++ typedef struct {
++     Uint32	 texcel ;		/* テクスチャセルアドレス */
++     Uint16	 dspmode ;		/* ディスプレイモードフラグ */
++     Uint16	 colno ;		/* カラーデータ */
++     Uint8	 TXA , TYA ;		/* テクスチャポイント */
++     Uint8	 TXB , TYB ;
++     Uint8	 TXC , TYC ;
++     Uint8	 TXD , TYD ;
++ } gxATTR_ENHC ;
++ 
++ typedef struct{
++     Uint16	 texno ;		/* テクスチャ番号 */
++     Uint16	 atrb ;			/* アトリビュートデータ(表示モード) */
++     Uint16	 colno ;		/* カラーナンバー */
++     Uint16	 gstb ;			/* グーローシェーディングテーブル */
++     Uint16	 dir ;			/* テクスチャの反転とファンクションナンバー */
++ } gxSPR_ATTR ;
++ 
++ typedef struct {
++     Uint16	texno ;			/* テクスチャオフセットアドレス */
++     Uint8	attr ;			/* 質感コード、ソーティングモード等 */
++     Uint8	nvface ;		/* 面法線ベクトルナンバー */
++     Uint8	nvnum[4] ;		/* 頂点法線ベクトルナンバー */
++     Uint8	Vertices[4] ;		/* ポリゴンを構成する頂点番号 */
++ } gxPOLYGON ;
++ 
++ typedef struct {
++     POINT	*pntbl ;		/* 頂点の位置データテーブル */
++     Uint16	 nbPoint ;		/* 頂点の数 */
++     Uint16	 nbNVector ;		/* 法線ベクトルの数 */
++     VECTOR	*nvtbl ;		/* 法線ベクトルデータテーブル */
++     gxPOLYGON	*pltbl ;		/* ポリゴン定義テーブル */
++     Uint32	 nbPolygon ;		/* ポリゴンの数 */
++     gxATTR_VDP1	*attbl ;		/* ポリゴンのアトリビュートテーブル */
++ } gxPDATA ;
++ 
++ typedef struct {
++     Uint32	 texadr ;		/* テクスチャデータテーブル */
++     Uint8	 BD ;			/* 各頂点の輝度 */
++     Uint8	 BC ;
++     Uint8	 BB ;
++     Uint8	 BA ;
++     Sint16	 XA ;			/* 各頂点の位置 */
++     Sint16	 YA ;
++     Sint16	 XB ;
++     Sint16	 YB ;
++     Sint16	 XC ;
++     Sint16	 YC ;
++     Sint16	 XD ;
++     Sint16	 YD ;
++     Uint16	 ZA ;			/* 各頂点のＺ値 */
++     Uint16	 ZB ;
++     Uint16	 ZC ;
++     Uint16	 ZD ;
++     Uint16	 winno ;		/* ウィンドウナンバー */
++     Uint16	 ZF ;			/* 代表Ｚ値 */
++ } gxDIRECT ;
++ 
++ #define		winEXn		0	/* エンハンサ側 手前(near) */
++ #define		winEXf		1	/* エンハンサ側 奥(far) */
++ #define		winSTn		2	/* ＳＴ-Ｖ側 手前(near) */
++ #define		winSTf		3	/* ＳＴ-Ｖ側 奥(far) */
++ 
++ #define	    gxPOLYTBL(f,s,t,m,n)	{((f)<<16)|((t)<<20)|((s)<<12)|((m)<<8)|(n)
++ #define	    gxNormal(a,b,c,d)		(a,b,c,d)
++ #define	    gxVertices(a,b,c,d)		(a,b,c,d)}
++ #define	    gxATTRVDP1(p,c,a,s)		{p,c,a,s}
++ #define	    gxATTRENHC(cx,cy,sx,sy,cm,cl,an,hf,ms,sp,te,fm)	{\
++ 					((cx)<<4)|((cy)<<14)|(sx)|((sy)<<10)|(cm),\
++ 					((ms)>>5)|(((sp)^SPdis)>>4)|((te)<<1)|\
++ 					((an)<<8)|((hf)<<6)|(fm),(cl)
++ #endif
++ 
++ typedef struct obj{
++     PDATA	*pat ;			/* ポリゴンモデルデータテーブル */
++     FIXED	 pos[XYZ] ;		/* 相対位置データ */
++     ANGLE	 ang[XYZ] ;		/* 回転角データ */
++     FIXED	 scl[XYZ] ;		/* スケーリングデータ */
++     struct obj	*child ;		/* 子オブジェクトデータ */
++     struct obj	*sibling ;		/* 兄弟オブジェクトデータ */
++ } OBJECT ;
++ 
+  typedef struct {
+      Uint16	 Hsize ;		/* スプライトのＨサイズ */
+      Uint16	 Vsize ;		/* スプライトのＶサイズ */
+***************
+*** 271,284 ****
+      Uint16	COLR ;			/* カラーデータ */
+      Uint16	SRCA ;			/* ＣＧアドレス */
+      Uint16	SIZE ;			/* キャラクタサイズ */
+!     Uint16	  XA ;			/* 表示位置 Ａ */
+!     Uint16	  YA ;
+!     Uint16	  XB ;			/* 表示位置 Ｂ */
+!     Uint16	  YB ;
+!     Uint16	  XC ;			/* 表示位置 Ｃ */
+!     Uint16	  YC ;
+!     Uint16	  XD ;			/* 表示位置 Ｄ */
+!     Uint16	  YD ;
+      Uint16	GRDA ;			/* グーローシェーディングテーブル */
+      Uint16	DMMY ;			/* サイズ合わせ用 ダミーデータ */
+  } SPRITE ;
+--- 398,411 ----
+      Uint16	COLR ;			/* カラーデータ */
+      Uint16	SRCA ;			/* ＣＧアドレス */
+      Uint16	SIZE ;			/* キャラクタサイズ */
+!     Sint16	  XA ;			/* 表示位置 Ａ */
+!     Sint16	  YA ;
+!     Sint16	  XB ;			/* 表示位置 Ｂ */
+!     Sint16	  YB ;
+!     Sint16	  XC ;			/* 表示位置 Ｃ */
+!     Sint16	  YC ;
+!     Sint16	  XD ;			/* 表示位置 Ｄ */
+!     Sint16	  YD ;
+      Uint16	GRDA ;			/* グーローシェーディングテーブル */
+      Uint16	DMMY ;			/* サイズ合わせ用 ダミーデータ */
+  } SPRITE ;
+***************
+*** 344,349 ****
+--- 471,481 ----
+  #define	    VDP2_COLRAM    		0x25f00000
+  
+  #define	    CG_Size		(8*8)		/* １セルの大きさ(CG) */
++ #define     CG16Size            (8*8/2)         /* １セルの大きさ(CG 16Colors) */
++ #define     CG256Size           (8*8)           /* １セルの大きさ(CG 256Colors) */
++ #define     CG2048Size          (8*8*2)         /* １セルの大きさ(CG 2048Colors) */
++ #define     CG32KSize           (8*8*2)         /* １セルの大きさ(CG 32KColors) */
++ 
+  typedef     Uint16		CELL ;		/* １セルの大きさ(Pattern name) */
+  #define	    Line		64		/* １ラインの大きさ */
+  #define	    Page		(64*Line)	/* １ページの大きさ */
+***************
+*** 382,387 ****
+--- 514,524 ----
+      Sint32	DKA ;		/* 係数テーブル水平方向アドレス増分 ＫＡ */
+  } ROTSCROLL ;
+  
++ /* slExtSignal */
++ #define		EXLTEN			0x0200		/* External latch enable */
++ #define		EXSYEN			0x0100		/* External synch enable */
++ #define		DASEL			0x0002		/* Display area select */
++ #define		EXBGEN			0x0001		/* External background screen enable */
+  
+  /* slColRAMMode */
+  #define		CRM16_1024		0
+***************
+*** 515,520 ****
+--- 652,659 ----
+  #define		scnNBG2			3
+  #define		scnNBG3			2
+  #define		scnRBG0			5
++ #define		scnRBGA			5
++ #define		scnRBGB			4
+  #define		scnSPR			4
+  #define		scnROT			7
+  #define		scnCCAL			6
+***************
+*** 660,689 ****
+  #define		SoundRAM		0x25a00000
+  
+  /*------[ System Work Assignments ]---------------------------------------*/
+! 
+! /*
+!     extern const Uint16  MaxVertices ;
+!     extern const Uint16  MaxPolygons ;
+!     extern const void*   SortList ;	
+!     extern const void*   TransList ;
+!     extern const void*   Zbuffer ;	
+!     extern const void*   SlSpriteBuf ;	
+!     extern const void*   MsSpriteBuf ;	
+!     extern const Uint16  SpriteBufSize ;
+!     extern const void*   Pbuffer ;	
+!     extern const void*   CLOfstBuf ;	
+!     extern const void*   CommandBuf ;	
+! */
+! 
+! 
+  /*------[ Prottype ]------------------------------------------------------*/
+  
+  /*  Int library	*/
+  
+      extern  void  BlankIn(void) ;
+      extern  void  BlankOut(void) ;
+! 
+! 
+  /*  Math library	*/
+  
+      extern  FIXED  slSin(ANGLE) ;
+--- 799,837 ----
+  #define		SoundRAM		0x25a00000
+  
+  /*------[ System Work Assignments ]---------------------------------------*/
+! 
+!     extern const void*   MasterStack ;	/* Stack area End */
+!     extern const Uint16  MaxVertices ;	/* Calculatable vertice numbers */
+!     extern const Uint16  MaxPolygons ;	/* Calculatable polygon numbers */
+!     extern const Uint16  EventSize ;	/* sizeof(EVENT) */
+!     extern const Uint16  WorkSize ;	/* sizeof(WORK) */
+!     extern const Uint16  MaxEvents ;	/* Useful Event count */
+!     extern const Uint16  MaxWorks ;	/* Useful Work count */
+!     extern const void*   SortList ;	/* SCU D.M.A. Table */
+!     extern const Uint32  SortListSize ;	/* Sprite transfer request table size */
+!     extern const void*   TransList ;	/* SCU D.M.A. Table */
+!     extern const void*   Zbuffer ;	/* (128 + 128 + 256) * 4 Bytes fix */
+!     extern const void*   SpriteBuf ;	/* Sprite control data buffer */
+!     extern const Uint32  SpriteBufSize ; /* Sprite control data buffer size */
+!     extern const void*   Pbuffer ;	/* Point calculate buffer */
+!     extern const void*   CLOfstBuf ;	/* 32 * 32 Bytes fix */
+!     extern const void*   CommandBuf ;	/* Command for slave CPU buffer */
+!     extern const void*   PCM_Work ;	/* PCM data buffer */
+!     extern const Uint32  PCM_WkSize ;	/* PCM data buffer size */
+! 
+!     extern EVENT  EventBuf[] ;		/* buffer for Event use */
+!     extern WORK   WorkBuf[] ;		/* buffer for Work use */
+!     extern EVENT* RemainEvent[] ;	/* Remain Event address buffer */
+!     extern WORK*  RemainWork[] ;	/* Remain Work address buffer */
+! 
+  /*------[ Prottype ]------------------------------------------------------*/
+  
+  /*  Int library	*/
+  
+      extern  void  BlankIn(void) ;
+      extern  void  BlankOut(void) ;
+! 
+! 
+  /*  Math library	*/
+  
+      extern  FIXED  slSin(ANGLE) ;
+***************
+*** 696,715 ****
+--- 844,874 ----
+      extern  FIXED  slDivFX(FIXED , FIXED) ;
+      extern  FIXED  slInnerProduct(VECTOR vct1 , VECTOR vct2) ;
+      extern  FIXED  slCalcPoint(FIXED , FIXED , FIXED , FIXED ans[XYZ]) ;
++     extern  FIXED  slCalcVector(VECTOR vct , VECTOR ans) ;
+      extern  FIXED  slRandom(void) ;
+      extern  void   slNormalVector(VECTOR , VECTOR , VECTOR , VECTOR) ;
++     extern  void   slRevNormalVector(VECTOR , VECTOR , VECTOR , VECTOR) ;
+  
+      extern  void   slInitMatrix(void) ;
+      extern  void   slUnitMatrix(MATRIX) ;
+      extern  Bool   slPushMatrix(void) ;
+      extern  Bool   slPopMatrix(void) ;
+      extern  Bool   slPushUnitMatrix(void) ;
++     extern  Bool   slIncMatrixPtr(void) ;
++     extern  Bool   slDecMatrixPtr(void) ;
+      extern  void   slLoadMatrix(MATRIX) ;
+      extern  void   slGetMatrix(MATRIX) ;
++     extern  Bool   slCopyMatrix() ;
++     extern  void   slGetTranslate(FIXED*) ;
++     extern  void   slLoadTranslate(FIXED , FIXED , FIXED) ;
++     extern  void   slRegistMatrix(MATRIX) ;
+      extern  void   slInversMatrix(void) ;
+      extern  void   slTransposeMatrix(void) ;
++     extern  void   slUnitAngle(MATRIX) ;
++     extern  void   slUnitTranslate(MATRIX) ;
+  
+      extern  void   slTranslate(FIXED , FIXED , FIXED) ;
++     extern  void   slRegistTranslate(FIXED , FIXED , FIXED) ;
+      extern  void   slMultiMatrix(MATRIX) ;
+      extern  void   slScale(FIXED , FIXED , FIXED) ;
+      extern  void   slRotX(ANGLE) ;
+***************
+*** 722,732 ****
+--- 881,896 ----
+      extern  void   slLookAt(FIXED *camera , FIXED *target , ANGLE) ;
+      extern  FIXED  slBallCollision(FIXED *pos1 , FIXED size1 , FIXED *pos2 , FIXED size2) ;
+      extern  FIXED  slCheckOnScreen(FIXED *pos , FIXED size) ;
++     extern  FIXED  slCheckOnScreen0(FIXED size) ;
+      extern  void   slBezier(VECTOR p1,VECTOR p2,VECTOR p3,VECTOR p4,FIXED time,VECTOR ans) ;
++     extern  FIXED  slConvert3Dto2D( FIXED pos[XYZ], Sint32 ans[XY]) ;
++     extern  FIXED  slConvert3Dto2DFX( FIXED pos[XYZ], FIXED ans[XY]) ;
+  
+  /*  Text display library	*/
+  
+      extern void   *slLocate(Uint16 , Uint16) ;
++     extern void    slCurScrn(Uint16) ;
++     extern void    slCurColor(Uint16) ;
+      extern void    slDispHex(Uint32 , void *) ;
+      extern void    slPrintHex(Uint32 , void *) ;
+      extern void    slPrintMatrix(MATRIX , void *) ;
+***************
+*** 740,763 ****
+      extern void    set_vbar(Uint16) ;
+      extern void    reset_vbar(Uint16) ;
+      extern void    slExtendScroll(Uint8 * , void *) ;
+  
+  /*  Sprite library	*/
+  
+!     extern  void   slPutPolygon(PDATA *) ;
+!     extern  void   slPutPolygonS(PDATA *) ;
+!     extern  void   slDispPolygon(PDATA *, Uint16) ;
+!     extern  void   slPutSprite(FIXED * , SPR_ATTR *attr , ANGLE) ;
+!     extern  void   slDispSprite(FIXED * , SPR_ATTR *attr , ANGLE) ;
+      extern  void   slPerspective(ANGLE) ;
+!     extern  void   slWindow(Sint16 , Sint16 , Sint16 , Sint16 , Sint16 , Sint16 , Sint16) ;
+      extern  void   slLight(VECTOR) ;
+!     extern  void   slSetSprite(SPRITE * , FIXED) ;
+      extern  void   slZdspLevel(Uint16) ;
+  
+  /*  Scroll library	*/
+  
+      extern  void    slTVOn(void) ;
+      extern  void    slTVOff(void) ;
+      extern  void    slColRAMMode(Uint16) ;
+      extern  void    slVRAMMode(Uint16) ;
+      extern  void    slScrCycleSet(Uint32 , Uint32 , Uint32 , Uint32) ;
+--- 904,950 ----
+      extern void    set_vbar(Uint16) ;
+      extern void    reset_vbar(Uint16) ;
+      extern void    slExtendScroll(Uint8 * , void *) ;
++     extern void   *slLocateNbg(Uint16 , Uint16 , Uint16) ;
++ #define		slLocateNbg0(x,y)	slLocateNbg(x,y,scnNBG0)
++ #define		slLocateNbg1(x,y)	slLocateNbg(x,y,scnNBG1)
++ #define		slLocateNbg2(x,y)	slLocateNbg(x,y,scnNBG2)
++ #define		slLocateNbg3(x,y)	slLocateNbg(x,y,scnNBG3)
++     extern void   *slLocatePage(Uint16 , Uint16 , Uint16) ;
+  
+  /*  Sprite library	*/
+  
+!     extern  Bool   slPutPolygon(PDATA *) ;
+!     extern  Bool   slPutPolygonS(PDATA *) ;
+!     extern  Bool   slDispPolygon(PDATA * , Uint16) ;
+!     extern  Bool   slPutSprite(FIXED * , SPR_ATTR *attr , ANGLE) ;
+!     extern  Bool   slDispSprite(FIXED * , SPR_ATTR *attr , ANGLE) ;
+!     extern  Bool   slDispSpriteHV(FIXED * , SPR_ATTR *attr , ANGLE) ;
+!     extern  Bool   slDispSpriteSZ(FIXED * , SPR_ATTR *attr , ANGLE) ;
+!     extern  Bool   slDispSprite4P(FIXED * , FIXED , SPR_ATTR *attr) ;
+      extern  void   slPerspective(ANGLE) ;
+!     extern  void   slSetScreenDist(FIXED) ;
+!     extern  Bool   slWindow(Sint16 , Sint16 , Sint16 , Sint16 , Sint16 , Sint16 , Sint16) ;
+      extern  void   slLight(VECTOR) ;
+!     extern  Bool   slSetSprite(SPRITE * , FIXED) ;
+      extern  void   slZdspLevel(Uint16) ;
++     extern  Bool   slPutObject(OBJECT *) ;
++     extern  void   slCurWindow(Uint8) ;
++     enum {
++ 	winFar ,		/* Far side Window */
++ 	winNear			/* Near side Window */
++     } ;
++     extern  Uint8  slSprWinNum() ;
++     extern  void   slFrameClipSize(Sint16 , Sint16 );
++     extern  void   slSetScreenDist(FIXED);
++     extern  void   slGetFrameData(void * , Uint16 , Uint16 );
+  
+  /*  Scroll library	*/
+  
+      extern  void    slTVOn(void) ;
+      extern  void    slTVOff(void) ;
++     extern  Uint16  slGetHCount(void) ;
++     extern  Uint16  slGetVCount(void) ;
++     extern  void    slExtSignal(Uint16 , Uint16) ;
+      extern  void    slColRAMMode(Uint16) ;
+      extern  void    slVRAMMode(Uint16) ;
+      extern  void    slScrCycleSet(Uint32 , Uint32 , Uint32 , Uint32) ;
+***************
+*** 774,780 ****
+      extern  void    slColorCalc(Uint16) ;
+      extern  void    slColorCalcMode(Uint16) ;
+      extern  void    slColorCalcOn(Uint16) ;
+!     extern  void    slColRate(Uint16 , Uint16) ;
+  #define		slColRateNbg0(rate)	slColRate(scnNBG0 , rate)
+  #define		slColRateNbg1(rate)	slColRate(scnNBG1 , rate)
+  #define		slColRateNbg2(rate)	slColRate(scnNBG2 , rate)
+--- 961,967 ----
+      extern  void    slColorCalc(Uint16) ;
+      extern  void    slColorCalcMode(Uint16) ;
+      extern  void    slColorCalcOn(Uint16) ;
+!     extern  void    slColRate(Sint16 , Uint16) ;
+  #define		slColRateNbg0(rate)	slColRate(scnNBG0 , rate)
+  #define		slColRateNbg1(rate)	slColRate(scnNBG1 , rate)
+  #define		slColRateNbg2(rate)	slColRate(scnNBG2 , rate)
+***************
+*** 791,796 ****
+--- 978,985 ----
+  #define		slColRateSpr6(rate)	slColRate(scnSPR6 , rate)
+  #define		slColRateSpr7(rate)	slColRate(scnSPR7 , rate)
+      extern  void    slColOffsetOn(Uint16) ;
++     extern  void    slColOffsetOff(Uint16) ;
++     extern  void    slColOffsetAUse(Uint16) ;
+      extern  void    slColOffsetBUse(Uint16) ;
+      extern  void    slColOffsetScrn(Uint16 , Uint16) ;
+      extern  void    slColOffsetA(Sint16 r,Sint16 g,Sint16 b) ;
+***************
+*** 854,859 ****
+--- 1043,1051 ----
+      extern  void    slZoomNbg0(FIXED x,FIXED y) ;
+      extern  void    slZoomNbg1(FIXED x,FIXED y) ;
+      extern  void    slZoomR(FIXED x,FIXED y) ;
++     extern  void    slScrScaleNbg0(FIXED x,FIXED y) ;
++     extern  void    slScrScaleNbg1(FIXED x,FIXED y) ;
++     extern  void    slScrScaleR(FIXED x,FIXED y) ;
+      extern  void    slZoomMode(Uint16 , Uint16) ;
+  #define		slZoomModeNbg0(mode)	slZoomMode(scnNBG0 , mode)
+  #define		slZoomModeNbg1(mode)	slZoomMode(scnNBG1 , mode)
+***************
+*** 863,869 ****
+      extern  void    slSpriteCCalcNum(Uint16) ;
+      extern  void    slSpriteColMode(Uint16) ;
+      extern  void    slSpriteWinMode(Uint16) ;
+! 	extern  void    slSpriteType(Uint16) ;
+      extern  void    slScrMosaicOn(Uint16) ;
+      extern  void    slScrMosSize(Uint16 , Uint16) ;
+      extern  void    slScrWindow0(Uint16 , Uint16 , Uint16 , Uint16) ;
+--- 1055,1061 ----
+      extern  void    slSpriteCCalcNum(Uint16) ;
+      extern  void    slSpriteColMode(Uint16) ;
+      extern  void    slSpriteWinMode(Uint16) ;
+!     extern  void    slSpriteType(Uint16) ;
+      extern  void    slScrMosaicOn(Uint16) ;
+      extern  void    slScrMosSize(Uint16 , Uint16) ;
+      extern  void    slScrWindow0(Uint16 , Uint16 , Uint16 , Uint16) ;
+***************
+*** 939,948 ****
+  #define		slSpecialCCalcBitBMN0(flag)	slSpecialCCalcBitN01(scnNBG0 , flag)
+  #define		slSpecialCCalcBitBMN1(flag)	slSpecialCCalcBitN01(scnNBG1 , flag)
+  #define		slSpecialCCalcBitBMR0(flag)	slSpecialCCalcBitRbg0(flag)
+!     extern  void    setASC_1to8(Uint8 * , Uint16 * , Uint32 , Uint8) ;
+!     extern  void    setASC_4to8(Uint8 * , Uint16 * , Uint32 , Uint8) ;
+      extern  Uint8   SGL_ASCII_CG[] ;
+  
+  /*  Peripheral control */
+  
+  #define	SMPC_MASK_STE		0x80	/* ＳＥＴＴＩＭＥ実行済マスク		*/
+--- 1131,1220 ----
+  #define		slSpecialCCalcBitBMN0(flag)	slSpecialCCalcBitN01(scnNBG0 , flag)
+  #define		slSpecialCCalcBitBMN1(flag)	slSpecialCCalcBitN01(scnNBG1 , flag)
+  #define		slSpecialCCalcBitBMR0(flag)	slSpecialCCalcBitRbg0(flag)
+!     extern  void    setASC_1to8(Uint8 * , void * , Uint32 , Uint8) ;
+!     extern  void    setASC_4to8(Uint8 * , void * , Uint32 , Uint8) ;
+!     extern  void    setASC_1to4(Uint8 * , void * , Uint32 , Uint8 , Sint32) ;
+      extern  Uint8   SGL_ASCII_CG[] ;
+  
++ /*  BitMap graphics library */
++ 
++     extern  Bool    slInitBitMap(Uint16 , Uint16 , void*) ;
++ #define         slInitBitMapNbg0(sz,adr)        slInitBitMap(bmNBG0,sz,adr)
++ #define         slInitBitMapNbg1(sz,adr)        slInitBitMap(bmNBG1,sz,adr)
++ #define         slInitBitMapRbg0(sz,adr)        slInitBitMap(bmRBG0,sz,adr)
++     extern  void    slBitMapBase(Sint16 , Sint16) ;
++     extern  Sint8  *slLocateBitMap(Sint16 , Sint16) ;
++     extern  void    slClearBitMap(Sint8) ;
++     extern  Bool    slBMPset(Sint16 , Sint16 , Sint8) ;
++     extern  Sint8   slBMPoint(Sint16 , Sint16) ;
++     extern  void    slBMCircle(Sint16 , Sint16 , Sint16 , Sint8) ;
++     extern  Bool    slBMLine(Sint16 , Sint16 , Sint16 , Sint16 , Sint8) ;
++     extern  Bool    slBMBox(Sint16 , Sint16 , Sint16 , Sint16 , Sint8) ;
++     extern  Bool    slBMBoxFill(Sint16 , Sint16 , Sint16 , Sint16 , Sint8) ;
++     extern  Bool    slBMGet(Sint16 , Sint16 , Sint16 , Sint16 , Sint8*) ;
++     extern  Bool    slBMPut(Sint16 , Sint16 , Sint16 , Sint16 , Sint8*) ;
++     extern  Bool    slBMSprPut(Sint16 , Sint16 , Sint16 , Sint16 , Sint8*) ;
++ 
++ #ifdef ST_VE
++ /*  Graphics enhancer control */
++ 
++     extern  Bool gxInitEnhancer(Uint16 , Uint16 , Uint16) ;
++ #define	    EGX_IMMPAL		0	/* パレット直接 */
++ #define	    EGX_PAL15		1	/* パレット間接 １５ビットカラー */
++ #define	    EGX_PAL24		2	/* パレット間接 ２４ビットカラー */
++ #define	    EGX_PAL_RGB15	3	/* パレット、ＲＧＢ混在 １５ビットカラー */
++ #define	    EGX_PAL_RGB24	4	/* パレット、ＲＧＢ混在 ２４ビットカラー */
++ 
++ #define	    USE_EXVDP1		0
++ #define	    USE_DSPDMA		1
++ 
++     extern  void gxFocus(FIXED , FIXED) ;
++     extern  void gxCalcMode(Uint16) ;
++ #define	    CALCNVECTOR		1	/* 法線再計算 */
++ #define	    USENVECTOR		0	/* 法線使用 */
++ 
++ #define	    NOSHADE		2	/* シェーディングなし */
++ #define	    FLAT		4	/* フラットシェーディング */
++ #define	    GOURAUD		8	/* グーローシェーディング */
++ 
++     extern  void gxSetMaterial(Uint16 , Uint16 , Uint16 , Uint16 , Uint16) ;
++ 
++ #define	    EFUNC_LoadTrans	0x0c0c0c0c
++ #define	    EFUNC_FlashMatrix	0x10101010
++ #define	    EFUNC_BaseMatrix	0x11111111
++ #define	    EFUNC_PushMatrix	0x12121212
++ #define	    EFUNC_PopMatrix	0x13131313
++ #define	    EFUNE_Translate	0x14141414
++ #define	    EFUNE_Scale		0x15151515
++ #define	    EFUNE_RotX		0x16161616
++ #define	    EFUNE_RotY		0x17171717
++ #define	    EFUNE_RotZ		0x18181818
++ #define	    EFUNE_MultiMatrix	0x19191919
++ #define	    EFUNC_RotLight	0x1a1a1a1a
++ 
++     extern  void gxFuncOut(Uint32) ;
++     extern  void gxFuncOut2(Uint32 , Uint32) ;
++     extern  void gxFuncOut3(Uint32 , Uint32 , Uint32 , Uint32) ;
++ #define	    gxFlashMatrix()	gxFuncOut(EFUNC_FlashMatrix)
++ #define	    gxBaseMatrix()	gxFuncOut(EFUNC_BaseMatrix)
++ #define	    gxPushMatrix()	gxFuncOut(EFUNC_PushMatrix)
++ #define	    gxPopMatrix()	gxFuncOut(EFUNC_PopMatrix)
++ #define	    gxRotLight()	gxFuncOut(EFUNC_RotLight)
++ 
++ #define	    gxLoadTrans(x,y,z)	gxFuncOut3(EFUNC_LoadTrans , x , y , z)
++ #define	    gxTranslate(x,y,z)	gxFuncOut3(EFUNC_Translate , x , y , z)
++ #define	    gxScale(x,y,z)	gxFuncOut3(EFUNC_Scale , x , y , z)
++ #define	    gxRotX(ax)		gxFuncOut2(EFUNC_RotX , ax)
++ #define	    gxRotY(ay)		gxFuncOut2(EFUNC_RotY , ay)
++ #define	    gxRotZ(az)		gxFuncOut2(EFUNC_RotZ , az)
++ 
++     extern  void gxMatrixOut(Uint32 , MATRIX) ;
++ #define	    gxLoadMatrix(mtrx)	gxMatrixOut(EFUNC_LoadMatrix , mtrx)
++ #define	    gxMultiMatrix(mtrx)	gxMatrixOut(EFUNC_MultiMatrix , mtrx)
++ 
++     extern  void gxPutPolygon(gxPDATA*) ;
++ #endif
++ 
+  /*  Peripheral control */
+  
+  #define	SMPC_MASK_STE		0x80	/* ＳＥＴＴＩＭＥ実行済マスク		*/
+***************
+*** 971,976 ****
+--- 1243,1249 ----
+  #define	PER_ID_StnLacing	0x13	/* サターンレーシングコントローラー	*/
+  #define	PER_ID_StnAnalog	0x15	/* サターンアナログジョイスティック	*/
+  #define	PER_ID_StnMouse		0x23	/* サターンマウス			*/
++ #define	PER_ID_StnShooting	0x25	/* サターンシューティングコントローラー */
+  #define	PER_ID_StnKeyBoard	0x34	/* サターンキーボード			*/
+  #define	PER_ID_MD3BtnPad	0xe1	/* メガドライブ３ボタンパッド		*/
+  #define	PER_ID_MD6BtnPad	0xe2	/* メガドライブ６ボタンパッド		*/
+***************
+*** 1235,1245 ****
+  extern	PerDigital*	Smpc_Peripheral;
+  extern	Uint8		Per_Connect1, Per_Connect2;
+  
+  #define	slMasterOn()			slRequestCommand(SMPC_MSHON , SMPC_NO_WAIT)
+  #define	slSlaveOn()			slRequestCommand(SMPC_SSHON , SMPC_NO_WAIT)
+  #define	slSlaveOff()			slRequestCommand(SMPC_SSHOFF, SMPC_NO_WAIT)
+! #define	slSoundOn()			slRequestCommand(SMPC_SNDON , SMPC_NO_WAIT)
+! #define	slSoundOff()			slRequestCommand(SMPC_SNDOFF, SMPC_NO_WAIT)
+  #define	slCDOn()			slRequestCommand(SMPC_CDON  , SMPC_NO_WAIT)
+  #define	slCDOff()			slRequestCommand(SMPC_CDOFF , SMPC_NO_WAIT)
+  #define	slSystemReset()			slRequestCommand(SMPC_SYSRES, SMPC_NO_WAIT)
+--- 1508,1553 ----
+  extern	PerDigital*	Smpc_Peripheral;
+  extern	Uint8		Per_Connect1, Per_Connect2;
+  
++ #ifdef  TITAN
++ typedef struct {                        /* System Switch */
++         Uint8   dummy ;
++         Uint8   data ;
++         Uint8   push ;
++         Uint8   pull ;
++ } SysSwitch ;
++ 
++     extern  PerDigital  PerDigitalBuf[4] ;
++     extern  SysSwitch   SystemSwitchBuf ;
++ 
++ #define     _ServiceSw          0x80    /* 基盤上のスイッチとＪＡＭＭＡ入力の ＯＲしたもの */
++ #define     _TestSw             0x40
++ #define     _ServiceSwBD        0x20    /* 基盤上のタクトスイッチ */
++ #define     _TestSwBD           0x10
++ #define     _ServiceSwJM        0x08    /* ＪＡＭＭＡコネクタからのスイッチ入力 */
++ #define     _TestSwJM           0x04
++ #define     _Coin2              0x02
++ #define     _Coin1              0x01
++ #endif
++ 
++ #ifdef  ST_V
++     extern  PerDigital	PerDigitalBuf[4] ;
++ #endif
++ #ifdef  ST_VE
++     extern  PerDigital	PerDigitalBuf[4] ;
++ #endif
++ 
+  #define	slMasterOn()			slRequestCommand(SMPC_MSHON , SMPC_NO_WAIT)
+  #define	slSlaveOn()			slRequestCommand(SMPC_SSHON , SMPC_NO_WAIT)
+  #define	slSlaveOff()			slRequestCommand(SMPC_SSHOFF, SMPC_NO_WAIT)
+! 
+! #ifdef TITAN
+!     extern void slSoundOn() ;
+!     extern void slSoundOff() ;
+! #else
+! #define	slSoundOn()		slRequestCommand(SMPC_SNDON , SMPC_NO_WAIT)
+! #define	slSoundOff()		slRequestCommand(SMPC_SNDOFF, SMPC_NO_WAIT)
+! #endif
+! 
+  #define	slCDOn()			slRequestCommand(SMPC_CDON  , SMPC_NO_WAIT)
+  #define	slCDOff()			slRequestCommand(SMPC_CDOFF , SMPC_NO_WAIT)
+  #define	slSystemReset()			slRequestCommand(SMPC_SYSRES, SMPC_NO_WAIT)
+***************
+*** 1289,1299 ****
+      extern void    slSlaveFunc(void (*func)() , void *) ;
+  
+  /*  System library */
+!     extern  void   slInitSystem(Uint16 , TEXTURE * , Uint16) ;
+      extern  void   slSynch(void) ;
+      extern  void   slInitSynch(void) ;
+      extern  Bool   slTransferEntry(void * , void * , Uint16) ;
+      extern  void   slIntFunction(void (*func)()) ;
+      extern  void   SetCDFunc(void (*func)()) ;
+      extern  void   slSetTrayCheck(Uint8) ;
+      extern  void   slCashPurge() ;
+--- 1597,1612 ----
+      extern void    slSlaveFunc(void (*func)() , void *) ;
+  
+  /*  System library */
+!     extern  void   slInitSystem(Uint16 , TEXTURE * , Sint8) ;
+!     extern  void   slSetTVMode(Uint16) ;
+!     extern  void   slSetScrTVMode(Uint16) ;
+!     extern  void   slSetSprTVMode(Uint16) ;
+!     extern  Bool   slDynamicFrame(Uint16) ;
+      extern  void   slSynch(void) ;
+      extern  void   slInitSynch(void) ;
+      extern  Bool   slTransferEntry(void * , void * , Uint16) ;
+      extern  void   slIntFunction(void (*func)()) ;
++     extern  void   slSynchFunction(void (*func)()) ;
+      extern  void   SetCDFunc(void (*func)()) ;
+      extern  void   slSetTrayCheck(Uint8) ;
+      extern  void   slCashPurge() ;
+***************
+*** 1306,1312 ****
+      extern  Bool   slBGMOff() ;
+      extern  Bool   slBGMFade(Uint8 , Uint8) ;
+      extern  Bool   slBGMTempo(Sint16) ;
+! #define	    slBGMStat()		slSequenceStat(0)
+      extern  Bool   slSoundAllOff() ;
+      extern  Bool   slSoundAllPause() ;
+      extern  Bool   slSoundAllCont() ;
+--- 1619,1625 ----
+      extern  Bool   slBGMOff() ;
+      extern  Bool   slBGMFade(Uint8 , Uint8) ;
+      extern  Bool   slBGMTempo(Sint16) ;
+! #define     slBGMStat()    slSequenceStat(0)
+      extern  Bool   slSoundAllOff() ;
+      extern  Bool   slSoundAllPause() ;
+      extern  Bool   slSoundAllCont() ;
+***************
+*** 1325,1345 ****
+      extern  void   slWaitSound(void *) ;
+      extern  Bool   slCDDAOn(Uint8 , Uint8 , Sint8 , Sint8) ;
+      extern  Bool   slCDDAOff() ;
+!     extern  Uint8  slPCMOn(PCM * , void * , Uint32) ;
+      extern  Bool   slPCMOff(PCM *) ;
+      extern  Bool   slPCMParmChange(PCM *) ;
+      extern  Bool   slPCMStat(PCM *) ;
+!     extern  Uint8  slSndPCMNum() ;
+      extern  Uint8  slSndSeqNum() ;
+      extern  Bool   slSndEffect(Uint8) ;
+      extern  Bool   slSndMixChange(Uint8 , Uint8) ;
+      extern  Bool   slSndMixParmChange(Uint8 , Uint8 , Sint8) ;
+      extern  Sint8  slSoundRequest(const char*,...) ;
+  
+!     extern  Uint8  sddrv_129i[] ;
+!     extern  Uint32 sizeof_129i ;
+  
+  /*------------------------------------------------------------------------*/
+  
+! #endif  /* SL_DEF_H */
+! 
+\ No newline at end of file
+--- 1638,1675 ----
+      extern  void   slWaitSound(void *) ;
+      extern  Bool   slCDDAOn(Uint8 , Uint8 , Sint8 , Sint8) ;
+      extern  Bool   slCDDAOff() ;
+!     extern  Sint8  slPCMOn(PCM * , void * , Uint32) ;
+      extern  Bool   slPCMOff(PCM *) ;
+      extern  Bool   slPCMParmChange(PCM *) ;
+      extern  Bool   slPCMStat(PCM *) ;
+!     extern  Sint8  slSndPCMNum() ;
+      extern  Uint8  slSndSeqNum() ;
+      extern  Bool   slSndEffect(Uint8) ;
+      extern  Bool   slSndMixChange(Uint8 , Uint8) ;
+      extern  Bool   slSndMixParmChange(Uint8 , Uint8 , Sint8) ;
+      extern  Sint8  slSoundRequest(const char*,...) ;
++     extern  void   slSndFlush() ;
++ 
++ /*  Gouraud library */
++ 
++     typedef Uint16 GOURAUDTBL[4];
++ 
++     extern  void slInitGouraud( GOURAUDTBL *, Uint32, Uint32, Uint8 *);
++     extern  void slPutPolygonX( XPDATA *, FIXED *);
++     extern  void slGouraudTblCopy(void);
++     extern  void slSetGouraudTbl( Uint16 *);
++     extern  void slSetGouraudColor( Uint16 );
++     extern  void slSetAmbient( Uint16);
++ 
++     extern  void slSetFlatColor( Uint16);
++ 
++     extern  void slSetDepthLimit( Uint32, Uint16, Uint16 );
++     extern  void slSetDepthTbl( Uint16 *, Uint16, Uint16 );
+  
+!     extern  void slNearClipFlag( Uint32 );
+!     extern  void slDispPlaneLevel( Sint32 );
+!     extern  void slWindowClipLevel( Sint32 );
+  
+  /*------------------------------------------------------------------------*/
+  
+! #endif
 diff -crB --binary sbl6/segalib/int/int.c sbl6_patch/segalib/int/int.c
 *** sbl6/segalib/int/int.c	1996-02-08 05:23:54.000000000 -0500
 --- sbl6_patch/segalib/int/int.c	2021-12-28 19:46:12.000000000 -0500

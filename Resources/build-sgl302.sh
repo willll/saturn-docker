@@ -41,6 +41,9 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	cp -rv $SATURN_TMP/sgl302/doc/* $1/doc
 	cp -rv $SATURN_TMP/sgl302/sddrv/* $1/sddrv
 
+	# Removed, will come from SBL
+	rm $1/include/sl_def.h
+
 	# Clean the code
 	find $1 -type f -exec sed -i 's/\o32//g' {} \;
 
