@@ -234,6 +234,8 @@ ENV INSTALL_YAUL_SAMPLES=0
 
 ENV SEGASGL=${SATURN_SGL}
 
+WORKDIR "${SATURN_TMP}"
+
 COPY Resources/dl-sgl302.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sgl302.sh
 COPY Resources/build-sgl302.sh $SATURN_TMP
@@ -307,6 +309,7 @@ COPY Resources/yaul/pre.common.mk "$SATURN_TMP/yaul/libyaul/common/"
 COPY Resources/yaul/Makefile "$SATURN_TMP/yaul"
 COPY Resources/yaul/tools/bin2o "$SATURN_TMP/yaul/tools/bin2o/"
 COPY Resources/yaul/tools/make-ip "$SATURN_TMP/yaul/tools/make-ip/"
+COPY Resources/yaul/tools/Makefile "$SATURN_TMP/yaul/tools/Makefile"
 COPY Resources/yaul/common/specs/* "$SATURN_TMP/yaul/libyaul/common/specs/"
 COPY Resources/yaul/common/specs/* "$SATURN_TMP/yaul/libyaul/common/specs/"
 COPY Resources/yaul/common/ldscripts/yaul.x "$SATURN_TMP/yaul/libyaul/common/ldscripts/"
