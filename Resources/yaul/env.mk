@@ -145,6 +145,9 @@ SH_OBJDUMP:= $(YAUL_SH_TOOLCHAIN)/bin/$(YAUL_PROG_SH_PREFIX)-objdump$(EXE_EXT)
 
 SH_CFLAGS_shared:= \
 	-ggdb3 \
+	-flto \
+	-ffunction-sections \
+	-fdata-sections \
 	-pedantic \
 	-s \
 	-ffreestanding \
@@ -197,7 +200,7 @@ SH_CXXFLAGS:= \
 	$(SH_CXXFLAGS_shared)
 
 SH_CFLAGS_shared_release:= -Os -fomit-frame-pointer -fno-unwind-tables -fno-asynchronous-unwind-tables
-SH_CFLAGS_shared_debug:= -Og -DDEBUG
+SH_CFLAGS_shared_debug:= -Og -g -DDEBUG
 
 SH_CFLAGS_release:= $(SH_CFLAGS_shared_release) $(SH_CFLAGS)
 SH_CFLAGS_debug:= $(SH_CFLAGS_shared_debug) $(SH_CFLAGS)
@@ -208,6 +211,7 @@ SH_CXXFLAGS_debug:= $(SH_CFLAGS_shared_debug) $(SH_CXXFLAGS)
 # These include directories are strictly from libyaul, and are meant to be
 # shared amongst the other libraries
 SHARED_INCLUDE_DIRS:= \
+	$(abspath .) \
 	../lib$(MAIN_TARGET)/. \
 	../lib$(MAIN_TARGET)/common \
 	../lib$(MAIN_TARGET)/lib/lib \
@@ -216,6 +220,7 @@ SHARED_INCLUDE_DIRS:= \
 	../lib$(MAIN_TARGET)/scu \
 	../lib$(MAIN_TARGET)/scu/bus/a/cs0/arp \
 	../lib$(MAIN_TARGET)/scu/bus/a/cs0/dram-cart \
+	../lib$(MAIN_TARGET)/scu/bus/a/cs0/flash \
 	../lib$(MAIN_TARGET)/scu/bus/a/cs0/usb-cart \
 	../lib$(MAIN_TARGET)/scu/bus/a/cs2/cd-block \
 	../lib$(MAIN_TARGET)/scu/bus/b/scsp \
@@ -259,7 +264,7 @@ define macro-loop-update-cdb
 	      $${object_file},\
 	      $${build_directory},\
 	      $6,\
-	      $4 $(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir)))); \
+	      $4 $(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) -Ilib$(TARGET)/); \
 	done
 endef
 else
@@ -274,7 +279,7 @@ endif
 define macro-sh-build-object
 	@printf -- "$(V_BEGIN_YELLOW)$(shell v="$@"; printf -- "$${v#$(YAUL_BUILD_ROOT)/}")$(V_END)\n"
 	$(ECHO)mkdir -p $(@D)
-	$(ECHO)$(SH_CC) -MF $(YAUL_BUILD_ROOT)/$(SUB_BUILD)/$1/$*.d -MD $(SH_CFLAGS_$1) \
+	$(ECHO)$(SH_CC) -MT $(@) -MF $(YAUL_BUILD_ROOT)/$(SUB_BUILD)/$1/$*.d -MD $(SH_CFLAGS_$1) \
 		$(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) \
 		-c -o $@ $(abspath $(<))
 	$(ECHO)$(call macro-update-cdb,\
@@ -290,7 +295,7 @@ endef
 define macro-sh-build-c++-object
 	@printf -- "$(V_BEGIN_YELLOW)$(shell v="$@"; printf -- "$${v#$(YAUL_BUILD_ROOT)/}")$(V_END)\n"
 	$(ECHO)mkdir -p $(@D)
-	$(ECHO)$(SH_CXX) -MF $(YAUL_BUILD_ROOT)/$(SUB_BUILD)/$1/$*.d -MD $(SH_CXXFLAGS_$1) \
+	$(ECHO)$(SH_CXX) -MT $(@) -MF $(YAUL_BUILD_ROOT)/$(SUB_BUILD)/$1/$*.d -MD $(SH_CXXFLAGS_$1) \
 		$(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) \
 		-o $@ -c $(abspath $(<))
 	$(ECHO)$(call macro-update-cdb,\

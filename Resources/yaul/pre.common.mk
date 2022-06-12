@@ -139,11 +139,13 @@ SH_CFLAGS= \
 	-Wstrict-aliasing \
 	-Wno-main \
 	-Wno-format \
+	-save-temps=obj \
 	-DHAVE_DEV_CARTRIDGE=$(YAUL_OPTION_DEV_CARTRIDGE) \
 	-DHAVE_GDB_SUPPORT=$(YAUL_OPTION_BUILD_GDB) \
 	-DHAVE_ASSERT_SUPPORT=$(YAUL_OPTION_BUILD_ASSERT)
 
 SH_LDFLAGS= \
+	-Wl,--gc-sections \
 	-Wl,-Map,$(SH_BUILD_PATH)/$(SH_PROGRAM).map
 
 SH_CXXFLAGS= $(SH_CFLAGS)
