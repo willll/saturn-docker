@@ -15,7 +15,10 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 		exit 1
 	fi
 
-	git clone --depth 1 https://github.com/ijacquez/libyaul-examples.git "$SATURN_YAUL/examples"
+	git clone -n https://github.com/ijacquez/libyaul-examples.git "$SATURN_YAUL/examples"
+	pushd "$SATURN_YAUL/examples"
+  	git checkout $YAUL_EXAMPLES_COMMIT_SHA
+  	popd
 
 	cd $SATURN_YAUL/examples
 
