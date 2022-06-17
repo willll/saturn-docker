@@ -45,9 +45,9 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						vdp1-drawing
 						vdp1-interlace
 						vdp1-mic3d
-						vdp1-sega3d
+						vdp1-g3d
 						vdp1-software-blending
-						vdp1-st-niccc
+						#vdp1-st-niccc << Example disabled due to makefile issues
 						vdp1-uv-coords
 						vdp1-zoom-sprite
 						vdp2-24bpp-bitmap
@@ -71,12 +71,13 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 		build $example
 	done
 
-	git clone --depth 1 https://github.com/ijacquez/saturn-compos.git "$SATURN_YAUL/compos"
+	# Disabled compos as they need to be updated to the current YAUL version
+	#git clone --depth 1 https://github.com/ijacquez/saturn-compos.git "$SATURN_YAUL/compos"
 
-	cd "$SATURN_YAUL/compos"
-	echo "BUILDING compos"
-	SILENT=1 make clean
-	SILENT=1 make
+	#cd "$SATURN_YAUL/compos"
+	#echo "BUILDING compos"
+	#SILENT=1 make clean
+	#SILENT=1 make
 
 else
 	echo "$(tput setaf 1)No YAUL examples will be built$(tput sgr 0)"

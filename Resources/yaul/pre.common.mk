@@ -97,7 +97,7 @@ endef
 SH_PROGRAM?= unknown-program
 SH_SRCS?=
 SH_SRCS_NO_LINK?=
-SH_LIBRARIES?= yaul
+SH_LIBRARIES?=
 SH_BUILD_DIR?= build
 IMAGE_DIRECTORY?= cd
 IMAGE_1ST_READ_BIN?= A.BIN
@@ -155,6 +155,11 @@ SH_BUILD_PATH:= $(abspath $(SH_BUILD_DIR))
 
 SH_SPECS:= $(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul.specs \
 					$(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul-main.specs
+
+# if there are any c++ sources, add the c++ specs
+ifneq ($(strip $(SH_SRCS_CXX)),)
+	SH_CXX_SPECS:= $(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul-main-c++.specs
+endif
 
 IP_VERSION?= V1.000
 IP_RELEASE_DATE?= YYYYMMDD
