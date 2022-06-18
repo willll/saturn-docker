@@ -31,7 +31,6 @@
 %rename cc1 old_c11
 *cc1:
 %(old_c11) \
--nostdinc \
 -isystem %:getenv(YAUL_SH_TOOLCHAIN /lib/gcc/%:getenv(YAUL_ARCH_SH_PREFIX /%:getenv(GCC_VERSION  /include))) \
 -m2 \
 -mb \
@@ -47,7 +46,6 @@
 %rename cc1plus old_cc1plus
 *cc1plus:
 %(old_cc1plus) \
--nostdinc++ \
 -fno-exceptions \
 -fno-rtti \
 -fno-unwind-tables \

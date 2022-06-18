@@ -223,9 +223,15 @@ ENV INSTALL_SATURNSDK_SAMPLES=0
 
 ENV INSTALL_JO_ENGINE_LIB=1
 ENV INSTALL_JO_ENGINE_SAMPLES=0
+# Jo Engine commit from 2022.02.17 https://github.com/johannes-fetz/joengine/commit/163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
+ENV JO_ENGINE_COMMIT_SHA=163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 
 ENV INSTALL_YAUL_LIB=1
 ENV INSTALL_YAUL_SAMPLES=0
+# YAUL commit from 2022.06.17 https://github.com/ijacquez/libyaul/commit/3c40b4584e02a7a347164fdddae51bde0eb510e7
+ENV YAUL_COMMIT_SHA=3c40b4584e02a7a347164fdddae51bde0eb510e7
+# YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/89ee933a919b791dab9dd5a69183d97246df2673
+ENV YAUL_EXAMPLES_COMMIT_SHA=89ee933a919b791dab9dd5a69183d97246df2673
 
 
 #
@@ -306,6 +312,7 @@ RUN "$SATURN_TMP/dl-yaul.sh"
 COPY Resources/yaul/.yaul.env "$SATURN_YAUL"
 COPY Resources/yaul/env.mk "$SATURN_TMP/yaul"
 COPY Resources/yaul/pre.common.mk "$SATURN_TMP/yaul/libyaul/common/"
+COPY Resources/yaul/post.common.mk "$SATURN_TMP/yaul/libyaul/common/"
 COPY Resources/yaul/Makefile "$SATURN_TMP/yaul"
 COPY Resources/yaul/tools/bin2o "$SATURN_TMP/yaul/tools/bin2o/"
 COPY Resources/yaul/tools/make-ip "$SATURN_TMP/yaul/tools/make-ip/"

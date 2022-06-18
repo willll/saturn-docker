@@ -15,14 +15,17 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 		exit 1
 	fi
 
-	git clone --depth 1 https://github.com/ijacquez/libyaul-examples.git "$SATURN_YAUL/examples"
+	git clone -n https://github.com/ijacquez/libyaul-examples.git "$SATURN_YAUL/examples"
+	pushd "$SATURN_YAUL/examples"
+  	git checkout $YAUL_EXAMPLES_COMMIT_SHA
+  	popd
 
 	cd $SATURN_YAUL/examples
 
 	EXAMPLES=(
-						#arp-comm << This example is disabled
+						arp-comm
 						bcl
-						#c++
+						c++
 						cd-block
 						cpu-divu
 						cpu-dmac
@@ -31,18 +34,18 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						cpu-wdt
 						dbgio-menu
 						dbgio-usb-cart
-						#dma-queue
+						dma-queue
 						dram-cart
 						#fileserver
-						#gdb
+						gdb
 						scu-dsp
 						#scu-timers << This example is disabled
-						#usb-cart
+						usb-cart
 						vdp1-balls
 						vdp1-drawing
 						vdp1-interlace
 						vdp1-mic3d
-						vdp1-sega3d
+						vdp1-g3d
 						vdp1-software-blending
 						vdp1-st-niccc
 						vdp1-uv-coords
@@ -68,12 +71,13 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 		build $example
 	done
 
-	git clone --depth 1 https://github.com/ijacquez/saturn-compos.git "$SATURN_YAUL/compos"
+	# Disabled compos as they need to be updated to the current YAUL version
+	#git clone --depth 1 https://github.com/ijacquez/saturn-compos.git "$SATURN_YAUL/compos"
 
-	cd "$SATURN_YAUL/compos"
-	echo "BUILDING compos"
-	SILENT=1 make clean
-	SILENT=1 make
+	#cd "$SATURN_YAUL/compos"
+	#echo "BUILDING compos"
+	#SILENT=1 make clean
+	#SILENT=1 make
 
 else
 	echo "$(tput setaf 1)No YAUL examples will be built$(tput sgr 0)"
