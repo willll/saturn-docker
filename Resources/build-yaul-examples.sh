@@ -23,9 +23,9 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 	cd $SATURN_YAUL/examples
 
 	EXAMPLES=(
-						#arp-comm << This example is disabled
+						arp-comm
 						bcl
-						#c++
+						c++
 						cd-block
 						cpu-divu
 						cpu-dmac
@@ -34,20 +34,20 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						cpu-wdt
 						dbgio-menu
 						dbgio-usb-cart
-						#dma-queue
+						dma-queue
 						dram-cart
 						#fileserver
-						#gdb
+						gdb
 						scu-dsp
 						#scu-timers << This example is disabled
-						#usb-cart
+						usb-cart
 						vdp1-balls
 						vdp1-drawing
 						vdp1-interlace
 						vdp1-mic3d
 						vdp1-g3d
 						vdp1-software-blending
-						#vdp1-st-niccc << Example disabled due to makefile issues
+						vdp1-st-niccc
 						vdp1-uv-coords
 						vdp1-zoom-sprite
 						vdp2-24bpp-bitmap

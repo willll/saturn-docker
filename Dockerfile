@@ -228,8 +228,8 @@ ENV JO_ENGINE_COMMIT_SHA=163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 
 ENV INSTALL_YAUL_LIB=1
 ENV INSTALL_YAUL_SAMPLES=0
-# YAUL commit from 2022.06.16 https://github.com/ijacquez/libyaul/commit/3a9e16b7ccde8b809e66c7272ee6905a43cd78d2
-ENV YAUL_COMMIT_SHA=3a9e16b7ccde8b809e66c7272ee6905a43cd78d2
+# YAUL commit from 2022.06.17 https://github.com/ijacquez/libyaul/commit/3c40b4584e02a7a347164fdddae51bde0eb510e7
+ENV YAUL_COMMIT_SHA=3c40b4584e02a7a347164fdddae51bde0eb510e7
 # YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/89ee933a919b791dab9dd5a69183d97246df2673
 ENV YAUL_EXAMPLES_COMMIT_SHA=89ee933a919b791dab9dd5a69183d97246df2673
 
