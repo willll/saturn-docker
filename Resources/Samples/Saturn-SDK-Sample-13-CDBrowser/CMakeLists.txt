@@ -16,8 +16,6 @@ add_executable(CDBrowser.elf ${SOURCES})
 target_include_directories(CDBrowser.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 
-target_compile_options(CDBrowser.elf PUBLIC -g -O0 -Wall -m2 )
-
 target_link_options(CDBrowser.elf PUBLIC
     "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
     "SHELL:-Xlinker --strip-debug"

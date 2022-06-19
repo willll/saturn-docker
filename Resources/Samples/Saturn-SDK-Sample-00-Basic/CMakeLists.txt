@@ -9,8 +9,6 @@ add_compile_definitions(MODEL_S)
 
 add_executable(Basic.elf ${SOURCES})
 
-target_compile_options(Basic.elf  PUBLIC -g -O0 -Wall -m2 -MMD)
-
 target_link_options(Basic.elf PUBLIC
     "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
     "SHELL:-Xlinker --strip-debug"

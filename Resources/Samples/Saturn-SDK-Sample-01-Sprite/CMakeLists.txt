@@ -13,8 +13,6 @@ add_compile_definitions(MODEL_S)
 
 add_executable(Sprite.elf ${SOURCES})
 
-target_compile_options(Sprite.elf  PUBLIC -g -O0 -Wall -m2 -MMD)
-
 target_include_directories(Sprite.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 

@@ -16,8 +16,6 @@ add_executable(TexturedSprite.elf ${SOURCES})
 target_include_directories(TexturedSprite.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 
-target_compile_options(TexturedSprite.elf PUBLIC -g -O0 -Wall -m2 )
-
 target_link_options(TexturedSprite.elf PUBLIC
     "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
