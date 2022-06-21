@@ -160,7 +160,7 @@ TODO
   - [X] demo - gamepad
   - [X] demo - vdp2 plane
   - [X] demo - gouraud shading
-  - [ ] demo - video
+  - [x] demo - video
   - [ ] demo - hardcoded image
   - [X] demo - visual novel
 
@@ -179,7 +179,7 @@ TODO
     - [x] cpu-wdt
     - [x] dbgio-menu
     - [x] dbgio-usb-cart
-    - [c] dma-queue
+    - [x] dma-queue
     - [x] dram-cart
     - [ ] fileserver
     - [x] gdb

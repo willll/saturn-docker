@@ -52,7 +52,7 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 					'demo_-_gamepad'
 					'demo_-_vdp2_plane'
 					'demo_-_gouraud_shading'
-					#'demo_-_video'
+					'demo_-_video'
 					#'demo_-_hardcoded_image'
 					'demo_-_visual_novel'
 						)
