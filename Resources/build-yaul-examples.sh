@@ -38,6 +38,8 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						dram-cart
 						#fileserver
 						gdb
+						mm-stats
+						netlink-template
 						scu-dsp
 						#scu-timers << This example is disabled
 						usb-cart
@@ -53,6 +55,7 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						vdp2-24bpp-bitmap
 						vdp2-2x2-plane
 						vdp2-back-screen
+						vdp2-effect-tunnel
 						vdp2-line-scroll
 						vdp2-nbg0
 						vdp2-normal-bitmap
