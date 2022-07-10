@@ -18,17 +18,22 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	chmod -R 644 $SATURN_TMP/sgl302
 
 	#
+	# Create destination directories
+	#
+	mkdir -p $1/{lib,include,samples/{sample1,sample2},demos,doc,sddrv}
+	
+	if [ $INSTALL_COFF_LIB -eq 1 ]; then
+			mkdir -p $1/lib/coff
+			cp -rv $SATURN_TMP/sgl320/lib/* $1/lib/coff
+	fi
+
+	#
 	# convert coff to ELF
 	#
 	for file in $SATURN_TMP/sgl302/lib/*.{a,o}; do
 		$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
 		 		$file
 	done
-
-	#
-	# Create destination directories
-	#
-	mkdir -p $1/{lib,include,samples/{sample1,sample2},demos,doc,sddrv}
 
 	#
 	# Copy to destination
