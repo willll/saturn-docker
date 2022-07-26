@@ -10,6 +10,7 @@
 
 # * https://github.com/ijacquez/libyaul
 # * https://github.com/ijacquez/libyaul-docker
+# * https://github.com/cyberwarriorx/iapetus
 
 FROM ubuntu:latest as linux
 MAINTAINER willll "XXX@XXX.XXX"
@@ -22,11 +23,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 env TERM=xterm
 
 ENV SATURN_ROOT=/opt/saturn
+
 ENV SATURN_SGL=$SATURN_ROOT/sgl
 ENV SATURN_SBL=$SATURN_ROOT/sbl
 ENV SATURN_CMAKE=$SATURN_ROOT/CMake
 ENV SATURN_JOENGINE=$SATURN_ROOT/joengine
 ENV SATURN_YAUL=$SATURN_ROOT/yaul
+ENV SATURN_IAPETUS=$SATURN_ROOT/iapetus
 ENV SATURN_CD=$SATURN_ROOT/cd_resources
 ENV SATURN_SAMPLES=$SATURN_ROOT/samples
 ENV SATURN_IPMAKER=$SATURN_ROOT/IPMaker
@@ -89,6 +92,8 @@ RUN apt-get update && apt-get install -y \
 	autoconf-archive \
   xutils-dev \
   xorriso \
+  doxygen \
+  ninja-build \
 	--no-install-recommends && \
 	apt autoremove -y && \
 	## Make sure we leave any X11 related library behind
@@ -98,14 +103,16 @@ RUN apt-get update && apt-get install -y \
 
 # Base Directories
 RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
-  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_TMP}" \
-  "${SATURN_CD}" "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" "${SATURN_COMMON}" && \
+  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_IAPETUS}" \
+  "${SATURN_TMP}" "${SATURN_CD}" "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" \
+  "${SATURN_COMMON}" && \
 	chmod -R 777 "$SATURN_ROOT" && \
 	chmod -R 777 "$SATURN_SGL" && \
 	chmod -R 777 "$SATURN_SBL" && \
 	chmod -R 777 "$SATURN_CMAKE" && \
 	chmod -R 777 "$SATURN_JOENGINE" && \
 	chmod -R 777 "$SATURN_YAUL" && \
+  chmod -R 777 "$SATURN_IAPETUS" && \
   chmod -R 777 "$SATURN_CD" && \
   chmod -R 777 "$SATURN_SAMPLES" && \
   chmod -R 777 "$SATURN_IPMAKER" && \
@@ -151,37 +158,31 @@ RUN rm -rf "$SATURN_TMP"
 # Install base tools
 #
 
-ENV PROGRAM_PREFIX=sh-elf-
 ENV NCPU=1
 ENV CREATEINSTALLER="NO"
 
-ENV TARGETMACH=sh-elf
 ENV BUILDMACH=i686-pc-linux-gnu
 ENV HOSTMACH=i686-pc-linux-gnu
-ENV OBJFORMAT=ELF
 
 ENV BINUTILS_CFLAGS="-s"
 ENV GCC_BOOTSTRAP_FLAGS="--with-cpu=m2"
 ENV GCC_FINAL_FLAGS="--with-cpu=m2 --with-sysroot=$SYSROOTDIR"
 
-RUN git clone --depth 1 --branch gcc_$GCC_VERSION \
-    https://github.com/willll/Saturn-SDK-GCC-SH2.git "$SATURN_TMP"
+ENV BUILD_FOLDER="${SATURN_TMP}/elf"
 
 WORKDIR "${SATURN_TMP}"
 
-RUN chmod 777 *.sh
+COPY Resources/Toolchain/* $SATURN_TMP/
 
-# Clean up Windows's mess
-RUN dos2unix *
-
-RUN chmod +x *.sh
-
-RUN . ./versions.sh && \
-      ./build-elf.sh
+RUN ./dl-SDK.sh
+RUN ./build-SDK-elf.sh
 
 RUN rm -rf "$SATURN_TMP"
 
 # Set GCC env variables and flags
+ENV PROGRAM_PREFIX=sh-elf-
+ENV TARGETMACH=sh-elf
+ENV OBJFORMAT=ELF
 ENV CXXFLAGS=""
 ENV LD_LIBRARY_PATH="${INSTALLDIR}/lib:${LD_LIBRARY_PATH}"
 ENV CPATH="${INSTALLDIR}/include:${CPATH}"
@@ -211,18 +212,17 @@ COPY Resources/CD $SATURN_CD
 #
 # LIBRARIES SETUP
 #
-
 ENV INSTALL_SGL_LIB=1
 ENV INSTALL_SGL_SAMPLES=1
 
 ENV INSTALL_SBL_LIB=1
 ENV INSTALL_SBL_SAMPLES=1
-ENV INSTALL_SBL_EXAMPLES=0
+ENV INSTALL_SBL_EXAMPLES=1
 
-ENV INSTALL_SATURNSDK_SAMPLES=0
+ENV INSTALL_SATURNSDK_SAMPLES=1
 
 ENV INSTALL_JO_ENGINE_LIB=1
-ENV INSTALL_JO_ENGINE_SAMPLES=0
+ENV INSTALL_JO_ENGINE_SAMPLES=1
 # Jo Engine commit from 2022.02.17 https://github.com/johannes-fetz/joengine/commit/163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 ENV JO_ENGINE_COMMIT_SHA=163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 
@@ -233,6 +233,10 @@ ENV YAUL_COMMIT_SHA=3c40b4584e02a7a347164fdddae51bde0eb510e7
 # YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/89ee933a919b791dab9dd5a69183d97246df2673
 ENV YAUL_EXAMPLES_COMMIT_SHA=89ee933a919b791dab9dd5a69183d97246df2673
 
+ENV INSTALL_IAPETUS_LIB=0
+ENV INSTALL_IAPETUS_SAMPLES=0
+# IAPETUS commit from 2019.03.19 https://github.com/cyberwarriorx/iapetus/tree/955d7c50f634cdd18722657c920987200d9ba3a5
+ENV IAPETUS_COMMIT_SHA=955d7c50f634cdd18722657c920987200d9ba3a5
 
 #
 # Install SGL
@@ -289,7 +293,6 @@ COPY Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
 RUN rm -rf "$SATURN_TMP/*"
 
-
 #
 # Install Jo Engine
 #
@@ -329,6 +332,20 @@ RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
 # TODO : Add https://github.com/ijacquez/saturn-compos.git
 
 # Clean up temporary files
+RUN rm -rf "$SATURN_TMP/*"
+
+#
+# Install Iapetus
+#
+
+COPY Resources/iapetus/dl-iapetus.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/dl-iapetus.sh"
+COPY Resources/iapetus/build-iapetus.sh "$SATURN_TMP"
+#COPY Resources/jo-engine/jo_engine_makefile "$SATURN_TMP"
+RUN "$SATURN_TMP/build-iapetus.sh"
+COPY Resources/iapetus/build-iapetus-samples.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/build-iapetus-samples.sh"
+
 RUN rm -rf "$SATURN_TMP/*"
 
 # Set Volume and Workdir
