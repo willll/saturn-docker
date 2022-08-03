@@ -93,6 +93,7 @@ RUN apt-get update && apt-get install -y \
   xutils-dev \
   xorriso \
   doxygen \
+  ffmpeg \
   ninja-build \
 	--no-install-recommends && \
 	apt autoremove -y && \
