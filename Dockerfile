@@ -227,7 +227,8 @@ ARG INSTALL_JO_ENGINE_SAMPLES=1
 # Jo Engine commit from 2022.02.17 https://github.com/johannes-fetz/joengine/commit/163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 ARG JO_ENGINE_COMMIT_SHA=163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 
-ARG INSTALL_YAUL_LIB=1
+ARG INSTALL_YAUL_LIB_ARG=1
+ENV INSTALL_YAUL_LIB=$INSTALL_YAUL_LIB_ARG
 ARG INSTALL_YAUL_SAMPLES=1
 ARG YAUL_TAG=1.0.1
 # YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/89ee933a919b791dab9dd5a69183d97246df2673
