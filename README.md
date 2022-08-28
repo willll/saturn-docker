@@ -15,6 +15,9 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 Use it in an IDE :
 TODO
 
+Change GCC version :
+sudo docker build --build-arg GCC_VERSION_ARG=9.5.0 -t saturn-docker . --file ./Dockerfile
+
 ## Content
 
 TODO
@@ -22,8 +25,10 @@ TODO
 ## Build status
 
 ### Tools
-- [x] GCC 8.4 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
+- [x] GCC 8.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
+- [x] GCC 9.5.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
 - [ ] GDB for SH2
+- [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
 - [x] Cmake profile
 - [x] schily-tools : ISO generation tools
 - [x] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
