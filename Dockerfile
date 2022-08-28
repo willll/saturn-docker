@@ -57,8 +57,6 @@ ENV CTEMPLATE_ROOT=/opt/lib/Ctemplate
 
 ENV MAKEFLAGS="-j 1"
 
-ENV GCC_VERSION=8.4.0
-
 RUN apt-get update && apt-get install -y locales \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -159,8 +157,11 @@ RUN rm -rf "$SATURN_TMP"
 # Install base tools
 #
 
-ENV NCPU=1
-ENV CREATEINSTALLER="NO"
+ARG GCC_VERSION_ARG=8.4.0
+ENV GCC_VERSION=$GCC_VERSION_ARG
+
+ARG NCPU=1
+ARG CREATEINSTALLER="NO"
 
 ENV BUILDMACH=i686-pc-linux-gnu
 ENV HOSTMACH=i686-pc-linux-gnu
