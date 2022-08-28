@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -e
 
 #git clone --depth 1 --branch gcc_$GCC_VERSION \
 git clone --depth 1 --branch gcc_$GCC_VERSION \
