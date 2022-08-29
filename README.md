@@ -28,7 +28,7 @@ TODO
 - [x] GCC 8.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
 - [x] GCC 9.5.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
 - [x] GCC 10.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
-- [ ] GCC 11.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
+- [x] GCC 11.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
 - [ ] GCC 12.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2
 - [ ] GDB for SH2
 - [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
