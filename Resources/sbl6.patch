@@ -154,6 +154,47 @@ diff -crB --binary sbl6/segalib/include/sega_int.h sbl6_patch/segalib/include/se
   
   #endif  /* ifndef SEGA_INT_H */
 ! 
+diff -crB --binary sbl6/segalib/include/sega_per.h sbl6_patch/segalib/include/sega_per.h
+*** sbl6/segalib/include/sega_per.h	1996-02-08 05:23:48.000000000 -0500
+--- sbl6_patch/segalib/include/sega_per.h	2022-08-29 17:03:56.000000000 -0400
+***************
+*** 612,627 ****
+   */
+  
+  /********************************* persprt.h *********************************/
+! #if 0
+!     以下 DISK Version 1994-11-11の追加分
+!     
+!     ◆システム／ペリフェラルライブラリ使用サンプルプログラムへの対処
+!         システム／ペリフェラルライブラリを使用している各ライブラリの
+!         サンプルプログラムのために今回のシステム／ペリフェラルライブラリには、
+!         以前のバージョンの関数、定数等を含めています。但し、この関数、定数等は
+!         、4thSTEPでは削除します。
+!         以前のバージョンの関数、定数等は使用しないでください。
+! #endif
+  /*
+   * GLOBAL DEFINES/MACROS DEFINES
+   */
+--- 612,618 ----
+   */
+  
+  /********************************* persprt.h *********************************/
+! 
+  /*
+   * GLOBAL DEFINES/MACROS DEFINES
+   */
+***************
+*** 783,786 ****
+  
+  #endif  /* ifndef SEGA_PER_H */
+  /******************************* end of file *********************************/
+! 
+\ No newline at end of file
+--- 774,777 ----
+  
+  #endif  /* ifndef SEGA_PER_H */
+  /******************************* end of file *********************************/
+! 
 diff -crB --binary sbl6/segalib/include/sega_scl.h sbl6_patch/segalib/include/sega_scl.h
 *** sbl6/segalib/include/sega_scl.h	1995-09-29 10:30:48.000000000 -0400
 --- sbl6_patch/segalib/include/sega_scl.h	2021-04-21 19:17:26.000000000 -0400
@@ -4618,7 +4659,7 @@ diff -crB --binary sbl6/segalib/include/sega_sys.h sbl6_patch/segalib/include/se
 --- 153,155 ----
 diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_def.h
 *** sbl6/segalib/include/sl_def.h	1996-02-08 05:23:52.000000000 -0500
---- sbl6_patch/segalib/include/sl_def.h	2022-03-10 18:19:10.000000000 -0500
+--- sbl6_patch/segalib/include/sl_def.h	2022-04-17 20:10:22.000000000 -0400
 ***************
 *** 1,10 ****
   /*							*/
@@ -4739,11 +4780,14 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   #define		_SysPause		64
 ***************
 *** 132,144 ****
---- 140,155 ----
+--- 140,158 ----
   
   /*----------------------------------------------------------------------------------*/
   
++ #ifndef M_PI
 + #define     M_PI                3.1415926535897932
++ #endif
++ 
   #define	    toFIXED(a)		((FIXED)(65536.0 * (a)))
   #define	    POStoFIXED(x,y,z)	{toFIXED(x),toFIXED(y),toFIXED(z)}
   #define	    ATTRIBUTE(f,s,t,c,g,a,d,o)	{f,(s)|(((d)>>16)&0x1c)|(o),t,(a)|(((d)>>24)&0xc0),c,g,(d)&0x3f}
@@ -4758,7 +4802,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   
 ***************
 *** 162,167 ****
---- 173,181 ----
+--- 176,184 ----
   #define	    _ZmRC		(0x0b << 8)	/* Zoom base Right Center */
   #define	    _ZmRB		(0x0f << 8)	/* Zoom base Right Bottom */
   
@@ -4795,7 +4839,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       Uint16	 Vertices[4] ;		/* ポリゴンを構成する頂点番号 */
   } POLYGON ;
   
---- 199,234 ----
+--- 202,237 ----
   
   #define	    UseTexture		(1 << 2)	/* テクスチャを貼るポリゴン */
   #define	    UseLight		(1 << 3)	/* 光源の影響を受けるポリゴン */
@@ -4841,7 +4885,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   } ATTR ;
   
   typedef struct spratr{
---- 239,245 ----
+--- 242,248 ----
       Uint16	 atrb ;			/* アトリビュートデータ(表示モード) */
       Uint16	 colno ;		/* カラーナンバー */
       Uint16	 gstb ;			/* グーローシェーディングテーブル */
@@ -4851,7 +4895,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   typedef struct spratr{
 ***************
 *** 233,238 ****
---- 258,365 ----
+--- 261,368 ----
       ATTR	*attbl ;		/* ポリゴンのアトリビュートテーブル */
   } PDATA ;
   
@@ -4976,7 +5020,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       Uint16	GRDA ;			/* グーローシェーディングテーブル */
       Uint16	DMMY ;			/* サイズ合わせ用 ダミーデータ */
   } SPRITE ;
---- 398,411 ----
+--- 401,414 ----
       Uint16	COLR ;			/* カラーデータ */
       Uint16	SRCA ;			/* ＣＧアドレス */
       Uint16	SIZE ;			/* キャラクタサイズ */
@@ -4993,7 +5037,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   } SPRITE ;
 ***************
 *** 344,349 ****
---- 471,481 ----
+--- 474,484 ----
   #define	    VDP2_COLRAM    		0x25f00000
   
   #define	    CG_Size		(8*8)		/* １セルの大きさ(CG) */
@@ -5007,7 +5051,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   #define	    Page		(64*Line)	/* １ページの大きさ */
 ***************
 *** 382,387 ****
---- 514,524 ----
+--- 517,527 ----
       Sint32	DKA ;		/* 係数テーブル水平方向アドレス増分 ＫＡ */
   } ROTSCROLL ;
   
@@ -5021,7 +5065,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   #define		CRM16_1024		0
 ***************
 *** 515,520 ****
---- 652,659 ----
+--- 655,662 ----
   #define		scnNBG2			3
   #define		scnNBG3			2
   #define		scnRBG0			5
@@ -5062,7 +5106,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   /*  Math library	*/
   
       extern  FIXED  slSin(ANGLE) ;
---- 799,837 ----
+--- 802,840 ----
   #define		SoundRAM		0x25a00000
   
   /*------[ System Work Assignments ]---------------------------------------*/
@@ -5104,7 +5148,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       extern  FIXED  slSin(ANGLE) ;
 ***************
 *** 696,715 ****
---- 844,874 ----
+--- 847,877 ----
       extern  FIXED  slDivFX(FIXED , FIXED) ;
       extern  FIXED  slInnerProduct(VECTOR vct1 , VECTOR vct2) ;
       extern  FIXED  slCalcPoint(FIXED , FIXED , FIXED , FIXED ans[XYZ]) ;
@@ -5138,7 +5182,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       extern  void   slRotX(ANGLE) ;
 ***************
 *** 722,732 ****
---- 881,896 ----
+--- 884,899 ----
       extern  void   slLookAt(FIXED *camera , FIXED *target , ANGLE) ;
       extern  FIXED  slBallCollision(FIXED *pos1 , FIXED size1 , FIXED *pos2 , FIXED size2) ;
       extern  FIXED  slCheckOnScreen(FIXED *pos , FIXED size) ;
@@ -5181,7 +5225,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       extern  void    slColRAMMode(Uint16) ;
       extern  void    slVRAMMode(Uint16) ;
       extern  void    slScrCycleSet(Uint32 , Uint32 , Uint32 , Uint32) ;
---- 904,950 ----
+--- 907,953 ----
       extern void    set_vbar(Uint16) ;
       extern void    reset_vbar(Uint16) ;
       extern void    slExtendScroll(Uint8 * , void *) ;
@@ -5238,7 +5282,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   #define		slColRateNbg0(rate)	slColRate(scnNBG0 , rate)
   #define		slColRateNbg1(rate)	slColRate(scnNBG1 , rate)
   #define		slColRateNbg2(rate)	slColRate(scnNBG2 , rate)
---- 961,967 ----
+--- 964,970 ----
       extern  void    slColorCalc(Uint16) ;
       extern  void    slColorCalcMode(Uint16) ;
       extern  void    slColorCalcOn(Uint16) ;
@@ -5248,7 +5292,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   #define		slColRateNbg2(rate)	slColRate(scnNBG2 , rate)
 ***************
 *** 791,796 ****
---- 978,985 ----
+--- 981,988 ----
   #define		slColRateSpr6(rate)	slColRate(scnSPR6 , rate)
   #define		slColRateSpr7(rate)	slColRate(scnSPR7 , rate)
       extern  void    slColOffsetOn(Uint16) ;
@@ -5259,7 +5303,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       extern  void    slColOffsetA(Sint16 r,Sint16 g,Sint16 b) ;
 ***************
 *** 854,859 ****
---- 1043,1051 ----
+--- 1046,1054 ----
       extern  void    slZoomNbg0(FIXED x,FIXED y) ;
       extern  void    slZoomNbg1(FIXED x,FIXED y) ;
       extern  void    slZoomR(FIXED x,FIXED y) ;
@@ -5278,7 +5322,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       extern  void    slScrMosaicOn(Uint16) ;
       extern  void    slScrMosSize(Uint16 , Uint16) ;
       extern  void    slScrWindow0(Uint16 , Uint16 , Uint16 , Uint16) ;
---- 1055,1061 ----
+--- 1058,1064 ----
       extern  void    slSpriteCCalcNum(Uint16) ;
       extern  void    slSpriteColMode(Uint16) ;
       extern  void    slSpriteWinMode(Uint16) ;
@@ -5298,7 +5342,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   /*  Peripheral control */
   
   #define	SMPC_MASK_STE		0x80	/* ＳＥＴＴＩＭＥ実行済マスク		*/
---- 1131,1220 ----
+--- 1134,1223 ----
   #define		slSpecialCCalcBitBMN0(flag)	slSpecialCCalcBitN01(scnNBG0 , flag)
   #define		slSpecialCCalcBitBMN1(flag)	slSpecialCCalcBitN01(scnNBG1 , flag)
   #define		slSpecialCCalcBitBMR0(flag)	slSpecialCCalcBitRbg0(flag)
@@ -5391,7 +5435,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   #define	SMPC_MASK_STE		0x80	/* ＳＥＴＴＩＭＥ実行済マスク		*/
 ***************
 *** 971,976 ****
---- 1243,1249 ----
+--- 1246,1252 ----
   #define	PER_ID_StnLacing	0x13	/* サターンレーシングコントローラー	*/
   #define	PER_ID_StnAnalog	0x15	/* サターンアナログジョイスティック	*/
   #define	PER_ID_StnMouse		0x23	/* サターンマウス			*/
@@ -5412,7 +5456,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
   #define	slCDOn()			slRequestCommand(SMPC_CDON  , SMPC_NO_WAIT)
   #define	slCDOff()			slRequestCommand(SMPC_CDOFF , SMPC_NO_WAIT)
   #define	slSystemReset()			slRequestCommand(SMPC_SYSRES, SMPC_NO_WAIT)
---- 1508,1553 ----
+--- 1511,1556 ----
   extern	PerDigital*	Smpc_Peripheral;
   extern	Uint8		Per_Connect1, Per_Connect2;
   
@@ -5472,7 +5516,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       extern  void   SetCDFunc(void (*func)()) ;
       extern  void   slSetTrayCheck(Uint8) ;
       extern  void   slCashPurge() ;
---- 1597,1612 ----
+--- 1600,1615 ----
       extern void    slSlaveFunc(void (*func)() , void *) ;
   
   /*  System library */
@@ -5498,7 +5542,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
       extern  Bool   slSoundAllOff() ;
       extern  Bool   slSoundAllPause() ;
       extern  Bool   slSoundAllCont() ;
---- 1619,1625 ----
+--- 1622,1628 ----
       extern  Bool   slBGMOff() ;
       extern  Bool   slBGMFade(Uint8 , Uint8) ;
       extern  Bool   slBGMTempo(Sint16) ;
@@ -5530,7 +5574,7 @@ diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_d
 ! #endif  /* SL_DEF_H */
 ! 
 \ No newline at end of file
---- 1638,1675 ----
+--- 1641,1678 ----
       extern  void   slWaitSound(void *) ;
       extern  Bool   slCDDAOn(Uint8 , Uint8 , Sint8 , Sint8) ;
       extern  Bool   slCDDAOff() ;
