@@ -37,6 +37,10 @@ TODO
 - [x] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
 
 
+### SGL 3.02
+- [X] SGL
+- [ ] SGL Samples
+
 ### SGL 3.20
 - [ ] SGL
 - [ ] SGL Samples

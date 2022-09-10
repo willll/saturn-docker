@@ -248,10 +248,15 @@ ENV SEGASGL=${SATURN_SGL}
 
 WORKDIR "${SATURN_TMP}"
 
-COPY Resources/dl-sgl320.sh $SATURN_TMP
-RUN $SATURN_TMP/dl-sgl320.sh
-COPY Resources/build-sgl320.sh $SATURN_TMP
-RUN $SATURN_TMP/build-sgl320.sh $SATURN_SGL
+COPY Resources/dl-sgl302.sh $SATURN_TMP
+RUN $SATURN_TMP/dl-sgl302.sh
+
+COPY Resources/sgl $SATURN_TMP/sgl_
+
+COPY Resources/build-sgl302.sh $SATURN_TMP
+RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
+COPY Resources/build-sgl302-samples.sh $SATURN_TMP
+RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 
 #
 # Install SBL

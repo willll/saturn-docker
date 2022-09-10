@@ -21,19 +21,22 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	# Create destination directories
 	#
 	mkdir -p $1/{lib,include,samples/{sample1,sample2},demos,doc,sddrv}
-	
-	if [ $INSTALL_COFF_LIB -eq 1 ]; then
-			mkdir -p $1/lib/coff
-			cp -rv $SATURN_TMP/sgl320/lib/* $1/lib/coff
-	fi
 
 	#
 	# convert coff to ELF
 	#
-	for file in $SATURN_TMP/sgl302/lib/*.{a,o}; do
-		$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
-		 		$file
-	done
+	find $SATURN_TMP/sgl302/lib/ \
+	 ! -name "libsgl_real_elf.a" \
+	 -name "*.[a,o]" \
+	 -type f \
+	 -exec "$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy" -v -Icoff-sh -Oelf32-sh {} \;
+
+	#
+ 	# Install libsgl patched version
+ 	#
+	if [ -f "$SATURN_TMP/sgl302/lib/libsgl_real_elf.a" ]; then
+		mv -fv "$SATURN_TMP/sgl302/lib/libsgl_real_elf.a" "$SATURN_TMP/sgl302/lib/libsgl.a"
+	fi
 
 	#
 	# Copy to destination
@@ -51,10 +54,6 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 
 	# Clean the code
 	find $1 -type f -exec sed -i 's/\o32//g' {} \;
-
-	if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
-		echo "TODO : SGL SAMPLES"
-	fi
 
 else
 	echo "$(tput setaf 1)No SGL libraries will be built$(tput sgr 0)"
