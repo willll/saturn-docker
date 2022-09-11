@@ -11,18 +11,19 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	#
 	# download
 	#
-	curl -s -o nul -c ./cookie-file1 -s -L "https://drive.google.com/file/d/13yg-wiATGdVlVRseqCD-JBfltau5A1L-/view?usp=sharing"& \
-	curl -Lb ./cookie-file1 "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' \
-	 ./cookie-file1`&id=13yg-wiATGdVlVRseqCD-JBfltau5A1L-" -o $SATURN_TMP/sgl302.zip
+	gdown 13yg-wiATGdVlVRseqCD-JBfltau5A1L- -O "$SATURN_TMP/sgl302.zip"
 
 	if [ ! -f "$SATURN_TMP/sgl302.zip" ]; then
 	    echo "$SATURN_TMP/sgl302.zip not downloaded."
 	    exit 1
 	fi
 
-	curl -s -o nul -c ./cookie-file1 -s -L "https://drive.google.com/file/d/1YBSYfESM2KlHC_kXf4kK2eSPFgmuRCvh/view?usp=sharing"& \
-	curl -Lb ./cookie-file1 "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' \
-	./cookie-file1`&id=1YBSYfESM2KlHC_kXf4kK2eSPFgmuRCvh" -o $SATURN_TMP/libsgl_real_elf_from_vbt.zip
+	#curl -s -o nul -c ./cookie-file2 -s -L "https://drive.google.com/file/d/1CMDCnjfggL7PQRb-VLPrk0qtTesBgHtd/view?usp=sharing"& \
+	#curl -Lb ./cookie-file2 "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' \
+	#./cookie-file2`&id=1CMDCnjfggL7PQRb-VLPrk0qtTesBgHtd/" -o "$SATURN_TMP/libsgl_real_elf_from_vbt.zip"
+
+	gdown 1CMDCnjfggL7PQRb-VLPrk0qtTesBgHtd -O "$SATURN_TMP/libsgl_real_elf_from_vbt.zip"
+
 
 	if [ ! -f "$SATURN_TMP/libsgl_real_elf_from_vbt.zip" ]; then
 			echo "$SATURN_TMP/libsgl_real_elf_from_vbt.zip not downloaded."
@@ -35,7 +36,14 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	unzip $SATURN_TMP/sgl302.zip -d $SATURN_TMP
 
 	if [ -f "$SATURN_TMP/libsgl_real_elf_from_vbt.zip" ]; then
-		unzip $SATURN_TMP/libsgl_real_elf_from_vbt.zip -d $SATURN_TMP/sgl302/lib
+		ls -lh "$SATURN_TMP/libsgl_real_elf_from_vbt.zip"
+
+		unzip "$SATURN_TMP/libsgl_real_elf_from_vbt.zip" -d $SATURN_TMP/sgl302
+		retVal=$?
+		if [ $retVal -ne 0 ]; then
+		    echo "unzip unzip $SATURN_TMP/libsgl_real_elf_from_vbt.zip failed !"
+				exit $retVal
+		fi
 	fi
 fi
 
