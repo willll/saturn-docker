@@ -1,6 +1,7 @@
 set(SOURCES
-  ${SATURN_COMMON}/crt0.s
-  main.c polygon.c
+  ${SEGASGL}/samples/sample1/common/cinit.c
+  main.c
+  polygon.c
   )
 
 set(CD_FILES
@@ -27,10 +28,11 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
+    "SHELL:-T${SEGASGL}/samples/sample1/common/sl.lnk"
     "SHELL:-lc -lgcc -lm"
 )
 
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
