@@ -93,6 +93,7 @@ RUN apt-get update && apt-get install -y \
   doxygen \
   ffmpeg \
   ninja-build \
+  python3-pip \
 	--no-install-recommends && \
 	apt autoremove -y && \
 	## Make sure we leave any X11 related library behind
@@ -149,6 +150,11 @@ RUN $SATURN_TMP/build-Boost.sh "boost-1.78.0"
 #
 COPY Resources/Install/build-CueMaker.sh $SATURN_TMP
 RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_1.0"
+
+#
+# Install gdown https://pypi.org/project/gdown/
+#
+RUN pip3 install gdown
 
 # Clean up
 RUN rm -rf "$SATURN_TMP"
@@ -255,8 +261,6 @@ COPY Resources/sgl $SATURN_TMP/sgl_
 
 COPY Resources/build-sgl302.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
-COPY Resources/build-sgl302-samples.sh $SATURN_TMP
-RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 
 #
 # Install SBL
@@ -288,6 +292,13 @@ COPY Resources/sbl6_examples.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6-examples.sh
 
 RUN rm -rf "$SATURN_TMP/*"
+
+#
+# Install SGL samples
+#
+
+COPY Resources/build-sgl302-samples.sh $SATURN_TMP
+RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 
 #
 # Samples
