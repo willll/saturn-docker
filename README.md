@@ -1,4 +1,3 @@
-
 ## Goal
 
 Get a cross platform starting point, with everything up and running out of the box
@@ -63,7 +62,16 @@ TODO
   - [x] s_3_2
   - [x] s_4_2
   - [x] s_4_3_1
-
+  - [x] s_4_3_2
+  - [x] s_4_3_3
+  - [x] s_4_3_4
+  - [x] s_4_5
+  - [x] s_5_2
+  - [x] s_6_3
+  - [x] s_7_2
+  - [x] s_7_4
+  - [x] s_7_6
+  - [x] s_8_8_1
 
 ### SGL 3.20
 - [ ] SGL
