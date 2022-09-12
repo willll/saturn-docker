@@ -45,8 +45,26 @@ TODO
 
 
 ### SGL 3.02
-- [X] SGL
+- [X] SGL **(patched)**
 - [ ] SGL Samples
+  - [x] akira
+  - [x] akira3
+  - [x] demo_a
+  - [x] demo_b
+  - [x] demo_c
+  - [x] demo_d
+  - [x] demogun
+  - [x] design1
+  - [x] design2
+  - [x] design3
+  - [x] driving
+  - [x] driving2
+  - [x] fighting
+  - [x] s_2_2
+  - [x] s_3_2
+  - [x] s_4_2
+  - [x] s_4_3_1
+
 
 ### SGL 3.20
 - [ ] SGL

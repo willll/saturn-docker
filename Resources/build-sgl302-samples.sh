@@ -15,16 +15,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 
 	cd $SATURN_TMP
 
-	#if [ $INSTALL_SBL_LIB -eq 0 ]; then
-		# diff -crB --binary sbl6/ sbl6_patch/ > sbl6.patch
-		# Patch the code
-	#	patch -p0 -d $SATURN_TMP < sbl6.patch
-		# Inject Build System
-		cp --verbose -rf $SATURN_TMP/sgl_/* $SATURN_TMP/sgl302/
-	#fi
-
 	#
-	# build sample
+	# build samples
 	#
 	mkdir -p ${SATURN_TMP}/sgl302/sample/bin
 	cmake -S $SATURN_TMP/sgl302/sample/ -B $SATURN_TMP/sgl302/sample/bin/ \

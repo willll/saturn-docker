@@ -22,6 +22,7 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	#
 	mkdir -p $1/{common,lib,include,samples/{sample1,sample2},demos,doc,sddrv}
 
+
 	#
 	# convert coff to ELF
 	#
@@ -42,6 +43,12 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 		! -name "*.[a,o,lib]" \
 		-type f \
 		-exec sed -i 's/\o32//g' {} \;
+
+	#
+	# Inject Build System
+	#
+	cp --verbose -rf $SATURN_TMP/sgl_/* $SATURN_TMP/sgl302/
+
 
 	#
 	# Copy to destination
