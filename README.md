@@ -1,4 +1,3 @@
-  - [ ] # Docker for SEGA Saturn dev
 
 ## Goal
 
