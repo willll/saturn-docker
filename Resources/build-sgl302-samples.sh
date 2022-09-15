@@ -16,6 +16,13 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	cd $SATURN_TMP
 
 	#
+	# Inject Build System
+	#
+	cp --verbose -rf $SATURN_TMP/sgl_/* $SATURN_TMP/sgl302/
+	cp -rv $SATURN_TMP/sgl302/sample/* $1/samples/sample1
+	cp -rv $SATURN_TMP/sgl302/sample2/* $1/samples/sample2
+
+	#
 	# build samples
 	#
 	mkdir -p ${SATURN_TMP}/sgl302/sample/bin

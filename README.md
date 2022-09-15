@@ -72,6 +72,26 @@ TODO
   - [x] s_7_4
   - [x] s_7_6
   - [x] s_8_8_1
+  - [x] s_8_8_2
+  - [x] s_8_8_3
+  - [x] s_8_9_1
+  - [x] s_8_9_2
+  - [x] s_8_10_1
+  - [x] s_8_10_2
+  - [x] s_8_11
+  - [x] s_8_12
+  - [x] s_9_1
+  - [x] s_10
+  - [x] s_cd1  
+  - [x] s_cd2
+  - [x] s_cd3
+  - [x] s_cd4
+  - [x] sampsnd1
+  - [x] sampsnd2  
+  - [ ] sbklib
+  - [x] shooting
+  - [x] torus2
+  - [x] torus3
 
 ### SGL 3.20
 - [ ] SGL

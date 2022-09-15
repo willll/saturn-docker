@@ -256,9 +256,6 @@ WORKDIR "${SATURN_TMP}"
 
 COPY Resources/dl-sgl302.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sgl302.sh
-
-COPY Resources/sgl $SATURN_TMP/sgl_
-
 COPY Resources/build-sgl302.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
 
@@ -297,6 +294,7 @@ RUN rm -rf "$SATURN_TMP/*"
 # Install SGL samples
 #
 
+COPY Resources/sgl $SATURN_TMP/sgl_
 COPY Resources/build-sgl302-samples.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 

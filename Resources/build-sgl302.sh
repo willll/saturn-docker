@@ -47,7 +47,7 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	#
 	# Inject Build System
 	#
-	cp --verbose -rf $SATURN_TMP/sgl_/* $SATURN_TMP/sgl302/
+	#cp --verbose -rf $SATURN_TMP/sgl_/* $SATURN_TMP/sgl302/
 
 
 	#
