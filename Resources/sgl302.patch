@@ -1,3 +1,39 @@
+diff -crB --binary sgl302/sample/common/cinit.c sgl302_patch/sample/common/cinit.c
+*** sgl302/sample/common/cinit.c	1996-09-10 23:00:00.000000000 -0400
+--- sgl302_patch/sample/common/cinit.c	2022-09-15 21:12:48.000000000 -0400
+***************
+*** 14,20 ****
+  /* */
+  extern void ss_main( void );
+  
+! void	main( void )
+  {
+  	Uint8	*dst;
+  	Uint32	i;
+--- 14,20 ----
+  /* */
+  extern void ss_main( void );
+  
+! int	main( void )
+  {
+  	Uint8	*dst;
+  	Uint32	i;
+***************
+*** 32,36 ****
+  
+  	/* Application Call */
+  	ss_main();
+  }
+! 
+\ No newline at end of file
+--- 32,38 ----
+  
+  	/* Application Call */
+  	ss_main();
++ 	
++ 	return 0;
+  }
+! 
 diff -crB --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/string.c
 *** sgl302/sample/sbklib/string.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample/sbklib/string.c	2022-09-15 21:12:04.000000000 -0400
@@ -77,6 +113,42 @@ diff -crB --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/stri
         }
   
       return s;
+diff -crB --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cinit.c
+*** sgl302/sample2/common/cinit.c	1996-09-10 23:00:00.000000000 -0400
+--- sgl302_patch/sample2/common/cinit.c	2022-09-15 21:13:10.000000000 -0400
+***************
+*** 14,20 ****
+  /* */
+  extern void ss_main( void );
+  
+! void	main( void )
+  {
+  	Uint8	*dst;
+  	Uint32	i;
+--- 14,20 ----
+  /* */
+  extern void ss_main( void );
+  
+! int	main( void )
+  {
+  	Uint8	*dst;
+  	Uint32	i;
+***************
+*** 32,36 ****
+  
+  	/* Application Call */
+  	ss_main();
+  }
+! 
+\ No newline at end of file
+--- 32,38 ----
+  
+  	/* Application Call */
+  	ss_main();
++ 	
++ 	return 0;
+  }
+! 
 diff -crB --binary sgl302/sample2/sega2d_1/scroll.c sgl302_patch/sample2/sega2d_1/scroll.c
 *** sgl302/sample2/sega2d_1/scroll.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega2d_1/scroll.c	2022-09-15 19:13:48.000000000 -0400
