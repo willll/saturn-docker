@@ -67,7 +67,7 @@ add_subdirectory(s_cd3)
 add_subdirectory(s_cd4)
 add_subdirectory(sampsnd1)
 add_subdirectory(sampsnd2)
-#add_subdirectory(sbklib) # error: lvalue required as increment operand
+add_subdirectory(sbklib)
 add_subdirectory(shooting)
 add_subdirectory(torus2)
 add_subdirectory(torus3)

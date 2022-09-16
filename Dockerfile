@@ -257,6 +257,7 @@ WORKDIR "${SATURN_TMP}"
 COPY Resources/dl-sgl302.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sgl302.sh
 COPY Resources/build-sgl302.sh $SATURN_TMP
+COPY Resources/sgl302.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
 
 #

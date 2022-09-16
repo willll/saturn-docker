@@ -17,6 +17,9 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 
 	chmod -R 644 $SATURN_TMP/sgl302
 
+	# Patch the code
+	patch -p0 -d $SATURN_TMP < $SATURN_TMP/sgl302.patch
+
 	#
 	# Create destination directories
 	#
