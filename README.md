@@ -107,7 +107,7 @@ TODO
 - [ ] SGL Samples
 
 ### SBL 6.01
-- [x] SBL Libs
+- [ ] SBL Libs
   - [x] blp
   - [x] cdc **(copied from https://github.com/shicky256/sbl/tree/master/segalib/cdc)**
   - [x] cmp
@@ -180,10 +180,10 @@ TODO
     - [ ] smpsnd4 **(Runtime ???)**
     - [ ] smpsnd5 **(Runtime ???)**
     - [ ] smpsnd6 **(Missing header file)**
-  - [ ] spr
-    - [x] spr1
+  - [x] spr
+    - [x] spr2
     - [x] spr7
-    - [ ] spr8 **(Crash at runtime)**
+    - [x] spr8
   - [ ] stm
     - [ ] smpstm1 **(Not tested)**
     - [ ] smpstm1 **(Not tested)**
