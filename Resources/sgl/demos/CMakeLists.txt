@@ -24,4 +24,7 @@ project( sample VERSION 1.0
 set(as_flags )
 set(c_flags -Wall -m2 -MMD)
 
-add_subdirectory(biplane)
+#add_subdirectory(biplane) # Missing files in scroll folder
+#add_subdirectory(cdda_sgl) # Missing files in src folder
+add_subdirectory(chrome)
+add_subdirectory(flying) 

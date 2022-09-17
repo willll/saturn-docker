@@ -1,21 +1,37 @@
 set(SOURCES
-  ${SEGASGL}/samples/sample1/common/cinit.c
-  main.c
-  polygon.c
+  ${SEGASGL}/common/cinit.c
+  ${SEGASGL}/demos/flying/main.c
+  ${SEGASGL}/demos/flying/list.c
+  ${SEGASGL}/demos/flying/mem_mgr.c
+  ${SEGASGL}/demos/flying/vector.c
+  ${SEGASGL}/demos/flying/tree.c
+  ${SEGASGL}/demos/flying/ailand.c
+  ${SEGASGL}/demos/flying/actor.c
+  ${SEGASGL}/demos/flying/ai.c
+  ${SEGASGL}/demos/flying/aictrl.c
+  ${SEGASGL}/demos/flying/satrend.c
+  ${SEGASGL}/demos/flying/demo.c
+  ${SEGASGL}/demos/flying/satrend.c
+  ${SEGASGL}/demos/flying/aisaucer.c
+  ${SEGASGL}/demos/flying/saturn.c
+  ${SEGASGL}/demos/flying/texture.c
+  ${SEGASGL}/demos/flying/collide.c
+  ${SEGASGL}/demos/flying/aitarget.c
   )
 
 set(CD_FILES
       0.bin
     )
 
-set(TARGET_NAME s_4_2)
-set(TARGET_PATH s_4_2)
+set(TARGET_NAME flying)
+set(TARGET_PATH flying)
 
 add_compile_definitions(MODEL_S _SH)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-target_include_directories(${TARGET_NAME}.elf PUBLIC .
+target_include_directories(${TARGET_NAME}.elf PUBLIC
+    ${SEGASGL}/demos/biplane/
     ${SEGASGL}/include
     ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR} )
@@ -28,11 +44,14 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${SEGASGL}/samples/sample1/common/sl.lnk"
+    "SHELL:-T${SEGASGL}/common/sl.lnk"
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sega_sys.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC $ENV{INSTALLDIR}/sh-elf/lib/libm.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 

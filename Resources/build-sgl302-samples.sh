@@ -46,12 +46,12 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	#
 	# build demos
 	#
-	#mkdir -p ${SATURN_TMP}/sgl302/demos/bin
-	#cmake -S $SATURN_TMP/sgl302/demos/ -B $SATURN_TMP/sgl302/demos/bin/ \
-	#		-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
-	#		-DCMAKE_INSTALL_PREFIX=$1
-	#make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ && \
-	# 		make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ install
+	mkdir -p ${SATURN_TMP}/sgl302/demos/bin
+	cmake -S $SATURN_TMP/sgl302/demos/ -B $SATURN_TMP/sgl302/demos/bin/ \
+			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
+			-DCMAKE_INSTALL_PREFIX=$1
+	make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ && \
+	 		make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ install
 
 else
 	echo "$(tput setaf 1)No SGL samples will be built$(tput sgr 0)"

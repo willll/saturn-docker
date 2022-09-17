@@ -31,7 +31,6 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${SEGASGL}/samples/sample1/common/sl.lnk"
-    "SHELL:-lc -lgcc -lm"
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )

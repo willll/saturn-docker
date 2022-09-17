@@ -89,9 +89,18 @@ TODO
   - [x] sampsnd1
   - [x] sampsnd2  
   - [ ] sbklib
+  - [x] sega2d_1
+  - [x] sega3d_1
+  - [x] sega3d_2
+  - [x] sega3d_3
   - [x] shooting
   - [x] torus2
   - [x] torus3
+- [ ] SGL Demos
+  - [ ] biplane
+  - [ ] cdda_sgl
+  - [x] chrome
+  - [x] flying
 
 ### SGL 3.20
 - [ ] SGL

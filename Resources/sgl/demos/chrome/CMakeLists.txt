@@ -1,21 +1,23 @@
 set(SOURCES
-  ${SEGASGL}/samples/sample1/common/cinit.c
-  main.c
-  polygon.c
+  ${SEGASGL}/common/cinit.c
+  ${SEGASGL}/demos/chrome/main.c
+  ${SEGASGL}/demos/chrome/texture.c
+  ${SEGASGL}/demos/chrome/poly.c
   )
 
 set(CD_FILES
       0.bin
     )
 
-set(TARGET_NAME s_4_2)
-set(TARGET_PATH s_4_2)
+set(TARGET_NAME chrome)
+set(TARGET_PATH chrome)
 
 add_compile_definitions(MODEL_S _SH)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-target_include_directories(${TARGET_NAME}.elf PUBLIC .
+target_include_directories(${TARGET_NAME}.elf PUBLIC
+    ${SEGASGL}/demos/biplane/
     ${SEGASGL}/include
     ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR} )
@@ -28,7 +30,7 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${SEGASGL}/samples/sample1/common/sl.lnk"
+    "SHELL:-T${SEGASGL}/common/sl.lnk"
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
