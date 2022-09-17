@@ -63,6 +63,8 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	cp -rv $SATURN_TMP/sgl302/demos/* $1/demos
 	cp -rv $SATURN_TMP/sgl302/doc/* $1/doc
 	cp -rv $SATURN_TMP/sgl302/sddrv/* $1/sddrv
+	cp -rv $SATURN_TMP/sgl302/sample/common/* $1/common
+	cp -rv $SATURN_TMP/sgl302/sample/scroll/ $1/demos/biplane
 
 	if [ $INSTALL_SBL_LIB -eq 0 ]; then
 		# Removed, will come from SBL
