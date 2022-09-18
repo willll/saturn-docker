@@ -5,13 +5,15 @@ set(SOURCES
   title.c
   demo.c
   logo.c
-  v_blank.c
+  #v_blank.c
   polygon.c
   game_sub.c
   act.c
   game.c
   data.c
   sequence.c
+  ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
+  ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
 
 set(CD_FILES
@@ -25,7 +27,9 @@ add_compile_definitions(MODEL_S _SH)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
+target_include_directories(${TARGET_NAME}.elf PUBLIC .
+    ${SEGALIB}/include
+    ${SEGASGL}/include
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
@@ -37,16 +41,13 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
-    "SHELL:-lc -lgcc -lm"
 )
-
-#target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_adp.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
+
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 

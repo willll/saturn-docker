@@ -129,9 +129,9 @@ TODO
 - [ ] SBL Samples
   - [x] bup
   - [x] csh
-  - [ ] dbg
-    - [ ] smpdbg1
-  - [ ] dma
+  - [x] dbg
+    - [x] smpdbg1
+  - [x] dma
     - [x] dma0
     - [x] dma1
     - [x] dma2

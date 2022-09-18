@@ -1,5 +1,5 @@
 set(SOURCES
-  crt0.s
+  ${SATURN_COMMON}/crt0.s
   smpdbg10.c
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
@@ -10,7 +10,7 @@ set(CD_FILES
     )
 
 set(TARGET_NAME smpdbg1)
-set(TARGET_PATH smpdbg1)
+set(TARGET_PATH dbg/smpdbg1)
 
 add_compile_definitions(MODEL_S _SH)
 
@@ -28,9 +28,10 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
-    "SHELL:-lc -lgcc -lm"
+    "SHELL:-Xlinker -z -Xlinker muldefs"
 )
 
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 
