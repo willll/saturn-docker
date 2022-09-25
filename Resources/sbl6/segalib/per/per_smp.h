@@ -5,35 +5,35 @@
  *
  *  PURPOSE:
  *
- *      SMPC§Œäƒwƒbƒ_ƒtƒ@ƒCƒ‹B
+ *      SMPCï¿½ï¿½ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½B
  *
  *  DESCRIPTION:
  *
- *      SMPC‚ÌƒRƒ}ƒ“ƒhŽÀs‚Ì‚½‚ß‚ÌŠÖ”‚ðŽÀs‚·‚éB
+ *      SMPCï¿½ÌƒRï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½Ì‚ï¿½ï¿½ß‚ÌŠÖï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½B
  *
  *  INTERFACE:
  *
  *      < FUNCTIONS LIST >
- *          ’á…€ƒ}ƒNƒ
- *              PER_SMPC_WAIT()         -   SMPC‘Ò‚¿ŽžŠÔˆ—
- *              PER_SMPC_GO_CMD()       -   SMPCƒRƒ}ƒ“ƒhŽÀs
- *              PER_SMPC_STATS_GET()    -   SMPCƒXƒe[ƒ^ƒXŽæ“¾
- *              PER_SMPC_SET_IREG()     -   SMPC IREGƒZƒbƒg
- *              PER_SMPC_NO_IREG()      -   IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs
- *          ‚…€ƒ}ƒNƒ
- *              PER_SMPC_MSH_ON()       -   ƒ}ƒXƒ^SH ON
- *              PER_SMPC_SSH_ON()       -   ƒXƒŒ[ƒuSH ON
- *              PER_SMPC_SSH_OFF()      -   ƒXƒŒ[ƒuSH OFF
- *              PER_SMPC_SND_ON()       -   ƒTƒEƒ“ƒhON
- *              PER_SMPC_SND_OFF()      -   ƒTƒEƒ“ƒhOFF
+ *          ï¿½á…ï¿½ï¿½ï¿½}ï¿½Nï¿½ï¿½
+ *              PER_SMPC_WAIT()         -   SMPCï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½
+ *              PER_SMPC_GO_CMD()       -   SMPCï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½s
+ *              PER_SMPC_STATS_GET()    -   SMPCï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½æ“¾
+ *              PER_SMPC_SET_IREG()     -   SMPC IREGï¿½Zï¿½bï¿½g
+ *              PER_SMPC_NO_IREG()      -   IREGï¿½Ý’è–³ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½s
+ *          ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Nï¿½ï¿½
+ *              PER_SMPC_MSH_ON()       -   ï¿½}ï¿½Xï¿½^SH ON
+ *              PER_SMPC_SSH_ON()       -   ï¿½Xï¿½ï¿½ï¿½[ï¿½uSH ON
+ *              PER_SMPC_SSH_OFF()      -   ï¿½Xï¿½ï¿½ï¿½[ï¿½uSH OFF
+ *              PER_SMPC_SND_ON()       -   ï¿½Tï¿½Eï¿½ï¿½ï¿½hON
+ *              PER_SMPC_SND_OFF()      -   ï¿½Tï¿½Eï¿½ï¿½ï¿½hOFF
  *              PER_SMPC_CD_ON()        -   CD ON
  *              PER_SMPC_CD_OFF()       -   CD OFF
- *              PER_SMPC_SYS_RES()      -   ƒVƒXƒeƒ€‘S‘ÌƒŠƒZƒbƒg
- *              PER_SMPC_NMI_REQ()      -   NMIƒŠƒNƒGƒXƒg
- *              PER_SMPC_RES_ENA()      -   ƒzƒbƒgƒŠƒZƒbƒgƒCƒl[ƒuƒ‹
- *              PER_SMPC_RES_DIS()      -   ƒzƒbƒgƒŠƒZƒbƒgƒfƒBƒZ[ƒuƒ‹
- *              PER_SMPC_SET_SM()       -   SMPCƒƒ‚ƒŠÝ’è
- *              PER_SMPC_SET_TIM()      -   ŽžÝ’è
+ *              PER_SMPC_SYS_RES()      -   ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Sï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g
+ *              PER_SMPC_NMI_REQ()      -   NMIï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g
+ *              PER_SMPC_RES_ENA()      -   ï¿½zï¿½bï¿½gï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½
+ *              PER_SMPC_RES_DIS()      -   ï¿½zï¿½bï¿½gï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½fï¿½Bï¿½Zï¿½[ï¿½uï¿½ï¿½
+ *              PER_SMPC_SET_SM()       -   SMPCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
+ *              PER_SMPC_SET_TIM()      -   ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
  *
  *  CAVEATS:
  *
@@ -69,220 +69,236 @@
  * GLOBAL DEFINESMACROS DEFINES
  */
 
-/**** ƒRƒ}ƒ“ƒh ***************************************************************/
-#define PER_SM_MSHON    0x00                    /* ƒ}ƒXƒ^SH ON               */
-#define PER_SM_SSHON    0x02                    /* ƒXƒŒ[ƒuSH ON             */
-#define PER_SM_SSHOFF   0x03                    /* ƒXƒŒ[ƒuSH OFF            */
-#define PER_SM_SNDON    0x06                    /* ƒTƒEƒ“ƒhON                */
-#define PER_SM_SNDOFF   0x07                    /* ƒTƒEƒ“ƒhOFF               */
+/**** ï¿½Rï¿½}ï¿½ï¿½ï¿½h ***************************************************************/
+#define PER_SM_MSHON    0x00                    /* ï¿½}ï¿½Xï¿½^SH ON               */
+#define PER_SM_SSHON    0x02                    /* ï¿½Xï¿½ï¿½ï¿½[ï¿½uSH ON             */
+#define PER_SM_SSHOFF   0x03                    /* ï¿½Xï¿½ï¿½ï¿½[ï¿½uSH OFF            */
+#define PER_SM_SNDON    0x06                    /* ï¿½Tï¿½Eï¿½ï¿½ï¿½hON                */
+#define PER_SM_SNDOFF   0x07                    /* ï¿½Tï¿½Eï¿½ï¿½ï¿½hOFF               */
 #define PER_SM_CDON     0x08                    /* CD ON                     */
 #define PER_SM_CDOFF    0x09                    /* CD OFF                    */
-#define PER_SM_SYSRES   0x0d                    /* ƒVƒXƒeƒ€‘S‘ÌƒŠƒZƒbƒg      */
-#define PER_SM_NMIREQ   0x18                    /* NMIƒŠƒNƒGƒXƒg             */
-#define PER_SM_RESENA   0x19                    /* ƒzƒbƒgƒŠƒZƒbƒgƒCƒl[ƒuƒ‹  */
-#define PER_SM_RESDIS   0x1a                    /* ƒzƒbƒgƒŠƒZƒbƒgƒfƒBƒZ[ƒuƒ‹*/
-#define PER_SM_SETSM    0x17                    /* SMPCƒƒ‚ƒŠÝ’è            */
-#define PER_SM_SETTIM   0x16                    /* ŽžÝ’è                  */
+#define PER_SM_SYSRES   0x0d                    /* ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Sï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g      */
+#define PER_SM_NMIREQ   0x18                    /* NMIï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g             */
+#define PER_SM_RESENA   0x19                    /* ï¿½zï¿½bï¿½gï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½  */
+#define PER_SM_RESDIS   0x1a                    /* ï¿½zï¿½bï¿½gï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½fï¿½Bï¿½Zï¿½[ï¿½uï¿½ï¿½*/
+#define PER_SM_SETSM    0x17                    /* SMPCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½            */
+#define PER_SM_SETTIM   0x16                    /* ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½                  */
 
 /*****************************************************************************/
 /*****************************************************************************/
-/**** ’á…€ƒ}ƒNƒ ***********************************************************/
+/**** ï¿½á…ï¿½ï¿½ï¿½}ï¿½Nï¿½ï¿½ ***********************************************************/
 /*****************************************************************************/
 /*****************************************************************************/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_WAIT() - SMPC‘Ò‚¿ŽžŠÔˆ—
+ * NAME:    PER_SMPC_WAIT() - SMPCï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½
  *
  * PARAMETERS :
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * DESCRIPTION:
- *      SMPC‚ð³‚µ‚­ŽÀs‚·‚é‚½‚ß‚ÌA‘Ò‚¿ŽžŠÔ‚ðŽæ‚éB
+ *      SMPCï¿½ð³‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌAï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
  *
  * PRECONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * POSTCONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * CAVEATS:
- *      PER_SMPC_SET_IREG(),PER_SMPCCmdGo()‚Ì‘O‚É•K‚¸ŽÀs‚·‚é‚±‚ÆB
+ *      PER_SMPC_SET_IREG(),PER_SMPCCmdGo()ï¿½Ì‘Oï¿½É•Kï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½é‚±ï¿½ÆB
  *
  ******************************************************************************
  */
 
-#define PER_SMPC_WAIT(x)                        /* SMPC‘Ò‚¿ŽžŠÔˆ—         */\
+/*
+#define PER_SMPC_WAIT(x)
             do{                                                               \
                 while((PER_PeekByte(PER_REG_SF) & PER_B_SF) == PER_B_SF);\
-                                                /* SF‚ª"1"‚ÌŠÔŒJ‚è•Ô‚µ      */\
+                                                \
                 PER_PokeByte(PER_REG_SF, PER_B_SF);\
-                                                /* SF<-"1"                  */\
+                                              \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_GO_CMD() - SMPCƒRƒ}ƒ“ƒhŽÀs
+ * NAME:    PER_SMPC_GO_CMD() - SMPCï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½s
  *
  * PARAMETERS :
- *      (1) Uint8   smpc_cmd    - <i>   SMPCƒ}ƒNƒ–¼
+ *      (1) Uint8   smpc_cmd    - <i>   SMPCï¿½}ï¿½Nï¿½ï¿½ï¿½ï¿½
  *
  * DESCRIPTION:
- *      Žæ“¾‚µ‚½SMPCƒ}ƒNƒ–¼‚ðSMPC‚ÌCOMREGiƒRƒ}ƒ“ƒhƒŒƒWƒXƒ^j‚ÖƒZƒbƒg‚·‚éB
- *  iƒZƒbƒg‚·‚é‚±‚Æ‚É‚æ‚èASMPCƒn[ƒh‚ªCOMREG‚É‘‚©‚ê‚½ƒRƒ}ƒ“ƒh‚ðŽÀs‚·‚éj
+ *      ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½SMPCï¿½}ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SMPCï¿½ï¿½COMREGï¿½iï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½jï¿½ÖƒZï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½B
+ *  ï¿½iï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½é‚±ï¿½Æ‚É‚ï¿½ï¿½ï¿½ï¿½ASMPCï¿½nï¿½[ï¿½hï¿½ï¿½COMREGï¿½Éï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½j
  *
  * PRECONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * POSTCONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * CAVEATS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  ******************************************************************************
  */
 
-#define PER_SMPC_GO_CMD(smpc_cmd)                 /* SMPCƒRƒ}ƒ“ƒhŽÀs         */\
+#define PER_SMPC_GO_CMD(smpc_cmd)                 /* SMPCï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½s         */\
             do{                                                               \
-             PER_PokeByte(PER_REG_COMREG, smpc_cmd);/* COMREG‚ÉƒRƒ}ƒ“ƒhWRITE*/\
+             PER_PokeByte(PER_REG_COMREG, smpc_cmd);/* COMREGï¿½ÉƒRï¿½}ï¿½ï¿½ï¿½hWRITE*/\
              while(PER_PeekByte(PER_REG_SF) & PER_B_SF);\
-                                                    /* SF‚ª"1"‚Å‚È‚­‚È‚é‚Ü‚Å*/\
+                                                    /* SFï¿½ï¿½"1"ï¿½Å‚È‚ï¿½ï¿½È‚ï¿½ï¿½Ü‚ï¿½*/\
             }while(FALSE)
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_STATS_GET()  - SMPCƒXƒe[ƒ^ƒXŽæ“¾
+ * NAME:    PER_SMPC_STATS_GET()  - SMPCï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½æ“¾
  *
  * PARAMETERS :
- *      (1) Uint8   stats_reg   - <o>   ƒRƒ}ƒ“ƒhŽÀsƒXƒe[ƒ^ƒX
+ *      (1) Uint8   stats_reg   - <o>   ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½Xï¿½eï¿½[ï¿½^ï¿½X
  *
  * DESCRIPTION:
- *      ƒRƒ}ƒ“ƒhŽÀsŒã‚ÌƒXƒe[ƒ^ƒX‚ðŽæ“¾‚·‚é
+ *      ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½Xï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
  *
  * PRECONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * POSTCONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * CAVEATS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  ******************************************************************************
  */
 
-#define PER_SMPC_STATS_GET(stats_reg)           /* SMPCƒXƒe[ƒ^ƒXŽæ“¾       */\
+/*
+#define PER_SMPC_STATS_GET(stats_reg)          \
             do{                                                               \
                 stats_reg = PER_PeekByte(PER_SR);                             \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SET_IREG()   - SMPC IREGƒZƒbƒg
+ * NAME:    PER_SMPC_SET_IREG()   - SMPC IREGï¿½Zï¿½bï¿½g
  *
  * PARAMETERS :
- *      (1) Uint32  ireg_no     - <o>   IREG”Ô†
- *      (2) Uint8   ireg_prm    - <i>   IREGƒZƒbƒg’l
+ *      (1) Uint32  ireg_no     - <o>   IREGï¿½Ôï¿½
+ *      (2) Uint8   ireg_prm    - <i>   IREGï¿½Zï¿½bï¿½gï¿½l
  *
  * DESCRIPTION:
- *      Žw’è‚³‚ê‚½IREG”Ô†ƒAƒhƒŒƒX‚ÉIREG’l‚ðƒZƒbƒg‚·‚éB
+ *      ï¿½wï¿½è‚³ï¿½ê‚½IREGï¿½Ôï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½IREGï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½B
  *
  * PRECONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * POSTCONDITIONS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  * CAVEATS:
- *      ‚È‚µB
+ *      ï¿½È‚ï¿½ï¿½B
  *
  ******************************************************************************
  */
 
-#define PER_SMPC_SET_IREG(ireg_no, ireg_prm)    /* SMPC IREGƒZƒbƒg          */\
+/*
+#define PER_SMPC_SET_IREG(ireg_no, ireg_prm)    \
             do{                                                               \
                 PER_PokeByte((PER_REG_IREG + (ireg_no * 2)), ireg_prm);   \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_NO_IREG()    - IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs
+ * NAME:    PER_SMPC_NO_IREG()    - IREGï¿½Ý’è–³ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½s
  *
  ******************************************************************************
  */
 
 #define PER_SMPC_NO_IREG(com)\
             do{                                                               \
-                PER_SMPC_WAIT();                /* SMPC‘Ò‚¿ŽžŠÔˆ—         */\
-                PER_SMPC_GO_CMD(com);           /* SMPCƒRƒ}ƒ“ƒhŽÀs         */\
+                PER_SMPC_WAIT();                /* SMPCï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½         */\
+                PER_SMPC_GO_CMD(com);           /* SMPCï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½s         */\
             }while(FALSE)
 
 /*****************************************************************************/
 /*****************************************************************************/
-/**** ‚…€ƒ}ƒNƒ ***********************************************************/
+/**** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Nï¿½ï¿½ ***********************************************************/
 /*****************************************************************************/
 /*****************************************************************************/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_MSH_ON()     - ƒ}ƒXƒ^SH ON
+ * NAME:    PER_SMPC_MSH_ON()     - ï¿½}ï¿½Xï¿½^SH ON
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_MSH_ON(x)\
             do{                                                               \
-              PER_SMPC_NO_IREG(PER_SM_MSHON);   /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+              PER_SMPC_NO_IREG(PER_SM_MSHON);   \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SSH_ON()     - ƒXƒŒ[ƒuSH ON
+ * NAME:    PER_SMPC_SSH_ON()     - ï¿½Xï¿½ï¿½ï¿½[ï¿½uSH ON
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_SSH_ON(x)\
             do{                                                               \
-              PER_SMPC_NO_IREG(PER_SM_SSHON);   /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+              PER_SMPC_NO_IREG(PER_SM_SSHON);   \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SSH_OFF()    - ƒXƒŒ[ƒuSH OFF
+ * NAME:    PER_SMPC_SSH_OFF()    - ï¿½Xï¿½ï¿½ï¿½[ï¿½uSH OFF
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_SSH_OFF(x)\
             do{                                                               \
-              PER_SMPC_NO_IREG(PER_SM_SSHOFF);  /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+              PER_SMPC_NO_IREG(PER_SM_SSHOFF);  \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SND_ON()     - ƒTƒEƒ“ƒhON
+ * NAME:    PER_SMPC_SND_ON()     - ï¿½Tï¿½Eï¿½ï¿½ï¿½hON
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_SND_ON(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_SNDON);   /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_SNDON);   \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SND_OFF()    - ƒTƒEƒ“ƒhOFF
+ * NAME:    PER_SMPC_SND_OFF()    - ï¿½Tï¿½Eï¿½ï¿½ï¿½hOFF
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_SND_OFF(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_SNDOFF);  /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_SNDOFF);  \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
@@ -291,10 +307,12 @@
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_CD_ON(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_CDON);    /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_CDON);    \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
@@ -303,95 +321,107 @@
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_CD_OFF(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_CDOFF);   /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_CDOFF);   \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SYS_RES()    - ƒVƒXƒeƒ€‘S‘ÌƒŠƒZƒbƒg
+ * NAME:    PER_SMPC_SYS_RES()    - ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Sï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_SYS_RES(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_SYSRES);  /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_SYSRES);  \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_NMI_REQ()    - NMIƒŠƒNƒGƒXƒg
+ * NAME:    PER_SMPC_NMI_REQ()    - NMIï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_NMI_REQ(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_NMIREQ);  /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_NMIREQ);  \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_RES_ENA()    - ƒzƒbƒgƒŠƒZƒbƒgƒCƒl[ƒuƒ‹
+ * NAME:    PER_SMPC_RES_ENA()    - ï¿½zï¿½bï¿½gï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_RES_ENA(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_RESENA);  /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_RESENA);  \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_RES_DIS()    - ƒzƒbƒgƒŠƒZƒbƒgƒfƒBƒZ[ƒuƒ‹
+ * NAME:    PER_SMPC_RES_DIS()    - ï¿½zï¿½bï¿½gï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½fï¿½Bï¿½Zï¿½[ï¿½uï¿½ï¿½
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_RES_DIS(x)\
             do{                                                               \
-                PER_SMPC_NO_IREG(PER_SM_RESDIS);  /* IREGÝ’è–³‚µƒRƒ}ƒ“ƒhŽÀs */\
+                PER_SMPC_NO_IREG(PER_SM_RESDIS);  \
             }while(FALSE)
+*/
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SET_SM()     - SMPCƒƒ‚ƒŠÝ’è
+ * NAME:    PER_SMPC_SET_SM()     - SMPCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
  *
  ******************************************************************************
  */
 
 #define PER_SMPC_SET_SM(ireg)\
             do{                                                               \
-                PER_SMPC_WAIT();                 /* SMPC‘Ò‚¿ŽžŠÔˆ—         */\
-                PER_SMPC_SET_IREG(0, (ireg) >> 24); /* IREG0ƒZƒbƒg          */\
-                PER_SMPC_SET_IREG(1, (ireg) >> 16); /* IREG0ƒZƒbƒg          */\
-                PER_SMPC_SET_IREG(2, (ireg) >>  8); /* IREG0ƒZƒbƒg          */\
-                PER_SMPC_SET_IREG(3, (ireg) >>  0); /* IREG0ƒZƒbƒg          */\
-                PER_SMPC_GO_CMD(PER_SM_SETSM);    /* SMPCƒRƒ}ƒ“ƒhŽÀs         */\
+                PER_SMPC_WAIT();                 /* SMPCï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½         */\
+                PER_SMPC_SET_IREG(0, (ireg) >> 24); /* IREG0ï¿½Zï¿½bï¿½g          */\
+                PER_SMPC_SET_IREG(1, (ireg) >> 16); /* IREG0ï¿½Zï¿½bï¿½g          */\
+                PER_SMPC_SET_IREG(2, (ireg) >>  8); /* IREG0ï¿½Zï¿½bï¿½g          */\
+                PER_SMPC_SET_IREG(3, (ireg) >>  0); /* IREG0ï¿½Zï¿½bï¿½g          */\
+                PER_SMPC_GO_CMD(PER_SM_SETSM);    /* SMPCï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½s         */\
             }while(FALSE)
 
 /******************************************************************************
  *
- * NAME:    PER_SMPC_SET_TIM()    - ŽžÝ’è
+ * NAME:    PER_SMPC_SET_TIM()    - ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
  *
  ******************************************************************************
  */
 
+/*
 #define PER_SMPC_SET_TIM(ireg)\
             do{                                                               \
-                PER_SMPC_WAIT();                 /* SMPC‘Ò‚¿ŽžŠÔˆ—         */\
-                PER_SMPC_SET_IREG(6, *(ireg));    /* IREG6ƒZƒbƒg              */\
-                PER_SMPC_SET_IREG(5, *(ireg + 1));/* IREG5ƒZƒbƒg              */\
-                PER_SMPC_SET_IREG(4, *(ireg + 2));/* IREG4ƒZƒbƒg              */\
-                PER_SMPC_SET_IREG(3, *(ireg + 3));/* IREG3ƒZƒbƒg              */\
-                PER_SMPC_SET_IREG(2, *(ireg + 4));/* IREG2ƒZƒbƒg              */\
-                PER_SMPC_SET_IREG(1, *(ireg + 5));/* IREG1ƒZƒbƒg              */\
-                PER_SMPC_SET_IREG(0, *(ireg + 6));/* IREG0ƒZƒbƒg              */\
-                PER_SMPC_GO_CMD(PER_SM_SETTIM);   /* SMPCƒRƒ}ƒ“ƒhŽÀs         */\
+                PER_SMPC_WAIT();                 \
+                PER_SMPC_SET_IREG(6, *(ireg));    \
+                PER_SMPC_SET_IREG(5, *(ireg + 1));\
+                PER_SMPC_SET_IREG(4, *(ireg + 2));\
+                PER_SMPC_SET_IREG(3, *(ireg + 3));\
+                PER_SMPC_SET_IREG(2, *(ireg + 4));\
+                PER_SMPC_SET_IREG(1, *(ireg + 5));\
+                PER_SMPC_SET_IREG(0, *(ireg + 6));\
+                PER_SMPC_GO_CMD(PER_SM_SETTIM);   \
             }while(FALSE)
+*/
 
 /*
  * STRUCTURE DECLARATIONS

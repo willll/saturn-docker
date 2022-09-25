@@ -156,7 +156,24 @@ diff -crB --binary sbl6/segalib/include/sega_int.h sbl6_patch/segalib/include/se
 ! 
 diff -crB --binary sbl6/segalib/include/sega_per.h sbl6_patch/segalib/include/sega_per.h
 *** sbl6/segalib/include/sega_per.h	1996-02-08 05:23:48.000000000 -0500
---- sbl6_patch/segalib/include/sega_per.h	2022-08-29 17:03:56.000000000 -0400
+--- sbl6_patch/segalib/include/sega_per.h	2022-09-24 08:41:04.000000000 -0400
+***************
+*** 233,239 ****
+      PerMulCon   con;
+  }PerMulInfo;                                    /* É}ÉãÉ`É^ÉbÉvèÓïÒ          */
+  
+! typedef struct  {                               /* ÉVÉXÉeÉÄèoóÕ              */
+      Uint8   cc;                                 /* ÉJÅ[ÉgÉäÉbÉWÉRÅ[Éh        */
+      Uint8   ac;                                 /* ÉGÉäÉAÉRÅ[Éh              */
+      Uint16  ss;                                 /* ÉVÉXÉeÉÄÉXÉeÅ[É^ÉX        */
+--- 233,239 ----
+      PerMulCon   con;
+  }PerMulInfo;                                    /* É}ÉãÉ`É^ÉbÉvèÓïÒ          */
+  
+! typedef struct __attribute__ ((aligned (16))) { /* ÉVÉXÉeÉÄèoóÕ              */
+      Uint8   cc;                                 /* ÉJÅ[ÉgÉäÉbÉWÉRÅ[Éh        */
+      Uint8   ac;                                 /* ÉGÉäÉAÉRÅ[Éh              */
+      Uint16  ss;                                 /* ÉVÉXÉeÉÄÉXÉeÅ[É^ÉX        */
 ***************
 *** 612,627 ****
    */
@@ -6136,7 +6153,7 @@ diff -crB --binary sbl6/segasmp/csh/smpcsh.c sbl6_patch/segasmp/csh/smpcsh.c
 ! 
 diff -crB --binary sbl6/segasmp/dbg/smpdbg1/smpdbg10.c sbl6_patch/segasmp/dbg/smpdbg1/smpdbg10.c
 *** sbl6/segasmp/dbg/smpdbg1/smpdbg10.c	1996-02-08 05:28:04.000000000 -0500
---- sbl6_patch/segasmp/dbg/smpdbg1/smpdbg10.c	2021-12-18 11:37:54.000000000 -0500
+--- sbl6_patch/segasmp/dbg/smpdbg1/smpdbg10.c	2022-09-17 20:33:48.000000000 -0400
 ***************
 *** 12,17 ****
 --- 12,18 ----
@@ -6438,9 +6455,338 @@ diff -crB --binary sbl6/segasmp/dma/smpdma2/smpdma2.c sbl6_patch/segasmp/dma/smp
   /*  End of File                                                             */
   /****************************************************************************/
 ! 
+diff -crB --binary sbl6/segasmp/dual/sega_spr.h sbl6_patch/segasmp/dual/sega_spr.h
+*** sbl6/segasmp/dual/sega_spr.h	1996-02-08 05:28:24.000000000 -0500
+--- sbl6_patch/segasmp/dual/sega_spr.h	2022-09-24 21:24:52.000000000 -0400
+***************
+*** 1,22 ****
+  /*----------------------------------------------------------------------------
+!  *  sega_spr.h -- SPR ÉâÉCÉuÉâÉä ÉCÉìÉNÉãÅ[ÉhÉtÉ@ÉCÉã
+   *  Copyright(c) 1994 SEGA
+   *  Written by H.E on 1994-02-15 Ver.0.80
+   *  Updated by H.E on 1994-02-15 Ver.0.80
+   *
+!  *  ÉXÉvÉâÉCÉgï\é¶ópÉCÉìÉNÉãÅ[ÉhÉtÉ@ÉCÉãÇ≈égópÉXÉvÉâÉCÉgï\é¶ÉâÉCÉuÉâÉäÇÃéÌï Ç…
+!  *  ÇÊÇËà»â∫ÇÃÇÊÇ§Ç…íËã`ÇµÇ‹Ç∑ÅB
+   *
+!  *  ÅiÇPÅjÉXÉvÉâÉCÉgï\é¶äÓñ{èàóùÇÃÇ›ÇÃèÍçá
+   *
+   *        #include "sega_spr.h"
+   *
+!  *  ÅiÇQÅjÉXÉvÉâÉCÉgï\é¶ägí£èàóùÇÃèÍçá
+   *
+   *        #define  _SPR2_
+   *        #include "sega_spr.h"
+   *
+!  *  ÅiÇRÅjÉXÉvÉâÉCÉgÇRÇcï\é¶èàóùÇÃèÍçá
+   *
+   *        #define  _SPR3_
+   *        #include "sega_spr.h"
+--- 1,22 ----
+  /*----------------------------------------------------------------------------
+!  *  sega_spr.h -- SPR ÔøΩÔøΩÔøΩCÔøΩuÔøΩÔøΩÔøΩÔøΩ ÔøΩCÔøΩÔøΩÔøΩNÔøΩÔøΩÔøΩ[ÔøΩhÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩ
+   *  Copyright(c) 1994 SEGA
+   *  Written by H.E on 1994-02-15 Ver.0.80
+   *  Updated by H.E on 1994-02-15 Ver.0.80
+   *
+!  *  ÔøΩXÔøΩvÔøΩÔøΩÔøΩCÔøΩgÔøΩ\ÔøΩÔøΩÔøΩpÔøΩCÔøΩÔøΩÔøΩNÔøΩÔøΩÔøΩ[ÔøΩhÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩ≈égÔøΩpÔøΩXÔøΩvÔøΩÔøΩÔøΩCÔøΩgÔøΩ\ÔøΩÔøΩÔøΩÔøΩÔøΩCÔøΩuÔøΩÔøΩÔøΩÔøΩÔøΩÃéÔøΩÔøΩ ÇÔøΩ
+!  *  ÔøΩÔøΩÔøΩÔøΩÔøΩ»âÔøΩÔøΩÃÇÊÇ§ÔøΩ…íÔøΩÔøΩ`ÔøΩÔøΩÔøΩ‹ÇÔøΩÔøΩB
+   *
+!  *  ÔøΩiÔøΩPÔøΩjÔøΩXÔøΩvÔøΩÔøΩÔøΩCÔøΩgÔøΩ\ÔøΩÔøΩÔøΩÔøΩÔøΩ{ÔøΩÔøΩÔøΩÔøΩÔøΩÃÇ›ÇÃèÍçá
+   *
+   *        #include "sega_spr.h"
+   *
+!  *  ÔøΩiÔøΩQÔøΩjÔøΩXÔøΩvÔøΩÔøΩÔøΩCÔøΩgÔøΩ\ÔøΩÔøΩÔøΩgÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÃèÍçá
+   *
+   *        #define  _SPR2_
+   *        #include "sega_spr.h"
+   *
+!  *  ÔøΩiÔøΩRÔøΩjÔøΩXÔøΩvÔøΩÔøΩÔøΩCÔøΩgÔøΩRÔøΩcÔøΩ\ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÃèÍçá
+   *
+   *        #define  _SPR3_
+   *        #include "sega_spr.h"
+***************
+*** 28,33 ****
+--- 28,34 ----
+  #ifndef SEGA_SPR_H
+  #define SEGA_SPR_H
+  
++ 
+  /*-----------------------------------
+   * Select 3D Execute Machine
+   *---------------------------------*/
+***************
+*** 70,75 ****
+--- 71,84 ----
+  typedef long                  Long;
+  typedef float                 Float;
+  typedef double                Double;
++ typedef unsigned    char    Uint8;      /* ÔøΩÔøΩÔøΩÔøΩÔøΩ»ÇÔøΩÔøΩPÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
++ typedef signed      char    Sint8;      /* ÔøΩÔøΩÔøΩÔøΩÔøΩ¬ÇÔøΩÔøΩPÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
++ typedef unsigned    short   Uint16;     /* ÔøΩÔøΩÔøΩÔøΩÔøΩ»ÇÔøΩÔøΩQÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
++ typedef signed      short   Sint16;     /* ÔøΩÔøΩÔøΩÔøΩÔøΩ¬ÇÔøΩÔøΩQÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
++ typedef unsigned    long    Uint32;     /* ÔøΩÔøΩÔøΩÔøΩÔøΩ»ÇÔøΩÔøΩSÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
++ typedef signed      long    Sint32;     /* ÔøΩÔøΩÔøΩÔøΩÔøΩ¬ÇÔøΩÔøΩSÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
++ typedef float               Float32;    /* ÔøΩSÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
++ typedef double              Float64;    /* ÔøΩWÔøΩoÔøΩCÔøΩgÔøΩÔøΩÔøΩÔøΩ */
+  typedef Sint32                Fixed32;    /* Fixed-point representation         */
+  					  /* Radix point is between bit 15 & 16 */
+  
+***************
+*** 93,103 ****
+  #ifndef FALSE
+  #define FALSE                 0
+  #endif
+! */
+  #ifndef TRUE
+  #define TRUE                  1
+  #endif
+! 
+  #ifndef NIL
+  #define NIL                   0
+  #endif
+--- 102,112 ----
+  #ifndef FALSE
+  #define FALSE                 0
+  #endif
+! 
+  #ifndef TRUE
+  #define TRUE                  1
+  #endif
+! */
+  #ifndef NIL
+  #define NIL                   0
+  #endif
+***************
+*** 109,122 ****
+  #ifndef Void
+  #define Void                  void
+  #endif
+! 
+  #ifndef OK
+  #define OK                    0
+  #endif
+! 
+! #ifndef NG
+! #define NG                    -1
+! #endif
+  
+  /*
+   * MACROS DECLARATIONS
+--- 118,131 ----
+  #ifndef Void
+  #define Void                  void
+  #endif
+! /*
+  #ifndef OK
+  #define OK                    0
+  #endif
+! */
+! // #ifndef NG
+! // #define NG                    -1
+! // #endif
+  
+  /*
+   * MACROS DECLARATIONS
+***************
+*** 392,398 ****
+  PROTOTYPE(Void  , SPR_2Line, (Uint16, Uint16, GlbXYint *, Uint16));
+  PROTOTYPE(Void  , SPR_2PolyLine, (Uint16, Uint16, GlbXYint *, Uint16));
+  PROTOTYPE(Void  , SPR_2Polygon, (Uint16, Uint16, GlbXYint *, Uint16));
+! PROTOTYPE(Void  , SPR_2NormSpr, (Uint16, Uint16, Uint16, 
+  				       Uint16, GlbXYint *, Uint16));
+  PROTOTYPE(Void  , SPR_2ScaleSpr, (Uint16, Uint16, Uint16,
+  					Uint16, GlbXYint *xy, Uint16));
+--- 401,407 ----
+  PROTOTYPE(Void  , SPR_2Line, (Uint16, Uint16, GlbXYint *, Uint16));
+  PROTOTYPE(Void  , SPR_2PolyLine, (Uint16, Uint16, GlbXYint *, Uint16));
+  PROTOTYPE(Void  , SPR_2Polygon, (Uint16, Uint16, GlbXYint *, Uint16));
+! PROTOTYPE(Void  , SPR_2NormSpr, (Uint16, Uint16, Uint16,
+  				       Uint16, GlbXYint *, Uint16));
+  PROTOTYPE(Void  , SPR_2ScaleSpr, (Uint16, Uint16, Uint16,
+  					Uint16, GlbXYint *xy, Uint16));
+***************
+*** 422,480 ****
+   * STRUCTURE DECLARATIONS
+   */
+  struct GlbCluster {
+!     GlbObject3D	*object;        /* ÇRÇcÉIÉuÉWÉFÉNÉg                          */
+!     GlbCluster	*next;       	/* éüÉNÉâÉXÉ^                                */
+!     GlbCluster	*child;      	/* éqÉNÉâÉXÉ^                                */
+!     Uint16	angleSeq;       /* âÒì]èáèò                                  */
+!     GlbXYZ	angle;	        /* êeÉNÉâÉXÉ^ÇÃç¿ïWånÇ…Ç®ÇØÇÈâÒì]            */
+!     GlbXYZ	point;	        /* êeÉNÉâÉXÉ^ÇÃç¿ïWånÇ…Ç®ÇØÇÈå¥ì_ÇÃç¿ïW      */
+!     GlbXYZ	worldPoint;     /* ÉèÅ[ÉãÉhç¿ïWånÇ…Ç®ÇØÇÈå¥ì_ÇÃç¿ïW          */
+  };
+  
+  struct GlbObject3D {
+!     Uint16      dispFlag;       /* ï\é¶ÉtÉâÉO                                */
+!     Uint16      vertCount;      /* í∏ì_êî                                    */
+!     Uint16      surfaceCount;   /* ñ êî                                      */
+!     GlbXYZ      *vertPoint;     /* í∏ì_ç¿ïWÉeÅ[ÉuÉã                          */
+!     GlbXYZ      *vertNormal;    /* í∏ì_ÇÃñ@ê¸ÉxÉNÉgÉãÉeÅ[ÉuÉã                */
+!     GlbSurface  *surface;       /* ñ íËã`ÉeÅ[ÉuÉã                            */
+!     GlbXYZ      *surfaceNormal; /* ñ ÇÃñ@ê¸ÉxÉNÉgÉãÉeÅ[ÉuÉã                  */
+!     Uint16      **shdIdxTbl;    /* ÉVÉFÅ[ÉfÉBÉìÉOÉCÉìÉfÉbÉNÉXÉeÅ[ÉuÉã        */
+!     GlbObject3D *next;          /* éüÇRÇcÉIÉuÉWÉFÉNÉg                        */
+  };
+  
+  struct GlbSurface {
+!     Uint16     vertNo[4];       /* ñ Çç\ê¨Ç∑ÇÈí∏ì_î‘çÜ                      */
+!     Uint16     drawMode;        /* ï`âÊÉÇÅ[Éh                                */
+!     Uint16     color;           /* ÉJÉâÅ[ÉfÅ[É^                              */
+  };
+  
+  struct GlbTexture {
+!     Uint16       charNo;        /* ñ Çç\ê¨Ç∑ÇÈí∏ì_î‘çÜ                      */
+!     Uint16       colorMode;     /* ÉJÉâÅ[ÉÇÅ[Éh                              */
+!     Uint16       width;         /* ÉLÉÉÉâÉNÉ^ÇÃïù                            */
+!     Uint16       height;        /* ÉLÉÉÉâÉNÉ^ÇÃçÇÇ≥                          */
+!     Uint8        *charData;     /* ÉLÉÉÉâÉNÉ^ÉfÅ[É^ÇÃÉ|ÉCÉìÉ^                */
+!     GlbLookupTbl *lookupTbl;    /* ÉãÉbÉNÉAÉbÉvÉeÅ[ÉuÉãÇÃÉ|ÉCÉìÉ^            */
+  };
+  
+  struct GlbCmdChain {
+!     Fixed32     z;              /* ÇyÉ\Å[Égë„ï\íl                            */
+!     GlbCmdChain *next;          /* éüÇÃÉRÉ}ÉìÉhÉ`ÉFÉCÉìÉGÉìÉgÉäÉ|ÉCÉìÉ^      */
+!     Uint16      cmdNo;          /* ÉRÉ}ÉìÉhî‘çÜ                              */
+  };
+  
+  struct Glb3WorkArea {
+!     Uint16      drawPolMax;     /* ï`âÊÉ|ÉäÉSÉìç≈ëÂêî                        */
+!     Uint16      objSurfMax;     /* ÉIÉuÉWÉFÉNÉgì‡ç≈ëÂñ êî                    */
+!     Uint16      objVertMax;     /* ÉIÉuÉWÉFÉNÉgì‡ç≈ëÂí∏ì_êî                  */
+!     Uint16      sortBlkMax;     /* É\Å[ÉgÉuÉçÉbÉNç≈ëÂÉGÉìÉgÉäêî              */
+!     Uint8       *surfBright;    /* ñ ãPìxÉeÅ[ÉuÉã                            */
+!     Uint8       *vertBright;    /* í∏ì_ãPìxÉeÅ[ÉuÉã                          */
+!     GlbXYZ      *coord3D;       /* ÇRÇcç¿ïWïœä∑å„ÉeÅ[ÉuÉã                    */
+!     GlbXYint    *coord2D;       /* ÇQÇcìßéãïœä∑å„ÉeÅ[ÉuÉã                    */
+!     GlbCmdChain *cmdChain;      /* ï`âÊÉ|ÉäÉSÉìÉRÉ}ÉìÉhÉ`ÉFÉCÉìÉeÅ[ÉuÉã      */
+!     GlbCmdChain **zSortBlk;     /* ÇyÉ\Å[ÉgÉuÉçÉbÉNÉGÉäÉA                    */
+  };
+  
+  
+--- 431,489 ----
+   * STRUCTURE DECLARATIONS
+   */
+  struct GlbCluster {
+!     GlbObject3D	*object;        /* ÔøΩRÔøΩcÔøΩIÔøΩuÔøΩWÔøΩFÔøΩNÔøΩg                          */
+!     GlbCluster	*next;       	/* ÔøΩÔøΩÔøΩNÔøΩÔøΩÔøΩXÔøΩ^                                */
+!     GlbCluster	*child;      	/* ÔøΩqÔøΩNÔøΩÔøΩÔøΩXÔøΩ^                                */
+!     Uint16	angleSeq;       /* ÔøΩÔøΩÔøΩ]ÔøΩÔøΩÔøΩÔøΩ                                  */
+!     GlbXYZ	angle;	        /* ÔøΩeÔøΩNÔøΩÔøΩÔøΩXÔøΩ^ÔøΩÃçÔøΩÔøΩWÔøΩnÔøΩ…ÇÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ]            */
+!     GlbXYZ	point;	        /* ÔøΩeÔøΩNÔøΩÔøΩÔøΩXÔøΩ^ÔøΩÃçÔøΩÔøΩWÔøΩnÔøΩ…ÇÔøΩÔøΩÔøΩÔøΩÈå¥ÔøΩ_ÔøΩÃçÔøΩÔøΩW      */
+!     GlbXYZ	worldPoint;     /* ÔøΩÔøΩÔøΩ[ÔøΩÔøΩÔøΩhÔøΩÔøΩÔøΩWÔøΩnÔøΩ…ÇÔøΩÔøΩÔøΩÔøΩÈå¥ÔøΩ_ÔøΩÃçÔøΩÔøΩW          */
+  };
+  
+  struct GlbObject3D {
+!     Uint16      dispFlag;       /* ÔøΩ\ÔøΩÔøΩÔøΩtÔøΩÔøΩÔøΩO                                */
+!     Uint16      vertCount;      /* ÔøΩÔøΩÔøΩ_ÔøΩÔøΩ                                    */
+!     Uint16      surfaceCount;   /* ÔøΩ êÔøΩ                                      */
+!     GlbXYZ      *vertPoint;     /* ÔøΩÔøΩÔøΩ_ÔøΩÔøΩÔøΩWÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                          */
+!     GlbXYZ      *vertNormal;    /* ÔøΩÔøΩÔøΩ_ÔøΩÃñ@ÔøΩÔøΩÔøΩxÔøΩNÔøΩgÔøΩÔøΩÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                */
+!     GlbSurface  *surface;       /* ÔøΩ íÔøΩÔøΩ`ÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                            */
+!     GlbXYZ      *surfaceNormal; /* ÔøΩ ÇÃñ@ÔøΩÔøΩÔøΩxÔøΩNÔøΩgÔøΩÔøΩÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                  */
+!     Uint16      **shdIdxTbl;    /* ÔøΩVÔøΩFÔøΩ[ÔøΩfÔøΩBÔøΩÔøΩÔøΩOÔøΩCÔøΩÔøΩÔøΩfÔøΩbÔøΩNÔøΩXÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ        */
+!     GlbObject3D *next;          /* ÔøΩÔøΩÔøΩRÔøΩcÔøΩIÔøΩuÔøΩWÔøΩFÔøΩNÔøΩg                        */
+  };
+  
+  struct GlbSurface {
+!     Uint16     vertNo[4];       /* ÔøΩ ÇÔøΩÔøΩ\ÔøΩÔøΩÔøΩÔøΩÔøΩÈí∏ÔøΩ_ÔøΩ‘çÔøΩ                      */
+!     Uint16     drawMode;        /* ÔøΩ`ÔøΩÊÉÇÔøΩ[ÔøΩh                                */
+!     Uint16     color;           /* ÔøΩJÔøΩÔøΩÔøΩ[ÔøΩfÔøΩ[ÔøΩ^                              */
+  };
+  
+  struct GlbTexture {
+!     Uint16       charNo;        /* ÔøΩ ÇÔøΩÔøΩ\ÔøΩÔøΩÔøΩÔøΩÔøΩÈí∏ÔøΩ_ÔøΩ‘çÔøΩ                      */
+!     Uint16       colorMode;     /* ÔøΩJÔøΩÔøΩÔøΩ[ÔøΩÔøΩÔøΩ[ÔøΩh                              */
+!     Uint16       width;         /* ÔøΩLÔøΩÔøΩÔøΩÔøΩÔøΩNÔøΩ^ÔøΩÃïÔøΩ                            */
+!     Uint16       height;        /* ÔøΩLÔøΩÔøΩÔøΩÔøΩÔøΩNÔøΩ^ÔøΩÃçÔøΩÔøΩÔøΩ                          */
+!     Uint8        *charData;     /* ÔøΩLÔøΩÔøΩÔøΩÔøΩÔøΩNÔøΩ^ÔøΩfÔøΩ[ÔøΩ^ÔøΩÃÉ|ÔøΩCÔøΩÔøΩÔøΩ^                */
+!     GlbLookupTbl *lookupTbl;    /* ÔøΩÔøΩÔøΩbÔøΩNÔøΩAÔøΩbÔøΩvÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩÔøΩÃÉ|ÔøΩCÔøΩÔøΩÔøΩ^            */
+  };
+  
+  struct GlbCmdChain {
+!     Fixed32     z;              /* ÔøΩyÔøΩ\ÔøΩ[ÔøΩgÔøΩÔøΩÔøΩ\ÔøΩl                            */
+!     GlbCmdChain *next;          /* ÔøΩÔøΩÔøΩÃÉRÔøΩ}ÔøΩÔøΩÔøΩhÔøΩ`ÔøΩFÔøΩCÔøΩÔøΩÔøΩGÔøΩÔøΩÔøΩgÔøΩÔøΩÔøΩ|ÔøΩCÔøΩÔøΩÔøΩ^      */
+!     Uint16      cmdNo;          /* ÔøΩRÔøΩ}ÔøΩÔøΩÔøΩhÔøΩ‘çÔøΩ                              */
+  };
+  
+  struct Glb3WorkArea {
+!     Uint16      drawPolMax;     /* ÔøΩ`ÔøΩÔøΩÔøΩ|ÔøΩÔøΩÔøΩSÔøΩÔøΩÔøΩ≈ëÂêî                        */
+!     Uint16      objSurfMax;     /* ÔøΩIÔøΩuÔøΩWÔøΩFÔøΩNÔøΩgÔøΩÔøΩÔøΩ≈ëÔøΩÔøΩ êÔøΩ                    */
+!     Uint16      objVertMax;     /* ÔøΩIÔøΩuÔøΩWÔøΩFÔøΩNÔøΩgÔøΩÔøΩÔøΩ≈ëÂí∏ÔøΩ_ÔøΩÔøΩ                  */
+!     Uint16      sortBlkMax;     /* ÔøΩ\ÔøΩ[ÔøΩgÔøΩuÔøΩÔøΩÔøΩbÔøΩNÔøΩ≈ëÔøΩÔøΩGÔøΩÔøΩÔøΩgÔøΩÔøΩÔøΩÔøΩ              */
+!     Uint8       *surfBright;    /* ÔøΩ ãPÔøΩxÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                            */
+!     Uint8       *vertBright;    /* ÔøΩÔøΩÔøΩ_ÔøΩPÔøΩxÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                          */
+!     GlbXYZ      *coord3D;       /* ÔøΩRÔøΩcÔøΩÔøΩÔøΩWÔøΩœäÔøΩÔøΩÔøΩÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                    */
+!     GlbXYint    *coord2D;       /* ÔøΩQÔøΩcÔøΩÔøΩÔøΩÔøΩÔøΩœäÔøΩÔøΩÔøΩÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ                    */
+!     GlbCmdChain *cmdChain;      /* ÔøΩ`ÔøΩÔøΩÔøΩ|ÔøΩÔøΩÔøΩSÔøΩÔøΩÔøΩRÔøΩ}ÔøΩÔøΩÔøΩhÔøΩ`ÔøΩFÔøΩCÔøΩÔøΩÔøΩeÔøΩ[ÔøΩuÔøΩÔøΩ      */
+!     GlbCmdChain **zSortBlk;     /* ÔøΩyÔøΩ\ÔøΩ[ÔøΩgÔøΩuÔøΩÔøΩÔøΩbÔøΩNÔøΩGÔøΩÔøΩÔøΩA                    */
+  };
+  
+  
+diff -crB --binary sbl6/segasmp/dual/slv_mtx3.h sbl6_patch/segasmp/dual/slv_mtx3.h
+*** sbl6/segasmp/dual/slv_mtx3.h	1996-02-08 05:28:26.000000000 -0500
+--- sbl6_patch/segasmp/dual/slv_mtx3.h	2022-09-24 21:43:30.000000000 -0400
+***************
+*** 1,15 ****
+  /*----------------------------------------------------------------------------
+!  *  spr_mtx3.h -- SPR ÉâÉCÉuÉâÉä MTX3 ÉCÉìÉNÉãÅ[ÉhÉtÉ@ÉCÉã
+   *  Copyright(c) 1994 SEGA
+   *  Written by K.M on 1993-12-14 Ver.0.80
+   *  Updated by H.E on 1994-02-15 Ver.0.80
+   *
+!  *  Ç±ÇÃÉCÉìÉNÉãÅ[ÉhÉtÉ@ÉCÉãÇÕÉXÉvÉâÉCÉgÇRÇcï\é¶ÇÃÉ}ÉgÉäÉbÉNÉXââéZÉãÅ[É`Éì
+!  *  íËã`ÅB
+   *
+   *----------------------------------------------------------------------------
+   */
+!  
+  #define	PRODUCT(a, b)\
+  (MUL_FIXED((a).x, (b).x) + MUL_FIXED((a).y, (b).y) + MUL_FIXED((a).z, (b).z))
+  
+--- 1,19 ----
+  /*----------------------------------------------------------------------------
+!  *  spr_mtx3.h -- SPR ÔøΩÔøΩÔøΩCÔøΩuÔøΩÔøΩÔøΩÔøΩ MTX3 ÔøΩCÔøΩÔøΩÔøΩNÔøΩÔøΩÔøΩ[ÔøΩhÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩ
+   *  Copyright(c) 1994 SEGA
+   *  Written by K.M on 1993-12-14 Ver.0.80
+   *  Updated by H.E on 1994-02-15 Ver.0.80
+   *
+!  *  ÔøΩÔøΩÔøΩÃÉCÔøΩÔøΩÔøΩNÔøΩÔøΩÔøΩ[ÔøΩhÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩÕÉXÔøΩvÔøΩÔøΩÔøΩCÔøΩgÔøΩRÔøΩcÔøΩ\ÔøΩÔøΩÔøΩÃÉ}ÔøΩgÔøΩÔøΩÔøΩbÔøΩNÔøΩXÔøΩÔøΩÔøΩZÔøΩÔøΩÔøΩ[ÔøΩ`ÔøΩÔøΩ
+!  *  ÔøΩÔøΩÔøΩ`ÔøΩB
+   *
+   *----------------------------------------------------------------------------
+   */
+! 
+! #include "sega_spr.h"
+! 
+! struct GlbXYZ;
+! 
+  #define	PRODUCT(a, b)\
+  (MUL_FIXED((a).x, (b).x) + MUL_FIXED((a).y, (b).y) + MUL_FIXED((a).z, (b).z))
+  
 diff -crB --binary sbl6/segasmp/dual/slvsamp.c sbl6_patch/segasmp/dual/slvsamp.c
 *** sbl6/segasmp/dual/slvsamp.c	1996-02-08 05:28:26.000000000 -0500
---- sbl6_patch/segasmp/dual/slvsamp.c	2022-01-17 19:45:50.000000000 -0500
+--- sbl6_patch/segasmp/dual/slvsamp.c	2022-09-24 10:01:18.000000000 -0400
+***************
+*** 4,10 ****
+  
+  #include "sega_xpt.h"
+  #define _SPR2_
+! #include "sega_spr.h"
+  #include "spr_mtx3.h"
+  #include "slv_mtx3.h"
+  
+--- 4,11 ----
+  
+  #include "sega_xpt.h"
+  #define _SPR2_
+! //#include "sega_spr.h"
+! #include "sl_def.h"
+  #include "spr_mtx3.h"
+  #include "slv_mtx3.h"
+  
 ***************
 *** 353,359 ****
   	extern volatile void	*SlaveCommand;
@@ -6450,7 +6796,7 @@ diff -crB --binary sbl6/segasmp/dual/slvsamp.c sbl6_patch/segasmp/dual/slvsamp.c
     main(void)
   {
   #if	0
---- 353,359 ----
+--- 354,360 ----
   	extern volatile void	*SlaveCommand;
   	#define	slave_command	*( volatile Uint32 * )(( Uint32 )&SlaveCommand + 0x20000000 )
   #endif
@@ -6460,7 +6806,7 @@ diff -crB --binary sbl6/segasmp/dual/slvsamp.c sbl6_patch/segasmp/dual/slvsamp.c
   #if	0
 ***************
 *** 426,431 ****
---- 426,432 ----
+--- 427,433 ----
   		*( Uint16 * )0x25d00002 = 0x0003;
   	}
   #endif
@@ -6475,14 +6821,14 @@ diff -crB --binary sbl6/segasmp/dual/slvsamp.c sbl6_patch/segasmp/dual/slvsamp.c
   }
 ! 
 \ No newline at end of file
---- 606,609 ----
+--- 607,610 ----
       FWBank = 1 - FWBank; /* 1 -> 0; 0 -> 1 */
       BKBank = 1 - BKBank; /* 1 -> 0; 0 -> 1 */
   }
 ! 
 diff -crB --binary sbl6/segasmp/dual/spr_xpt.c sbl6_patch/segasmp/dual/spr_xpt.c
 *** sbl6/segasmp/dual/spr_xpt.c	1996-02-08 05:28:28.000000000 -0500
---- sbl6_patch/segasmp/dual/spr_xpt.c	2022-01-17 19:40:46.000000000 -0500
+--- sbl6_patch/segasmp/dual/spr_xpt.c	2022-09-24 10:01:54.000000000 -0400
 ***************
 *** 1,16 ****
   /*----------------------------------------------------------------------------
@@ -6519,9 +6865,22 @@ diff -crB --binary sbl6/segasmp/dual/spr_xpt.c sbl6_patch/segasmp/dual/spr_xpt.c
    *   #include "sega_xpt.h"
    *   #include "sega_spr.h"
 ***************
-*** 22,27 ****
---- 22,28 ----
-  #include "sega_spr.h"
+*** 19,27 ****
+   */
+  
+  #include "sega_xpt.h"
+! #include "sega_spr.h"
+  
+  #include	<machine.h>
+  
+  extern Fixed32 fsin(Fixed32 degree);
+  extern Fixed32 fcos(Fixed32 degree);
+--- 19,29 ----
+   */
+  
+  #include "sega_xpt.h"
+! //#include "sega_spr.h"
+! #include "sl_def.h"
   
   #include	<machine.h>
 + #include  <string.h>
@@ -6536,7 +6895,745 @@ diff -crB --binary sbl6/segasmp/dual/spr_xpt.c sbl6_patch/segasmp/dual/spr_xpt.c
 - 
 - 
 - 
---- 78,80 ----
+--- 79,81 ----
+diff -crB --binary sbl6/segasmp/game/act.c sbl6_patch/segasmp/game/act.c
+*** sbl6/segasmp/game/act.c	1996-02-08 05:28:38.000000000 -0500
+--- sbl6_patch/segasmp/game/act.c	2022-09-24 09:08:36.000000000 -0400
+***************
+*** 1,365 ****
+  /*----------------------------------------------------------------------*/
+  /*	ÇrÇaÇkÇUÉTÉìÉvÉãÉQÅ[ÉÄÇæÇÊÅ[ÇÒ										*/
+  /*----------------------------------------------------------------------*/
+! 
+! #include	"act.h"
+! #include	"sega_scl.h"
+! #include	"sega_dbg.h"
+! #include	"sample.h"
+! #include	"game.h"
+! 
+! 
+! Uint16	endtimer=0,endflg=0;
+! 
+! extern	trigger_t	pltrigger[];
+! extern	Uint16	fadetimer;
+! 
+! /*FIGHTER	*p1,*p2;*/
+! FIGHTER	f[2];
+! BULLET	b[2][_BULLETS];
+! ONEPLANE	p[6];
+! FIGHTER	*pt[] = { &f[1],&f[0] };
+! PDATA	PDcube[2];
+! PDATA	*PDlist[] = { &PD_CUBE1 , &PD_CUBE2 };
+! PDATA	* const _PDplane[] = {
+! 			&PD_BREAK1,
+! 			&PD_BREAK2,
+! 			&PD_BREAK3,
+! 			&PD_BREAK4,
+! 			&PD_BREAK5,
+! 			&PD_BREAK6
+! 		};
+! 
+! const short	spdtbl[6][XYZ]	= {
+! 				{  0 , -2 ,  1 },
+! 				{ -1 ,  0 ,  0 },
+! 				{  0 , -2 , -1 },
+! 				{  1 ,  0 ,  0 },
+! 				{  0 , -1 ,  0 },
+! 				{  0 ,  1 ,  0 }
+! 			};
+! const ANGLE	rottbl[6][XYZ]	={
+! 				{DEGtoANG(-10.0 ),DEGtoANG(-10.0 ),DEGtoANG(  0.0 )},
+! 				{DEGtoANG(  0.0 ),DEGtoANG( 10.0 ),DEGtoANG(-10.0 )},
+! 				{DEGtoANG( 10.0 ),DEGtoANG( 10.0 ),DEGtoANG(  0.0 )},
+! 				{DEGtoANG(  0.0 ),DEGtoANG( 10.0 ),DEGtoANG( 10.0 )},
+! 				{DEGtoANG( 10.0 ),DEGtoANG(  0.0 ),DEGtoANG( 10.0 )},
+! 				{DEGtoANG(-10.0 ),DEGtoANG(  0.0 ),DEGtoANG(-10.0 )}
+! 			};
+! 
+! unsigned short	flash_color[] = {	/* FlashÇÃêF	*/
+! 			C_RGB(25,28,30),
+! 			C_RGB(25,25,30),
+! 			C_RGB(25,28,30),
+! 			C_RGB(25,25,30),
+! 			C_RGB(30,30,25),
+! 			C_RGB(30,30,25)
+! 			};
+! unsigned short	org_color[] = {	/* å≥ÇÃêF	*/
+! 			C_RGB( 6,16,25),
+! 			C_RGB( 6, 6,25),
+! 			C_RGB( 6,16,25),
+! 			C_RGB( 6, 6,25),
+! 			C_RGB(20,20,10),
+! 			C_RGB(20,20,10)
+! 			};
+! 
+! 
+! #define	TRG_FIRE	(TRG_A|TRG_B)
+! 
+! #define	resetplayer( sts )	\
+! 	do{						\
+! 		sts->shotwait = 0;	\
+! 		sts->collision = 0;	\
+! 		sts->hitpoint = 3;	\
+! 		endtimer = 0;		\
+! 		endflg = 0;			\
+! 	}while(0)
+! 
+! 
+! 
+! void	player(	FIGHTER	*sts ){
+! 	int	i,j;
+! 	trigger_t	myswitch = pltrigger[sts->id];
+! 
+! 	if(( myswitch & TRG_C) != 0 ){
+! 		resetplayer( sts );
+! 	}
+! 
+! 	if( sts->hitpoint != 0 ){					/* ê∂Ç´ÇƒÇ¢ÇÈ */
+! 		if( sts->shotwait == 0 ){				/* çUåÇ */
+! 			if( ( myswitch & TRG_FIRE ) != 0 ){
+! 				for( i = 0 ; i < _BULLETS ; i++ ){
+! 					if( sts->myb[i]->busy == 0 ){
+! 						FIXED	speed = _BULLETSPEED;
+! 						ANGLE	rotate = _BULLETROT;
+! 						for( j = X ; j < XYZ ; j++){
+! 							sts->myb[i]->pos[j] = sts->pos[j];
+! 						}
+! 						sts->myb[i]->busy = 1;
+! 						sts->myb[i]->target = pt[sts->id];
+! 						if( sts->pos[X] > 0 ){
+! 							speed *= -1;
+! 							rotate *= -1;
+! 						}
+! 						sts->myb[i]->spd[X] = speed;
+! 						sts->myb[i]->rot[Z] = rotate;
+! 						sts->shotwait = _SHOTINTERVAL;
+! 						break;
+! 					}
+! 				}
+! 			}
+! 		}
+! 		else{
+! 			if( --sts->shotwait < 0 )
+! 				sts->shotwait = 0;
+! 		}
+! 
+! 		if( sts->collision == 0 ){				/* îÌíe */
+! 			if( sts->hit != 0){
+! 				sts->collision = _NODAMAGE;
+! 				if( --sts->hitpoint == 0 )
+! 					break_init( sts->ang,sts->pos );
+! 			}
+! 		}
+! 		else{	/*ñ≥ìG*/
+! 			if( --sts->collision < 0 )
+! 				sts->collision = 0;
+! 			else{
+! 				unsigned short	*pCOLOR;
+! 				if( sts->collision & 0x01 )
+! 					pCOLOR = flash_color;
+! 				else
+! 					pCOLOR = org_color;
+! 				for( i = 0 ; i < 6 ; i++ )
+! 					sts->pd->attbl[i].colno = pCOLOR[i];
+! 			}
+! 		}
+! 		sts->hit = 0;
+! 
+  		slPushMatrix();							/* ï\é¶ */
+! 		spr_move( myswitch,sts->pos,sts->ang);
+  		set_poly(sts->ang , sts->pos);
+  		slPutPolygon( sts->pd );
+  		slPopMatrix();
+! 
+! 	}
+! 	else{	/* éÄÇÒÇ≈ÇÈ */
+! 		spr_break();	/* îöî≠ */
+! 	}
+! }
+! 
+! 
+! 
+! void _obje1_act(void){
+! 	player( &f[0] );
+! }
+! 
+! void _obje2_act(void){
+! 	player( &f[1] );
+! }
+! 
+! 
+! void	bullet( BULLET	*sts ){
+! 	if( sts->busy != 0 ){
+! 		FIXED	distance;
+! 		if( ( distance = sts->pos[X] ) < 0 )
+! 			distance *= -1;
+! 
+! 		if( toFIXED( 280.0 ) > distance ){
+! 			sts->pos[X] += sts->spd[X];
+! 			sts->ang[Z] += sts->rot[Z];
+! 
+  			slPushMatrix();
+  			set_poly( sts->ang, sts->pos );
+  			slPutPolygon( sts->pd );
+  			slPopMatrix();
+! 		}
+! 		else{
+! 			sts->busy = 0;
+! 			return;
+! 		}
+! 		if( sts->target->hitpoint != 0 ){
+! 			if( spr_col( sts->pos , sts->target->pos ) ){
+! 				sts->target->hit++;
+! 				/*	sts->busy = 0;	*/
+! 			}
+! 		}
+! 	}
+! }
+! 
+! 
+! void _shot1_1_act(void){
+! 	int	i;
+! 	for( i = 0 ; i < _BULLETS ; i++)
+! 		bullet( &b[0][i] );
+! }
+! void _shot1_2_act(void){
+! 	;
+! }
+! void _shot2_1_act(void){
+! 	int	i;
+! 	for( i = 0 ; i < _BULLETS ; i++)
+! 		bullet( &b[1][i] );
+! }
+! void _shot2_2_act(void){
+! 	;
+! }
+! 
+! void	rot_player( int	idnum ){
+! 	/* é©ì]	*/
+! 	f[idnum].ang[Y] += DEGtoANG( 12.0 );
+! 	f[idnum].ang[Z] += DEGtoANG(  2.0 );
+  	slPushMatrix();
+  	set_poly( f[idnum].ang , f[idnum].pos );
+  	slPutPolygon( f[idnum].pd );
+  	slPopMatrix();
+! }
+! 
+! void _obje1_demo(void){
+! 	rot_player( 0 );
+! }
+! 
+! void _obje2_demo(void){
+! 	rot_player( 1 );
+! }
+! 
+! 
+! 
+! void	init_objects( void ){
+! 	int	i,j;
+! 	endtimer = 0;
+! 	endflg = 0;
+! 
+  	/* é©ã@ÉIÉuÉWÉFÇÃèâä˙É|ÉWÉVÉáÉì	*/
+  	f[0].ang[X] = f[1].ang[X] = DEGtoANG( 0.0 );
+  	f[0].ang[Y] = f[1].ang[Y] = DEGtoANG( 0.0 );
+  	f[0].ang[Z] = f[1].ang[Z] = DEGtoANG( 0.0 );
+! 
+  	f[0].id = 0;
+  	f[1].id = 1;
+! 
+! 	f[0].shotwait  = f[1].shotwait = 0;
+! 	f[0].collision = f[1].collision = 0;
+! 	f[0].hitpoint  = f[1].hitpoint = 3;
+! 
+  	f[0].pos[X] = toFIXED(-130.0 );
+  	f[0].pos[Y] = toFIXED(   0.0 );
+  	f[0].pos[Z] = toFIXED( 240.0 );
+! 
+  	f[1].pos[X] = toFIXED( 130.0);
+  	f[1].pos[Y] = toFIXED(   0.0);
+  	f[1].pos[Z] = toFIXED( 240.0);
+! 
+! 	for( i = 0 ; i < 2 ; i++ ){
+! 		unsigned char	*src,*dst;
+! 		src = ( unsigned char * )PDlist[i];
+! 		dst = ( unsigned char * )&PDcube[i];
+! 		f[i].pd = &PDcube[i];
+! 		for( j = 0 ; j < ( int )sizeof( PDATA ) ; j++ )
+! 			*dst++ = *src++;
+! 		for( j = 0 ; j < _BULLETS ; j++ )
+! 			f[i].myb[j] = &b[i][j];
+! 	}
+! 
+! 
+! 	/* ÉVÉáÉbÉgíeÇÃèâä˙É|ÉWÉVÉáÉì	*/
+! 	for( i = 0 ; i < 2 ; i++ ){
+! 		for( j = 0 ; j < _BULLETS ; j++ ){
+  			b[i][j].ang[X] = b[i][j].ang[Y] = b[i][j].ang[Z] = DEGtoANG( 0.0 );
+  			b[i][j].pos[X] = b[i][j].pos[Y] = b[i][j].pos[Z] = toFIXED( 0.0 );
+  			b[i][j].busy = 0;
+  			b[i][j].pd = &PD_PLANE1;
+! 			b[i][j].id = ( i << 12 ) + ( j << 8 ) + i*_BULLETS + j;
+! 		}
+! 	}
+! 
+! 	/* îÚÇ—éUÇÈÉ|ÉäÉSÉìÇÃèâä˙É|ÉWÉVÉáÉì	*/
+! 	for( i = 0 ; i < 6 ; i++ ){
+! 		p[i].ang[X] = p[i].ang[Y] = p[i].ang[Z] = DEGtoANG( 0.0);
+! 		p[i].pos[X] = p[i].pos[Y] = p[i].pos[Z] = toFIXED( 0.0);
+! 		p[i].pd = _PDplane[i];
+! 		for( j = X ; j < XYZ ; j++ ){
+! 			p[i].spd[j] = spdtbl[i][j];
+! 			p[i].rot[j] = rottbl[i][j];
+! 		}
+! 	}
+! }
+! 
+! 
+! 
+! /* îjâÛå„ÇÃèâä˙âª	*/
+  void break_init(ANGLE ang[XYZ],FIXED pos[XYZ]){
+! 	int	i,j;
+! 	for( i = 0 ; i < 6 ; i++ ){
+! 		for( j = X ; j < XYZ ; j++ ){
+! 			p[i].ang[j] = ang[j];
+! 			p[i].pos[j] = pos[j];
+! 		}
+! 	}
+! }
+! 
+! /* É|ÉäÉSÉìÇ™îÚÇ—éUÇÈ	*/
+! void spr_break(void){
+! 	static Uint16 c1,c2,c3,c4,c5;
+! 	FIXED	x = toFIXED( fadetimer )/6;
+! 	int	i,j;
+! 	for( i = 0 ; i < 6 ; i++ ){
+! 		for( j = X ; j < XYZ ; j ++ ){
+! 			switch( abs( p[i].spd[j] ) ){
+! 				case 0:
+! 					break;
+! 				case 1:
+! 					p[i].pos[j] +=  x *  p[i].spd[j];
+! 					break;
+! 				case 2:
+! 					p[i].pos[j] +=  p[i].spd[j];
+! 					break;
+! 				default:
+! 					break;
+! 			}
+! 			p[i].ang[j] += p[i].rot[j];
+! 
+! 		}
+  	 	slPushMatrix();
+  		set_poly( p[i].ang,p[i].pos );
+  		slPutPolygon( p[i].pd );
+  		slPopMatrix();
+! 	}
+! 
+! 	if( ++endtimer == 90 )
+! 		endflg=1;					/* ÉQÅ[ÉÄèIóπ	*/
+! 
+! 	if(fadetimer >0)
+! 		fadetimer--;
+! 
+! 	c1 =  6 * fadetimer/60;
+! 	c2 = 25 * fadetimer/60;
+! 	c3 = 16 * fadetimer/60;
+! 	c4 = 10 * fadetimer/60;
+! 	c5 = 20 * fadetimer/60;
+! 	attribute_BREAK[0].colno=C_RGB(c1,c1,c2);
+! 	attribute_BREAK[1].colno=C_RGB(c1,c3,c2);
+! 	attribute_BREAK[2].colno=C_RGB(c5,c5,c4);
+! }
+! 
+! void	_pause_act( void ){
+! 	int	i,j;
+! 	for( i = 0 ; i < 2 ; i++){
+  		slPushMatrix();							/* ï\é¶ */
+  		set_poly( f[i].ang , f[i].pos );
+  		slPutPolygon( f[i].pd );
+  		slPopMatrix();
+! 	}
+! 	for( i = 0 ; i < 2 ; i++){
+! 		for( j = 0 ; j < _BULLETS ; j++ ){
+! 			if( b[i][j].busy != 0 ){
+  				slPushMatrix();							/* ï\é¶ */
+  				set_poly( b[i][j].ang , b[i][j].pos );
+  				slPutPolygon( &PD_PLANE1 );
+! 				slPopMatrix();
+  			}
+! 		}
+! 	}
+! }
+! 
+\ No newline at end of file
+--- 1,366 ----
+  /*----------------------------------------------------------------------*/
+  /*	ÇrÇaÇkÇUÉTÉìÉvÉãÉQÅ[ÉÄÇæÇÊÅ[ÇÒ										*/
+  /*----------------------------------------------------------------------*/
+! 
+! #include	"act.h"
+! #include	"sega_scl.h"
+! #include	"sega_dbg.h"
+! #include	"sample.h"
+! #include	"game.h"
+! 
+! #include 	<stdlib.h>
+! 
+! Uint16	endtimer=0,endflg=0;
+! 
+! extern	trigger_t	pltrigger[];
+! extern	Uint16	fadetimer;
+! 
+! /*FIGHTER	*p1,*p2;*/
+! FIGHTER	f[2];
+! BULLET	b[2][_BULLETS];
+! ONEPLANE	p[6];
+! FIGHTER	*pt[] = { &f[1],&f[0] };
+! PDATA	PDcube[2];
+! PDATA	*PDlist[] = { &PD_CUBE1 , &PD_CUBE2 };
+! PDATA	* const _PDplane[] = {
+! 			&PD_BREAK1,
+! 			&PD_BREAK2,
+! 			&PD_BREAK3,
+! 			&PD_BREAK4,
+! 			&PD_BREAK5,
+! 			&PD_BREAK6
+! 		};
+! 
+! const short	spdtbl[6][XYZ]	= {
+! 				{  0 , -2 ,  1 },
+! 				{ -1 ,  0 ,  0 },
+! 				{  0 , -2 , -1 },
+! 				{  1 ,  0 ,  0 },
+! 				{  0 , -1 ,  0 },
+! 				{  0 ,  1 ,  0 }
+! 			};
+! const ANGLE	rottbl[6][XYZ]	={
+! 				{DEGtoANG(-10.0 ),DEGtoANG(-10.0 ),DEGtoANG(  0.0 )},
+! 				{DEGtoANG(  0.0 ),DEGtoANG( 10.0 ),DEGtoANG(-10.0 )},
+! 				{DEGtoANG( 10.0 ),DEGtoANG( 10.0 ),DEGtoANG(  0.0 )},
+! 				{DEGtoANG(  0.0 ),DEGtoANG( 10.0 ),DEGtoANG( 10.0 )},
+! 				{DEGtoANG( 10.0 ),DEGtoANG(  0.0 ),DEGtoANG( 10.0 )},
+! 				{DEGtoANG(-10.0 ),DEGtoANG(  0.0 ),DEGtoANG(-10.0 )}
+! 			};
+! 
+! unsigned short	flash_color[] = {	/* FlashÇÃêF	*/
+! 			C_RGB(25,28,30),
+! 			C_RGB(25,25,30),
+! 			C_RGB(25,28,30),
+! 			C_RGB(25,25,30),
+! 			C_RGB(30,30,25),
+! 			C_RGB(30,30,25)
+! 			};
+! unsigned short	org_color[] = {	/* å≥ÇÃêF	*/
+! 			C_RGB( 6,16,25),
+! 			C_RGB( 6, 6,25),
+! 			C_RGB( 6,16,25),
+! 			C_RGB( 6, 6,25),
+! 			C_RGB(20,20,10),
+! 			C_RGB(20,20,10)
+! 			};
+! 
+! 
+! #define	TRG_FIRE	(TRG_A|TRG_B)
+! 
+! #define	resetplayer( sts )	\
+! 	do{						\
+! 		sts->shotwait = 0;	\
+! 		sts->collision = 0;	\
+! 		sts->hitpoint = 3;	\
+! 		endtimer = 0;		\
+! 		endflg = 0;			\
+! 	}while(0)
+! 
+! 
+! 
+! void	player(	FIGHTER	*sts ){
+! 	int	i,j;
+! 	trigger_t	myswitch = pltrigger[sts->id];
+! 
+! 	if(( myswitch & TRG_C) != 0 ){
+! 		resetplayer( sts );
+! 	}
+! 
+! 	if( sts->hitpoint != 0 ){					/* ê∂Ç´ÇƒÇ¢ÇÈ */
+! 		if( sts->shotwait == 0 ){				/* çUåÇ */
+! 			if( ( myswitch & TRG_FIRE ) != 0 ){
+! 				for( i = 0 ; i < _BULLETS ; i++ ){
+! 					if( sts->myb[i]->busy == 0 ){
+! 						FIXED	speed = _BULLETSPEED;
+! 						ANGLE	rotate = _BULLETROT;
+! 						for( j = X ; j < XYZ ; j++){
+! 							sts->myb[i]->pos[j] = sts->pos[j];
+! 						}
+! 						sts->myb[i]->busy = 1;
+! 						sts->myb[i]->target = pt[sts->id];
+! 						if( sts->pos[X] > 0 ){
+! 							speed *= -1;
+! 							rotate *= -1;
+! 						}
+! 						sts->myb[i]->spd[X] = speed;
+! 						sts->myb[i]->rot[Z] = rotate;
+! 						sts->shotwait = _SHOTINTERVAL;
+! 						break;
+! 					}
+! 				}
+! 			}
+! 		}
+! 		else{
+! 			if( --sts->shotwait < 0 )
+! 				sts->shotwait = 0;
+! 		}
+! 
+! 		if( sts->collision == 0 ){				/* îÌíe */
+! 			if( sts->hit != 0){
+! 				sts->collision = _NODAMAGE;
+! 				if( --sts->hitpoint == 0 )
+! 					break_init( sts->ang,sts->pos );
+! 			}
+! 		}
+! 		else{	/*ñ≥ìG*/
+! 			if( --sts->collision < 0 )
+! 				sts->collision = 0;
+! 			else{
+! 				unsigned short	*pCOLOR;
+! 				if( sts->collision & 0x01 )
+! 					pCOLOR = flash_color;
+! 				else
+! 					pCOLOR = org_color;
+! 				for( i = 0 ; i < 6 ; i++ )
+! 					sts->pd->attbl[i].colno = pCOLOR[i];
+! 			}
+! 		}
+! 		sts->hit = 0;
+! 
+  		slPushMatrix();							/* ï\é¶ */
+! 		spr_move( myswitch,sts->pos,sts->ang);
+  		set_poly(sts->ang , sts->pos);
+  		slPutPolygon( sts->pd );
+  		slPopMatrix();
+! 
+! 	}
+! 	else{	/* éÄÇÒÇ≈ÇÈ */
+! 		spr_break();	/* îöî≠ */
+! 	}
+! }
+! 
+! 
+! 
+! void _obje1_act(void){
+! 	player( &f[0] );
+! }
+! 
+! void _obje2_act(void){
+! 	player( &f[1] );
+! }
+! 
+! 
+! void	bullet( BULLET	*sts ){
+! 	if( sts->busy != 0 ){
+! 		FIXED	distance;
+! 		if( ( distance = sts->pos[X] ) < 0 )
+! 			distance *= -1;
+! 
+! 		if( toFIXED( 280.0 ) > distance ){
+! 			sts->pos[X] += sts->spd[X];
+! 			sts->ang[Z] += sts->rot[Z];
+! 
+  			slPushMatrix();
+  			set_poly( sts->ang, sts->pos );
+  			slPutPolygon( sts->pd );
+  			slPopMatrix();
+! 		}
+! 		else{
+! 			sts->busy = 0;
+! 			return;
+! 		}
+! 		if( sts->target->hitpoint != 0 ){
+! 			if( spr_col( sts->pos , sts->target->pos ) ){
+! 				sts->target->hit++;
+! 				/*	sts->busy = 0;	*/
+! 			}
+! 		}
+! 	}
+! }
+! 
+! 
+! void _shot1_1_act(void){
+! 	int	i;
+! 	for( i = 0 ; i < _BULLETS ; i++)
+! 		bullet( &b[0][i] );
+! }
+! void _shot1_2_act(void){
+! 	;
+! }
+! void _shot2_1_act(void){
+! 	int	i;
+! 	for( i = 0 ; i < _BULLETS ; i++)
+! 		bullet( &b[1][i] );
+! }
+! void _shot2_2_act(void){
+! 	;
+! }
+! 
+! void	rot_player( int	idnum ){
+! 	/* é©ì]	*/
+! 	f[idnum].ang[Y] += DEGtoANG( 12.0 );
+! 	f[idnum].ang[Z] += DEGtoANG(  2.0 );
+  	slPushMatrix();
+  	set_poly( f[idnum].ang , f[idnum].pos );
+  	slPutPolygon( f[idnum].pd );
+  	slPopMatrix();
+! }
+! 
+! void _obje1_demo(void){
+! 	rot_player( 0 );
+! }
+! 
+! void _obje2_demo(void){
+! 	rot_player( 1 );
+! }
+! 
+! 
+! 
+! void	init_objects( void ){
+! 	int	i,j;
+! 	endtimer = 0;
+! 	endflg = 0;
+! 
+  	/* é©ã@ÉIÉuÉWÉFÇÃèâä˙É|ÉWÉVÉáÉì	*/
+  	f[0].ang[X] = f[1].ang[X] = DEGtoANG( 0.0 );
+  	f[0].ang[Y] = f[1].ang[Y] = DEGtoANG( 0.0 );
+  	f[0].ang[Z] = f[1].ang[Z] = DEGtoANG( 0.0 );
+! 
+  	f[0].id = 0;
+  	f[1].id = 1;
+! 
+! 	f[0].shotwait  = f[1].shotwait = 0;
+! 	f[0].collision = f[1].collision = 0;
+! 	f[0].hitpoint  = f[1].hitpoint = 3;
+! 
+  	f[0].pos[X] = toFIXED(-130.0 );
+  	f[0].pos[Y] = toFIXED(   0.0 );
+  	f[0].pos[Z] = toFIXED( 240.0 );
+! 
+  	f[1].pos[X] = toFIXED( 130.0);
+  	f[1].pos[Y] = toFIXED(   0.0);
+  	f[1].pos[Z] = toFIXED( 240.0);
+! 
+! 	for( i = 0 ; i < 2 ; i++ ){
+! 		unsigned char	*src,*dst;
+! 		src = ( unsigned char * )PDlist[i];
+! 		dst = ( unsigned char * )&PDcube[i];
+! 		f[i].pd = &PDcube[i];
+! 		for( j = 0 ; j < ( int )sizeof( PDATA ) ; j++ )
+! 			*dst++ = *src++;
+! 		for( j = 0 ; j < _BULLETS ; j++ )
+! 			f[i].myb[j] = &b[i][j];
+! 	}
+! 
+! 
+! 	/* ÉVÉáÉbÉgíeÇÃèâä˙É|ÉWÉVÉáÉì	*/
+! 	for( i = 0 ; i < 2 ; i++ ){
+! 		for( j = 0 ; j < _BULLETS ; j++ ){
+  			b[i][j].ang[X] = b[i][j].ang[Y] = b[i][j].ang[Z] = DEGtoANG( 0.0 );
+  			b[i][j].pos[X] = b[i][j].pos[Y] = b[i][j].pos[Z] = toFIXED( 0.0 );
+  			b[i][j].busy = 0;
+  			b[i][j].pd = &PD_PLANE1;
+! 			b[i][j].id = ( i << 12 ) + ( j << 8 ) + i*_BULLETS + j;
+! 		}
+! 	}
+! 
+! 	/* îÚÇ—éUÇÈÉ|ÉäÉSÉìÇÃèâä˙É|ÉWÉVÉáÉì	*/
+! 	for( i = 0 ; i < 6 ; i++ ){
+! 		p[i].ang[X] = p[i].ang[Y] = p[i].ang[Z] = DEGtoANG( 0.0);
+! 		p[i].pos[X] = p[i].pos[Y] = p[i].pos[Z] = toFIXED( 0.0);
+! 		p[i].pd = _PDplane[i];
+! 		for( j = X ; j < XYZ ; j++ ){
+! 			p[i].spd[j] = spdtbl[i][j];
+! 			p[i].rot[j] = rottbl[i][j];
+! 		}
+! 	}
+! }
+! 
+! 
+! 
+! /* îjâÛå„ÇÃèâä˙âª	*/
+  void break_init(ANGLE ang[XYZ],FIXED pos[XYZ]){
+! 	int	i,j;
+! 	for( i = 0 ; i < 6 ; i++ ){
+! 		for( j = X ; j < XYZ ; j++ ){
+! 			p[i].ang[j] = ang[j];
+! 			p[i].pos[j] = pos[j];
+! 		}
+! 	}
+! }
+! 
+! /* É|ÉäÉSÉìÇ™îÚÇ—éUÇÈ	*/
+! void spr_break(void){
+! 	static Uint16 c1,c2,c3,c4,c5;
+! 	FIXED	x = toFIXED( fadetimer )/6;
+! 	int	i,j;
+! 	for( i = 0 ; i < 6 ; i++ ){
+! 		for( j = X ; j < XYZ ; j ++ ){
+! 			switch( abs( p[i].spd[j] ) ){
+! 				case 0:
+! 					break;
+! 				case 1:
+! 					p[i].pos[j] +=  x *  p[i].spd[j];
+! 					break;
+! 				case 2:
+! 					p[i].pos[j] +=  p[i].spd[j];
+! 					break;
+! 				default:
+! 					break;
+! 			}
+! 			p[i].ang[j] += p[i].rot[j];
+! 
+! 		}
+  	 	slPushMatrix();
+  		set_poly( p[i].ang,p[i].pos );
+  		slPutPolygon( p[i].pd );
+  		slPopMatrix();
+! 	}
+! 
+! 	if( ++endtimer == 90 )
+! 		endflg=1;					/* ÉQÅ[ÉÄèIóπ	*/
+! 
+! 	if(fadetimer >0)
+! 		fadetimer--;
+! 
+! 	c1 =  6 * fadetimer/60;
+! 	c2 = 25 * fadetimer/60;
+! 	c3 = 16 * fadetimer/60;
+! 	c4 = 10 * fadetimer/60;
+! 	c5 = 20 * fadetimer/60;
+! 	attribute_BREAK[0].colno=C_RGB(c1,c1,c2);
+! 	attribute_BREAK[1].colno=C_RGB(c1,c3,c2);
+! 	attribute_BREAK[2].colno=C_RGB(c5,c5,c4);
+! }
+! 
+! void	_pause_act( void ){
+! 	int	i,j;
+! 	for( i = 0 ; i < 2 ; i++){
+  		slPushMatrix();							/* ï\é¶ */
+  		set_poly( f[i].ang , f[i].pos );
+  		slPutPolygon( f[i].pd );
+  		slPopMatrix();
+! 	}
+! 	for( i = 0 ; i < 2 ; i++){
+! 		for( j = 0 ; j < _BULLETS ; j++ ){
+! 			if( b[i][j].busy != 0 ){
+  				slPushMatrix();							/* ï\é¶ */
+  				set_poly( b[i][j].ang , b[i][j].pos );
+  				slPutPolygon( &PD_PLANE1 );
+! 				slPopMatrix();
+  			}
+! 		}
+! 	}
+! }
+! 
 diff -crB --binary sbl6/segasmp/mem/smpmem0/smpmem0.c sbl6_patch/segasmp/mem/smpmem0/smpmem0.c
 *** sbl6/segasmp/mem/smpmem0/smpmem0.c	1996-02-08 05:30:02.000000000 -0500
 --- sbl6_patch/segasmp/mem/smpmem0/smpmem0.c	2022-01-06 18:30:14.000000000 -0500
