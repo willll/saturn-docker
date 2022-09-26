@@ -32,13 +32,13 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	find $SATURN_TMP/sgl302/lib/ \
 	 -name "*.[a,o]" \
 	 -type f \
-	 -exec "$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy" -v -Icoff-sh -Oelf32-sh {} \;
+	 -exec "$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy" -Icoff-sh -Oelf32-sh {} \;
 
 	#
  	# Install libsgl patched version
  	#
 	if [ -f "$SATURN_TMP/sgl302/libsgl_real_elf.a" ]; then
-		mv -fv "$SATURN_TMP/sgl302/libsgl_real_elf.a" "$SATURN_TMP/sgl302/lib/libsgl.a"
+		mv -f "$SATURN_TMP/sgl302/libsgl_real_elf.a" "$SATURN_TMP/sgl302/lib/libsgl.a"
 	fi
 
 	# Clean the code
@@ -56,15 +56,15 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	#
 	# Copy to destination
 	#
-	cp -rv $SATURN_TMP/sgl302/lib/* $1/lib
-	cp -rv $SATURN_TMP/sgl302/inc/* $1/include
-	cp -rv $SATURN_TMP/sgl302/sample/* $1/samples/sample1
-	cp -rv $SATURN_TMP/sgl302/sample2/* $1/samples/sample2
-	cp -rv $SATURN_TMP/sgl302/demos/* $1/demos
-	cp -rv $SATURN_TMP/sgl302/doc/* $1/doc
-	cp -rv $SATURN_TMP/sgl302/sddrv/* $1/sddrv
-	cp -rv $SATURN_TMP/sgl302/sample/common/* $1/common
-	cp -rv $SATURN_TMP/sgl302/sample/scroll/ $1/demos/biplane
+	cp -r $SATURN_TMP/sgl302/lib/* $1/lib
+	cp -r $SATURN_TMP/sgl302/inc/* $1/include
+	cp -r $SATURN_TMP/sgl302/sample/* $1/samples/sample1
+	cp -r $SATURN_TMP/sgl302/sample2/* $1/samples/sample2
+	cp -r $SATURN_TMP/sgl302/demos/* $1/demos
+	cp -r $SATURN_TMP/sgl302/doc/* $1/doc
+	cp -r $SATURN_TMP/sgl302/sddrv/* $1/sddrv
+	cp -r $SATURN_TMP/sgl302/sample/common/* $1/common
+	cp -r $SATURN_TMP/sgl302/sample/scroll/ $1/demos/biplane
 
 	if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		# Removed, will come from SBL
