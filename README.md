@@ -116,6 +116,7 @@ TODO
   - [x] dma
   - [x] dsp **TO BE VALIDATED**
   - [ ] gfs **TO BE VALIDATED**
+  - [ ] fld **fld_knl.bin ??**
   - [x] int
   - [x] mem
   - [x] mpg
@@ -138,9 +139,9 @@ TODO
     - [x] dma10
     - [x] dma12
   - [ ] dual **(required or just sample code ?)**
-  - [ ] fld
-      - [ ] smpfld01 **(Does not compile)**
-  - [ ] game
+  - [ ] fld **(Requires missing fld lib)**
+      - [ ] smpfld01 **(Requires missing fld lib)**
+  - [ ] game  **(black screen at runtime)**
   - [ ] game_cd
   - [ ] gfs
     - [ ] smpgfs1a **(Crash at runtime)**
