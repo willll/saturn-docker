@@ -45,6 +45,7 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
 )
+
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )

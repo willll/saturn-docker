@@ -8005,7 +8005,7 @@ diff -crB --binary sbl6/segasmp/per/smpper12/test.c sbl6_patch/segasmp/per/smppe
 ! 
 diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c
 *** sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c	1996-02-08 05:31:22.000000000 -0500
---- sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c	2021-12-24 16:40:22.000000000 -0500
+--- sbl6_patch/segasmp/sblsgl/sblsgl00/sblsgl00.c	2022-09-27 07:44:16.000000000 -0400
 ***************
 *** 7,22 ****
    *------------------------------------------------------------------------
@@ -8066,6 +8066,23 @@ diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c sbl6_patch/segasmp/sb
   	SclConfig	scfg;
   	SclRgb		start,end;
 ***************
+*** 56,62 ****
+  	Uint8   	*VramWorkP;
+  
+  	/* ワークエリアのユーザー定義	*/
+! 	Work_Set();
+  
+  	slInitSystem(TV_320x224,NULL,1);
+  
+--- 57,63 ----
+  	Uint8   	*VramWorkP;
+  
+  	/* ワークエリアのユーザー定義	*/
+! 	//Work_Set();
+  
+  	slInitSystem(TV_320x224,NULL,1);
+  
+***************
 *** 156,161 ****
   			slSynch();
   	}
@@ -8084,7 +8101,7 @@ diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/sblsgl00.c sbl6_patch/segasmp/sb
 ! 
 diff -crB --binary sbl6/segasmp/sblsgl/sblsgl00/work.c sbl6_patch/segasmp/sblsgl/sblsgl00/work.c
 *** sbl6/segasmp/sblsgl/sblsgl00/work.c	1996-02-08 05:31:22.000000000 -0500
---- sbl6_patch/segasmp/sblsgl/sblsgl00/work.c	2021-12-25 18:01:14.000000000 -0500
+--- sbl6_patch/segasmp/sblsgl/sblsgl00/work.c	2022-09-27 07:43:46.000000000 -0400
 ***************
 *** 9,25 ****
   

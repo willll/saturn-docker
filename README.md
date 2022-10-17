@@ -142,7 +142,7 @@ TODO
   - [ ] fld **(Requires missing fld lib)**
       - [ ] smpfld01 **(Requires missing fld lib)**
   - [ ] game  **(black screen at runtime)**
-  - [ ] game_cd
+  - [ ] game_cd **(black screen at runtime)**
   - [ ] gfs
     - [ ] smpgfs1a **(Crash at runtime)**
     - [ ] smpgfs1b **(Crash at runtime)**

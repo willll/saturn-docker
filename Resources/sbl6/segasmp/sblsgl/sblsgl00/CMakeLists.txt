@@ -6,7 +6,7 @@ set(SOURCES
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   sblsgl00.c
   polygon.c
-  work.c
+  #work.c
   )
 
 set(CD_FILES
@@ -27,27 +27,21 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC .
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
-target_compile_options(${TARGET_NAME}.elf PUBLIC -g -O0 -Wall -m2)
+target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags}>
+                                                 $<$<COMPILE_LANGUAGE:ASM>:${as_flags}> )
 
 target_link_options(${TARGET_NAME}.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
-    "SHELL:-Xlinker --strip-debug"
-    "SHELL:-m2 -nostartfiles"
-    "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
-    "SHELL:-lc -lgcc -lm"
+   "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
+   "SHELL:-Xlinker --strip-debug"
+   "SHELL:-m2 -nostartfiles"
+   "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
 )
 
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
-#target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
-#target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dsp.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 
