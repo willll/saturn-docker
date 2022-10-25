@@ -11,6 +11,7 @@
 # * https://github.com/ijacquez/libyaul
 # * https://github.com/ijacquez/libyaul-docker
 # * https://github.com/cyberwarriorx/iapetus
+# * http://vberthelot.free.fr/SX/satdev/Tools.html
 
 FROM ubuntu:latest as linux
 MAINTAINER willll "XXX@XXX.XXX"
@@ -29,7 +30,9 @@ ENV SATURN_SBL=$SATURN_ROOT/sbl
 ENV SATURN_CMAKE=$SATURN_ROOT/CMake
 ENV SATURN_JOENGINE=$SATURN_ROOT/joengine
 ENV SATURN_YAUL=$SATURN_ROOT/yaul
-ENV SATURN_IAPETUS=$SATURN_ROOT/iapetus
+ENV SATURN_CYBERWARRIORX=$SATURN_ROOT/cyberwarriorx
+ENV SATURN_IAPETUS=$SATURN_CYBERWARRIORX/iapetus
+ENV SATURN_CYBERWARRIORX_CDC=$SATURN_CYBERWARRIORX/cdc
 ENV SATURN_CD=$SATURN_ROOT/cd_resources
 ENV SATURN_SAMPLES=$SATURN_ROOT/samples
 ENV SATURN_IPMAKER=$SATURN_ROOT/IPMaker
@@ -105,7 +108,7 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
   "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_IAPETUS}" \
   "${SATURN_TMP}" "${SATURN_CD}" "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" \
-  "${SATURN_COMMON}" && \
+  "${SATURN_COMMON}" "${SATURN_CYBERWARRIORX_CDC}" && \
 	chmod -R 777 "$SATURN_ROOT" && \
 	chmod -R 777 "$SATURN_SGL" && \
 	chmod -R 777 "$SATURN_SBL" && \
@@ -113,6 +116,7 @@ RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
 	chmod -R 777 "$SATURN_JOENGINE" && \
 	chmod -R 777 "$SATURN_YAUL" && \
   chmod -R 777 "$SATURN_IAPETUS" && \
+  chmod -R 777 "$SATURN_CYBERWARRIORX_CDC" && \
   chmod -R 777 "$SATURN_CD" && \
   chmod -R 777 "$SATURN_SAMPLES" && \
   chmod -R 777 "$SATURN_IPMAKER" && \
@@ -241,10 +245,12 @@ ARG YAUL_TAG=1.0.1
 # YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/89ee933a919b791dab9dd5a69183d97246df2673
 ARG YAUL_EXAMPLES_COMMIT_SHA=89ee933a919b791dab9dd5a69183d97246df2673
 
-ARG INSTALL_IAPETUS_LIB=0
 ARG INSTALL_IAPETUS_SAMPLES=0
+ARG INSTALL_IAPETUS_LIB=0
 # IAPETUS commit from 2019.03.19 https://github.com/cyberwarriorx/iapetus/tree/955d7c50f634cdd18722657c920987200d9ba3a5
 ARG IAPETUS_COMMIT_SHA=955d7c50f634cdd18722657c920987200d9ba3a5
+
+ARG INSTALL_CYBERWARRIORX_CDC_LIB=0
 
 #
 # Install SGL
@@ -358,12 +364,21 @@ RUN rm -rf "$SATURN_TMP/*"
 COPY Resources/iapetus/dl-iapetus.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-iapetus.sh"
 COPY Resources/iapetus/build-iapetus.sh "$SATURN_TMP"
-#COPY Resources/jo-engine/jo_engine_makefile "$SATURN_TMP"
 RUN "$SATURN_TMP/build-iapetus.sh"
 COPY Resources/iapetus/build-iapetus-samples.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/build-iapetus-samples.sh"
 
 RUN rm -rf "$SATURN_TMP/*"
+
+#
+# CyberWarriorX's CDC Library : Reverse-engineering of the Sega's CDC library
+#
+
+COPY Resources/CyberWarriorX-CDC/dl-CyberWarriorX-CDC.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/dl-CyberWarriorX-CDC.sh"
+COPY Resources/CyberWarriorX-CDC/CMakeLists.txt "$SATURN_CYBERWARRIORX_CDC"
+COPY Resources/CyberWarriorX-CDC/build-CyberWarriorX-CDC.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/build-CyberWarriorX-CDC.sh" $SATURN_CYBERWARRIORX_CDC
 
 # Set Volume and Workdir
 VOLUME /saturn
