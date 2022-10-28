@@ -97,6 +97,10 @@ RUN apt-get update && apt-get install -y \
   ffmpeg \
   ninja-build \
   python3-pip \
+  ## Visual Studio Code
+  openssh-server \
+  rsync \
+  zip \
 	--no-install-recommends && \
 	apt autoremove -y && \
 	## Make sure we leave any X11 related library behind
@@ -390,6 +394,21 @@ RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc && \
     echo "alias ll='ls -lah'" >> ~/.bashrc && \
     echo "alias ls='ls --color=auto'" >> ~/.bashrc
 
+#Establish the operating directory of OpenSSH
+RUN mkdir /var/run/sshd
+
+#Set Root password
+RUN echo 'root:root' | chpasswd
+
+# For remote connection (VS Code)
+RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
+    echo 'PermitEmptyPasswords yes' >> /etc/ssh/sshd_config && \
+    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
+    ssh-keygen -A
+
+#SSH login fix
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
+    pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 # Metadata Params
 ARG BUILD_DATE
@@ -410,4 +429,6 @@ LABEL \
 	org.label-schema.docker.cmd="docker run -it --rm -v ${pwd}:/saturn saturn-docker"
 
 ENTRYPOINT ["/opt/saturn/common/set_env.sh"]
-CMD ["/bin/bash"]
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
