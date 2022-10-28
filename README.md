@@ -97,8 +97,8 @@ TODO
   - [x] torus2
   - [x] torus3
 - [ ] SGL Demos
-  - [ ] biplane
-  - [ ] cdda_sgl
+  - [ ] biplane **(Missing files in scroll folder)**
+  - [ ] cdda_sgl **(Missing files in src folder)**
   - [x] chrome
   - [x] flying
 
