@@ -22,18 +22,6 @@ ifeq ($(strip $(YAUL_CDB)),)
   $(error Undefined YAUL_CDB (update JSON compile command database))
 endif
 
-# Check options
-ifeq ($(strip $(YAUL_OPTION_DEV_CARTRIDGE)),)
-  $(error Undefined YAUL_OPTION_DEV_CARTRIDGE (development cartridge option))
-endif
-
-ifeq ($(strip $(YAUL_OPTION_BUILD_ASSERT)),)
-  $(error Undefined YAUL_OPTION_BUILD_ASSERT (build ASSERT))
-endif
-ifneq ($(YAUL_OPTION_BUILD_ASSERT),$(filter $(YAUL_OPTION_BUILD_ASSERT),0 1))
-  $(error Invalid value for YAUL_OPTION_BUILD_ASSERT (build assert))
-endif
-
 ifeq ($(strip $(SILENT)),)
   ECHO=
 else
@@ -95,16 +83,24 @@ endef
 
 # Customizable (must be overwritten in user's Makefile)
 SH_PROGRAM?= unknown-program
+SH_DEFSYMS?=
 SH_SRCS?=
 SH_SRCS_NO_LINK?=
 SH_LIBRARIES?=
 SH_BUILD_DIR?= build
-IMAGE_DIRECTORY?= cd
-IMAGE_1ST_READ_BIN?= A.BIN
 
-YAUL_INCLUDES_PATH=$(YAUL_INSTALL_ROOT)/sh-elf/include/
-YAUL_RELASE_LIB_PATH=$(YAUL_INSTALL_ROOT)/sh-elf/lib/
-YAUL_DEBUG_LIB_PATH=$(YAUL_INSTALL_ROOT)/sh-elf/lib/
+# Customizable variables (must be overwritten in user's Makefile)
+# IMAGE_DIRECTORY      ISO/CUE
+# IMAGE_1ST_READ_BIN   ISO/CUE
+# IP_VERSION					 ISO/CUE, SS
+# IP_RELEASE_DATE			 ISO/CUE, SS
+# IP_AREAS						 ISO/CUE, SS
+# IP_PERIPHERALS    	 ISO/CUE, SS
+# IP_TITLE             ISO/CUE, SS
+# IP_MASTER_STACK_ADDR ISO/CUE, SS
+# IP_SLAVE_STACK_ADDR  ISO/CUE, SS
+# IP_1ST_READ_ADDR     ISO/CUE, SS
+# IP_1ST_READ_SIZE     ISO/CUE, SS
 
 YAUL_PROG_SH_PREFIX?= $(YAUL_ARCH_SH_PREFIX)
 ifeq ($(strip $(YAUL_PROG_SH_PREFIX)),)
@@ -134,15 +130,11 @@ SH_CFLAGS= \
 	-W \
 	-Wall \
 	-Wextra \
-	-Werror \
 	-Wunused-parameter \
 	-Wstrict-aliasing \
 	-Wno-main \
 	-Wno-format \
-	-save-temps=obj \
-	-DHAVE_DEV_CARTRIDGE=$(YAUL_OPTION_DEV_CARTRIDGE) \
-	-DHAVE_GDB_SUPPORT=$(YAUL_OPTION_BUILD_GDB) \
-	-DHAVE_ASSERT_SUPPORT=$(YAUL_OPTION_BUILD_ASSERT)
+	-save-temps=obj
 
 SH_LDFLAGS= \
 	-Wl,--gc-sections \
@@ -153,37 +145,17 @@ SH_LXXFLAGS= $(SH_LDFLAGS)
 
 SH_BUILD_PATH:= $(abspath $(SH_BUILD_DIR))
 
-SH_SPECS:= $(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul.specs \
-					$(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul-main.specs
-
-
-IP_VERSION?= V1.000
-IP_RELEASE_DATE?= YYYYMMDD
-IP_AREAS?= JTUBKAEL
-IP_PERIPHERALS?= JAMKST
-IP_TITLE?= Title
-IP_MASTER_STACK_ADDR?= 0x06004000
-IP_SLAVE_STACK_ADDR?= 0x06002000
-IP_1ST_READ_ADDR?= 0x06004000
-IP_1ST_READ_SIZE?= 0
-
 CDB_FILE:= compile_commands.json
 CDB_GCC?= /usr/bin/gcc
 CDB_CPP?= /usr/bin/g++
 
-.PHONY: all clean list-targets
-
-# The targets which .SECONDARY depends on are treated as intermediate files,
-# except that they are never automatically deleted
-.SECONDARY: pre-build-iso post-build-iso build
+.PHONY: all clean .build
 
 .SUFFIXES:
 .SUFFIXES: .c .cc .C .cpp .cxx .sx .o .bin .elf
 
 .PRECIOUS: %.elf %.c %.o
 
-all: build
+.SECONDARY: .build
 
-pre-build-iso:
-
-post-build-iso:
+all: .build

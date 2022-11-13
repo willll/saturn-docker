@@ -7,14 +7,6 @@ PROJECTS:= \
 
 include ../env.mk
 
-# XXX: Currently, gdb-ftdi-proxy is broken under Windows
-ifneq ($(OS), Windows_NT)
-ifeq ($(strip $(BUILD_CROSS)),)
-#PROJECTS+= \
-	gdb-ftdi-proxy
-endif
-endif
-
 .PHONY: all clean distclean install
 
 all clean distclean install:

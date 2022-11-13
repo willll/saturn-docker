@@ -97,6 +97,7 @@ RUN apt-get update && apt-get install -y \
   ffmpeg \
   ninja-build \
   python3-pip \
+  python-is-python3 \
   ## Visual Studio Code
   openssh-server \
   rsync \
@@ -245,9 +246,9 @@ ARG JO_ENGINE_COMMIT_SHA=163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 ARG INSTALL_YAUL_LIB_ARG=1
 ENV INSTALL_YAUL_LIB=$INSTALL_YAUL_LIB_ARG
 ARG INSTALL_YAUL_SAMPLES=1
-ARG YAUL_TAG=1.0.1
-# YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/89ee933a919b791dab9dd5a69183d97246df2673
-ARG YAUL_EXAMPLES_COMMIT_SHA=89ee933a919b791dab9dd5a69183d97246df2673
+ARG YAUL_TAG=3.2.0
+# YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/df4609b51775f1022770a1282c13825eece143ae
+ARG YAUL_EXAMPLES_COMMIT_SHA=df4609b51775f1022770a1282c13825eece143ae
 
 ARG INSTALL_IAPETUS_SAMPLES=0
 ARG INSTALL_IAPETUS_LIB=0
@@ -340,17 +341,14 @@ RUN rm -rf "$SATURN_TMP/*"
 
 COPY Resources/dl-yaul.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-yaul.sh"
-COPY Resources/yaul/.yaul.env "$SATURN_YAUL"
+COPY Resources/yaul/yaul.env.in "$SATURN_YAUL"
 COPY Resources/yaul/env.mk "$SATURN_TMP/yaul"
-COPY Resources/yaul/pre.common.mk "$SATURN_TMP/yaul/libyaul/common/"
-COPY Resources/yaul/post.common.mk "$SATURN_TMP/yaul/libyaul/common/"
 COPY Resources/yaul/Makefile "$SATURN_TMP/yaul"
 COPY Resources/yaul/tools/bin2o "$SATURN_TMP/yaul/tools/bin2o/"
 COPY Resources/yaul/tools/make-ip "$SATURN_TMP/yaul/tools/make-ip/"
 COPY Resources/yaul/tools/Makefile "$SATURN_TMP/yaul/tools/Makefile"
+COPY Resources/yaul/build/* "$SATURN_TMP/yaul/libyaul/build/"
 COPY Resources/yaul/common/specs/* "$SATURN_TMP/yaul/libyaul/common/specs/"
-COPY Resources/yaul/common/specs/* "$SATURN_TMP/yaul/libyaul/common/specs/"
-COPY Resources/yaul/common/ldscripts/yaul.x "$SATURN_TMP/yaul/libyaul/common/ldscripts/"
 COPY Resources/build-yaul.sh "$SATURN_TMP"
 RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul.sh"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
