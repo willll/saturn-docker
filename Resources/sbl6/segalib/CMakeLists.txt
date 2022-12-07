@@ -13,8 +13,9 @@ set(c_flags -Wall
             -Wpointer-sign
             -m2
             -Os
-            -finline-functions
-            -fomit-frame-pointer)
+            #-finline-functions
+            -fomit-frame-pointer
+            )
 
 add_compile_options(  "$<$<COMPILE_LANGUAGE:C>:${c_flags}>"
 )
