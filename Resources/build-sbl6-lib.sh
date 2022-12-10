@@ -15,7 +15,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 
 	# Clean the code
 	find $SATURN_TMP \
-		! -name "*.[o,a,lib]" \
+		! -name "*.[o,a,lib,bin]" \
 		-type f \
 		-exec sed -i 's/\o32//g' {} \;
 
