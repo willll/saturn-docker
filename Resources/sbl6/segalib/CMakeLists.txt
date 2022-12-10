@@ -4,6 +4,8 @@ SET(CMAKE_SYSTEM_NAME Generic)
 
 set(SEGALIB_DESTINATION_LIB segalib/lib)
 
+set(SEGALIB_DESTINATION_FLD segalib/fld)
+
 project(segalib
         VERSION 6.1
         DESCRIPTION "Sega Saturn SBL"
@@ -28,6 +30,7 @@ add_subdirectory(csh_sgl)
 add_subdirectory(dbg)
 add_subdirectory(dma)
 add_subdirectory(dsp)
+add_subdirectory(fld)
 add_subdirectory(gfs)
 add_subdirectory(int)
 add_subdirectory(mem)

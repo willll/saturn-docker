@@ -51,7 +51,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	#
 	# convert sega_sgl and sega_adp to ELF
 	#
-	for filename in sega_sgl.a sega_sys.a ;
+	for filename in sega_sgl.a sega_sys.a fld_load.a ;
 	do
 		$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
 				$SATURN_TMP/sbl6/segalib/lib/$filename
