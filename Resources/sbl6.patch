@@ -4700,7 +4700,7 @@ diff -crB --binary sbl6/segalib/include/sega_sys.h sbl6_patch/segalib/include/se
 --- 153,155 ----
 diff -crB --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_def.h
 *** sbl6/segalib/include/sl_def.h	1996-02-08 05:23:52.000000000 -0500
---- sbl6_patch/segalib/include/sl_def.h	2022-04-17 20:10:22.000000000 -0400
+--- sbl6_patch/segalib/include/sl_def.h	2022-11-25 20:42:24.000000000 -0500
 ***************
 *** 1,10 ****
   /*							*/
@@ -6920,6 +6920,105 @@ diff -crB --binary sbl6/segasmp/dual/spr_xpt.c sbl6_patch/segasmp/dual/spr_xpt.c
 - 
 - 
 --- 79,81 ----
+diff -crB --binary sbl6/segasmp/fld/smpfld01/exit.c sbl6_patch/segasmp/fld/smpfld01/exit.c
+*** sbl6/segasmp/fld/smpfld01/exit.c	1996-02-08 05:28:32.000000000 -0500
+--- sbl6_patch/segasmp/fld/smpfld01/exit.c	2022-12-10 16:29:20.000000000 -0500
+***************
+*** 238,247 ****
+  
+  static Sint32 setStackptr(Sint32 addr)
+  {
+! 	asm("
+!           mov       r15, r0
+!           mov       r4, r15
+! 	");
+  }
+  
+  #else
+--- 238,245 ----
+  
+  static Sint32 setStackptr(Sint32 addr)
+  {
+! 	asm("mov       r15, r0\n"
+!             "mov       r4, r15");
+  }
+  
+  #else
+***************
+*** 256,259 ****
+  #endif
+  
+  /* end of file */
+! 
+\ No newline at end of file
+--- 254,257 ----
+  #endif
+  
+  /* end of file */
+! 
+diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/smpfld01/smpfld01.c
+*** sbl6/segasmp/fld/smpfld01/smpfld01.c	1996-02-08 05:28:36.000000000 -0500
+--- sbl6_patch/segasmp/fld/smpfld01/smpfld01.c	2022-12-10 17:30:00.000000000 -0500
+***************
+*** 30,36 ****
+  #define MAX_DIR         10
+  
+  /* アクセスするファイル名 */
+! #define FNAME           "SAMP_IP.BIN"
+  
+  /*****************************************************************************
+   *      関数の宣言
+--- 30,36 ----
+  #define MAX_DIR         10
+  
+  /* アクセスするファイル名 */
+! #define FNAME           "FLD_KNL.BIN"
+  
+  /*****************************************************************************
+   *      関数の宣言
+***************
+*** 55,60 ****
+--- 55,61 ----
+  {
+      Sint32 ret;
+  	Sint32 tno = 2;				/* ＣＤ－ＤＡの先頭トラック番号 */
++ 	char FOLDERNAME[20];
+  
+      /* ディレクトリ情報管理領域のsetup */
+  	*((Uint32 *)GFS_DDS_ADDR) = 0x20202020;
+***************
+*** 69,80 ****
+  		exit(0);
+      }
+  
+      /* ゲームを起動する */
+! 	ret = FLD_ExecGame(FNAME,tno);
+  	if (ret == NG) {
+  		/*	失敗すると、マルチプレイヤーに戻る */
+  		exit(1);
+  	}
+      return 0;
+  }
+! 
+\ No newline at end of file
+--- 70,86 ----
+  		exit(0);
+      }
+  
++ 	sprintf(FOLDERNAME,"");
++ 
+      /* ゲームを起動する */
+! 	ret = FLD_ExecGame(	FNAME,
+! 				FOLDERNAME,
+! 				tno);
+  	if (ret == NG) {
+  		/*	失敗すると、マルチプレイヤーに戻る */
+  		exit(1);
+  	}
++ 	
+      return 0;
+  }
+! 
 diff -crB --binary sbl6/segasmp/game/act.c sbl6_patch/segasmp/game/act.c
 *** sbl6/segasmp/game/act.c	1996-02-08 05:28:38.000000000 -0500
 --- sbl6_patch/segasmp/game/act.c	2022-09-24 09:08:36.000000000 -0400
