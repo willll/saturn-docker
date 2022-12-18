@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-SET(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_NAME Generic)
 
 set(SEGASMP_DESTINATION segasmp)
 set(INSTALL_DESTINATION ${SEGASMP_DESTINATION})
