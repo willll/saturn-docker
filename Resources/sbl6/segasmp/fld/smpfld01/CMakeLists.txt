@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15)
+
+include(FetchContent)
 
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
   smpfld01.c
   exit.c
-  exit.src
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
@@ -12,6 +13,9 @@ set(SOURCES
 set(CD_FILES
       0.bin
       fld_knl.bin
+      TEST.BIN
+      TEST/0.BIN=TEST/0.BIN
+      TEST/IP.BIN=TEST/IP.BIN
     )
 
 set(TARGET_NAME smpfld01)
@@ -62,9 +66,31 @@ add_custom_command(OUTPUT IP.BIN
                   ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
                         -t ${TARGET_NAME} -p 2 )
 
+FetchContent_Declare(
+                saturn_helloworld
+                GIT_REPOSITORY https://github.com/willll/saturn_helloworld.git
+                GIT_SHALLOW TRUE
+                GIT_TAG tags/1,0
+                )
+FetchContent_GetProperties(saturn_helloworld)
+
+FetchContent_MakeAvailable(saturn_helloworld)
+
+message("SRC; ${saturn_helloworld_SOURCE_DIR}")
+message("BIN: ${saturn_helloworld_BINARY_DIR}")
+
 include(${SATURN_CMAKE}/install.cmake)
 
+install(FILES ${saturn_helloworld_BINARY_DIR}/IP.BIN
+              DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/CD RENAME TEST.BIN )
+
+install(FILES ${saturn_helloworld_BINARY_DIR}/IP.BIN
+              DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/CD/TEST RENAME IP.BIN )
+
+install(FILES ${saturn_helloworld_BINARY_DIR}/helloworld.bin
+              DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/CD/TEST RENAME 0.BIN )
+
 install(FILES ${SEGALIB}/fld/fld_knl.bin
-              DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/CD )
+              DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/CD/ )
 
 include(${SATURN_CMAKE}/create_cd.cmake)
