@@ -14,6 +14,7 @@ fi
 
 $SATURN_CD/mkisofs -v -sysid "SEGA SEGASATURN" -volid "$1" -volset "$1"  -publisher "$2" \
  -preparer "$3" -appid "$1" -sectype 2352 \
+ -graft-points \
  -abstract "ABS.TXT" -copyright "CPY.TXT" -biblio "BIB.TXT" \
  -generic-boot "$6CD/$4" \
  -full-iso9660-filenames -o "$6/$5" \
