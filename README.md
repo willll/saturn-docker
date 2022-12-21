@@ -176,6 +176,21 @@ TODO
       - [x] smpscl5
   - [ ] sgl
     - [ ] demo_a **(Link errors)**
+    - [ ] demo_b
+    - [ ] demo_c
+    - [ ] s_2_2
+    - [ ] s_3_2
+    - [ ] s_4_2
+    - [ ] s_4_3_1
+    - [ ] s_4_3_2
+    - [ ] s_4_3_3
+    - [ ] s_4_3_4    
+    - [ ] s_4_5
+    - [ ] s_5_2
+    - [ ] s_6_3
+    - [ ] s_7_2
+    - [ ] s_7_4
+    - [ ] s_7_6            
   - [ ] snd
     - [ ] smpsnd1 **(Runtime ???)**
     - [ ] smpsnd4 **(Runtime ???)**
