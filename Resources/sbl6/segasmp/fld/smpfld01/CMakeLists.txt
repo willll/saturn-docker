@@ -5,7 +5,6 @@ include(FetchContent)
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
   smpfld01.c
-  exit.c
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
@@ -16,6 +15,7 @@ set(CD_FILES
       TEST.BIN
       TEST/0.BIN=TEST/0.BIN
       TEST/IP.BIN=TEST/IP.BIN
+      FSS.BIN
     )
 
 set(TARGET_NAME smpfld01)
@@ -26,7 +26,9 @@ add_compile_definitions(MODEL_S _SH)
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
 target_include_directories(
-    ${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
+    ${TARGET_NAME}.elf PUBLIC
+    .
+    ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib
     )
@@ -76,10 +78,16 @@ FetchContent_GetProperties(saturn_helloworld)
 
 FetchContent_MakeAvailable(saturn_helloworld)
 
-message("SRC; ${saturn_helloworld_SOURCE_DIR}")
-message("BIN: ${saturn_helloworld_BINARY_DIR}")
+add_custom_command(OUTPUT ${TARGET_NAME}.bin
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                   COMMAND ${CMAKE_OBJCOPY}
+                   ARGS -O binary ${TARGET_NAME}.elf ${TARGET_NAME}.bin )
 
-include(${SATURN_CMAKE}/install.cmake)
+add_custom_command(OUTPUT IP.BIN
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                  COMMAND $ENV{SATURN_IPMAKER}/IPMaker
+                  ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
+                        -t ${TARGET_NAME} -p 2 )
 
 install(FILES ${saturn_helloworld_BINARY_DIR}/IP.BIN
               DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/CD RENAME TEST.BIN )
@@ -93,4 +101,5 @@ install(FILES ${saturn_helloworld_BINARY_DIR}/helloworld.bin
 install(FILES ${SEGALIB}/fld/fld_knl.bin
               DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/CD/ )
 
+include(${SATURN_CMAKE}/install.cmake)
 include(${SATURN_CMAKE}/create_cd.cmake)

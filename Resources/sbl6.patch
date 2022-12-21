@@ -7384,7 +7384,7 @@ diff -crB --binary sbl6/segasmp/fld/smpfld01/exit.c sbl6_patch/segasmp/fld/smpfl
 --- 254,256 ----
 diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/smpfld01/smpfld01.c
 *** sbl6/segasmp/fld/smpfld01/smpfld01.c	1996-02-08 05:28:36.000000000 -0500
---- sbl6_patch/segasmp/fld/smpfld01/smpfld01.c	2022-12-18 16:03:56.000000000 -0500
+--- sbl6_patch/segasmp/fld/smpfld01/smpfld01.c	2022-12-20 17:50:54.000000000 -0500
 ***************
 *** 1,80 ****
   /*****************************************************************************
@@ -7402,8 +7402,8 @@ diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/s
 !  *      ƒQ[ƒ€‚Ì’Pƒ‚È‹N“®B
 !  *
 !  *****************************************************************************/
-  
-  /*****************************************************************************
+! 
+! /*****************************************************************************
 !  *      ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
 !  *****************************************************************************/
   #include <sega_gfs.h>
@@ -7413,13 +7413,13 @@ diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/s
 !  *      ’è”ƒ}ƒNƒ
 !  *****************************************************************************/
 ! /* “¯‚ÉƒI[ƒvƒ“‚·‚éƒtƒ@ƒCƒ‹‚Ì” */
-  #define MAX_OPEN        2
+! #define MAX_OPEN        2
   
 ! /* ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚éƒtƒ@ƒCƒ‹” */
-  #define MAX_DIR         10
+! #define MAX_DIR         10
   
-- /* ƒAƒNƒZƒX‚·‚éƒtƒ@ƒCƒ‹–¼ */
-- #define FNAME           "SAMP_IP.BIN"
+! /* ƒAƒNƒZƒX‚·‚éƒtƒ@ƒCƒ‹–¼ */
+! #define FNAME           "SAMP_IP.BIN"
   
   /*****************************************************************************
 !  *      ŠÖ”‚ÌéŒ¾
@@ -7468,7 +7468,7 @@ diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/s
 ! }
 ! 
 \ No newline at end of file
---- 1,85 ----
+--- 1,140 ----
   /*****************************************************************************
 ! *      ï¿½\ï¿½tï¿½gï¿½Eï¿½Fï¿½Aï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
 ! *
@@ -7484,22 +7484,73 @@ diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/s
 ! *      ï¿½Qï¿½[ï¿½ï¿½ï¿½Ì’Pï¿½ï¿½ï¿½È‹Nï¿½ï¿½ï¿½B
 ! *
 ! *****************************************************************************/
-  
-  /*****************************************************************************
+! 
+! /*****************************************************************************
 ! *      ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½tï¿½@ï¿½Cï¿½ï¿½
 ! *****************************************************************************/
+! #include <machine.h>
   #include <sega_gfs.h>
   #include <fld_load.h>
++ #include <sega_int.h>
++ #include <sega_scl.h>
++ 
++ #define BITMAP_PIXEL_WIDTH  352
++ #define BITMAP_PIXEL_HEIGHT 240
++ #define	NBG1_VDP2_VRAM_BASE_ADDR	SCL_VDP2_VRAM_B0
++ #define GAME_BY_PAGE 7
++ 
++ void	ClrVram(volatile Uint8 *buff)
++ {
++ 	Uint32	i;
++ 
++ 	for(i=0;i<(512 * 512);i++)	buff[i]=0x00;
++ }
   
   /*****************************************************************************
 ! *      ï¿½è”ï¿½}ï¿½Nï¿½ï¿½
 ! *****************************************************************************/
 ! /* ï¿½ï¿½ï¿½ï¿½ï¿½ÉƒIï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½ */
-  #define MAX_OPEN        2
-  
+! #define MAX_OPEN        4
+! 
 ! /* ï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ */
-  #define MAX_DIR         10
+! #define MAX_DIR         20
+! 
+! 
+! //--------------------------------------------------------------------------------------------------------------
+! void VDP2_InitVRAM(void)
+! {
+! 	/* Variables. */
+! 
+! 	Uint32	loop;
+! 	Uint32	maxloop;
+! 
+! 	/* Code. */
   
+! 	/* Fascist clear of all VDP2 VRAM */
+  
+! 	loop = 0;
+! 	maxloop = 512*1024;
+! 
+! 	while (loop < maxloop)
+! 	{
+! 		*((Uint32 *) (SCL_VDP2_VRAM_A0 + loop)) = 0;
+! 
+! 		loop += 4;
+! 	}
+! 
+! 	/* Now set layer NBG1 to be a nice blue colour */
+! 
+! 	loop = 0;
+! 	maxloop = BITMAP_PIXEL_WIDTH * BITMAP_PIXEL_HEIGHT;
+! 
+! 	while (loop < maxloop)
+! 	{
+! 		*((Uint8 *) (NBG1_VDP2_VRAM_BASE_ADDR + loop)) = 1;
+! 
+! 		loop += 1;
+! 	}
+! 
+! }
   
   /*****************************************************************************
 ! *      ï¿½Öï¿½ï¿½ÌéŒ¾
@@ -7535,6 +7586,7 @@ diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/s
 !   /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
 !   ret = GFS_Init(MAX_OPEN, lib_work, &dirtbl);
 !   if (ret <= 0) {
+!      while(1);
 !     /*	ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ÆAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 !     exit(0);
 !   }
@@ -7542,11 +7594,14 @@ diff -crB --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/s
 !   sprintf(FOLDERNAME,"TEST");
 !   sprintf(FNAME,"TEST.BIN");
 ! 
+!   INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT  |INT_MSK_PAD);
+! 
 !   /* ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 !   ret = FLD_ExecGame(	FNAME,
 !                       FOLDERNAME,
 !                       tno);
 !     if (ret == NG) {
+!        while(1);
 !       /*	ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ÆAï¿½}ï¿½ï¿½ï¿½`ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½É–ß‚ï¿½ */
 !       exit(1);
       }
