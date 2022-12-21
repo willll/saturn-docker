@@ -115,7 +115,7 @@ TODO
   - [x] dbg
   - [x] dma
   - [x] dsp **TO BE VALIDATED**
-  - [ ] gfs **TO BE VALIDATED**
+  - [x] gfs
   - [x] fld **Converted from COFF**
   - [x] int
   - [x] mem
@@ -140,24 +140,24 @@ TODO
     - [x] dma12
   - [ ] dual **(required or just sample code ?)**
   - [ ] fld
-      - [ ] smpfld01 **Does not build, missing files**
-  - [ ] game  **(black screen at runtime)**
-  - [ ] game_cd **(black screen at runtime)**
+      - [ ] smpfld01 **(Crash at runtime)**
+  - [?] game  **(black screen at runtime)**
+  - [?] game_cd **(black screen at runtime)**
   - [ ] gfs
     - [ ] smpgfs1a **(Crash at runtime)**
     - [ ] smpgfs1b **(Crash at runtime)**
     - [ ] smpgfs2 **(Crash at runtime)**
   - [ ] mem
-    - [ ] smpmem0
-    - [ ] smpmem1
+    - [ ] smpmem0 **(Crash at runtime)**
+    - [?] smpmem1 **(black screen at runtime)**
   - [ ] mpg
     - [ ] smpmpg1
   - [ ] pcm
     - [ ] pcm2 **(Crash at runtime)**
-    - [ ] pcm3
+    - [ ] pcm3 **(black screen at runtime)**
     - [ ] pcm4
     - [ ] pcm5
-    - [ ] pcm13
+    - [ ] pcm13 **(black screen at runtime)**
   - [ ] per
     - [ ] smpper0 **(Link errors)**
     - [ ] smpper1 **(Not tested)**

@@ -30,7 +30,8 @@ add_compile_definitions(MODEL_S _SH)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
-target_include_directories(${TARGET_NAME}.elf PUBLIC .
+target_include_directories(${TARGET_NAME}.elf PUBLIC
+    .
     ${SEGALIB}/include
     ${SEGASGL}/include
     ${PROJECT_SOURCE_DIR}

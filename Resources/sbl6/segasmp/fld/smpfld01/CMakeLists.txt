@@ -57,17 +57,6 @@ target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 
-add_custom_command(OUTPUT ${TARGET_NAME}.bin
-                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                   COMMAND ${CMAKE_OBJCOPY}
-                   ARGS -O binary ${TARGET_NAME}.elf ${TARGET_NAME}.bin )
-
-add_custom_command(OUTPUT IP.BIN
-                  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                  COMMAND $ENV{SATURN_IPMAKER}/IPMaker
-                  ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
-                        -t ${TARGET_NAME} -p 2 )
-
 FetchContent_Declare(
                 saturn_helloworld
                 GIT_REPOSITORY https://github.com/willll/saturn_helloworld.git
