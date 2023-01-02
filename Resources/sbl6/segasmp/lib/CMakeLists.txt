@@ -1,0 +1,13 @@
+set(TARGET_PATH lib)
+
+set(SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/strt1_g.src
+  ${CMAKE_CURRENT_SOURCE_DIR}/strt1_h.src
+  ${CMAKE_CURRENT_SOURCE_DIR}/strt2_g.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/strt2_h.c
+  )
+
+install(
+        FILES ${SOURCES}
+        DESTINATION ${INSTALL_DESTINATION}/${TARGET_PATH}/Sources
+        )
