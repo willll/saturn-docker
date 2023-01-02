@@ -15,7 +15,6 @@ set(CD_FILES
       TEST.BIN
       TEST/0.BIN=TEST/0.BIN
       TEST/IP.BIN=TEST/IP.BIN
-      FSS.BIN
     )
 
 set(TARGET_NAME smpfld01)
