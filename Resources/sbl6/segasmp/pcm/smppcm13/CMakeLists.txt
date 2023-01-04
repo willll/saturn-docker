@@ -12,7 +12,7 @@ set(CD_FILES
 set(TARGET_NAME smppcm13)
 set(TARGET_PATH pcm/smppcm13)
 
-add_compile_definitions(MODEL_S _SH)
+add_compile_definitions(MODEL_S)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
@@ -49,7 +49,7 @@ add_custom_command(OUTPUT ${TARGET_NAME}.bin
 add_custom_command(OUTPUT IP.BIN
                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                   COMMAND $ENV{SATURN_IPMAKER}/IPMaker
-                  ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
+                  ARGS ${ip_maker_verbose} -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
                         -t ${TARGET_NAME} -p 2 )
 
 include(${SATURN_CMAKE}/install.cmake)

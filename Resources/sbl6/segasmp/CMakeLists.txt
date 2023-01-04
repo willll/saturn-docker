@@ -23,7 +23,9 @@ project( segasmp VERSION 1.0
                   LANGUAGES C ASM)
 
 set(as_flags )
-set(c_flags -Wall -m2 -MMD)
+set(c_flags -O0 -Wall -m2 -MMD)
+
+set(ip_maker_verbose ) # set to -v for debug
 
 add_subdirectory(abs)
 add_subdirectory(bup)
