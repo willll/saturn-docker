@@ -143,10 +143,10 @@ COPY Resources/Install/build-Mkisofs.sh $SATURN_TMP
 RUN $SATURN_TMP/build-Mkisofs.sh
 
 #
-# Install Saturn-SDK-Tool-IPMaker 0.1
+# Install Saturn-SDK-Tool-IPMaker 0.2
 #
 COPY Resources/Install/build-IPMaker.sh $SATURN_TMP
-RUN $SATURN_TMP/build-IPMaker.sh "IPMaker_0.1"
+RUN $SATURN_TMP/build-IPMaker.sh "IPMaker_0.2"
 
 #
 # Install Boost preprocessor, System, filesystem, program_options 1.78.0
