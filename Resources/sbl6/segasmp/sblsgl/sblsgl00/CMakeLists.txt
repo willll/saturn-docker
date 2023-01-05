@@ -53,7 +53,7 @@ add_custom_command(OUTPUT ${TARGET_NAME}.bin
 add_custom_command(OUTPUT IP.BIN
                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                   COMMAND $ENV{SATURN_IPMAKER}/IPMaker
-                  ARGS -v -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
+                  ARGS ${ip_maker_verbose} -o ${CMAKE_CURRENT_BINARY_DIR}/IP.BIN
                         -t ${TARGET_NAME} -p 2 )
 
 include(${SATURN_CMAKE}/install.cmake)
