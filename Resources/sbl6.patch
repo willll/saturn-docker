@@ -1,3 +1,107 @@
+diff -crB --binary sbl6/segalib/cmp/cmplrunb.c sbl6_patch/segalib/cmp/cmplrunb.c
+*** sbl6/segalib/cmp/cmplrunb.c	1996-02-08 05:23:04.000000000 -0500
+--- sbl6_patch/segalib/cmp/cmplrunb.c	2023-01-04 18:47:04.000000000 -0500
+***************
+*** 33,41 ****
+  Sint32 CMP_DecRunlenByte(void *_inp, void **_outp, Sint32 outbufsize)
+  {
+  	char	*inp, *outp;
+! 	Sint32	orgfsize,		/* 圧縮前ファイルサイズ[byte]	*/
+! 			outsize,		/* 出力データサイズ[byte] 		*/
+! 			outcnt,			/* 出力データカウンタ	 		*/
+  			runlen,         /* ラン長 						*/
+  			retval;         /* 戻り値						*/
+  	Uint16	header;			/* 圧縮ファイルヘッダ	 		*/
+--- 33,41 ----
+  Sint32 CMP_DecRunlenByte(void *_inp, void **_outp, Sint32 outbufsize)
+  {
+  	char	*inp, *outp;
+! 	Sint32	orgfsize = 0,		/* 圧縮前ファイルサイズ[byte]	*/
+! 			outsize = 0,	/* 出力データサイズ[byte] 		*/
+! 			outcnt,		/* 出力データカウンタ	 		*/
+  			runlen,         /* ラン長 						*/
+  			retval;         /* 戻り値						*/
+  	Uint16	header;			/* 圧縮ファイルヘッダ	 		*/
+***************
+*** 81,84 ****
+  	*_outp = outp;
+  	return retval;
+  }
+! 
+\ No newline at end of file
+--- 81,84 ----
+  	*_outp = outp;
+  	return retval;
+  }
+! 
+diff -crB --binary sbl6/segalib/cmp/cmplrund.c sbl6_patch/segalib/cmp/cmplrund.c
+*** sbl6/segalib/cmp/cmplrund.c	1996-02-08 05:23:04.000000000 -0500
+--- sbl6_patch/segalib/cmp/cmplrund.c	2023-01-04 18:33:50.000000000 -0500
+***************
+*** 20,27 ****
+  {
+  	Uint8	*tmp;
+  	Uint32	*inp, *outp;
+! 	Sint32	orgfsize,		/* 圧縮前ファイルサイズ[byte]			*/
+! 			outsize,		/* 出力データサイズ[byte] 				*/
+  			boundary_offset,/* 出力データサイズを４バイトバウンダリ	*/
+  							/* に揃える為に付加したバイト数。		*/
+  			outcnt,			/* 出力データカウンタ	 				*/
+--- 20,27 ----
+  {
+  	Uint8	*tmp;
+  	Uint32	*inp, *outp;
+! 	Sint32	orgfsize = 0,		/* 圧縮前ファイルサイズ[byte]			*/
+! 			outsize = 0,		/* 出力データサイズ[byte] 				*/
+  			boundary_offset,/* 出力データサイズを４バイトバウンダリ	*/
+  							/* に揃える為に付加したバイト数。		*/
+  			outcnt,			/* 出力データカウンタ	 				*/
+***************
+*** 74,77 ****
+  	*_outp = (void *)tmp;
+  	return retval;
+  }
+! 
+\ No newline at end of file
+--- 74,77 ----
+  	*_outp = (void *)tmp;
+  	return retval;
+  }
+! 
+diff -crB --binary sbl6/segalib/cmp/cmplrunw.c sbl6_patch/segalib/cmp/cmplrunw.c
+*** sbl6/segalib/cmp/cmplrunw.c	1996-02-08 05:23:04.000000000 -0500
+--- sbl6_patch/segalib/cmp/cmplrunw.c	2023-01-04 18:48:16.000000000 -0500
+***************
+*** 20,27 ****
+  {
+  	Uint8	*tmp;
+  	Uint16	*inp, *outp;
+! 	Sint32	orgfsize,		/* 圧縮前ファイルサイズ[byte]			*/
+! 			outsize,		/* 出力データサイズ[byte] 				*/
+  			boundary_offset,/* 出力データサイズを４バイトバウンダリ	*/
+  							/* に揃える為に付加したバイト数。		*/
+  			outcnt,			/* 出力データカウンタ	 				*/
+--- 20,27 ----
+  {
+  	Uint8	*tmp;
+  	Uint16	*inp, *outp;
+! 	Sint32	orgfsize = 0,		/* 圧縮前ファイルサイズ[byte]			*/
+! 			outsize = 0,	/* 出力データサイズ[byte] 				*/
+  			boundary_offset,/* 出力データサイズを４バイトバウンダリ	*/
+  							/* に揃える為に付加したバイト数。		*/
+  			outcnt,			/* 出力データカウンタ	 				*/
+***************
+*** 74,77 ****
+  	*_outp = (void *)tmp;
+  	return retval;
+  }
+! 
+\ No newline at end of file
+--- 74,77 ----
+  	*_outp = (void *)tmp;
+  	return retval;
+  }
+! 
 diff -crB --binary sbl6/segalib/csh/csh_main.c sbl6_patch/segalib/csh/csh_main.c
 *** sbl6/segalib/csh/csh_main.c	1996-02-08 05:23:06.000000000 -0500
 --- sbl6_patch/segalib/csh/csh_main.c	2022-09-26 20:20:20.000000000 -0400
@@ -73,6 +177,44 @@ diff -crB --binary sbl6/segalib/dma/dma_cpum.c sbl6_patch/segalib/dma/dma_cpum.c
   }
   
 ! 
+diff -crB --binary sbl6/segalib/dma/dma_scu0.c sbl6_patch/segalib/dma/dma_scu0.c
+*** sbl6/segalib/dma/dma_scu0.c	1996-02-08 05:23:18.000000000 -0500
+--- sbl6_patch/segalib/dma/dma_scu0.c	2023-01-04 19:04:44.000000000 -0500
+***************
+*** 315,328 ****
+--- 315,334 ----
+              now_vector_num = INT_SCU_DMA2;
+              intr_func = DMA_ScuIntFunc2;
+              break;
++          default:
++             // Error case, should crash ?
++             now_vector_num = 0;
+      }
+      dma_scu_vector[ch] = INT_GetScuFunc(now_vector_num);
+                                                          /* ベクタ待避SCU     */
+      dma_vector[ch] = INT_GetFunc(now_vector_num);
+                                                          /* ベクタ待避        */
+      dma_int_status[ch] = DMA_SCU_MV;
++     #pragma GCC diagnostic push
++     #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+      INT_SetScuFunc(now_vector_num, intr_func);        /* ベクタ登録        */
+      INT_SetFunc(now_vector_num, NULL);          /* SCU割り込み関数の再登録   */
++     #pragma GCC diagnostic pop
+  
+      /* 割り込みベクタ登録 (end)***********************************************/
+  
+***************
+*** 439,442 ****
+  void DMA_ScuIntFunc2(void){
+      INTR_FUNC(DMA_SCU_CH2, INT_SCU_DMA2);   /* DMAチャネル別終了割り込み処理 */
+  }
+! 
+\ No newline at end of file
+--- 445,448 ----
+  void DMA_ScuIntFunc2(void){
+      INTR_FUNC(DMA_SCU_CH2, INT_SCU_DMA2);   /* DMAチャネル別終了割り込み処理 */
+  }
+! 
 diff -crB --binary sbl6/segalib/dma/dma_scu1.c sbl6_patch/segalib/dma/dma_scu1.c
 *** sbl6/segalib/dma/dma_scu1.c	1996-02-08 05:23:18.000000000 -0500
 --- sbl6_patch/segalib/dma/dma_scu1.c	2021-11-14 20:08:26.000000000 -0500
@@ -130,6 +272,119 @@ diff -crB --binary sbl6/segalib/gfs/gfs.c sbl6_patch/segalib/gfs/gfs.c
   
       svr = &MNG_SVR(gfs_mng_ptr);
       for (i = 0; i < SVR_NFILE(svr); ++i) {
+diff -crB --binary sbl6/segalib/gfs/gfs_cdb.c sbl6_patch/segalib/gfs/gfs_cdb.c
+*** sbl6/segalib/gfs/gfs_cdb.c	1996-02-08 05:23:30.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_cdb.c	2023-01-04 18:51:36.000000000 -0500
+***************
+*** 259,265 ****
+  Sint32 GFCB_Seek(GfsFlow *flow, Sint32 off, Sint32 org)
+  {
+      Sint32      nsct;
+-     Sint32      ret;
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+  
+      if (off < 0) {
+--- 259,264 ----
+***************
+*** 336,342 ****
+   *****************************************************************************/
+  GfdpHn GFCB_GetSrcPack(GfsFlow *flow, Sint32 usct)
+  {
+!     Sint32      len, ret, nsct;
+      Sint32      sctsiz, fsct, lastsiz;
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+      GfdpHn      dpk = &MNG_SRCPK(gfs_mng_ptr);
+--- 335,341 ----
+   *****************************************************************************/
+  GfdpHn GFCB_GetSrcPack(GfsFlow *flow, Sint32 usct)
+  {
+!     Sint32      len, nsct;
+      Sint32      sctsiz, fsct, lastsiz;
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+      GfdpHn      dpk = &MNG_SRCPK(gfs_mng_ptr);
+***************
+*** 400,408 ****
+  void GFCB_RtnPk(GfsFlow *flow, GfdpHn dpk, Sint32 nsct)
+  {
+      Sint32      txw;
+-     Sint32      seekpos;
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+  
+      GFCD_EndData(&txw);
+      /* 転送が終了しているので,アクセスポインタを進める  */
+      if (nsct == GFTR_ALLSCT) {
+--- 399,407 ----
+  void GFCB_RtnPk(GfsFlow *flow, GfdpHn dpk, Sint32 nsct)
+  {
+      Sint32      txw;
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+  
++     (void)dts;
+      GFCD_EndData(&txw);
+      /* 転送が終了しているので,アクセスポインタを進める  */
+      if (nsct == GFTR_ALLSCT) {
+diff -crB --binary sbl6/segalib/gfs/gfs_cdc.c sbl6_patch/segalib/gfs/gfs_cdc.c
+*** sbl6/segalib/gfs/gfs_cdc.c	1996-02-08 05:23:32.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_cdc.c	2023-01-04 19:05:16.000000000 -0500
+***************
+*** 1228,1234 ****
+  /* タスク状態判定 */
+  GFS_LOCAL Bool  gfcd_isIdleTask(Sint32 tsk)
+  {
+!     Sint32 stat;
+  
+      switch (tsk) {
+      case TSK_ID_SETFLT:
+--- 1228,1234 ----
+  /* タスク状態判定 */
+  GFS_LOCAL Bool  gfcd_isIdleTask(Sint32 tsk)
+  {
+!     Sint32 stat = 0;
+  
+      switch (tsk) {
+      case TSK_ID_SETFLT:
+***************
+*** 1263,1268 ****
+--- 1263,1269 ----
+  /* タスク実行 */
+  GFS_LOCAL Sint32        gfcd_doTask(Sint32 tsk, Sint32 *ncmd)
+  {
++     Sint32 ret = 0;
+      switch (tsk) {
+      case TSK_ID_SETFLT:
+          return gfcd_doSetFiltTsk(ncmd);
+***************
+*** 1280,1286 ****
+--- 1281,1292 ----
+          return gfcd_doSetFiltConTsk(ncmd);
+      case TSK_ID_CHGDIR:
+          return gfcd_doChgDirTsk(ncmd);
++      default:
++         // Error case, should crash  ?
++         return ret;
++      	
+      }
++     return ret;
+  }
+  
+  
+***************
+*** 1399,1405 ****
+  GFS_LOCAL Sint32 gfcd_doGetLenDataTsk(Sint32 *ncmd)
+  {
+      Sint32      ret;
+!     Sint32      actwsiz, nsct, st;
+  
+      if (TSK_GETLEN_STAT(gfcd_work) == GFCD_TSK_STAT1) {
+          ret = CDC_GetSctNum(TSK_GETLEN_BUFNO(gfcd_work), &nsct);
+--- 1405,1411 ----
+  GFS_LOCAL Sint32 gfcd_doGetLenDataTsk(Sint32 *ncmd)
+  {
+      Sint32      ret;
+!     Sint32      actwsiz, nsct;
+  
+      if (TSK_GETLEN_STAT(gfcd_work) == GFCD_TSK_STAT1) {
+          ret = CDC_GetSctNum(TSK_GETLEN_BUFNO(gfcd_work), &nsct);
 diff -crB --binary sbl6/segalib/gfs/gfs_dir.c sbl6_patch/segalib/gfs/gfs_dir.c
 *** sbl6/segalib/gfs/gfs_dir.c	1996-02-08 05:23:34.000000000 -0500
 --- sbl6_patch/segalib/gfs/gfs_dir.c	2022-01-17 19:51:14.000000000 -0500
@@ -8652,6 +8907,85 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm5/smppcm5.c sbl6_patch/segasmp/pcm/smp
 --- 1086,1089 ----
   		}
   	}
+  }
+! 
+diff -crB --binary sbl6/segasmp/per/smpper0/smpper0.c sbl6_patch/segasmp/per/smpper0/smpper0.c
+*** sbl6/segasmp/per/smpper0/smpper0.c	1996-02-08 05:30:36.000000000 -0500
+--- sbl6_patch/segasmp/per/smpper0/smpper0.c	2023-01-02 18:17:46.000000000 -0500
+***************
+*** 111,117 ****
+   ******************************************************************************
+   */
+  
+! void main(void)
+  {
+      Uint8 set_tim_data[7];
+      Uint32 back_v_blank_out_cnt;
+--- 111,117 ----
+   ******************************************************************************
+   */
+  
+! int main(void)
+  {
+      Uint8 set_tim_data[7];
+      Uint32 back_v_blank_out_cnt;
+***************
+*** 169,174 ****
+--- 169,176 ----
+  
+  	/* ここに来る事ってあんの？	*/
+      for(;;);
++     
++     return 0;
+  }
+  /******************************************************************************
+   *
+***************
+*** 216,219 ****
+               per_work,      /* WORK */
+               0);            /* V_BLANK SKIP */
+  }
+! 
+\ No newline at end of file
+--- 218,221 ----
+               per_work,      /* WORK */
+               0);            /* V_BLANK SKIP */
+  }
+! 
+diff -crB --binary sbl6/segasmp/per/smpper1/smpper1.c sbl6_patch/segasmp/per/smpper1/smpper1.c
+*** sbl6/segasmp/per/smpper1/smpper1.c	1996-02-08 05:30:40.000000000 -0500
+--- sbl6_patch/segasmp/per/smpper1/smpper1.c	2023-01-02 18:18:36.000000000 -0500
+***************
+*** 102,108 ****
+   ******************************************************************************
+   */
+  
+! void main(void)
+  {
+      Uint8 ireg[32];
+  #if	0
+--- 102,108 ----
+   ******************************************************************************
+   */
+  
+! int main(void)
+  {
+      Uint8 ireg[32];
+  #if	0
+***************
+*** 175,179 ****
+      while(1)
+      {
+      }
+  }
+! 
+\ No newline at end of file
+--- 175,181 ----
+      while(1)
+      {
+      }
++     
++     return 0;
   }
 ! 
 diff -crB --binary sbl6/segasmp/per/smpper12/test.c sbl6_patch/segasmp/per/smpper12/test.c
