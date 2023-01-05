@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x1.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x2.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
   spr2.c
   move.c
   image.c
