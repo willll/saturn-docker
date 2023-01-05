@@ -385,9 +385,82 @@ diff -crB --binary sbl6/segalib/gfs/gfs_cdc.c sbl6_patch/segalib/gfs/gfs_cdc.c
   
       if (TSK_GETLEN_STAT(gfcd_work) == GFCD_TSK_STAT1) {
           ret = CDC_GetSctNum(TSK_GETLEN_BUFNO(gfcd_work), &nsct);
+diff -crB --binary sbl6/segalib/gfs/gfs_cdf.c sbl6_patch/segalib/gfs/gfs_cdf.c
+*** sbl6/segalib/gfs/gfs_cdf.c	1996-02-08 05:23:32.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_cdf.c	2023-01-04 20:17:58.000000000 -0500
+***************
+*** 513,519 ****
+  GFS_LOCAL Bool gfcf_isCdOk(GfsFlow *flow, Sint32 stat,  Sint32 *err)
+  {
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+-     Sint32      fad;
+  
+      switch (stat) {
+      case GFS_STAT_SEEK:
+--- 513,518 ----
+diff -crB --binary sbl6/segalib/gfs/gfs_def.h sbl6_patch/segalib/gfs/gfs_def.h
+*** sbl6/segalib/gfs/gfs_def.h	1996-02-08 05:23:34.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_def.h	2023-01-04 20:52:10.000000000 -0500
+***************
+*** 96,105 ****
+  #define IS_ENDTBL(atr)  (((atr) & GFS_ATR_END_TBL)? TRUE: FALSE)
+  
+  /* 警告抑制のため */
+! #define XSTRNCPY(s1, s2, n)     strncpy((Sint8 *)s1, (Sint8 *)s2, n)
+! #define XSTRCPY(s1, s2)         strcpy((Sint8 *)s1, (Sint8 *)s2)
+! #define XSTRNCMP(s1, s2, n)     strncmp((Sint8 *)s1, (Sint8 *)s2, n)
+! #define XSTRCMP(s1, s2)         strcmp((Sint8 *)s1, (Sint8 *)s2)
+  
+  #define GFS_BYTE_SCT(byte, sctsiz)  \
+      ((Sint32)(((Uint32)(byte)) + ((Uint32)(sctsiz)) - 1) / ((Uint32)(sctsiz)))
+--- 96,105 ----
+  #define IS_ENDTBL(atr)  (((atr) & GFS_ATR_END_TBL)? TRUE: FALSE)
+  
+  /* 警告抑制のため */
+! #define XSTRNCPY(s1, s2, n)     strncpy((char *)s1, (const char *)s2, n)
+! #define XSTRCPY(s1, s2)         strcpy((char *)s1, (const char *)s2)
+! #define XSTRNCMP(s1, s2, n)     strncmp((const char *)s1, (const char *)s2, n)
+! #define XSTRCMP(s1, s2)         strcmp(( char *)s1, (const char *)s2)
+  
+  #define GFS_BYTE_SCT(byte, sctsiz)  \
+      ((Sint32)(((Uint32)(byte)) + ((Uint32)(sctsiz)) - 1) / ((Uint32)(sctsiz)))
 diff -crB --binary sbl6/segalib/gfs/gfs_dir.c sbl6_patch/segalib/gfs/gfs_dir.c
 *** sbl6/segalib/gfs/gfs_dir.c	1996-02-08 05:23:34.000000000 -0500
---- sbl6_patch/segalib/gfs/gfs_dir.c	2022-01-17 19:51:14.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_dir.c	2023-01-04 20:31:18.000000000 -0500
+***************
+*** 202,216 ****
+   *****************************************************************************/
+  Sint32 GFDR_SetupDirTbl(GfsHn gfs, GfsDirTbl *dirtbl, Sint32 nsct)
+  {
+!     Sint32      ndir, atr, ec;
+  
+  #if !defined(DEBUG_LIB)
+      if (gfs != NULL) {
+          GFS_GetFileInfo(gfs, NULL, NULL, NULL, &atr);
+          if ((atr & GFS_ATR_DIR) == 0) {
+              return GFS_ERR_DIR;
+          }
+!         ec = GFS_NwCdRead(gfs, nsct);
+          if (ec != GFS_ERR_OK) {
+              return ec;
+          }
+--- 202,217 ----
+   *****************************************************************************/
+  Sint32 GFDR_SetupDirTbl(GfsHn gfs, GfsDirTbl *dirtbl, Sint32 nsct)
+  {
+!     Sint32      ndir;
+  
+  #if !defined(DEBUG_LIB)
+      if (gfs != NULL) {
++     	Sint32 atr;
+          GFS_GetFileInfo(gfs, NULL, NULL, NULL, &atr);
+          if ((atr & GFS_ATR_DIR) == 0) {
+              return GFS_ERR_DIR;
+          }
+!         Sint32 ec = GFS_NwCdRead(gfs, nsct);
+          if (ec != GFS_ERR_OK) {
+              return ec;
+          }
 ***************
 *** 680,686 ****
   {
@@ -397,7 +470,7 @@ diff -crB --binary sbl6/segalib/gfs/gfs_dir.c sbl6_patch/segalib/gfs/gfs_dir.c
   
       if (GFDR_FILE_GFS(fp) == NULL) {
           XA_DIR_RSIZE(dir) = 0;
---- 680,686 ----
+--- 681,687 ----
   {
       Sint32      ec, i, rdsz, fn_err = FALSE;
       Uint8       fn_len, file_flg;
@@ -418,6 +491,60 @@ diff -crB --binary sbl6/segalib/gfs/gfs_mmb.c sbl6_patch/segalib/gfs/gfs_mmb.c
   
   /*****************************************************************************
    *      定数マクロ
+diff -crB --binary sbl6/segalib/gfs/gfs_mmf.c sbl6_patch/segalib/gfs/gfs_mmf.c
+*** sbl6/segalib/gfs/gfs_mmf.c	1996-02-08 05:23:38.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_mmf.c	2023-01-04 20:53:32.000000000 -0500
+***************
+*** 124,129 ****
+--- 124,131 ----
+      GfsFinfo    *finfo = &GFS_FLW_FINFO(flow);
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+      
++     (void)finfo;
++     
+      remain = GFS_FLW_SCT(flow) - GFS_FLW_SCTCNT(flow);
+      if (remain <= 0) {
+          return GFS_FIN_END;
+diff -crB --binary sbl6/segalib/gfs/gfs_sfb.c sbl6_patch/segalib/gfs/gfs_sfb.c
+*** sbl6/segalib/gfs/gfs_sfb.c	1996-02-08 05:23:40.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_sfb.c	2023-01-04 20:54:54.000000000 -0500
+***************
+*** 154,163 ****
+  /* データパック返還 */
+  void GFSB_RtnPk(GfsFlow *flow, GfdpHn dtpk, Sint32 nsct)
+  {
+-     Sint32      seekpos;
+      GfdpHn      dpk = &gfsb_dtpk;
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+  
+      /* 使用中のデータパックを変換することを確認 */
+      if (GFDP_USE(dpk)) {
+          /* 転送が終了している場合,アクセスポインタを進める  */
+--- 154,163 ----
+  /* データパック返還 */
+  void GFSB_RtnPk(GfsFlow *flow, GfdpHn dtpk, Sint32 nsct)
+  {
+      GfdpHn      dpk = &gfsb_dtpk;
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+  
++     (void)dts;
+      /* 使用中のデータパックを変換することを確認 */
+      if (GFDP_USE(dpk)) {
+          /* 転送が終了している場合,アクセスポインタを進める  */
+diff -crB --binary sbl6/segalib/gfs/gfs_sff.c sbl6_patch/segalib/gfs/gfs_sff.c
+*** sbl6/segalib/gfs/gfs_sff.c	1996-02-08 05:23:40.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_sff.c	2023-01-04 20:55:18.000000000 -0500
+***************
+*** 139,144 ****
+--- 139,146 ----
+      GfsFinfo    *finfo = &GFS_FLW_FINFO(flow);
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+      
++     (void)finfo;
++     
+      remain = GFS_FLW_SCT(flow) - GFS_FLW_SCTCNT(flow);
+      if (remain <= 0) {
+          return GFS_FIN_END;
 diff -crB --binary sbl6/segalib/include/sega_int.h sbl6_patch/segalib/include/sega_int.h
 *** sbl6/segalib/include/sega_int.h	1996-02-08 05:23:46.000000000 -0500
 --- sbl6_patch/segalib/include/sega_int.h	2021-12-26 18:28:36.000000000 -0500
@@ -9665,6 +9792,367 @@ diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/sm
   }
   
   /*  end of file */
+! 
+diff -crB --binary sbl6/segasmp/spr/smpspr8/smpspr80.c sbl6_patch/segasmp/spr/smpspr8/smpspr80.c
+*** sbl6/segasmp/spr/smpspr8/smpspr80.c	1996-02-08 05:33:40.000000000 -0500
+--- sbl6_patch/segasmp/spr/smpspr8/smpspr80.c	2023-01-04 21:05:08.000000000 -0500
+***************
+*** 258,264 ****
+  
+  
+  /* main()		95-7-26  +"void"	*/
+! void main()	 /*	95-7-26				*/
+  {
+  XyInt	xy;
+  /* Uint16  timeCnt1, timeCnt2;	95-7-26 unuse	*/
+--- 258,264 ----
+  
+  
+  /* main()		95-7-26  +"void"	*/
+! int main()	 /*	95-7-26				*/
+  {
+  XyInt	xy;
+  /* Uint16  timeCnt1, timeCnt2;	95-7-26 unuse	*/
+***************
+*** 378,383 ****
+--- 378,385 ----
+  #endif
+  
+      }
++     
++     return 0;
+  }
+  
+  
+***************
+*** 472,475 ****
+  }
+  
+  /*  end of file */
+! 
+\ No newline at end of file
+--- 474,477 ----
+  }
+  
+  /*  end of file */
+! 
+diff -crB --binary sbl6/segasmp/stm/smpstm1/smpstm1.c sbl6_patch/segasmp/stm/smpstm1/smpstm1.c
+*** sbl6/segasmp/stm/smpstm1/smpstm1.c	1996-02-08 05:33:46.000000000 -0500
+--- sbl6_patch/segasmp/stm/smpstm1/smpstm1.c	2023-01-04 21:07:40.000000000 -0500
+***************
+*** 142,151 ****
+  void    SMP_ChkBuf(StmGrpHn grp, Sint32 nstm, StmHn stmtbl[], Sint32 rscnt[])
+  {
+      Sint32      i;
+-     Sint32      lpcnt;
+      Bool        bful;
+  
+!     lpcnt = STM_GetLoopCnt(grp);
+  
+      /* 読み込み領域がいっぱいになったらリセットする     */
+      for (i = 0; i < nstm; i++) {
+--- 142,150 ----
+  void    SMP_ChkBuf(StmGrpHn grp, Sint32 nstm, StmHn stmtbl[], Sint32 rscnt[])
+  {
+      Sint32      i;
+      Bool        bful;
+  
+!     STM_GetLoopCnt(grp);
+  
+      /* 読み込み領域がいっぱいになったらリセットする     */
+      for (i = 0; i < nstm; i++) {
+***************
+*** 202,208 ****
+  /*-------------------------------
+   * メイン
+   *-------------------------------*/
+! void    main(void)
+  {
+      Bool        init;
+      StmGrpHn    grp;
+--- 201,207 ----
+  /*-------------------------------
+   * メイン
+   *-------------------------------*/
+! int    main(void)
+  {
+      Bool        init;
+      StmGrpHn    grp;
+***************
+*** 211,239 ****
+      /* 初期化           */
+      init = SMP_Init();
+      if (init == FALSE) {
+!         return;
+      }
+  
+      /* ハンドル取得     */
+      grp = STM_OpenGrp();
+      if (grp == NULL) {
+!         return;
+      }
+      stm1 = SMP_Open(grp, SMP_STM_FN1, Fn1_Buf, FN1_UNITNUM);
+      if (stm1 == NULL) {
+!         return;
+      }
+      stm2 = SMP_Open(grp, SMP_STM_FN2, Fn2_Buf, FN2_UNITNUM);
+      if (stm2 == NULL) {
+!         return;
+      }
+      stm3 = SMP_Open(grp, SMP_STM_FN3, Fn3_Buf, FN3_UNITNUM);
+      if (stm3 == NULL) {
+!         return;
+      }
+  
+      /* 読み込み実行     */
+      SMP_Exec(grp);
+  }
+  
+  /* end of file */
+--- 210,240 ----
+      /* 初期化           */
+      init = SMP_Init();
+      if (init == FALSE) {
+!         return 1;
+      }
+  
+      /* ハンドル取得     */
+      grp = STM_OpenGrp();
+      if (grp == NULL) {
+!         return 1;
+      }
+      stm1 = SMP_Open(grp, SMP_STM_FN1, Fn1_Buf, FN1_UNITNUM);
+      if (stm1 == NULL) {
+!         return 1;
+      }
+      stm2 = SMP_Open(grp, SMP_STM_FN2, Fn2_Buf, FN2_UNITNUM);
+      if (stm2 == NULL) {
+!         return 1;
+      }
+      stm3 = SMP_Open(grp, SMP_STM_FN3, Fn3_Buf, FN3_UNITNUM);
+      if (stm3 == NULL) {
+!         return 1;
+      }
+  
+      /* 読み込み実行     */
+      SMP_Exec(grp);
++     
++     return 0;
+  }
+  
+  /* end of file */
+diff -crB --binary sbl6/segasmp/stm/smpstm2/smpstm2.c sbl6_patch/segasmp/stm/smpstm2/smpstm2.c
+*** sbl6/segasmp/stm/smpstm2/smpstm2.c	1996-02-08 05:33:48.000000000 -0500
+--- sbl6_patch/segasmp/stm/smpstm2/smpstm2.c	2023-01-04 21:00:08.000000000 -0500
+***************
+*** 205,211 ****
+  /*-------------------------------
+   * メイン
+   *-------------------------------*/
+! void    main(void)
+  {
+      Bool        init;
+      StmGrpHn    grp;
+--- 205,211 ----
+  /*-------------------------------
+   * メイン
+   *-------------------------------*/
+! int    main(void)
+  {
+      Bool        init;
+      StmGrpHn    grp;
+***************
+*** 213,229 ****
+      /* 初期化           */
+      init = SMP_Init();
+      if (init == FALSE) {
+!         return;
+      }
+  
+      /* ハンドル取得     */
+      grp = STM_OpenGrp();
+      if (grp == NULL) {
+!         return;
+      }
+  
+      /* 読み込み実行     */
+      SMP_Exec(grp);
+  }
+  
+  
+--- 213,231 ----
+      /* 初期化           */
+      init = SMP_Init();
+      if (init == FALSE) {
+!         return 1;
+      }
+  
+      /* ハンドル取得     */
+      grp = STM_OpenGrp();
+      if (grp == NULL) {
+!         return 1;
+      }
+  
+      /* 読み込み実行     */
+      SMP_Exec(grp);
++ 
++     return 0;
+  }
+  
+  
+diff -crB --binary sbl6/segasmp/sys/smpsys.c sbl6_patch/segasmp/sys/smpsys.c
+*** sbl6/segasmp/sys/smpsys.c	1996-02-08 05:33:54.000000000 -0500
+--- sbl6_patch/segasmp/sys/smpsys.c	2023-01-04 20:59:40.000000000 -0500
+***************
+*** 126,132 ****
+  #endif
+  
+  /* メイン処理 */
+! void main(void)
+  {
+  	/* 注意：AUTO 変数をとると、APP_ENTRY のプログラムに */
+          /*       制御が移るとき、スタックが若干無駄になる    */
+--- 126,132 ----
+  #endif
+  
+  /* メイン処理 */
+! int main(void)
+  {
+  	/* 注意：AUTO 変数をとると、APP_ENTRY のプログラムに */
+          /*       制御が移るとき、スタックが若干無駄になる    */
+***************
+*** 157,162 ****
+--- 157,164 ----
+  	SYS_SETUINT(VBO_NUM, (void(*)())0 ); /*   再初期化   */
+  
+  	((void(*)())APP_ENTRY)();    /* 次の実行開始アドレス */
++ 	
++ 	return 0;
+  }
+  
+  #ifndef __GNUC__
+***************
+*** 344,349 ****
+--- 346,352 ----
+  	MSH2_DMAC_DMAOR = 0x00000000;
+                                          /* ＤＩＶＵ割込みを不許可      */
+  	MSH2_DIVU_CONT =  0x00000000;
++ 	(void)dummy;
+  }
+  
+  static void scuDspInit(void)
+***************
+*** 367,370 ****
+  					      /* サウンドＤＳＰ       */
+  }					      /* プログラム領域クリア */
+  
+! 
+\ No newline at end of file
+--- 370,373 ----
+  					      /* サウンドＤＳＰ       */
+  }					      /* プログラム領域クリア */
+  
+! 
+diff -crB --binary sbl6/segasmp/tim/smp0/smptim0.c sbl6_patch/segasmp/tim/smp0/smptim0.c
+*** sbl6/segasmp/tim/smp0/smptim0.c	1996-02-08 05:33:58.000000000 -0500
+--- sbl6_patch/segasmp/tim/smp0/smptim0.c	2023-01-04 20:39:14.000000000 -0500
+***************
+*** 81,87 ****
+   ******************************************************************************
+   */
+  
+! void main(void)
+  {
+  
+      /** BEGIN ****************************************************************/
+--- 81,87 ----
+   ******************************************************************************
+   */
+  
+! int main(void)
+  {
+  
+      /** BEGIN ****************************************************************/
+***************
+*** 98,104 ****
+--- 98,107 ----
+      TIM_T1_SET_MODE(0x101);
+      TIM_T1_ENABLE();
+      TIM_T0_ENABLE();
++     
++     return 0;
+  }
++ 
+  void Time0Int(void)
+  {
+      static Uint32 time0 = 1;
+***************
+*** 112,115 ****
+      *(Uint32 *)0x6050010 = time1;
+      time1 ++;
+  }
+! 
+\ No newline at end of file
+--- 115,118 ----
+      *(Uint32 *)0x6050010 = time1;
+      time1 ++;
+  }
+! 
+diff -crB --binary sbl6/segasmp/tim/smp1/smptim1.c sbl6_patch/segasmp/tim/smp1/smptim1.c
+*** sbl6/segasmp/tim/smp1/smptim1.c	1996-02-08 05:34:00.000000000 -0500
+--- sbl6_patch/segasmp/tim/smp1/smptim1.c	2023-01-04 20:46:36.000000000 -0500
+***************
+*** 79,85 ****
+   */
+  void Time0Int(void);
+  
+! void main(void)
+  {
+  
+      Sint8 *buf = (Sint8 *)0x6050010;
+--- 79,85 ----
+   */
+  void Time0Int(void);
+  
+! int main(void)
+  {
+  
+      Sint8 *buf = (Sint8 *)0x6050010;
+***************
+*** 102,116 ****
+  
+      TIM_FRT_DELAY_16(20);
+      *(Uint32 *)0x6050000 = TIM_FRT_GET_16();
+!     sprintf(buf, "get = %ld",*(Uint32 *)0x6050000);
+!     buf += strlen(buf);
+      
+      *(Float32 *)0x6050004 = TIM_FRT_CNT_TO_MCR(*(Uint32 *)0x6050000);
+!     sprintf(buf, "get = %f",*(Float32 *)0x6050004);
+!     buf += strlen(buf);
+      
+      *(Float32 *)0x6050008 = TIM_FRT_MCR_TO_CNT(*(Float32 *)0x6050004);
+!     sprintf(buf, "get = %f",*(Float32 *)0x6050008);
+!     buf += strlen(buf);
+  }
+! 
+\ No newline at end of file
+--- 102,118 ----
+  
+      TIM_FRT_DELAY_16(20);
+      *(Uint32 *)0x6050000 = TIM_FRT_GET_16();
+!     sprintf((char *)buf, "get = %ld",*(Uint32 *)0x6050000);
+!     buf += strlen((char *)buf);
+      
+      *(Float32 *)0x6050004 = TIM_FRT_CNT_TO_MCR(*(Uint32 *)0x6050000);
+!     sprintf((char *)buf, "get = %f",*(Float32 *)0x6050004);
+!     buf += strlen((char *)buf);
+      
+      *(Float32 *)0x6050008 = TIM_FRT_MCR_TO_CNT(*(Float32 *)0x6050004);
+!     sprintf((char *)buf, "get = %f",*(Float32 *)0x6050008);
+!     buf += strlen((char *)buf);
+!     
+!     return 0;
+  }
 ! 
 diff -crB --binary sbl6/segasmp/v_blank/set_vb.c sbl6_patch/segasmp/v_blank/set_vb.c
 *** sbl6/segasmp/v_blank/set_vb.c	1996-02-08 05:34:02.000000000 -0500
