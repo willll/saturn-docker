@@ -158,12 +158,12 @@ TODO
     - [ ] pcm4
     - [ ] pcm5
     - [ ] pcm13 **(black screen at runtime)**
-  - [ ] per
-    - [?] smpper0 **(no output)**
-    - [?] smpper1 **(no output)**
-    - [ ] smpper7 **(Link errors)**
-    - [ ] smpper8 **(Link errors)**
-    - [ ] smpper12 **(Link errors)**
+  - [X] per
+    - [X] smpper0 **(no output)**
+    - [X] smpper1 **(no output)**
+    - [X] smpper7 **(controls ?)**
+    - [X] smpper8
+    - [X] smpper12
   - [ ] sblsgl
     - [ ] sblsgl00 **(Link errors)**
     - [ ] sblsgl01 **(Link errors)**
