@@ -155,8 +155,8 @@ TODO
   - [ ] pcm
     - [ ] pcm2 **(Crash at runtime)**
     - [ ] pcm3 **(black screen at runtime)**
-    - [ ] pcm4
-    - [ ] pcm5
+    - [ ] pcm4 **(black screen at runtime)**
+    - [ ] pcm5 **(Crash at runtime)**
     - [ ] pcm13 **(black screen at runtime)**
   - [X] per
     - [X] smpper0 **(no output)**
