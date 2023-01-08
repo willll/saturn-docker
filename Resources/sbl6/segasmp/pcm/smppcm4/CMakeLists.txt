@@ -17,7 +17,7 @@ set(CD_FILES
 set(TARGET_NAME smppcm4)
 set(TARGET_PATH pcm/smppcm4)
 
-add_compile_definitions(MODEL_S _SH)
+add_compile_definitions(MODEL_S)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 

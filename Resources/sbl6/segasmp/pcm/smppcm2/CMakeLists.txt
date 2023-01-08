@@ -10,7 +10,7 @@ set(CD_FILES
 set(TARGET_NAME smppcm2)
 set(TARGET_PATH pcm/smppcm2)
 
-add_compile_definitions(MODEL_S _SH)
+add_compile_definitions(MODEL_S)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 

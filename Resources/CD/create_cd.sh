@@ -3,6 +3,8 @@ set -e
 
 echo "Generating ISO ------------------>  $1"
 
+VERBOSE=${7: }
+
 echo "$SATURN_CD/ABS.TXT" >> "$6/CD/FILES.txt"
 echo "$SATURN_CD/BIB.TXT" >> "$6/CD/FILES.txt"
 echo "$SATURN_CD/CPY.TXT" >> "$6/CD/FILES.txt"
@@ -12,7 +14,7 @@ if [ ! -f "$6/CD/EXCLUDES.txt" ]; then
   touch "$6/CD/EXCLUDES.txt"
 fi
 
-$SATURN_CD/mkisofs -v -sysid "SEGA SEGASATURN" -volid "$1" -volset "$1"  -publisher "$2" \
+$SATURN_CD/mkisofs $VERBOSE -sysid "SEGA SEGASATURN" -volid "$1" -volset "$1"  -publisher "$2" \
  -preparer "$3" -appid "$1" -sectype 2352 \
  -graft-points \
  -abstract "ABS.TXT" -copyright "CPY.TXT" -biblio "BIB.TXT" \

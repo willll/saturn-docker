@@ -242,7 +242,7 @@ diff -crB --binary sbl6/segalib/dma/dma_scu1.c sbl6_patch/segalib/dma/dma_scu1.c
 ! 
 diff -crB --binary sbl6/segalib/gfs/gfs.c sbl6_patch/segalib/gfs/gfs.c
 *** sbl6/segalib/gfs/gfs.c	2021-11-14 19:22:22.000000000 -0500
---- sbl6_patch/segalib/gfs/gfs.c	2022-01-17 19:50:30.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs.c	2023-01-07 14:48:10.000000000 -0500
 ***************
 *** 28,33 ****
 --- 28,34 ----
@@ -272,6 +272,56 @@ diff -crB --binary sbl6/segalib/gfs/gfs.c sbl6_patch/segalib/gfs/gfs.c
   
       svr = &MNG_SVR(gfs_mng_ptr);
       for (i = 0; i < SVR_NFILE(svr); ++i) {
+***************
+*** 1334,1339 ****
+--- 1335,1341 ----
+      }
+      flow = &GFS_FILE_FLOW(gfs);
+      dtsrc = &GFS_FLW_DTSRC(flow);
++     (void)dtsrc;
+      old_mode = GFS_FLW_GMODE(flow);
+      GFS_FLW_GMODE(flow) = gmode;
+      ret = gfs_mngSetErrCode(GFS_ERR_OK);
+***************
+*** 1377,1382 ****
+--- 1379,1385 ----
+      }
+      flow = &GFS_FILE_FLOW(gfs);
+      dtsrc = &GFS_FLW_DTSRC(flow);
++     (void)dtsrc;
+      trans = &GFS_FILE_TRANS(gfs);
+      old_mode = GFTR_SetMode(trans, tmode);
+      ret = gfs_mngSetErrCode(GFS_ERR_OK);
+***************
+*** 1999,2004 ****
+--- 2002,2008 ----
+          return NULL;
+      }
+      gftr = GFTR_Setup(&GFS_FILE_TRANS(gfs));
++     (void)gftr;
+  #if defined(DEBUG_LIB)
+      if (dirrec != NULL) {
+          /* ソースバッファの設定 */
+***************
+*** 2235,2240 ****
+--- 2239,2245 ----
+      Bool        flag;
+      GfsTrans    *trn = &GFS_FILE_TRANS(gfs);
+  
++     (void)trn;
+      /* 他のファイルが転送中か調べる */
+      if ((MNG_TRANS(gfs_mng_ptr) != gfs)&&(MNG_TRANS(gfs_mng_ptr) != NULL)) {
+          return GFS_SVR_BUSY;
+***************
+*** 2401,2406 ****
+--- 2406,2412 ----
+      GfsFlow     *flow = &GFS_FILE_FLOW(gfs);
+      GfsTrans    *tran = &GFS_FILE_TRANS(gfs);
+  
++     (void)tran;
+      GFS_GetFileInfo(gfs, NULL, NULL, NULL, &atr);
+      if ((GFS_FLW_STAT(flow) == GFS_FIN_END)&&
+          ((GFBF_GetNumData(gfs) == 0)||(atr & GFS_ATR_CDDA))) {
 diff -crB --binary sbl6/segalib/gfs/gfs_cdb.c sbl6_patch/segalib/gfs/gfs_cdb.c
 *** sbl6/segalib/gfs/gfs_cdb.c	1996-02-08 05:23:30.000000000 -0500
 --- sbl6_patch/segalib/gfs/gfs_cdb.c	2023-01-04 18:51:36.000000000 -0500
@@ -426,7 +476,7 @@ diff -crB --binary sbl6/segalib/gfs/gfs_def.h sbl6_patch/segalib/gfs/gfs_def.h
       ((Sint32)(((Uint32)(byte)) + ((Uint32)(sctsiz)) - 1) / ((Uint32)(sctsiz)))
 diff -crB --binary sbl6/segalib/gfs/gfs_dir.c sbl6_patch/segalib/gfs/gfs_dir.c
 *** sbl6/segalib/gfs/gfs_dir.c	1996-02-08 05:23:34.000000000 -0500
---- sbl6_patch/segalib/gfs/gfs_dir.c	2023-01-04 20:31:18.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_dir.c	2023-01-07 14:16:24.000000000 -0500
 ***************
 *** 202,216 ****
    *****************************************************************************/
@@ -462,25 +512,49 @@ diff -crB --binary sbl6/segalib/gfs/gfs_dir.c sbl6_patch/segalib/gfs/gfs_dir.c
               return ec;
           }
 ***************
-*** 680,686 ****
+*** 678,686 ****
+  /* CDからディレクトリエントリの必要な情報を読み込む */
+  GFS_LOCAL Sint32 gfdr_readDirEnt(GfdrFile *fp, XaDirEnt *dir)
   {
-      Sint32      ec, i, rdsz, fn_err = FALSE;
+!     Sint32      ec, i, rdsz, fn_err = FALSE;
       Uint8       fn_len, file_flg;
 !     Sint8       ch, *fn_buf, *ext_pos;
   
       if (GFDR_FILE_GFS(fp) == NULL) {
           XA_DIR_RSIZE(dir) = 0;
---- 681,687 ----
+--- 679,687 ----
+  /* CDからディレクトリエントリの必要な情報を読み込む */
+  GFS_LOCAL Sint32 gfdr_readDirEnt(GfdrFile *fp, XaDirEnt *dir)
   {
-      Sint32      ec, i, rdsz, fn_err = FALSE;
+!     Sint32      ec, i, rdsz = FALSE;
       Uint8       fn_len, file_flg;
 !     Sint8       ch = 0, *fn_buf, *ext_pos;
   
       if (GFDR_FILE_GFS(fp) == NULL) {
           XA_DIR_RSIZE(dir) = 0;
+***************
+*** 771,777 ****
+                  ext_pos = fn_buf;       /* 拡張子の開始位置保存 */
+                  break;
+              }
+-             fn_err = TRUE;
+          }
+      }
+      while (i < fn_len) {
+--- 772,777 ----
+***************
+*** 791,797 ****
+              break;
+          }
+          if (fn_buf - ext_pos > GFDR_EXT_MAX) {
+-             fn_err = TRUE;
+              continue;
+          }
+          if (fn_buf - XA_DIR_FNAME(dir) < GFS_FNAME_LEN) {
+--- 791,796 ----
 diff -crB --binary sbl6/segalib/gfs/gfs_mmb.c sbl6_patch/segalib/gfs/gfs_mmb.c
 *** sbl6/segalib/gfs/gfs_mmb.c	1996-02-08 05:23:36.000000000 -0500
---- sbl6_patch/segalib/gfs/gfs_mmb.c	2021-11-14 20:12:48.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_mmb.c	2023-01-07 14:17:20.000000000 -0500
 ***************
 *** 23,28 ****
 --- 23,29 ----
@@ -491,6 +565,33 @@ diff -crB --binary sbl6/segalib/gfs/gfs_mmb.c sbl6_patch/segalib/gfs/gfs_mmb.c
   
   /*****************************************************************************
    *      定数マクロ
+***************
+*** 107,113 ****
+  {
+      Sint32      ap;
+      Sint32      nsct;
+!     Sint32      lastsize;
+      GfsFinfo    *finfo = &GFS_FLW_FINFO(flow);
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+  
+--- 108,114 ----
+  {
+      Sint32      ap;
+      Sint32      nsct;
+!     Sint32      lastsize = 0;
+      GfsFinfo    *finfo = &GFS_FLW_FINFO(flow);
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+  
+***************
+*** 169,174 ****
+--- 170,176 ----
+      GfsDtsrc    *dts = &GFS_FLW_DTSRC(flow);
+      GfdpHn      dtk = &gfmb_dtpk;
+  
++     (void)dts;
+      /* 転送が終了している場合   */
+      if (nsct == GFTR_ALLSCT) {
+          nsct = GFDP_NSCT(dpk);
 diff -crB --binary sbl6/segalib/gfs/gfs_mmf.c sbl6_patch/segalib/gfs/gfs_mmf.c
 *** sbl6/segalib/gfs/gfs_mmf.c	1996-02-08 05:23:38.000000000 -0500
 --- sbl6_patch/segalib/gfs/gfs_mmf.c	2023-01-04 20:53:32.000000000 -0500
@@ -545,6 +646,40 @@ diff -crB --binary sbl6/segalib/gfs/gfs_sff.c sbl6_patch/segalib/gfs/gfs_sff.c
       remain = GFS_FLW_SCT(flow) - GFS_FLW_SCTCNT(flow);
       if (remain <= 0) {
           return GFS_FIN_END;
+diff -crB --binary sbl6/segalib/gfs/gfs_trn.c sbl6_patch/segalib/gfs/gfs_trn.c
+*** sbl6/segalib/gfs/gfs_trn.c	1996-02-08 05:23:40.000000000 -0500
+--- sbl6_patch/segalib/gfs/gfs_trn.c	2023-01-07 14:46:50.000000000 -0500
+***************
+*** 404,410 ****
+   *****************************************************************************/
+  Sint32 GFTR_Idle(GfsHn gfs)
+  {
+-     Sint32 tsct, tlen;
+      GfsTrans    *trn = &GFS_FILE_TRANS(gfs);
+  
+      if (GFS_TRN_TSCT(trn) <= 0) {
+--- 404,409 ----
+***************
+*** 450,456 ****
+   *****************************************************************************/
+  GFS_LOCAL Sint32 GFTR_ExecSvr(GfsHn gfs, Bool *flag)
+  {
+-     Sint32 tsct, tlen;
+      Bool fl = FALSE;
+      GfsTrans    *trn = &GFS_FILE_TRANS(gfs);
+  
+--- 449,454 ----
+***************
+*** 664,671 ****
+          slDMAXCopy(src, dst, nbyte, tmode);
+      }
+  #else
+-     Sint32 i, frac_buf;
+-     Uint8 *frac;
+      DmaCpuComPrm com_prm;
+      DmaCpuPrm prm;
+  
+--- 662,667 ----
 diff -crB --binary sbl6/segalib/include/sega_int.h sbl6_patch/segalib/include/sega_int.h
 *** sbl6/segalib/include/sega_int.h	1996-02-08 05:23:46.000000000 -0500
 --- sbl6_patch/segalib/include/sega_int.h	2021-12-26 18:28:36.000000000 -0500
@@ -4926,6 +5061,20 @@ diff -crB --binary sbl6/segalib/include/sega_spr.h sbl6_patch/segalib/include/se
 ! #endif /* ifndef SEGA_SPR_H */
 ! 
 ! /*  end of file */
+diff -crB --binary sbl6/segalib/include/sega_stm.h sbl6_patch/segalib/include/sega_stm.h
+*** sbl6/segalib/include/sega_stm.h	1996-02-08 05:23:50.000000000 -0500
+--- sbl6_patch/segalib/include/sega_stm.h	2023-01-07 14:40:38.000000000 -0500
+***************
+*** 471,476 ****
+--- 471,478 ----
+  /* エラー状態の取得                     */
+  void    STM_GetErrStat(StmErrStat *stat);
+  
++ void    STMMNG_ResetLstStm(StmGrpHn grp);
++ 
+  #endif  /* SEGA_STM_H   */
+  
+  /* end of sega_stm.h            */
 diff -crB --binary sbl6/segalib/include/sega_sys.h sbl6_patch/segalib/include/sega_sys.h
 *** sbl6/segalib/include/sega_sys.h	1996-02-08 05:23:50.000000000 -0500
 --- sbl6_patch/segalib/include/sega_sys.h	2022-03-07 20:57:50.000000000 -0500
@@ -6051,9 +6200,75 @@ diff -crB --binary sbl6/segalib/int/int.c sbl6_patch/segalib/int/int.c
   	return	__interrupt_vector[n];
   }
 ! 
+diff -crB --binary sbl6/segalib/mpg/mpg_mve2.c sbl6_patch/segalib/mpg/mpg_mve2.c
+*** sbl6/segalib/mpg/mpg_mve2.c	1996-02-08 05:24:56.000000000 -0500
+--- sbl6_patch/segalib/mpg/mpg_mve2.c	2023-01-08 11:47:56.000000000 -0500
+***************
+*** 503,509 ****
+  {
+      Sint32      ret;
+      Sint32      fpic;
+-     Sint32      bn;
+      
+      /* 最初の絵ならタイムコードを取得する */
+      get1stTc(mpgmv, &fpic);
+--- 503,508 ----
+diff -crB --binary sbl6/segalib/mpg/mpg_sys.c sbl6_patch/segalib/mpg/mpg_sys.c
+*** sbl6/segalib/mpg/mpg_sys.c	1996-02-08 05:24:56.000000000 -0500
+--- sbl6_patch/segalib/mpg/mpg_sys.c	2023-01-08 11:51:18.000000000 -0500
+***************
+*** 608,619 ****
+  /* MPEGシステムの状態の取り込み実行 */
+  static Sint32   doCaptStat(void)
+  {
+!     Sint32      ret;
+  
+      /* MPG関数を実行中ならすぐに戻る */
+      if (mp_in_cnt > 0) {
+          mp_capt_flag = TRUE;
+!         return;
+      }
+  
+      /* MPEGシステムの状態取得 */
+--- 608,619 ----
+  /* MPEGシステムの状態の取り込み実行 */
+  static Sint32   doCaptStat(void)
+  {
+!     Sint32      ret = MPG_ERR_OK;
+  
+      /* MPG関数を実行中ならすぐに戻る */
+      if (mp_in_cnt > 0) {
+          mp_capt_flag = TRUE;
+!         return ret;	// TBD
+      }
+  
+      /* MPEGシステムの状態取得 */
+diff -crB --binary sbl6/segalib/mpg/mpg_win.c sbl6_patch/segalib/mpg/mpg_win.c
+*** sbl6/segalib/mpg/mpg_win.c	1996-02-08 05:24:56.000000000 -0500
+--- sbl6_patch/segalib/mpg/mpg_win.c	2023-01-08 11:52:38.000000000 -0500
+***************
+*** 462,468 ****
+  void    MPG_WnDestroy(MpgWn mpgwn)
+  {
+      Sint32      dswsw, fbn;
+-     MpgWn       parep, chldp;
+      
+      MPSYS_SemaIn(FALSE);
+      
+--- 462,467 ----
+***************
+*** 542,548 ****
+  static Sint32   setWn(MpgWn mpgwn)
+  {
+      Sint32      ret;
+-     CdcMpVef    mpvef, *vfptr;
+      
+      /* フレームバッファウィンドゥ位置の設定 */
+      if (CDC_MpSetWinFpos(TRUE, MPG_WN_FP_X(mpgwn), MPG_WN_FP_Y(mpgwn)) !=
+--- 541,546 ----
 diff -crB --binary sbl6/segalib/mth/mth_dsp.c sbl6_patch/segalib/mth/mth_dsp.c
 *** sbl6/segalib/mth/mth_dsp.c	1996-02-08 05:25:02.000000000 -0500
---- sbl6_patch/segalib/mth/mth_dsp.c	2021-11-14 20:09:08.000000000 -0500
+--- sbl6_patch/segalib/mth/mth_dsp.c	2023-01-08 11:53:48.000000000 -0500
 ***************
 *** 15,20 ****
 --- 15,24 ----
@@ -6067,6 +6282,23 @@ diff -crB --binary sbl6/segalib/mth/mth_dsp.c sbl6_patch/segalib/mth/mth_dsp.c
    * USER SUPPLIED INCLUDE FILES
    */
   #include "sega_mth.h"
+***************
+*** 28,34 ****
+  #include "mth_dspp.cod"
+  };
+  
+! static MthPolyTransParm iPolyTransParm;
+  
+  
+  /*************************************************************************
+--- 32,38 ----
+  #include "mth_dspp.cod"
+  };
+  
+! //static MthPolyTransParm iPolyTransParm;
+  
+  
+  /*************************************************************************
 ***************
 *** 160,163 ****
   }
@@ -6084,6 +6316,101 @@ Only in sbl6_patch/segalib/mth: mth_mtrx.s
 Only in sbl6_patch/segalib/mth: mth_norm.s
 Only in sbl6_patch/segalib/mth: mth_ps2d.s
 Only in sbl6_patch/segalib/mth: mth_tri.s
+diff -crB --binary sbl6/segalib/pcm/pcm_lib.c sbl6_patch/segalib/pcm/pcm_lib.c
+*** sbl6/segalib/pcm/pcm_lib.c	1996-02-08 05:25:12.000000000 -0500
+--- sbl6_patch/segalib/pcm/pcm_lib.c	2023-01-08 11:58:24.000000000 -0500
+***************
+*** 281,288 ****
+  	case PCM_STAT_PLAY_CREATE:
+  	case PCM_STAT_PLAY_START:
+  		return 0;
+  	}
+! 	return PCM_INFO_SAMPLING_RATE(&st->info);
+  }
+  
+  /********************************************************************/
+--- 281,291 ----
+  	case PCM_STAT_PLAY_CREATE:
+  	case PCM_STAT_PLAY_START:
+  		return 0;
++ 	default:
++ 		// ERROR CASE TBD
++ 		return -1;
+  	}
+! 	return PCM_INFO_SAMPLING_RATEPCM_INFO_SAMPLING_RATE(&st->info);
+  }
+  
+  /********************************************************************/
+***************
+*** 793,796 ****
+  		return FALSE;
+  	}
+  }
+! 
+\ No newline at end of file
+--- 796,799 ----
+  		return FALSE;
+  	}
+  }
+! 
+diff -crB --binary sbl6/segalib/pcm/pcm_mp.c sbl6_patch/segalib/pcm/pcm_mp.c
+*** sbl6/segalib/pcm/pcm_mp.c	1996-02-08 05:25:14.000000000 -0500
+--- sbl6_patch/segalib/pcm/pcm_mp.c	2023-01-08 12:00:06.000000000 -0500
+***************
+*** 1331,1336 ****
+--- 1331,1337 ----
+  	work 	= *(PcmWork **)pcm_hn_next;
+  	st 		= &work->status;
+  	para 	= &work->para;
++ 	(void)para;
+  
+  	if ((st->ring_write_offset <= 0) ||
+  		(st->ring_write_offset < PCM_HN_START_TRG_SIZE(pcm_hn_next))) {
+***************
+*** 1511,1514 ****
+  	}
+  	return;
+  }
+! 
+\ No newline at end of file
+--- 1512,1515 ----
+  	}
+  	return;
+  }
+! 
+diff -crB --binary sbl6/segalib/pcm/pcm_stm.c sbl6_patch/segalib/pcm/pcm_stm.c
+*** sbl6/segalib/pcm/pcm_stm.c	1996-02-08 05:25:14.000000000 -0500
+--- sbl6_patch/segalib/pcm/pcm_stm.c	2023-01-08 11:59:24.000000000 -0500
+***************
+*** 767,773 ****
+  	Sint32		ret;
+  #endif
+  	para = PCM_MeGetPara(pcm);
+! 
+  	load_size = 0;
+  
+  	/* リングバッファの空きバイト数を得る */
+--- 767,774 ----
+  	Sint32		ret;
+  #endif
+  	para = PCM_MeGetPara(pcm);
+! 	(void)para;
+! 	
+  	load_size = 0;
+  
+  	/* リングバッファの空きバイト数を得る */
+***************
+*** 827,830 ****
+  	/* 転送関数の設定 */
+  	STM_SetTrFunc(PCMSTM_HANDLE(pcm), PCMSTM_LOAD_FUNC(pcm), pcm);
+  }
+! 
+\ No newline at end of file
+--- 828,831 ----
+  	/* 転送関数の設定 */
+  	STM_SetTrFunc(PCMSTM_HANDLE(pcm), PCMSTM_LOAD_FUNC(pcm), pcm);
+  }
+! 
 diff -crB --binary sbl6/segalib/scl/scl_fu03.c sbl6_patch/segalib/scl/scl_fu03.c
 *** sbl6/segalib/scl/scl_fu03.c	1995-09-29 10:38:48.000000000 -0400
 --- sbl6_patch/segalib/scl/scl_fu03.c	2022-01-17 19:53:04.000000000 -0500
@@ -6258,7 +6585,70 @@ diff -crB --binary sbl6/segalib/snd/snd_main.c sbl6_patch/segalib/snd/snd_main.c
 ! 
 diff -crB --binary sbl6/segalib/stm/stm_init.c sbl6_patch/segalib/stm/stm_init.c
 *** sbl6/segalib/stm/stm_init.c	1996-02-08 05:25:46.000000000 -0500
---- sbl6_patch/segalib/stm/stm_init.c	2022-01-17 20:03:48.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_init.c	2023-01-08 14:04:40.000000000 -0500
+***************
+*** 202,208 ****
+  {
+      StmHn       *lst_stm;
+      StmHn       before;
+-     Sint32      next;
+      Sint32      stm_sfad, stm_efad;
+      Sint32      lst_sfad, lst_efad;
+      Sint32      ret;
+--- 202,207 ----
+***************
+*** 464,478 ****
+  {
+      StmGrpHn    grp;
+      StmHn       *next;
+-     StmHn       before;
+-     Sint32      bufno;
+      Bool        ret = TRUE;;
+  
+      if (STM_SVRSTAT(stm) == SVR_USE) {
+          STM_SVRSTAT(stm) = SVR_UNUSE;
+          grp = STM_GRPHN(stm);
+          if (grp == NULL) {
+!             return;
+          }
+          /* 再生順リストからストリームを切断する         */
+          for (next = &STM_GRP_SFADLST(grp); (*next != NULL)&&(*next != stm); 
+--- 463,475 ----
+  {
+      StmGrpHn    grp;
+      StmHn       *next;
+      Bool        ret = TRUE;;
+  
+      if (STM_SVRSTAT(stm) == SVR_USE) {
+          STM_SVRSTAT(stm) = SVR_UNUSE;
+          grp = STM_GRPHN(stm);
+          if (grp == NULL) {
+!             return FALSE;
+          }
+          /* 再生順リストからストリームを切断する         */
+          for (next = &STM_GRP_SFADLST(grp); (*next != NULL)&&(*next != stm); 
+***************
+*** 570,579 ****
+      StmHn       next;
+      StmGrpHn    grp;
+      Sint32      sfad, efad;
+!     Sint32      stat, fad, i;
+      Sint32      atr;
+      Sint32      ret;
+-     Uint16      hirq;
+  
+      grp = STM_GRPHN(stm);
+      if (STM_SVRSTAT(stm) == SVR_USE) {    /* オープンストリーム  */
+--- 567,575 ----
+      StmHn       next;
+      StmGrpHn    grp;
+      Sint32      sfad, efad;
+!     Sint32      fad;
+      Sint32      atr;
+      Sint32      ret;
+  
+      grp = STM_GRPHN(stm);
+      if (STM_SVRSTAT(stm) == SVR_USE) {    /* オープンストリーム  */
 ***************
 *** 667,673 ****
   void    STM_CloseGrp(StmGrpHn grp)
@@ -6268,7 +6658,7 @@ diff -crB --binary sbl6/segalib/stm/stm_init.c sbl6_patch/segalib/stm/stm_init.c
   
       STMERR_SetFunc(STM_CLOSEGRP);
       if (grp == NULL) {
---- 667,673 ----
+--- 663,669 ----
   void    STM_CloseGrp(StmGrpHn grp)
   {
       StmHn               stm;
@@ -6278,7 +6668,17 @@ diff -crB --binary sbl6/segalib/stm/stm_init.c sbl6_patch/segalib/stm/stm_init.c
       if (grp == NULL) {
 diff -crB --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
 *** sbl6/segalib/stm/stm_svr.c	1996-02-08 05:25:48.000000000 -0500
---- sbl6_patch/segalib/stm/stm_svr.c	2022-01-17 20:06:06.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_svr.c	2023-01-08 14:00:30.000000000 -0500
+***************
+*** 481,487 ****
+      Sint32      fad;
+      StmHn       stm;
+      Sint32      sfad, efad;
+-     Sint32      nsct;
+      Sint32      loopmax, loopcnt;
+  
+      fad = STM_GRP_FAD(grp);
+--- 481,486 ----
 ***************
 *** 913,919 ****
       Sint32      nsct;
@@ -6288,7 +6688,7 @@ diff -crB --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Bool        complete = TRUE;
       Bool        set = FALSE;
       Uint8       atr;
---- 913,919 ----
+--- 912,918 ----
       Sint32      nsct;
       Sint32      sfad, efad;
       Sint32      trfad;
@@ -6297,7 +6697,7 @@ diff -crB --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Bool        set = FALSE;
       Uint8       atr;
 ***************
-*** 1022,1028 ****
+*** 1022,1032 ****
    *************************************************/
   STM_LOCAL Bool  stm_trans(StmGrpHn grp, Uint8 cdstat)
   {
@@ -6305,32 +6705,24 @@ diff -crB --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Sint32      stat;
       Bool        bflag;
       Bool        ret;
---- 1022,1029 ----
+  
+      /* 転送ストリームが未設定の場合             */
+      if (STM_GRP_NEXTTRNS(grp) == NULL) {
+          STM_GRP_NEXTTRNS(grp) = STM_GRP_SFADLST(grp);
+--- 1021,1033 ----
    *************************************************/
   STM_LOCAL Bool  stm_trans(StmGrpHn grp, Uint8 cdstat)
   {
-! //    StmHn       stm;
+!     StmHn       stm;
 !     StmHn	first;
       Sint32      stat;
       Bool        bflag;
       Bool        ret;
-***************
-*** 1036,1042 ****
-      /* 各ストリームを１度づつ実行を試みる       */
-      /* 転送中または１周まわったらおわり         */
-      do {
-!         stm = STM_GRP_NEXTTRNS(grp);
-          ret = stm_trans_sub(grp, first, cdstat, &bflag, &stat);
-      } while(bflag == FALSE);
   
---- 1037,1043 ----
-      /* 各ストリームを１度づつ実行を試みる       */
-      /* 転送中または１周まわったらおわり         */
-      do {
-!         /*stm = */STM_GRP_NEXTTRNS(grp);
-          ret = stm_trans_sub(grp, first, cdstat, &bflag, &stat);
-      } while(bflag == FALSE);
-  
++     (void)stm;
+      /* 転送ストリームが未設定の場合             */
+      if (STM_GRP_NEXTTRNS(grp) == NULL) {
+          STM_GRP_NEXTTRNS(grp) = STM_GRP_SFADLST(grp);
 ***************
 *** 1076,1082 ****
       Sint32      ret;
@@ -6384,7 +6776,17 @@ diff -crB --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Bool        trans;
 diff -crB --binary sbl6/segalib/stm/stm_trn.c sbl6_patch/segalib/stm/stm_trn.c
 *** sbl6/segalib/stm/stm_trn.c	1996-02-08 05:25:48.000000000 -0500
---- sbl6_patch/segalib/stm/stm_trn.c	2022-01-17 20:03:02.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_trn.c	2023-01-07 14:36:46.000000000 -0500
+***************
+*** 61,67 ****
+   *************************************************/
+  void    STM_SetTrFunc(StmHn stm, StmTrFunc func, void *obj)
+  {
+-     GfsTransFunc    tfunc;
+      GftrHn          gftr;
+  
+      STMERR_SetFunc(STM_SETTRFUNC);
+--- 61,66 ----
 ***************
 *** 142,148 ****
   
@@ -6394,7 +6796,7 @@ diff -crB --binary sbl6/segalib/stm/stm_trn.c sbl6_patch/segalib/stm/stm_trn.c
   
       STMERR_SetFunc(STM_SETTRBUF);
       if (stm == NULL) {
---- 142,148 ----
+--- 141,147 ----
   
   void    STM_SetTrBuf(StmHn stm, void *buffer, Sint32 nunit, Sint32 unitsize)
   {
@@ -6403,24 +6805,17 @@ diff -crB --binary sbl6/segalib/stm/stm_trn.c sbl6_patch/segalib/stm/stm_trn.c
       STMERR_SetFunc(STM_SETTRBUF);
       if (stm == NULL) {
 ***************
-*** 190,197 ****
+*** 190,198 ****
   
   void    STM_ResetTrBuf(StmHn stm)
   {
-!     Uint8       *data;
-!     Sint32      bsize;
-  
+-     Uint8       *data;
+-     Sint32      bsize;
+- 
       STMERR_SetFunc(STM_RESETTRBUF);
       if (stm == NULL) {
---- 190,197 ----
-  
-  void    STM_ResetTrBuf(StmHn stm)
-  {
-! //    Uint8       *data;
-! //    Sint32      bsize;
-  
-      STMERR_SetFunc(STM_RESETTRBUF);
-      if (stm == NULL) {
+          STMERR_SetCode(STM_ERR_HNDL);
+--- 189,194 ----
 diff -crB --binary sbl6/segasmp/bup/font/fnt_cod1.c sbl6_patch/segasmp/bup/font/fnt_cod1.c
 *** sbl6/segasmp/bup/font/fnt_cod1.c	1996-02-08 05:26:36.000000000 -0500
 --- sbl6_patch/segasmp/bup/font/fnt_cod1.c	2021-12-18 11:44:08.000000000 -0500
@@ -8729,6 +9124,240 @@ diff -crB --binary sbl6/segasmp/game/act.c sbl6_patch/segasmp/game/act.c
 ! 	}
 ! }
 ! 
+diff -crB --binary sbl6/segasmp/game/sequence.c sbl6_patch/segasmp/game/sequence.c
+*** sbl6/segasmp/game/sequence.c	1996-02-08 05:28:42.000000000 -0500
+--- sbl6_patch/segasmp/game/sequence.c	2023-01-07 14:28:34.000000000 -0500
+***************
+*** 5,11 ****
+  /****************************************
+  *			include files				*
+  ****************************************/
+! #include	"sgl.h"
+  #include	"sega_int.h"
+  #include	"sega_scl.h"
+  #include	"sega_dbg.h"
+--- 5,11 ----
+  /****************************************
+  *			include files				*
+  ****************************************/
+! #include	"sgl.h"
+  #include	"sega_int.h"
+  #include	"sega_scl.h"
+  #include	"sega_dbg.h"
+***************
+*** 25,37 ****
+  *		declare private objects			*
+  ****************************************/
+  void	init(void){
+! 	slInitSystem(TV_320x224,NULL,1);
+  	SetVblank();
+  /*	level[0]=SQ_TITLE;	*/
+  	level[0]=SQ_LOGO;
+  }
+  
+! void	main( void ){
+  	level[0] = SQ_INIT;
+  	level[1] = 0;
+  	timer = 0;
+--- 25,37 ----
+  *		declare private objects			*
+  ****************************************/
+  void	init(void){
+! 	slInitSystem(TV_320x224,NULL,1);
+  	SetVblank();
+  /*	level[0]=SQ_TITLE;	*/
+  	level[0]=SQ_LOGO;
+  }
+  
+! int	main( void ){
+  	level[0] = SQ_INIT;
+  	level[1] = 0;
+  	timer = 0;
+***************
+*** 68,74 ****
+  		}
+  		
+  		/* Ｖブランク待ち	*/
+! 		slSynch();
+  	}
+  }
+! 
+\ No newline at end of file
+--- 68,75 ----
+  		}
+  		
+  		/* Ｖブランク待ち	*/
+! 		slSynch();
+  	}
++ 	return 0;
+  }
+! 
+diff -crB --binary sbl6/segasmp/game_cd/sequence.c sbl6_patch/segasmp/game_cd/sequence.c
+*** sbl6/segasmp/game_cd/sequence.c	1996-02-08 05:29:16.000000000 -0500
+--- sbl6_patch/segasmp/game_cd/sequence.c	2023-01-07 14:30:04.000000000 -0500
+***************
+*** 5,11 ****
+  /****************************************
+  *			include files				*
+  ****************************************/
+! #include	"sgl.h"
+  #include	"sega_int.h"
+  #include	"sega_scl.h"
+  #include	"sega_dbg.h"
+--- 5,11 ----
+  /****************************************
+  *			include files				*
+  ****************************************/
+! #include	"sgl.h"
+  #include	"sega_int.h"
+  #include	"sega_scl.h"
+  #include	"sega_dbg.h"
+***************
+*** 26,39 ****
+  *		declare private objects			*
+  ****************************************/
+  void	init(void){
+! 	slInitSystem(TV_320x224,NULL,1);
+  	SetVblank();
+  /*	level[0]=SQ_TITLE;	*/
+  	level[0]=SQ_LOGO;
+  	InitCDBlock();
+  }
+  
+! void	main( void ){
+  	level[0] = SQ_INIT;
+  	level[1] = 0;
+  	timer = 0;
+--- 26,39 ----
+  *		declare private objects			*
+  ****************************************/
+  void	init(void){
+! 	slInitSystem(TV_320x224,NULL,1);
+  	SetVblank();
+  /*	level[0]=SQ_TITLE;	*/
+  	level[0]=SQ_LOGO;
+  	InitCDBlock();
+  }
+  
+! int	main( void ){
+  	level[0] = SQ_INIT;
+  	level[1] = 0;
+  	timer = 0;
+***************
+*** 71,77 ****
+  
+  		/* Ｖブランク待ち	*/
+  		slSynch();
+! 		CheckCDOpen();
+  	}
+  }
+! 
+\ No newline at end of file
+--- 71,78 ----
+  
+  		/* Ｖブランク待ち	*/
+  		slSynch();
+! 		CheckCDOpen();
+  	}
++ 	return 0;
+  }
+! 
+diff -crB --binary sbl6/segasmp/gfs/smpgfs1a/smpgfs1a.c sbl6_patch/segasmp/gfs/smpgfs1a/smpgfs1a.c
+*** sbl6/segasmp/gfs/smpgfs1a/smpgfs1a.c	1996-02-08 05:29:38.000000000 -0500
+--- sbl6_patch/segasmp/gfs/smpgfs1a/smpgfs1a.c	2023-01-07 14:30:46.000000000 -0500
+***************
+*** 70,76 ****
+  /*****************************************************************************
+   *      関数の定義
+   *****************************************************************************/
+! Sint32 main()
+  {
+      Sint32 ret;
+      GfsHn gfs;                  /* ファイルハンドル */
+--- 70,76 ----
+  /*****************************************************************************
+   *      関数の定義
+   *****************************************************************************/
+! int main()
+  {
+      Sint32 ret;
+      GfsHn gfs;                  /* ファイルハンドル */
+***************
+*** 126,129 ****
+  
+  
+  
+! 
+\ No newline at end of file
+--- 126,129 ----
+  
+  
+  
+! 
+diff -crB --binary sbl6/segasmp/gfs/smpgfs1b/smpgfs1b.c sbl6_patch/segasmp/gfs/smpgfs1b/smpgfs1b.c
+*** sbl6/segasmp/gfs/smpgfs1b/smpgfs1b.c	1996-02-08 05:29:42.000000000 -0500
+--- sbl6_patch/segasmp/gfs/smpgfs1b/smpgfs1b.c	2023-01-07 14:31:04.000000000 -0500
+***************
+*** 70,76 ****
+  /*****************************************************************************
+   *      関数の定義
+   *****************************************************************************/
+! Sint32 main()
+  {
+      Sint32 ret;
+      GfsHn gfs;                  /* ファイルハンドル */
+--- 70,76 ----
+  /*****************************************************************************
+   *      関数の定義
+   *****************************************************************************/
+! int main()
+  {
+      Sint32 ret;
+      GfsHn gfs;                  /* ファイルハンドル */
+***************
+*** 126,129 ****
+  
+  
+  
+! 
+\ No newline at end of file
+--- 126,129 ----
+  
+  
+  
+! 
+diff -crB --binary sbl6/segasmp/gfs/smpgfs2/smpgfs02.c sbl6_patch/segasmp/gfs/smpgfs2/smpgfs02.c
+*** sbl6/segasmp/gfs/smpgfs2/smpgfs02.c	1996-02-08 05:29:46.000000000 -0500
+--- sbl6_patch/segasmp/gfs/smpgfs2/smpgfs02.c	2023-01-07 14:31:28.000000000 -0500
+***************
+*** 66,72 ****
+   *      関数の定義
+   *****************************************************************************/
+  
+! Sint32 main()
+  {
+      GfsHn gfs1;                 /* ファイルハンドル1 */
+      GfsHn gfs2;                 /* ファイルハンドル2 */
+--- 66,72 ----
+   *      関数の定義
+   *****************************************************************************/
+  
+! int main()
+  {
+      GfsHn gfs1;                 /* ファイルハンドル1 */
+      GfsHn gfs2;                 /* ファイルハンドル2 */
+***************
+*** 131,134 ****
+      /* ファイル読み込みと並行して行ないたい処理を記述する */
+      /* このサンプルでは何も行なわない */
+  }
+! 
+\ No newline at end of file
+--- 131,134 ----
+      /* ファイル読み込みと並行して行ないたい処理を記述する */
+      /* このサンプルでは何も行なわない */
+  }
+! 
 diff -crB --binary sbl6/segasmp/mem/smpmem0/smpmem0.c sbl6_patch/segasmp/mem/smpmem0/smpmem0.c
 *** sbl6/segasmp/mem/smpmem0/smpmem0.c	1996-02-08 05:30:02.000000000 -0500
 --- sbl6_patch/segasmp/mem/smpmem0/smpmem0.c	2022-01-06 18:30:14.000000000 -0500
@@ -8942,7 +9571,24 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm2/smppcm2.c sbl6_patch/segasmp/pcm/smp
 ! 
 diff -crB --binary sbl6/segasmp/pcm/smppcm3/smppcm3.c sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c
 *** sbl6/segasmp/pcm/smppcm3/smppcm3.c	1996-02-08 05:30:18.000000000 -0500
---- sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c	2022-01-22 12:31:40.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c	2023-01-08 13:53:32.000000000 -0500
+***************
+*** 214,220 ****
+  }
+  
+  
+! void main(void)
+  {
+  	PcmHn 			pcm;
+  	Uint32			restart;
+--- 214,220 ----
+  }
+  
+  
+! int main(void)
+  {
+  	PcmHn 			pcm;
+  	Uint32			restart;
 ***************
 *** 238,244 ****
   	PCM_Init();
@@ -8961,20 +9607,40 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm3/smppcm3.c sbl6_patch/segasmp/pcm/smp
   	/* ＰＣＭライブラリのエラーハンドルの設定 */
   	PCM_SetErrFunc(errPcmFunc, NULL);
 ***************
-*** 312,315 ****
+*** 311,315 ****
+  			restart = 1;
   		}
   	}
   }
 ! 
 \ No newline at end of file
---- 312,315 ----
+--- 311,316 ----
+  			restart = 1;
   		}
   	}
++ 	return 0;
   }
 ! 
 diff -crB --binary sbl6/segasmp/pcm/smppcm4/smppcm4.c sbl6_patch/segasmp/pcm/smppcm4/smppcm4.c
 *** sbl6/segasmp/pcm/smppcm4/smppcm4.c	1996-02-08 05:30:22.000000000 -0500
---- sbl6_patch/segasmp/pcm/smppcm4/smppcm4.c	2022-01-22 12:46:04.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm4/smppcm4.c	2023-01-08 13:54:18.000000000 -0500
+***************
+*** 732,738 ****
+  	}
+  }
+  
+! void main(void)
+  {
+  
+  #ifdef USE_VDP
+--- 732,738 ----
+  	}
+  }
+  
+! int main(void)
+  {
+  
+  #ifdef USE_VDP
 ***************
 *** 755,761 ****
   	PCM_Init();
@@ -8993,20 +9659,23 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm4/smppcm4.c sbl6_patch/segasmp/pcm/smp
   	/* ＰＣＭライブラリのエラーハンドルの設定 */
   	PCM_SetErrFunc(errPcmFunc, NULL);
 ***************
-*** 768,771 ****
+*** 767,771 ****
+  		smp_RestartPlay();
   #endif
   	}
   }
 ! 
 \ No newline at end of file
---- 768,771 ----
+--- 767,772 ----
+  		smp_RestartPlay();
   #endif
   	}
++ 	return 0;
   }
 ! 
 diff -crB --binary sbl6/segasmp/pcm/smppcm5/smppcm5.c sbl6_patch/segasmp/pcm/smppcm5/smppcm5.c
 *** sbl6/segasmp/pcm/smppcm5/smppcm5.c	1996-02-08 05:30:26.000000000 -0500
---- sbl6_patch/segasmp/pcm/smppcm5/smppcm5.c	2022-01-22 12:46:34.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm5/smppcm5.c	2023-01-08 13:54:38.000000000 -0500
 ***************
 *** 763,769 ****
   	PCM_Init();
@@ -9025,15 +9694,35 @@ diff -crB --binary sbl6/segasmp/pcm/smppcm5/smppcm5.c sbl6_patch/segasmp/pcm/smp
   	/* ＰＣＭライブラリのエラーハンドルの設定 */
   	PCM_SetErrFunc(errPcmFunc, NULL);
 ***************
-*** 1086,1089 ****
+*** 958,964 ****
+  	}
+  }
+  
+! void main(void)
+  {
+  #if	0
+  	/*
+--- 958,964 ----
+  	}
+  }
+  
+! int main(void)
+  {
+  #if	0
+  	/*
+***************
+*** 1085,1089 ****
+  			restart = 1;
   		}
   	}
   }
 ! 
 \ No newline at end of file
---- 1086,1089 ----
+--- 1085,1090 ----
+  			restart = 1;
   		}
   	}
++ 	return 0;
   }
 ! 
 diff -crB --binary sbl6/segasmp/per/smpper0/smpper0.c sbl6_patch/segasmp/per/smpper0/smpper0.c
@@ -9117,9 +9806,12 @@ diff -crB --binary sbl6/segasmp/per/smpper1/smpper1.c sbl6_patch/segasmp/per/smp
 ! 
 diff -crB --binary sbl6/segasmp/per/smpper12/test.c sbl6_patch/segasmp/per/smpper12/test.c
 *** sbl6/segasmp/per/smpper12/test.c	1996-02-08 05:30:44.000000000 -0500
---- sbl6_patch/segasmp/per/smpper12/test.c	2022-02-10 21:24:02.000000000 -0500
+--- sbl6_patch/segasmp/per/smpper12/test.c	2023-01-07 14:03:52.000000000 -0500
 ***************
-*** 6,15 ****
+*** 3,15 ****
+  *	1995.10.11	c.yoshida												*
+  ************************************************************************/
+  
   #include	<machine.h>
   #include	<sega_scl.h> 
   
@@ -9130,7 +9822,11 @@ diff -crB --binary sbl6/segasmp/per/smpper12/test.c sbl6_patch/segasmp/per/smppe
   
   /*********** 関数プロトタイプ *************/
   void scl_main(void);
---- 6,15 ----
+--- 3,16 ----
+  *	1995.10.11	c.yoshida												*
+  ************************************************************************/
+  
++ #include	<string.h>
   #include	<machine.h>
   #include	<sega_scl.h> 
   
@@ -9148,7 +9844,7 @@ diff -crB --binary sbl6/segasmp/per/smpper12/test.c sbl6_patch/segasmp/per/smppe
   }
 ! 
 \ No newline at end of file
---- 86,89 ----
+--- 87,90 ----
   	start.red = start.green = start.blue = 0;
   	end.red = end.green = end.blue = - 255;
   }
@@ -9523,9 +10219,12 @@ diff -crB --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/sb
 ! 
 diff -crB --binary sbl6/segasmp/scl/smpscl1/smpscl1.c sbl6_patch/segasmp/scl/smpscl1/smpscl1.c
 *** sbl6/segasmp/scl/smpscl1/smpscl1.c	1996-02-08 05:31:50.000000000 -0500
---- sbl6_patch/segasmp/scl/smpscl1/smpscl1.c	2022-02-09 08:59:44.000000000 -0500
+--- sbl6_patch/segasmp/scl/smpscl1/smpscl1.c	2023-01-08 13:52:34.000000000 -0500
 ***************
-*** 19,29 ****
+*** 16,29 ****
+   * 
+   *------------------------------------------------------------------------
+   */
   #include	<machine.h>
   #include	<sega_scl.h> 
   
@@ -9537,7 +10236,11 @@ diff -crB --binary sbl6/segasmp/scl/smpscl1/smpscl1.c sbl6_patch/segasmp/scl/smp
   
   /*----------------------------
   SCROLL NBG0 Cycle Table
---- 19,29 ----
+--- 16,30 ----
+   * 
+   *------------------------------------------------------------------------
+   */
++ #include	<string.h>
   #include	<machine.h>
   #include	<sega_scl.h> 
   
@@ -9550,15 +10253,35 @@ diff -crB --binary sbl6/segasmp/scl/smpscl1/smpscl1.c sbl6_patch/segasmp/scl/smp
   /*----------------------------
   SCROLL NBG0 Cycle Table
 ***************
-*** 152,155 ****
+*** 40,46 ****
+  };
+  
+  
+! void main()
+  {
+  	SclConfig	scfg;
+  	SclRgb		start,end;
+--- 41,47 ----
+  };
+  
+  
+! int main()
+  {
+  	SclConfig	scfg;
+  	SclRgb		start,end;
+***************
+*** 151,155 ****
+  		if((PadData1 & PAD_C)) 	SCL_SetMosaic(SCL_NBG0,16,16);
   		SCL_DisplayFrame();
   	}
   }
 ! 
 \ No newline at end of file
---- 152,155 ----
+--- 152,157 ----
+  		if((PadData1 & PAD_C)) 	SCL_SetMosaic(SCL_NBG0,16,16);
   		SCL_DisplayFrame();
   	}
++ 	return 0;
   }
 ! 
 diff -crB --binary sbl6/segasmp/scl/smpscl3/scldata.c sbl6_patch/segasmp/scl/smpscl3/scldata.c
@@ -9603,11 +10326,56 @@ diff -crB --binary sbl6/segasmp/scl/smpscl3/scldata.c sbl6_patch/segasmp/scl/smp
   }
   
 ! 
+diff -crB --binary sbl6/segasmp/scl/smpscl3/smpscl3.c sbl6_patch/segasmp/scl/smpscl3/smpscl3.c
+*** sbl6/segasmp/scl/smpscl3/smpscl3.c	1996-02-08 05:31:52.000000000 -0500
+--- sbl6_patch/segasmp/scl/smpscl3/smpscl3.c	2023-01-08 13:48:08.000000000 -0500
+***************
+*** 40,46 ****
+  	0xffff,0xffff   /*        (VRAM B1)   無効（分割していない）   */
+  };
+  
+! void main()
+  {
+      SclConfig	scfg;
+  /*    Uint16	*prnum_addr;	*/
+--- 40,46 ----
+  	0xffff,0xffff   /*        (VRAM B1)   無効（分割していない）   */
+  };
+  
+! int main()
+  {
+      SclConfig	scfg;
+  /*    Uint16	*prnum_addr;	*/
+***************
+*** 203,208 ****
+--- 203,209 ----
+  	}
+  	sw++;
+      }
++     return 0;
+  }
+  
+  
+***************
+*** 254,257 ****
+      SCL_Close();
+      SCL_DisplayFrame();
+  }
+! 
+\ No newline at end of file
+--- 255,258 ----
+      SCL_Close();
+      SCL_DisplayFrame();
+  }
+! 
 diff -crB --binary sbl6/segasmp/scl/smpscl5/smpscl5.c sbl6_patch/segasmp/scl/smpscl5/smpscl5.c
 *** sbl6/segasmp/scl/smpscl5/smpscl5.c	1996-02-08 05:31:56.000000000 -0500
---- sbl6_patch/segasmp/scl/smpscl5/smpscl5.c	2022-02-09 09:12:04.000000000 -0500
+--- sbl6_patch/segasmp/scl/smpscl5/smpscl5.c	2023-01-08 13:47:36.000000000 -0500
 ***************
-*** 19,25 ****
+*** 16,25 ****
+   *------------------------------------------------------------------------
+   */
+  #include	<stdio.h>
   #include	<machine.h>
   #include	<sega_scl.h> 
   
@@ -9615,7 +10383,11 @@ diff -crB --binary sbl6/segasmp/scl/smpscl5/smpscl5.c sbl6_patch/segasmp/scl/smp
   
   	Uint16		PadData1EW,PadData2EW;
   	SclConfig	Rbg0Scfg,Rbg1Scfg;
---- 19,25 ----
+--- 16,26 ----
+   *------------------------------------------------------------------------
+   */
+  #include	<stdio.h>
++ #include	<string.h>
   #include	<machine.h>
   #include	<sega_scl.h> 
   
@@ -9624,20 +10396,227 @@ diff -crB --binary sbl6/segasmp/scl/smpscl5/smpscl5.c sbl6_patch/segasmp/scl/smp
   	Uint16		PadData1EW,PadData2EW;
   	SclConfig	Rbg0Scfg,Rbg1Scfg;
 ***************
+*** 49,55 ****
+  #define	MAP_OFFSET	0x0800
+  #define	MAP_NUM		16
+  
+! void main()
+  {
+  	SclVramConfig	tp;
+  	Uint32		i,j;
+--- 50,56 ----
+  #define	MAP_OFFSET	0x0800
+  #define	MAP_NUM		16
+  
+! int main()
+  {
+  	SclVramConfig	tp;
+  	Uint32		i,j;
+***************
+*** 61,67 ****
+  /*	XyInt		xy[2],sp[3];	*/
+  							/* delete:no usd 95.7.11 Chikahiro Yoshida */
+  	Uint32		Color[16];
+! 	Uint8		*Pal32p8,sw,PrSw;
+  /*	Uint32		SprColRam;	*/
+  							/* delete: no used 95.7.11 Chikahiro Yoshida */
+  	Uint32		Surface;
+--- 62,68 ----
+  /*	XyInt		xy[2],sp[3];	*/
+  							/* delete:no usd 95.7.11 Chikahiro Yoshida */
+  	Uint32		Color[16];
+! 	Uint8		*Pal32p8,PrSw;
+  /*	Uint32		SprColRam;	*/
+  							/* delete: no used 95.7.11 Chikahiro Yoshida */
+  	Uint32		Surface;
+***************
+*** 233,239 ****
+  	*	パッドを使った画面の操作      *
+  	**************************************/
+  	r = FIXED(2);
+- 	sw = 0;
+  	PrSw = ON;
+  	Surface = SCL_RBG_TB_A;
+  	while(1){
+--- 234,239 ----
+***************
+*** 281,286 ****
+--- 281,287 ----
+  		}
+  		SCL_DisplayFrame();
+  	}
++ 	return 0;
+  }
+  
+  /*****************************************************************
+***************
+*** 337,343 ****
+   * テクスチャーバッファにアスキーコード文字列を書く              *
+   * （X_SIZE を 512に変更すればＶＤＰ２のＶＲＡＭにも使えます。） *
+   *****************************************************************/
+! void  Print256(Uint8 *vram,Uint8 *str,Uint16 x,Uint16 y,Uint8 col,Uint16 back)
+  {
+  	Uint32	i;
+  	Uint16	wx,wy;
+--- 338,344 ----
+   * テクスチャーバッファにアスキーコード文字列を書く              *
+   * （X_SIZE を 512に変更すればＶＤＰ２のＶＲＡＭにも使えます。） *
+   *****************************************************************/
+! void  Print256(Uint8 *vram, Uint8 *str, Uint16 x, Uint16 y, Uint8 col, Uint16 back)
+  {
+  	Uint32	i;
+  	Uint16	wx,wy;
+***************
+*** 345,351 ****
+  	wx = x;wy = y;
+  
+  	/* センタリング */
+! 	if(wx > X_SIZE)	wx = X_SIZE/2 - strlen(str)*4;
+  
+  	i=0;
+  	while(str[i]) {
+--- 346,352 ----
+  	wx = x;wy = y;
+  
+  	/* センタリング */
+! 	if(wx > X_SIZE)	wx = X_SIZE/2 - strlen((const char *)str)*4;
+  
+  	i=0;
+  	while(str[i]) {
+***************
 *** 387,390 ****
   	/* 文字の本体 */
   	Print256(vram,str,x,y,col,300);
   }
 ! 
 \ No newline at end of file
---- 387,390 ----
+--- 388,391 ----
   	/* 文字の本体 */
   	Print256(vram,str,x,y,col,300);
   }
 ! 
+diff -crB --binary sbl6/segasmp/snd/smpsnd1/smpsnd1.c sbl6_patch/segasmp/snd/smpsnd1/smpsnd1.c
+*** sbl6/segasmp/snd/smpsnd1/smpsnd1.c	1996-02-08 05:33:10.000000000 -0500
+--- sbl6_patch/segasmp/snd/smpsnd1/smpsnd1.c	2023-01-08 13:39:38.000000000 -0500
+***************
+*** 76,82 ****
+   ******************************************************************************
+   */
+  void tubo(void);
+! void main(void)
+  {
+  
+      SndIniDt snd_init;                                  /* システム起動データ*/
+--- 76,82 ----
+   ******************************************************************************
+   */
+  void tubo(void);
+! int main(void)
+  {
+  
+      SndIniDt snd_init;                                  /* システム起動データ*/
+***************
+*** 139,143 ****
+  				 3);
+  	SND_StartSeq(1, 0, 2, 1);					/* シーケンス開始			 */
+      while(1);
+  }
+! 
+\ No newline at end of file
+--- 139,144 ----
+  				 3);
+  	SND_StartSeq(1, 0, 2, 1);					/* シーケンス開始			 */
+      while(1);
++     return 0;
+  }
+! 
+diff -crB --binary sbl6/segasmp/snd/smpsnd4/smpsnd4.c sbl6_patch/segasmp/snd/smpsnd4/smpsnd4.c
+*** sbl6/segasmp/snd/smpsnd4/smpsnd4.c	1996-02-08 05:33:14.000000000 -0500
+--- sbl6_patch/segasmp/snd/smpsnd4/smpsnd4.c	2023-01-08 13:45:10.000000000 -0500
+***************
+*** 145,151 ****
+  void PcmIntr(void);
+  void r_PcmIntr(void);
+  void l_PcmIntr(void);
+! void main(void)
+  {
+  
+  #if	0
+--- 145,151 ----
+  void PcmIntr(void);
+  void r_PcmIntr(void);
+  void l_PcmIntr(void);
+! int main(void)
+  {
+  
+  #if	0
+***************
+*** 257,262 ****
+--- 257,263 ----
+              SND_StopPcm(2);
+          }
+      }
++     return 0;
+  }
+  /*****************************************************************************/
+  /* サウンド割り込み処理 */
+***************
+*** 295,298 ****
+          l_move_bnk = ~l_move_bnk & 1;
+          l_move_pcm_adr += 0x1000;
+  }
+! 
+\ No newline at end of file
+--- 296,299 ----
+          l_move_bnk = ~l_move_bnk & 1;
+          l_move_pcm_adr += 0x1000;
+  }
+! 
+diff -crB --binary sbl6/segasmp/snd/smpsnd5/smpsnd5.c sbl6_patch/segasmp/snd/smpsnd5/smpsnd5.c
+*** sbl6/segasmp/snd/smpsnd5/smpsnd5.c	1996-02-08 05:33:18.000000000 -0500
+--- sbl6_patch/segasmp/snd/smpsnd5/smpsnd5.c	2023-01-08 10:01:22.000000000 -0500
+***************
+*** 149,155 ****
+  void PcmIntr(void);
+  void r_PcmIntr(void);
+  void l_PcmIntr(void);
+! void main(void)
+  {
+  
+  #if	0
+--- 149,155 ----
+  void PcmIntr(void);
+  void r_PcmIntr(void);
+  void l_PcmIntr(void);
+! int main(void)
+  {
+  
+  #if	0
+***************
+*** 276,281 ****
+--- 276,282 ----
+              break;
+          }
+      }
++     return 0;
+  }
+  /*****************************************************************************/
+  /* サウンド割り込み処理 */
+***************
+*** 314,317 ****
+          l_move_bnk = ~l_move_bnk & 1;
+          l_move_pcm_adr += 0x1000;
+  }
+! 
+\ No newline at end of file
+--- 315,318 ----
+          l_move_bnk = ~l_move_bnk & 1;
+          l_move_pcm_adr += 0x1000;
+  }
+! 
 diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/smpspr2/smpspr20.c
 *** sbl6/segasmp/spr/smpspr2/smpspr20.c	1996-02-08 05:33:26.000000000 -0500
---- sbl6_patch/segasmp/spr/smpspr2/smpspr20.c	2022-01-17 20:35:02.000000000 -0500
+--- sbl6_patch/segasmp/spr/smpspr2/smpspr20.c	2023-01-08 10:00:00.000000000 -0500
 ***************
 *** 20,29 ****
   
@@ -9674,33 +10653,25 @@ diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/sm
       int    asw;
       
       set_imask(0);
---- 863,874 ----
+--- 863,873 ----
   };
   
   
 ! int main(void)
   {
       Uint8  *VRAM;
-+ #if 0
       Uint16 *colAddr;
-+ #endif
++ 
       int    asw;
       
       set_imask(0);
 ***************
-*** 887,893 ****
-  
-      SCL_DisplayFrame();
-      SCL_DisplayFrame();
-!     colAddr = (Uint16*)SCL_AllocColRam(SCL_SPR,32,OFF);
-      SCL_SetColRam(SCL_SPR,0,32,colorData);
-  
-      SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_A);
+*** 888,893 ****
 --- 890,896 ----
-  
       SCL_DisplayFrame();
       SCL_DisplayFrame();
-!     /*colAddr = */(Uint16*)SCL_AllocColRam(SCL_SPR,32,OFF);
+      colAddr = (Uint16*)SCL_AllocColRam(SCL_SPR,32,OFF);
++     (void)colAddr;
       SCL_SetColRam(SCL_SPR,0,32,colorData);
   
       SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_A);
@@ -9725,8 +10696,8 @@ diff -crB --binary sbl6/segasmp/spr/smpspr2/smpspr20.c sbl6_patch/segasmp/spr/sm
   /*  end of file */
 ! 
 diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/smpspr7/smpspr70.c
-*** sbl6/segasmp/spr/smpspr7/smpspr70.c	1996-02-08 05:33:30.000000000 -0500
---- sbl6_patch/segasmp/spr/smpspr7/smpspr70.c	2022-01-19 20:00:04.000000000 -0500
+*** sbl6/segasmp/spr/smpspr7/smpspr70.c	2023-01-08 11:45:20.000000000 -0500
+--- sbl6_patch/segasmp/spr/smpspr7/smpspr70.c	2023-01-08 11:46:24.000000000 -0500
 ***************
 *** 93,104 ****
   static void initCluster(SprCluster *cluster);
@@ -9734,9 +10705,9 @@ diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/sm
   
 ! void main()		/* 95-7-26  +"void"  */
   {
-  /* int     i, n;	95-7-26 unuse */
-  XyInt	xy;
-  MthXyz  mAngle, mPoint;
+! /* int     i, n;	95-7-26 unuse */
+! XyInt	xy;
+! MthXyz  mAngle, mPoint;
 ! Uint16 *colAddr;
   
   #if(SYSTEM_CLOCK == 28)
@@ -9747,33 +10718,26 @@ diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/sm
   
 ! int main(void)		/* 95-7-26  +"void"  */
   {
-  /* int     i, n;	95-7-26 unuse */
-  XyInt	xy;
-  MthXyz  mAngle, mPoint;
-! //Uint16 *colAddr;
+! 	/* int     i, n;	95-7-26 unuse */
+! 	XyInt	xy;
+! 	MthXyz  mAngle, mPoint;
+! 	Uint16 *colAddr;
   
   #if(SYSTEM_CLOCK == 28)
           SYS_CHGSYSCK(1);              /* システムクロックを２８Ｍに切替え  */
 ***************
-*** 127,133 ****
-          SCL_DisplayFrame();
-          SCL_DisplayFrame();
-  
-!         colAddr = (Uint16*)SCL_AllocColRam(SCL_SPR,48,OFF);
-          SCL_SetColRam(SCL_SPR,0,48,colorData);
-  
-  	SPR_3Initial(&work3D);		/* ３Ｄスプライト表示初期化 */
---- 127,133 ----
-          SCL_DisplayFrame();
+*** 128,133 ****
+--- 128,134 ----
           SCL_DisplayFrame();
   
-!         /*colAddr = */(Uint16*)SCL_AllocColRam(SCL_SPR,48,OFF);
+          colAddr = (Uint16*)SCL_AllocColRam(SCL_SPR,48,OFF);
++         (void)colAddr;
           SCL_SetColRam(SCL_SPR,0,48,colorData);
   
   	SPR_3Initial(&work3D);		/* ３Ｄスプライト表示初期化 */
 ***************
 *** 203,208 ****
---- 203,209 ----
+--- 204,210 ----
   	    SCL_DisplayFrame();    /* Ｖ－ＢＬＡＮＫ割り込みを待ち、       */
   				     /* スプライト表示とスクロール動作を行う */
       }
@@ -9781,18 +10745,6 @@ diff -crB --binary sbl6/segasmp/spr/smpspr7/smpspr70.c sbl6_patch/segasmp/spr/sm
   }
   
   
-***************
-*** 354,357 ****
-  }
-  
-  /*  end of file */
-! 
-\ No newline at end of file
---- 355,358 ----
-  }
-  
-  /*  end of file */
-! 
 diff -crB --binary sbl6/segasmp/spr/smpspr8/smpspr80.c sbl6_patch/segasmp/spr/smpspr8/smpspr80.c
 *** sbl6/segasmp/spr/smpspr8/smpspr80.c	1996-02-08 05:33:40.000000000 -0500
 --- sbl6_patch/segasmp/spr/smpspr8/smpspr80.c	2023-01-04 21:05:08.000000000 -0500
@@ -9837,8 +10789,8 @@ diff -crB --binary sbl6/segasmp/spr/smpspr8/smpspr80.c sbl6_patch/segasmp/spr/sm
   /*  end of file */
 ! 
 diff -crB --binary sbl6/segasmp/stm/smpstm1/smpstm1.c sbl6_patch/segasmp/stm/smpstm1/smpstm1.c
-*** sbl6/segasmp/stm/smpstm1/smpstm1.c	1996-02-08 05:33:46.000000000 -0500
---- sbl6_patch/segasmp/stm/smpstm1/smpstm1.c	2023-01-04 21:07:40.000000000 -0500
+*** sbl6/segasmp/stm/smpstm1/smpstm1.c	2023-01-08 11:45:30.000000000 -0500
+--- sbl6_patch/segasmp/stm/smpstm1/smpstm1.c	2023-01-08 13:38:38.000000000 -0500
 ***************
 *** 142,151 ****
   void    SMP_ChkBuf(StmGrpHn grp, Sint32 nstm, StmHn stmtbl[], Sint32 rscnt[])
@@ -9891,15 +10843,15 @@ diff -crB --binary sbl6/segasmp/stm/smpstm1/smpstm1.c sbl6_patch/segasmp/stm/smp
       if (grp == NULL) {
 !         return;
       }
-      stm1 = SMP_Open(grp, SMP_STM_FN1, Fn1_Buf, FN1_UNITNUM);
+!     stm1 = SMP_Open(grp, SMP_STM_FN1, Fn1_Buf, FN1_UNITNUM);
       if (stm1 == NULL) {
 !         return;
       }
-      stm2 = SMP_Open(grp, SMP_STM_FN2, Fn2_Buf, FN2_UNITNUM);
+!     stm2 = SMP_Open(grp, SMP_STM_FN2, Fn2_Buf, FN2_UNITNUM);
       if (stm2 == NULL) {
 !         return;
       }
-      stm3 = SMP_Open(grp, SMP_STM_FN3, Fn3_Buf, FN3_UNITNUM);
+!     stm3 = SMP_Open(grp, SMP_STM_FN3, Fn3_Buf, FN3_UNITNUM);
       if (stm3 == NULL) {
 !         return;
       }
@@ -9921,15 +10873,15 @@ diff -crB --binary sbl6/segasmp/stm/smpstm1/smpstm1.c sbl6_patch/segasmp/stm/smp
       if (grp == NULL) {
 !         return 1;
       }
-      stm1 = SMP_Open(grp, SMP_STM_FN1, Fn1_Buf, FN1_UNITNUM);
+!     stm1 = SMP_Open(grp, (Sint8 *)SMP_STM_FN1, Fn1_Buf, FN1_UNITNUM);
       if (stm1 == NULL) {
 !         return 1;
       }
-      stm2 = SMP_Open(grp, SMP_STM_FN2, Fn2_Buf, FN2_UNITNUM);
+!     stm2 = SMP_Open(grp, (Sint8 *)SMP_STM_FN2, Fn2_Buf, FN2_UNITNUM);
       if (stm2 == NULL) {
 !         return 1;
       }
-      stm3 = SMP_Open(grp, SMP_STM_FN3, Fn3_Buf, FN3_UNITNUM);
+!     stm3 = SMP_Open(grp, (Sint8 *)SMP_STM_FN3, Fn3_Buf, FN3_UNITNUM);
       if (stm3 == NULL) {
 !         return 1;
       }

@@ -2,10 +2,13 @@ cmake_minimum_required(VERSION 3.12)
 
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x1.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x2.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank2.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
-  sblsgl00.c
   polygon.c
+  sblsgl00.c
   #work.c
   )
 
@@ -16,7 +19,7 @@ set(CD_FILES
 set(TARGET_NAME sblsgl00)
 set(TARGET_PATH sblsgl/sblsgl00)
 
-add_compile_definitions(MODEL_S _SH)
+add_compile_definitions(MODEL_S _SH SATURN)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
