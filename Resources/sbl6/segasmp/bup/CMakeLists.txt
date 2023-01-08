@@ -1,7 +1,14 @@
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
-  smpbup1.c font/fnt_cod0.c font/fnt_cod1.c font/fnt_dat0.c
-  font/fnt_dat1.c font/fnt_dat2.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x1.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x2.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
+  smpbup1.c
+  font/fnt_cod0.c
+  font/fnt_cod1.c
+  font/fnt_dat0.c
+  font/fnt_dat1.c
+  font/fnt_dat2.c
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )

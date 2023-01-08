@@ -4,7 +4,7 @@ set(SOURCES
   ${SATURN_COMMON}/crt0.s
   ${PROJECT_SOURCE_DIR}/per/smpclib/per_x1.c
   ${PROJECT_SOURCE_DIR}/per/smpclib/per_x2.c
-  #${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
   title.c
   demo.c
   logo.c

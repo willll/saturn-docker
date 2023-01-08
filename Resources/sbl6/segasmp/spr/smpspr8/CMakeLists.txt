@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x1.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x2.c
+  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
   smpspr80.c
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
