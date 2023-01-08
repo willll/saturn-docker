@@ -6245,17 +6245,19 @@ diff -crB --binary sbl6/segalib/mpg/mpg_sys.c sbl6_patch/segalib/mpg/mpg_sys.c
       /* MPEGシステムの状態取得 */
 diff -crB --binary sbl6/segalib/mpg/mpg_win.c sbl6_patch/segalib/mpg/mpg_win.c
 *** sbl6/segalib/mpg/mpg_win.c	1996-02-08 05:24:56.000000000 -0500
---- sbl6_patch/segalib/mpg/mpg_win.c	2023-01-08 11:52:38.000000000 -0500
+--- sbl6_patch/segalib/mpg/mpg_win.c	2023-01-08 16:16:58.000000000 -0500
 ***************
-*** 462,468 ****
+*** 461,469 ****
+  /* MPEGウィンドウの消去 */
   void    MPG_WnDestroy(MpgWn mpgwn)
   {
-      Sint32      dswsw, fbn;
+-     Sint32      dswsw, fbn;
 -     MpgWn       parep, chldp;
-      
+-     
       MPSYS_SemaIn(FALSE);
       
---- 462,467 ----
+      /* 表示スイッチがONなら非表示にする */
+--- 461,466 ----
 ***************
 *** 542,548 ****
   static Sint32   setWn(MpgWn mpgwn)
@@ -6265,7 +6267,7 @@ diff -crB --binary sbl6/segalib/mpg/mpg_win.c sbl6_patch/segalib/mpg/mpg_win.c
       
       /* フレームバッファウィンドゥ位置の設定 */
       if (CDC_MpSetWinFpos(TRUE, MPG_WN_FP_X(mpgwn), MPG_WN_FP_Y(mpgwn)) !=
---- 541,546 ----
+--- 539,544 ----
 diff -crB --binary sbl6/segalib/mth/mth_dsp.c sbl6_patch/segalib/mth/mth_dsp.c
 *** sbl6/segalib/mth/mth_dsp.c	1996-02-08 05:25:02.000000000 -0500
 --- sbl6_patch/segalib/mth/mth_dsp.c	2023-01-08 11:53:48.000000000 -0500
@@ -6355,7 +6357,24 @@ diff -crB --binary sbl6/segalib/pcm/pcm_lib.c sbl6_patch/segalib/pcm/pcm_lib.c
 ! 
 diff -crB --binary sbl6/segalib/pcm/pcm_mp.c sbl6_patch/segalib/pcm/pcm_mp.c
 *** sbl6/segalib/pcm/pcm_mp.c	1996-02-08 05:25:14.000000000 -0500
---- sbl6_patch/segalib/pcm/pcm_mp.c	2023-01-08 12:00:06.000000000 -0500
+--- sbl6_patch/segalib/pcm/pcm_mp.c	2023-01-08 16:18:34.000000000 -0500
+***************
+*** 275,281 ****
+  	pcm_InitClock();
+  	pcm_InitPcm();
+  	pcm_InitErr();
+! 	strncpy(pcm_version, PCM_VERSION, PCM_VERSION_LEN);
+  	for (i = 0; i < PCM_HN_MAX; i++) {
+  		pcm_hn_tbl[i] = (PcmHn)((i << 24) | (i << 16) | (i << 8) | i);
+  	}
+--- 275,281 ----
+  	pcm_InitClock();
+  	pcm_InitPcm();
+  	pcm_InitErr();
+! 	strncpy((char *)pcm_version, PCM_VERSION, PCM_VERSION_LEN);
+  	for (i = 0; i < PCM_HN_MAX; i++) {
+  		pcm_hn_tbl[i] = (PcmHn)((i << 24) | (i << 16) | (i << 8) | i);
+  	}
 ***************
 *** 1331,1336 ****
 --- 1331,1337 ----
@@ -6550,6 +6569,36 @@ diff -crB --binary sbl6/segalib/scl/scl_pr03.c sbl6_patch/segalib/scl/scl_pr03.c
   		return(SCL_COLRAM_ADDR);
   	}
   }
+! 
+diff -crB --binary sbl6/segalib/scl/scl_ro00.c sbl6_patch/segalib/scl/scl_ro00.c
+*** sbl6/segalib/scl/scl_ro00.c	1995-09-29 18:42:18.000000000 -0400
+--- sbl6_patch/segalib/scl/scl_ro00.c	2023-01-08 16:23:56.000000000 -0500
+***************
+*** 113,124 ****
+  
+  static	Fixed32	Fcos(Fixed32	a)
+  {
+- 	Uint16	sign;
+  	Fixed32	val;
+  
+- 	sign = 0;
+  	if(a & 0x80000000){
+- 		sign = 0;
+  		a = - a;
+  	}
+  	a = a % FIXED(360);		/* 0 <= a < 360  */
+--- 113,121 ----
+***************
+*** 718,721 ****
+  	SclRotregBuff[TbNum].delta.y     =  Fsin(SclRotateDisp[TbNum]);
+  }
+  
+! 
+\ No newline at end of file
+--- 715,718 ----
+  	SclRotregBuff[TbNum].delta.y     =  Fsin(SclRotateDisp[TbNum]);
+  }
+  
 ! 
 diff -crB --binary sbl6/segalib/snd/snd_main.c sbl6_patch/segalib/snd/snd_main.c
 *** sbl6/segalib/snd/snd_main.c	1996-07-09 21:08:00.000000000 -0400

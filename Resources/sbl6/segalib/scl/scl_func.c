@@ -8,25 +8,25 @@
  *
  *  AUTHOR(S):
  *	K.M
- *		
+ *
  *  MOD HISTORY:
  *	Written by K.M on 1994-06-21 Ver.1.00
  *	Updated by K.M on 1994-06-22 Ver.1.00
- * 
+ *
  *------------------------------------------------------------------------
  */
 
 #define SEGA_SCL_PROTO
 
-#include <sega_scl.h> 
-#include <sega_dma.h> 
+#include <sega_scl.h>
+#include <sega_dma.h>
 
 
 #define	DMAOFF
 
 #define	REGADDR	0x25F80000
 
-/* ƒ‰ƒCƒ“ƒXƒNƒ[ƒ‹AƒZƒ‹ƒXƒNƒ[ƒ‹ŠÖ˜A */
+/* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½Zï¿½ï¿½ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ö˜A */
 	Uint32	SclAddrLsTbl[2];
 	Uint32	SclAddrCsTbl[2];
 	Uint16	SclLengthLsTbl = 0;
@@ -38,18 +38,18 @@ static	volatile Uint16	*regaddr;
 	Uint32	SclCurSclNum =0;
 	Uint16	SclProcess = 0;
 
-/* ‰æ–ÊƒTƒCƒYƒfƒtƒHƒ‹ƒg */
+/* ï¿½ï¿½ï¿½ÊƒTï¿½Cï¿½Yï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g */
 	Uint16	SclDisplayX = 320;
 	Uint16	SclDisplayY = 224;
 
-/* ƒŒƒWƒXƒ^ƒoƒbƒtƒ@ */
+/* ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½oï¿½bï¿½tï¿½@ */
 	SclSysreg	Scl_s_reg;
 	SclDataset	Scl_d_reg;
 	SclNorscl	Scl_n_reg;
 	SclRotscl	Scl_r_reg;
 	SclWinscl	Scl_w_reg;
 
-/* ‚±‚Ìƒtƒ@ƒCƒ‹‚ªQÆ‚·‚é‘åˆæ•Ï”‚ÌéŒ¾ */
+/* ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½ÌéŒ¾ */
 extern	SclPriBuffDirtyFlags	SclPriBuffDirty;
 extern	void	SCL_AutoExec(void);
 extern	Uint32	SCL_GetColRamMode(void);
@@ -58,13 +58,13 @@ extern	void	SCL_VblInit(void);
 
 
 /*******************************************************
- *  ‰ñ“]ƒ}ƒgƒŠƒbƒNƒXƒpƒ‰ƒ[ƒ^ƒe[ƒuƒ‹ƒoƒbƒtƒ@         *
+ *  ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½bï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@         *
  *******************************************************/
 	SclRotreg	SclRotregBuff[2];
 
 
 /*******************************************************
- *  ‰ñ“]ƒ}ƒgƒŠƒbƒNƒXƒpƒ‰ƒ[ƒ^ŒW”ƒe[ƒuƒ‹ƒoƒbƒtƒ@     *
+ *  ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½bï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@     *
  *******************************************************/
 	Uint16	SclK_TableBuff[2][820];
 	Uint32	SclK_TableNum[2];
@@ -76,17 +76,17 @@ extern	void	SCL_VblInit(void);
 	Uint16	SclRotXySw[2];
 	Uint8	SclRa,SclRb;
 	Uint32	SclRotateTableAddress;
-/* ‰ñ“]ƒpƒ‰ƒ[ƒ^—pŠp“xƒf[ƒ^ */
+/* ï¿½ï¿½ï¿½]ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½pï¿½pï¿½xï¿½fï¿½[ï¿½^ */
 	Fixed32	SclRotateXy[2];
 	Fixed32	SclRotateZ[2];
 	Fixed32	SclRotateDisp[2];
 	Fixed32	SclRotateMoveZ[2];
 
-	Uint16	SclRPMD;	/* ‰ñ“]ƒpƒ‰ƒ[ƒ^ƒ‚[ƒh */
+	Uint16	SclRPMD;	/* ï¿½ï¿½ï¿½]ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½[ï¿½h */
 
 	Uint16	SclRotateTableMode=0xff;
 
-/* ‚±‚Ìƒtƒ@ƒCƒ‹‚Å’è‹`‚·‚éŠÖ” */
+/* ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Å’ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ */
 	void	SCL_ParametersInit(void);
 	void	SCL_ScrollShow(void);
 	void	SCL_PriIntProc(void);
@@ -106,15 +106,13 @@ extern	void   SCL_Rotate(Fixed32 xy,Fixed32 z,Fixed32 disp);
  * PRECONDITIONS
  *
  * POSTCONDITIONS
- * 
+ *
  * CAVEATS
- * 
+ *
  *------------------------------------------------------------------------
  */
 void SCL_Vdp2Init(void)
 {
-    Uint32 i;
-
     SCL_VblInit();
 
     SclRotateXy[0]    = FIXED(0);
@@ -150,9 +148,9 @@ void SCL_Vdp2Init(void)
  * PRECONDITIONS
  *
  * POSTCONDITIONS
- * 
+ *
  * CAVEATS
- * 
+ *
  *------------------------------------------------------------------------
  */
 void SCL_ParametersInit(void)
@@ -213,7 +211,7 @@ void SCL_ParametersInit(void)
 	Scl_n_reg.lineaddr[1] = 0;
 	Scl_n_reg.linecolmode = 0;
 	Scl_n_reg.backcolmode = 0;
-	
+
 /*
  *	Rotate Scroll Extension Registers Area Initialization
  */
@@ -262,7 +260,7 @@ void SCL_ParametersInit(void)
  * POSTCONDITIONS
  * 			None
  * CAVEATS
- * 		
+ *
  *---------------------------------------------------------------------
  */
 void SCL_Open(Uint32 sclnum)
@@ -285,7 +283,7 @@ void SCL_Open(Uint32 sclnum)
  * POSTCONDITIONS
  * 			None
  * CAVEATS
- * 		should be used as the pair of SCL_Open		
+ * 		should be used as the pair of SCL_Open
  *---------------------------------------------------------------------
  */
 void SCL_Close(void)
@@ -308,9 +306,9 @@ void SCL_Close(void)
  * PRECONDITIONS
  *
  * POSTCONDITIONS
- * 
+ *
  * CAVEATS
- * 
+ *
  *------------------------------------------------------------------------
  */
 void SCL_MoveTo(Fixed32 x,Fixed32 y,Fixed32 z)
@@ -368,9 +366,9 @@ void SCL_MoveTo(Fixed32 x,Fixed32 y,Fixed32 z)
  * PRECONDITIONS
  *
  * POSTCONDITIONS
- * 
+ *
  * CAVEATS
- * 
+ *
  *------------------------------------------------------------------------
  */
 void SCL_Move(Fixed32 x,Fixed32 y,Fixed32 z)
@@ -427,9 +425,9 @@ void SCL_Move(Fixed32 x,Fixed32 y,Fixed32 z)
  * PRECONDITIONS
  *
  * POSTCONDITIONS
- * 
+ *
  * CAVEATS
- * 
+ *
  *------------------------------------------------------------------------
  */
 void SCL_Scale(Fixed32 Sx, Fixed32 Sy)
@@ -486,7 +484,7 @@ void SCL_Scale(Fixed32 Sx, Fixed32 Sy)
  * NAME : SCL_CopyReg
  *
  * PARAMETERS
- *	param1 - 
+ *	param1 -
  *	param2 -
  *
  * DESCRIPTION
@@ -494,7 +492,7 @@ void SCL_Scale(Fixed32 Sx, Fixed32 Sy)
  * PRECONDITIONS
  *
  * POSTCONDITIONS
- * 
+ *
  * CAVEATS
  * 		used by interrupt routine only(V_BLANK)
  *		***DON'T CALL IT DIRECTLY!***
@@ -504,7 +502,7 @@ void SCL_CopyReg()
 {
 	Uint16	i;
 
-    /* ‰ñ“]ƒpƒ‰ƒ[ƒ^ŒW”ƒe[ƒuƒ‹‚ğ‚u‚q‚`‚l‚É“]‘— */
+    /* ï¿½ï¿½ï¿½]ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½uï¿½qï¿½`ï¿½lï¿½É“]ï¿½ï¿½ */
     if(SclK_TableFlag[0] && SclRbgKtbAddr[0])
     {
 	SCL_Memcpyw((void *)SclRbgKtbAddr[0],SclK_TableBuff[0],SclK_TableNum[0]*2);
@@ -611,18 +609,18 @@ void SCL_Memcpyw(void *dest,void *src,Uint32 tcnt)
 }
 
 
-/* ƒJƒ‰[ RAM ‚Ìƒ‚[ƒh‚ğİ’è‚·‚é */
+/* ï¿½Jï¿½ï¿½ï¿½[ RAM ï¿½Ìƒï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ */
 void  SCL_SetColRamMode(Uint32 ComRamMode)
 {
     switch(ComRamMode){
       case SCL_CRM15_1024:
-	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x0000;
+	Scl_s_reg.ramcontrl = (Scl_s_reg.ramcontrl & 0x0FFF) | 0x0000;
 	break;
       case SCL_CRM15_2048:
-	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x1000;
+	Scl_s_reg.ramcontrl = (Scl_s_reg.ramcontrl & 0x0FFF) | 0x1000;
 	break;
       case SCL_CRM24_1024:
-	Scl_s_reg.ramcontrl = Scl_s_reg.ramcontrl & 0x0FFF | 0x2000;
+	Scl_s_reg.ramcontrl = (Scl_s_reg.ramcontrl & 0x0FFF) | 0x2000;
 	break;
     }
     if(SclProcess == 0)		SclProcess = 1;
@@ -630,8 +628,8 @@ void  SCL_SetColRamMode(Uint32 ComRamMode)
 
 
 /***************************************************************
- *	Priority Interrupt Routine 
- *      ‚±‚ÌŠÖ”‚ÍVB interval ‚ÌŠ„‚è‚İŠÖ”‚©‚çŒÄ‚Î‚ê‚é 
+ *	Priority Interrupt Routine
+ *      ï¿½ï¿½ï¿½ÌŠÖï¿½ï¿½ï¿½VB interval ï¿½ÌŠï¿½ï¿½èï¿½İŠÖï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½ï¿½
  ***************************************************************/
 void  SCL_PriIntProc(void)
 {
@@ -640,7 +638,7 @@ void  SCL_PriIntProc(void)
     SCL_AutoExec();
 
     if(SclPriBuffDirty.SclOtherPri){
-	/* SclOtherPri ‚ÌƒŒƒWƒXƒ^‚Ö‚ÌƒRƒs[ */
+	/* SclOtherPri ï¿½Ìƒï¿½ï¿½Wï¿½Xï¿½^ï¿½Ö‚ÌƒRï¿½sï¿½[ */
 #ifdef	DMAOFF
 	SCL_Memcpyw(SclRealOtherPri, &SclOtherPri, sizeof(SclOtherPri));
 #else
@@ -649,7 +647,7 @@ void  SCL_PriIntProc(void)
 	SclPriBuffDirty.SclOtherPri = 0;
     }
     if(SclPriBuffDirty.SclSpPriNum){
-	/* SclSpPriNum ‚ÌƒŒƒWƒXƒ^‚Ö‚ÌƒRƒs[ */
+	/* SclSpPriNum ï¿½Ìƒï¿½ï¿½Wï¿½Xï¿½^ï¿½Ö‚ÌƒRï¿½sï¿½[ */
 #ifdef	DMAOFF
 	SCL_Memcpyw(SclRealSpPriNum, &SclSpPriNum, sizeof(SclSpPriNum));
 #else
@@ -658,7 +656,7 @@ void  SCL_PriIntProc(void)
 	SclPriBuffDirty.SclSpPriNum = 0;
     }
     if(SclPriBuffDirty.SclBgPriNum){
-	/* SclBgPriNum ‚ÌƒŒƒWƒXƒ^‚Ö‚ÌƒRƒs[ */
+	/* SclBgPriNum ï¿½Ìƒï¿½ï¿½Wï¿½Xï¿½^ï¿½Ö‚ÌƒRï¿½sï¿½[ */
 #ifdef	DMAOFF
 	SCL_Memcpyw(SclRealBgPriNum, &SclBgPriNum, sizeof(SclBgPriNum));
 #else
@@ -667,7 +665,7 @@ void  SCL_PriIntProc(void)
 	SclPriBuffDirty.SclBgPriNum = 0;
     }
     if(SclPriBuffDirty.SclSpColMix){
-	/* SclSpColMix ‚ÌƒŒƒWƒXƒ^‚Ö‚ÌƒRƒs[ */
+	/* SclSpColMix ï¿½Ìƒï¿½ï¿½Wï¿½Xï¿½^ï¿½Ö‚ÌƒRï¿½sï¿½[ */
 #ifdef	DMAOFF
 	SCL_Memcpyw(SclRealSpColMix, &SclSpColMix, sizeof(SclSpColMix));
 #else
@@ -676,7 +674,7 @@ void  SCL_PriIntProc(void)
 	SclPriBuffDirty.SclSpColMix = 0;
     }
     if(SclPriBuffDirty.SclBgColMix){
-	/* SclBgColMix ‚ÌƒŒƒWƒXƒ^‚Ö‚ÌƒRƒs[ */
+	/* SclBgColMix ï¿½Ìƒï¿½ï¿½Wï¿½Xï¿½^ï¿½Ö‚ÌƒRï¿½sï¿½[ */
 #ifdef	DMAOFF
 	SCL_Memcpyw(SclRealBgColMix, &SclBgColMix, sizeof(SclBgColMix));
 #else
@@ -685,7 +683,7 @@ void  SCL_PriIntProc(void)
 	SclPriBuffDirty.SclBgColMix = 0;
     }
     if(SclPriBuffDirty.SclColOffset){
-	/* ColOffset‚ÌƒŒƒWƒXƒ^‚Ö‚ÌƒRƒs[ */
+	/* ColOffsetï¿½Ìƒï¿½ï¿½Wï¿½Xï¿½^ï¿½Ö‚ÌƒRï¿½sï¿½[ */
 #ifdef	DMAOFF
 	SCL_Memcpyw(SclRealColOffset, &SclColOffset, sizeof(SclColOffset));
 #else
