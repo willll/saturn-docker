@@ -6,8 +6,7 @@ set(SOURCES
   ${PROJECT_SOURCE_DIR}/per/smpclib/per_x2.c
   ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
   polygon.c
-  sblsgl00.c
-  #work.c
+  main.c
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
@@ -16,10 +15,10 @@ set(CD_FILES
       0.bin
     )
 
-set(TARGET_NAME sblsgl00)
-set(TARGET_PATH sblsgl/sblsgl00)
+set(TARGET_NAME s_4_5)
+set(TARGET_PATH sgl/s_4_5)
 
-add_compile_definitions(MODEL_S _SH SATURN)
+add_compile_definitions(MODEL_S _SH)
 
 add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
@@ -30,21 +29,25 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC .
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
-target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags}>
-                                                 $<$<COMPILE_LANGUAGE:ASM>:${as_flags}> )
-
 target_link_options(${TARGET_NAME}.elf PUBLIC
-   "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
-   "SHELL:-Xlinker --strip-debug"
-   "SHELL:-m2 -nostartfiles"
-   "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
+    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
+    "SHELL:-Xlinker --strip-debug"
+    "SHELL:-m2 -nostartfiles"
+    "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
+    "SHELL:-lc -lgcc -lm"
 )
 
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_cdc.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dsp.a )
+
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 

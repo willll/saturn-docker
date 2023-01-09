@@ -7,7 +7,7 @@ set(SOURCES
   ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
   polygon.c
   main.c
-  ${PROJECT_SOURCE_DIR}/v_blank/v_blank2.c
+  ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
 
@@ -29,8 +29,6 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC .
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
-target_compile_options(${TARGET_NAME}.elf PUBLIC -g -O0 -Wall -m2)
-
 target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
@@ -41,7 +39,6 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/sglarea.o )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGASGL}/lib/libsgl.a )
-#target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sgl.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_scl.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )

@@ -175,22 +175,22 @@ TODO
       - [x] smpscl3
       - [x] smpscl5
   - [ ] sgl
-    - [ ] demo_a **(Link errors)**
-    - [ ] demo_b
-    - [ ] demo_c
-    - [ ] s_2_2
-    - [ ] s_3_2
-    - [ ] s_4_2
-    - [ ] s_4_3_1
-    - [ ] s_4_3_2
-    - [ ] s_4_3_3
-    - [ ] s_4_3_4    
-    - [ ] s_4_5
-    - [ ] s_5_2
-    - [ ] s_6_3
-    - [ ] s_7_2
-    - [ ] s_7_4
-    - [ ] s_7_6            
+    - [x] demo_a
+    - [x] demo_b
+    - [x] demo_c
+    - [X] s_2_2
+    - [X] s_3_2
+    - [X] s_4_2
+    - [X] s_4_3_1
+    - [X] s_4_3_2
+    - [x] s_4_3_3
+    - [x] s_4_3_4    
+    - [ ] s_4_5 **(black screen at runtime)**
+    - [ ] s_5_2 **(black screen at runtime)**
+    - [ ] s_6_3 **(black screen at runtime)**
+    - [x] s_7_2
+    - [x] s_7_4
+    - [ ] s_7_6 **(black screen at runtime)**
   - [ ] snd
     - [ ] smpsnd1 **(Runtime ???)**
     - [ ] smpsnd4 **(Runtime ???)**
@@ -201,12 +201,12 @@ TODO
     - [x] spr7
     - [x] spr8
   - [ ] stm
-    - [ ] smpstm1 **(Not tested)**
-    - [ ] smpstm1 **(Not tested)**
+    - [ ] smpstm1 **(Crash at runtime)**
+    - [ ] smpstm2 **(Crash at runtime)**
   - [ ] sys **(Not tested)**
   - [ ] tim
-    - [ ] smp0 **(Not tested)**
-    - [ ] smp1 **(Not tested)**
+    - [ ] smp0 **(Crash at runtime)**
+    - [ ] smp1 **(Crash at runtime)**
 
 ### SDK Samples
 - [x] SDK Samples

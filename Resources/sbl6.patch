@@ -10544,6 +10544,75 @@ diff -crB --binary sbl6/segasmp/scl/smpscl5/smpscl5.c sbl6_patch/segasmp/scl/smp
   	Print256(vram,str,x,y,col,300);
   }
 ! 
+diff -crB --binary sbl6/segasmp/sgl/demo_c/ss_akira.h sbl6_patch/segasmp/sgl/demo_c/ss_akira.h
+*** sbl6/segasmp/sgl/demo_c/ss_akira.h	1996-02-08 05:32:10.000000000 -0500
+--- sbl6_patch/segasmp/sgl/demo_c/ss_akira.h	2023-01-08 17:13:22.000000000 -0500
+***************
+*** 31,37 ****
+  #define    INITANGY           DEG2ANG(90.0)
+  #define    INITANGZ           DEG2ANG(0.0)
+  
+! extern     void slInitSystem(Uint16 , TEXTURE * , Uint16) ;
+  extern     void objectdata(ANGLE * , FIXED *) ;
+  extern     void Debuge() ;
+  
+--- 31,37 ----
+  #define    INITANGY           DEG2ANG(90.0)
+  #define    INITANGZ           DEG2ANG(0.0)
+  
+! //extern     void slInitSystem(Uint16 , TEXTURE * , Uint16) ;
+  extern     void objectdata(ANGLE * , FIXED *) ;
+  extern     void Debuge() ;
+  
+diff -crB --binary sbl6/segasmp/sgl/s_7_6/main.c sbl6_patch/segasmp/sgl/s_7_6/main.c
+*** sbl6/segasmp/sgl/s_7_6/main.c	1996-02-08 05:32:58.000000000 -0500
+--- sbl6_patch/segasmp/sgl/s_7_6/main.c	2023-01-08 18:12:50.000000000 -0500
+***************
+*** 23,35 ****
+  	  GRoffsetTBL(  0,-16,-16) , GRoffsetTBL(  0,-16,-16) } 
+  };
+  
+! void main()
+  {
+  	static ANGLE	ang[XYZ];
+  	static FIXED	pos[XYZ];
+  
+  	slInitSystem(TV_320x224,NULL,1);
+! /*	slPrint("Sample program 7.6" , slLocate(9,2));	*/
+  
+  	ang[X] = DEGtoANG(30.0);
+  	ang[Y] = DEGtoANG( 0.0);
+--- 23,35 ----
+  	  GRoffsetTBL(  0,-16,-16) , GRoffsetTBL(  0,-16,-16) } 
+  };
+  
+! int main()
+  {
+  	static ANGLE	ang[XYZ];
+  	static FIXED	pos[XYZ];
+  
+  	slInitSystem(TV_320x224,NULL,1);
+! 	slPrint("Sample program 7.6" , slLocate(9,2));	
+  
+  	ang[X] = DEGtoANG(30.0);
+  	ang[Y] = DEGtoANG( 0.0);
+***************
+*** 55,60 ****
+  
+  		slSynch();
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 55,61 ----
+  
+  		slSynch();
+  	}
++ 	return 0;
+  }
+  
+! 
 diff -crB --binary sbl6/segasmp/snd/smpsnd1/smpsnd1.c sbl6_patch/segasmp/snd/smpsnd1/smpsnd1.c
 *** sbl6/segasmp/snd/smpsnd1/smpsnd1.c	1996-02-08 05:33:10.000000000 -0500
 --- sbl6_patch/segasmp/snd/smpsnd1/smpsnd1.c	2023-01-08 13:39:38.000000000 -0500

@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.12)
 
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
-  ${PROJECT_SOURCE_DIR}/v_blank/v_blank2.c
-  ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   sblsgl01.c
   polygon.c
+  ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
+  ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
   )
 
 set(CD_FILES
@@ -25,8 +25,6 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC .
     ${SEGASGL}/include/sgl
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/per/smpclib)
-
-target_compile_options(${TARGET_NAME}.elf PUBLIC -g -O0 -Wall -m2)
 
 target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
