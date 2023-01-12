@@ -39,7 +39,7 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						#fileserver
 						gdb
 						mm-stats
-						netlink-template
+						#netlink-template fatal error: sys/init.h: No such file or directory
 						scu-dsp
 						#scu-timers << This example is disabled
 						usb-cart
@@ -53,7 +53,7 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						vdp1-uv-coords
 						vdp1-zoom-sprite
 						vdp2-24bpp-bitmap
-						vdp2-2x2-plane
+						#vdp2-2x2-plane	vdp2-2x2-plane: No such file or directory
 						vdp2-back-screen
 						vdp2-effect-tunnel
 						vdp2-line-scroll
