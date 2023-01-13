@@ -40,6 +40,7 @@ TODO
 - [x] CMake profile
 - [x] schily-tools : ISO generation tools
 - [x] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
+- [x] satcon : Sega Saturn image convertor https://git.sr.ht/~ndiddy/satconv/
 
 
 ### SGL 3.02

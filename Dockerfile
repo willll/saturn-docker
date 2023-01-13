@@ -36,6 +36,7 @@ ENV SATURN_CYBERWARRIORX_CDC=$SATURN_CYBERWARRIORX/cdc
 ENV SATURN_CD=$SATURN_ROOT/cd_resources
 ENV SATURN_SAMPLES=$SATURN_ROOT/samples
 ENV SATURN_IPMAKER=$SATURN_ROOT/IPMaker
+ENV SATURN_SATCONV=$SATURN_ROOT/satconv
 ENV SATURN_COMMON=$SATURN_ROOT/common
 
 ENV SATURN_TMP=$SATURN_ROOT/tmp
@@ -113,7 +114,7 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
   "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_IAPETUS}" \
   "${SATURN_TMP}" "${SATURN_CD}" "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" \
-  "${SATURN_COMMON}" "${SATURN_CYBERWARRIORX_CDC}" && \
+  "${SATURN_SATCONV}" "${SATURN_COMMON}" "${SATURN_CYBERWARRIORX_CDC}" && \
 	chmod -R 777 "$SATURN_ROOT" && \
 	chmod -R 777 "$SATURN_SGL" && \
 	chmod -R 777 "$SATURN_SBL" && \
@@ -125,6 +126,7 @@ RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
   chmod -R 777 "$SATURN_CD" && \
   chmod -R 777 "$SATURN_SAMPLES" && \
   chmod -R 777 "$SATURN_IPMAKER" && \
+  chmod -R 777 "$SATURN_SATCONV" && \
   chmod -R 777 "$SATURN_COMMON" && \
   chmod -R 777 "$SATURN_TMP"
 
@@ -159,6 +161,12 @@ RUN $SATURN_TMP/build-Boost.sh "boost-1.78.0"
 #
 COPY Resources/Install/build-CueMaker.sh $SATURN_TMP
 RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_1.0"
+
+#
+# Install satconv
+#
+COPY Resources/Install/build-satconv.sh $SATURN_TMP
+RUN $SATURN_TMP/build-satconv.sh
 
 #
 # Install gdown https://pypi.org/project/gdown/
