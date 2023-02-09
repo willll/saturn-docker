@@ -1,4 +1,9 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
-* text eol=lf
+#* text eol=lf
 
 *.patch		-text
+*.a		-text
+*.o		-text
+*.cue		-text
+*.TXT		-text
+*.sh		text eol=lf
