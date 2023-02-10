@@ -14,6 +14,9 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 	find $SATURN_TMP/examples -type f -exec sed -i 's/\o32//g' {} \;
 
 	# Patch the code
+	dos2unix -f $SATURN_TMP/examples/devcon96/3d/3d.c
+	dos2unix -f $SATURN_TMP/examples/devcon96/util/int.c
+	dos2unix -f $SATURN_TMP/examples/devcon96/util/stmem.c
 	patch -p0 -d $SATURN_TMP < sbl6_examples.patch
 
 	# Inject Build System
