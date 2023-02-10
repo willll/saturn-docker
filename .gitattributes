@@ -1,10 +1,6 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
-#* text eol=lf
 
-*.patch		text eol=crlf
-*.a		-text
-*.o		-text
-*.bin		-text
-*.cue		-text
-*.TXT		-text
-*.sh		text eol=lf
+Dockerfile  eol=lf
+*.sh        eol=lf
+* text      eol=lf
+*.bat       eol=crlf
