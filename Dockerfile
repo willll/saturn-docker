@@ -8,8 +8,9 @@
 # * https://github.com/SaturnSDK/Saturn-SDK-SGL
 # * https://github.com/Pixinn/docker-vbcc-amiga
 
-# * https://github.com/ijacquez/libyaul
-# * https://github.com/ijacquez/libyaul-docker
+# * https://github.com/yaul-org/libyaul
+# * https://github.com/yaul-org/libyaul-docker
+# * https://github.com/yaul-org/libyaul-examples
 # * https://github.com/cyberwarriorx/iapetus
 # * http://vberthelot.free.fr/SX/satdev/Tools.html
 
@@ -254,9 +255,9 @@ ARG JO_ENGINE_COMMIT_SHA=163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 ARG INSTALL_YAUL_LIB_ARG=1
 ENV INSTALL_YAUL_LIB=$INSTALL_YAUL_LIB_ARG
 ARG INSTALL_YAUL_SAMPLES=1
-ARG YAUL_TAG=3.2.0
-# YAUL examples commit from 2022.06.15 https://github.com/ijacquez/libyaul-examples/tree/df4609b51775f1022770a1282c13825eece143ae
-ARG YAUL_EXAMPLES_COMMIT_SHA=df4609b51775f1022770a1282c13825eece143ae
+ARG YAUL_TAG=0.2.0
+# YAUL examples commit from 2023.03.17 https://github.com/yaul-org/libyaul-examples/tree/7b2160798db6fc1e7b4f38ad5290f2c3481b40fc
+ARG YAUL_EXAMPLES_COMMIT_SHA=7b2160798db6fc1e7b4f38ad5290f2c3481b40fc
 
 ARG INSTALL_IAPETUS_SAMPLES=0
 ARG INSTALL_IAPETUS_LIB=0
@@ -349,15 +350,9 @@ RUN rm -rf "$SATURN_TMP/*"
 
 COPY Resources/dl-yaul.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-yaul.sh"
-COPY Resources/yaul/yaul.env.in "$SATURN_YAUL"
-COPY Resources/yaul/env.mk "$SATURN_TMP/yaul"
-COPY Resources/yaul/Makefile "$SATURN_TMP/yaul"
-COPY Resources/yaul/tools/bin2o "$SATURN_TMP/yaul/tools/bin2o/"
-COPY Resources/yaul/tools/make-ip "$SATURN_TMP/yaul/tools/make-ip/"
-COPY Resources/yaul/tools/Makefile "$SATURN_TMP/yaul/tools/Makefile"
-COPY Resources/yaul/build/* "$SATURN_TMP/yaul/libyaul/build/"
-COPY Resources/yaul/common/specs/* "$SATURN_TMP/yaul/libyaul/common/specs/"
+COPY Resources/yaul/ "$SATURN_TMP/yaul/"
 COPY Resources/build-yaul.sh "$SATURN_TMP"
+COPY Resources/yaul/yaul.env.in "$SATURN_YAUL"
 RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul.sh"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
 RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"

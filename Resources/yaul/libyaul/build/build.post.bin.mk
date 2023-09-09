@@ -1,10 +1,19 @@
 THIS_FILE:=$(firstword $(MAKEFILE_LIST))
 
-$(shell mkdir -p $(SH_BUILD_DIR))
+ifeq ($(strip $(SH_BUILD_DIR)),)
+  $(error Empty SH_BUILD_DIR (SH build directory))
+endif
+
+ifeq ($(strip $(SH_OUTPUT_DIR)),)
+  $(error Empty SH_OUTPUT_DIR (SH output directory))
+endif
 
 ifeq ($(strip $(SH_PROGRAM)),)
   $(error Empty SH_PROGRAM (SH program name))
 endif
+
+$(shell mkdir -p $(SH_BUILD_DIR))
+$(shell mkdir -p $(SH_OUTPUT_DIR))
 
 # $1 -> Path to asset file
 # $2 -> Valid C symbol asset name

@@ -9,6 +9,7 @@ post-build-iso:
 include $(YAUL_INSTALL_ROOT)/share/ip.bin.mk
 
 IMAGE_DIRECTORY?= cd
+AUDIO_TRACKS_DIRECTORY?= audio-tracks
 IMAGE_1ST_READ_BIN?= A.BIN
 
 OUTPUT_FILES= $(SH_PROGRAM).iso $(SH_PROGRAM).cue
@@ -17,7 +18,7 @@ CLEAN_OUTPUT_FILES= $(OUTPUT_FILES) $(SH_BUILD_PATH)/IP.BIN $(SH_BUILD_PATH)/IP.
 include $(YAUL_INSTALL_ROOT)/share/build.post.bin.mk
 
 $(SH_PROGRAM).iso: $(SH_BUILD_PATH)/$(SH_PROGRAM).bin $(SH_BUILD_PATH)/IP.BIN
-	@printf -- "$(V_BEGIN_YELLOW)$@$(V_END)\n"
+	@printf -- "$(V_BEGIN_YELLOW)$(@F)$(V_END)\n"
     # This is a rather nasty hack to suppress any output from running the
     # pre/post-build-iso targets
 	$(ECHO)$(MAKE) --no-print-directory $$([ -z "$(SILENT)" ] || printf -- "-s") -f $(THIS_FILE) pre-build-iso
@@ -28,12 +29,13 @@ $(SH_PROGRAM).iso: $(SH_BUILD_PATH)/$(SH_PROGRAM).bin $(SH_BUILD_PATH)/IP.BIN
 		printf -- "empty\n" > $(IMAGE_DIRECTORY)/$$txt; \
 	    fi \
 	done
-	$(ECHO)$(YAUL_INSTALL_ROOT)/share/wrap-error $(YAUL_INSTALL_ROOT)/bin/make-iso $(IMAGE_DIRECTORY) $(SH_BUILD_PATH)/IP.BIN $(SH_PROGRAM)
+	$(ECHO)$(YAUL_INSTALL_ROOT)/share/wrap-error $(YAUL_INSTALL_ROOT)/bin/make-iso $(IMAGE_DIRECTORY) $(SH_BUILD_PATH)/IP.BIN $(SH_OUTPUT_PATH) $(SH_PROGRAM)
 	$(ECHO)$(MAKE) --no-print-directory $$([ -z "$(SILENT)" ] || printf -- "-s") -f $(THIS_FILE) post-build-iso
 
 $(SH_PROGRAM).cue: | $(SH_PROGRAM).iso
-	@printf -- "$(V_BEGIN_YELLOW)$@$(V_END)\n"
-	$(ECHO)$(YAUL_INSTALL_ROOT)/share/wrap-error $(YAUL_INSTALL_ROOT)/bin/make-cue "$(SH_PROGRAM).iso"
+	@printf -- "$(V_BEGIN_YELLOW)$(@F)$(V_END)\n"
+	$(ECHO)mkdir -p $(AUDIO_TRACKS_DIRECTORY)
+	$(ECHO)$(YAUL_INSTALL_ROOT)/share/wrap-error $(YAUL_INSTALL_ROOT)/bin/make-cue "$(AUDIO_TRACKS_DIRECTORY) $(SH_PROGRAM).iso"
 
 $(SH_BUILD_PATH)/IP.BIN: $(YAUL_INSTALL_ROOT)/share/yaul/ip/ip.sx $(SH_BUILD_PATH)/$(SH_PROGRAM).bin
 	$(ECHO)$(YAUL_INSTALL_ROOT)/share/wrap-error $(YAUL_INSTALL_ROOT)/bin/make-ip \

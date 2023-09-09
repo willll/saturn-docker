@@ -1,0 +1,93 @@
+#!/bin/sh
+
+# Copyright (c) 2012-2017
+# See LICENSE for details.
+#
+# Israel Jacquez <mrkotfw@gmail.com>
+
+PROGNAME="${0##*/}"
+
+input_file="${1}"
+input_size=$(/usr/bin/stat -c "%s" "${input_file}" 2> /dev/null)
+prefix="${2}"
+output_file="${3}"
+output_dir=$(dirname "${output_file}")
+
+# XXX: Hard coded values should be exposed as arguments
+PARAM_WIDTH=7
+PARAM_PAD="        "
+
+panic () {
+    printf -- "%s: Error: %s\\n" "${PROGNAME}" "${1}" >&2
+    exit "${2}"
+}
+
+if [ ${#} != 3 ]; then
+    printf -- "Usage: %s input-file prefix output-file\\n" "${PROGNAME}" >&2
+    exit 2
+fi
+
+# Check input file
+if ! [ -f "${input_file}" ]; then
+    panic "${input_file}: No such file or directory" 2
+fi
+if [ -z "${input_file}" ]; then
+    panic "${input_ile}: Unable to obtain file size" 2
+fi
+# Check input file size
+if [ ${input_size} -eq 0 ]; then
+    panic "${input_file}: File is empty" 2
+fi
+
+# Check prefix
+if ! printf -- "%s" "${prefix}" | grep -q -E '^[a-zA-Z_][a-zA-Z0-9_]*$'; then
+    panic "Invalid prefix (must be a C variable name)" 2
+fi
+# Check if prefix is too long
+if [ $(($(printf -- "%s" "${prefix}" | wc -c) + 5)) -ge 32 ]; then
+    panic "Prefix is too long" 2
+fi
+
+# Check output file
+if ! [ -d "${output_dir}" ] || ! [ -x "${output_dir}" ]; then
+    panic "Ouput path is inaccessible" 2
+fi
+
+cat "${input_file}" | od -An -vtx1 | sed -E 's/^\s+//g;s/[ \n]/\n/g' | awk '
+FNR == 1 {
+  print "#include <stddef.h>";
+  print "#include <stdint.h>";
+  print "";
+  print "const size_t '"${prefix}"'_size = '"${input_size}"';";
+  print "";
+  print "const uint8_t '"${prefix}"'_data['"${input_size}"'] = {";
+
+  w = '"${PARAM_WIDTH}"'; # Width size
+  n = 0; # Line number
+  b = 1; # Test if blank
+
+  do {
+    p = "0x" toupper($0);
+    c = getline;
+
+    # Determine if we need to pad or not (if we are in a new line)
+    printf ((b == 0) ? " " : "'"${PARAM_PAD}"'") p;
+
+    if (c == 1) {
+       printf ",";
+       b = 0;
+    } else {
+       print "";
+       break;
+    }
+
+    if (((n + 1) % w) == 0) {
+       print "";
+       b = 1;
+    }
+
+    n++;
+  } while (c == 1);
+
+  print "};";
+}' > "${output_file}"

@@ -88,9 +88,11 @@ SH_SRCS?=
 SH_SRCS_NO_LINK?=
 SH_LIBRARIES?=
 SH_BUILD_DIR?= build
+SH_OUTPUT_DIR?= .
 
 # Customizable variables (must be overwritten in user's Makefile)
 # IMAGE_DIRECTORY      ISO/CUE
+# AUDIO_TRACKS_DIRECTORY ISO/CUE
 # IMAGE_1ST_READ_BIN   ISO/CUE
 # IP_VERSION					 ISO/CUE, SS
 # IP_RELEASE_DATE			 ISO/CUE, SS
@@ -144,6 +146,7 @@ SH_CXXFLAGS= $(SH_CFLAGS)
 SH_LXXFLAGS= $(SH_LDFLAGS)
 
 SH_BUILD_PATH:= $(abspath $(SH_BUILD_DIR))
+SH_OUTPUT_PATH= $(abspath $(SH_OUTPUT_DIR))
 
 CDB_FILE:= compile_commands.json
 CDB_GCC?= /usr/bin/gcc

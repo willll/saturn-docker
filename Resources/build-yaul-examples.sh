@@ -32,28 +32,33 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						cpu-dual
 						cpu-frt
 						cpu-wdt
+						#dbgio-font : /bin/sh: 1: satconv: not found
 						dbgio-menu
 						dbgio-usb-cart
 						dma-queue
 						dram-cart
+						fibers
 						#fileserver
 						gdb
 						mm-stats
 						#netlink-template fatal error: sys/init.h: No such file or directory
+						#overlay : missing files ?
 						scu-dsp
-						#scu-timers << This example is disabled
+						#scu-timers << This example is disabled\
+						smpc-rtc
 						usb-cart
 						vdp1-balls
 						vdp1-drawing
 						vdp1-interlace
+						vdp1-mesh
 						vdp1-mic3d
-						vdp1-g3d
+						#vdp1-normal-sprite : make: *** No rule to make target 'clean'.  Stop.
 						vdp1-software-blending
 						vdp1-st-niccc
 						vdp1-uv-coords
 						vdp1-zoom-sprite
 						vdp2-24bpp-bitmap
-						#vdp2-2x2-plane	vdp2-2x2-plane: No such file or directory
+						vdp2-all-nbgs
 						vdp2-back-screen
 						vdp2-effect-tunnel
 						vdp2-line-scroll
