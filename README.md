@@ -267,28 +267,32 @@ TODO
     - [x] cpu-dual
     - [x] cpu-frt
     - [x] cpu-wdt
+    - [ ] dbgio-font
     - [x] dbgio-menu
     - [x] dbgio-usb-cart
     - [x] dma-queue
     - [x] dram-cart
+    - [x] fibers
     - [ ] fileserver
     - [x] gdb
     - [x] mm-stats
-    - [x] netlink-template
+    - [ ] netlink-template
     - [x] scu-dsp
     - [ ] scu-timers << This example is disabled
+    - [x] smpc-rtc
     - [x] usb-cart
     - [x] vdp1-balls
     - [x] vdp1-drawing
     - [x] vdp1-interlace
+    - [x] vdp1-mesh
     - [x] vdp1-mic3d
-    - [x] vdp1-sega3d
+    - [ ] vdp1-normal-sprite
     - [x] vdp1-software-blending
     - [x] vdp1-st-niccc
     - [x] vdp1-uv-coords
     - [x] vdp1-zoom-sprite
     - [x] vdp2-24bpp-bitmap
-    - [x] vdp2-2x2-plane
+    - [x] vdp2-all-nbgs
     - [x] vdp2-back-screen
     - [x] vdp2-effect-tunnel
     - [x] vdp2-line-scroll
