@@ -60,7 +60,8 @@ ENV Boost_NO_SYSTEM_PATHS="ON"
 
 ENV CTEMPLATE_ROOT=/opt/lib/Ctemplate
 
-ENV MAKEFLAGS="-j 1"
+ARG MAKEFLAGS_ARG="-j 1"
+ENV MAKEFLAGS=$MAKEFLAGS_ARG
 
 RUN apt-get update && apt-get install -y locales \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
@@ -105,10 +106,9 @@ RUN apt-get update && apt-get install -y \
   rsync \
   zip \
 	--no-install-recommends && \
-	apt autoremove -y && \
 	## Make sure we leave any X11 related library behind
 	apt-get purge -y 'libx11*' x11-common libxt6 && \
-	apt autoremove -y && \
+	apt autoremove -y --purge && \
 	rm -r /var/lib/apt/lists/*
 
 # Base Directories
@@ -168,6 +168,7 @@ RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_1.0"
 #
 COPY Resources/Install/build-satconv.sh $SATURN_TMP
 RUN $SATURN_TMP/build-satconv.sh
+ENV PATH="$PATH:$SATURN_SATCONV"
 
 #
 # Install gdown https://pypi.org/project/gdown/
@@ -395,10 +396,10 @@ RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc && \
     echo "alias ll='ls -lah'" >> ~/.bashrc && \
     echo "alias ls='ls --color=auto'" >> ~/.bashrc
 
-#Establish the operating directory of OpenSSH
+# Establish the operating directory of OpenSSH
 RUN mkdir /var/run/sshd
 
-#Set Root password
+# Set Root password
 RUN echo 'root:root' | chpasswd
 
 # For remote connection (VS Code)
@@ -407,7 +408,7 @@ RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
     echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
     ssh-keygen -A
 
-#SSH login fix
+# SSH login fix
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
     pam_loginuid.so@g' -i /etc/pam.d/sshd
 
