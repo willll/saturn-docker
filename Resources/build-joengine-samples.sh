@@ -64,7 +64,7 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 	do
 		echo "BUILDING $sample"
 		cd "$SATURN_JOENGINE/Samples/$sample"
-		make
+		make $MAKEFLAGS
 	done
 
 else

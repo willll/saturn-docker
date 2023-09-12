@@ -13,12 +13,12 @@ if [ $INSTALL_YAUL_LIB -eq 1 ]; then
 	#
 	# build yaul in release
 	#
-  make install-release
+  make $MAKEFLAGS install-release
 
 	#
 	# Install yaul tools
 	#
-  make install-tools
+  make $MAKEFLAGS install-tools
 
 
 

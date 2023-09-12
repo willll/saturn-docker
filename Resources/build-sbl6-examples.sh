@@ -29,8 +29,8 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 	cmake -S $SATURN_TMP/examples/ -B $SATURN_TMP/examples/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL
-	make -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ VERBOSE=1 && \
-	 		make -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ install
+	make $MAKEFLAGS -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ VERBOSE=1 && \
+		make $MAKEFLAGS -f $SATURN_TMP/examples/bin/Makefile -C $SATURN_TMP/examples/bin/ install
 
 else
 	echo "$(tput setaf 1)No SBL examples will be built$(tput sgr 0)"

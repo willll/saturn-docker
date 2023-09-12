@@ -27,9 +27,9 @@ cmake -S $SATURN_TMP/tmp/ \
 			-B $SATURN_TMP/bin \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_CD
 
-make -f $SATURN_TMP/bin/Makefile \
+make $MAKEFLAGS -f $SATURN_TMP/bin/Makefile \
 			-C $SATURN_TMP/bin/ && \
-make -f $SATURN_TMP/bin/Makefile \
+make $MAKEFLAGS -f $SATURN_TMP/bin/Makefile \
 			-C $SATURN_TMP/bin/ install
 
 rm -rf "$SATURN_TMP/tmp"
