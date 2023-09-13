@@ -3,9 +3,8 @@ set -e
 
 build () {
 	echo "BUILDING $1"
-	cd $SATURN_YAUL/examples/$1
-	SILENT=1 make clean $MAKEFLAGS
-	SILENT=1 make $MAKEFLAGS
+	SILENT=1 make -C $1 clean $MAKEFLAGS
+	make -C $1 all $MAKEFLAGS
 }
 
 if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
@@ -32,7 +31,7 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						cpu-dual
 						cpu-frt
 						cpu-wdt
-						#dbgio-font
+						dbgio-font
 						dbgio-menu
 						dbgio-usb-cart
 						dma-queue
