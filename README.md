@@ -254,10 +254,10 @@ TODO
   - [ ] demo - hardcoded image
   - [X] demo - visual novel
 
-### Yaul (https://github.com/ijacquez/libyaul)
+### Yaul (https://github.com/yaul-org/libyaul)
 - [ ] Yaul
   - [X] Yaul Library
-  - [ ] Yaul Examples
+  - [ ] Yaul Examples (https://github.com/yaul-org/libyaul-examples)
     - [x] arp-comm << This example is disabled
     - [x] bcl
     - [x] c++

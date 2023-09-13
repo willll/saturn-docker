@@ -32,7 +32,7 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						cpu-dual
 						cpu-frt
 						cpu-wdt
-						dbgio-font
+						#dbgio-font
 						dbgio-menu
 						dbgio-usb-cart
 						dma-queue
