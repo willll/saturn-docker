@@ -10,9 +10,9 @@ fi
 #
 git clone https://github.com/willll/schily-tools.git "$SATURN_TMP/tmp"
 
-make $MAKEFLAGS -f $SATURN_TMP/tmp/Makefile -C $SATURN_TMP/tmp LINKMODE=static && \
-make $MAKEFLAGS -f $SATURN_TMP/tmp/Makefile -C $SATURN_TMP/tmp \
-      INS_BASE="$SATURN_CD" INS_RBASE="$SATURN_CD" install
+make -f $SATURN_TMP/tmp/Makefile -C $SATURN_TMP/tmp LINKMODE=static $MAKEFLAGS && \
+make -f $SATURN_TMP/tmp/Makefile -C $SATURN_TMP/tmp \
+      INS_BASE="$SATURN_CD" INS_RBASE="$SATURN_CD" install $MAKEFLAGS
 
 mv $SATURN_CD/bin/* $SATURN_CD && \
 rm -rf $SATURN_CD/{bin,ccs,etc,include,lib,sbin,share,xpg4}

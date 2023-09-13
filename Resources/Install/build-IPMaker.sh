@@ -19,10 +19,10 @@ mkdir -p $SATURN_TMP/bin
 cmake -S $SATURN_TMP/tmp/ \
 			-B $SATURN_TMP/bin \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_ROOT
-make $MAKEFLAGS -f $SATURN_TMP/bin/Makefile \
-			-C $SATURN_TMP/bin/ && \
-make $MAKEFLAGS -f $SATURN_TMP/bin/Makefile \
-			-C $SATURN_TMP/bin/ install
+make -f $SATURN_TMP/bin/Makefile \
+			-C $SATURN_TMP/bin/ $MAKEFLAGS && \
+make -f $SATURN_TMP/bin/Makefile \
+			-C $SATURN_TMP/bin/ install $MAKEFLAGS
 
 rm -rf "$SATURN_TMP/tmp"
 

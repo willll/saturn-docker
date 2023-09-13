@@ -30,8 +30,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	cmake -S $SATURN_TMP/sgl302/sample/ -B $SATURN_TMP/sgl302/sample/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$1
-	make $MAKEFLAGS -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ && \
-		make $MAKEFLAGS -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ install
+	make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ $MAKEFLAGS && \
+		make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ install $MAKEFLAGS
 
 	#
 	# build sample2

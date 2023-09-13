@@ -4,8 +4,8 @@ set -e
 build () {
 	echo "BUILDING $1"
 	cd $SATURN_YAUL/examples/$1
-	SILENT=1 make clean
-	SILENT=1 make
+	SILENT=1 make clean $MAKEFLAGS
+	SILENT=1 make $MAKEFLAGS
 }
 
 if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then

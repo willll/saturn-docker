@@ -15,8 +15,8 @@ git clone --depth 1 \
 # build satconv
 #
 
-make $MAKEFLAGS -f $SATURN_TMP/tmp/Makefile \
-		-C $SATURN_TMP/tmp/
+make -f $SATURN_TMP/tmp/Makefile \
+		-C $SATURN_TMP/tmp/ $MAKEFLAGS
 
 cp $SATURN_TMP/tmp/{satconv,readme.txt,license.txt} $SATURN_SATCONV
 
