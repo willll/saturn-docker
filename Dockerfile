@@ -406,7 +406,8 @@ RUN echo 'root:root' | chpasswd
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
     echo 'PermitEmptyPasswords yes' >> /etc/ssh/sshd_config && \
     echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
-    ssh-keygen -A
+    ssh-keygen -A && \
+    echo -e 'if [[ -n $SSH_CONNECTION ]] ; then\n /opt/saturn/common/set_env.sh \n fi\n' >> /etc/bash.bashrc
 
 # SSH login fix
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
