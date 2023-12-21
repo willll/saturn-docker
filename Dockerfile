@@ -236,6 +236,9 @@ COPY Resources/Common/* $SATURN_COMMON/
 # Install Files for ISO creation
 COPY Resources/CD $SATURN_CD
 
+# CMAKE variables
+ENV CMAKE_MODULE_PATH=${SATURN_CMAKE}
+
 #
 # LIBRARIES SETUP
 #
