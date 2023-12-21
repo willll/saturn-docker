@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.20)
 SET(CMAKE_SYSTEM_NAME Generic)
 
 set(SEGALIB_DESTINATION_LIB segalib/lib)
-
 set(SEGALIB_DESTINATION_FLD segalib/fld)
 
 project(segalib
@@ -22,7 +21,7 @@ cmake_path(NORMAL_PATH CMAKE_SOURCE_DIR OUTPUT_VARIABLE PROJECT_ROOT_NORMALIZED)
 
 add_compile_options(
   "$<$<COMPILE_LANGUAGE:C>:${c_flags}>"
-  "$<$<COMPILE_LANGUAGE:C>:-ffile-prefix-map=${PROJECT_ROOT_NORMALIZED}=./>"
+  "$<$<COMPILE_LANGUAGE:C>:-ffile-prefix-map=${PROJECT_ROOT_NORMALIZED}=./src/${SEGALIB_DESTINATION_LIB}>"
   "$<$<CONFIG:DEBUG>:-g>"
   "$<$<CONFIG:RELEASE>:-Os>"
 )

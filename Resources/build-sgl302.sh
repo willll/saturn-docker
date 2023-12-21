@@ -63,12 +63,6 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 		-exec sed -i 's/\o32//g' {} \;
 
 	#
-	# Inject Build System
-	#
-	#cp --verbose -rf $SATURN_TMP/sgl_/* $SATURN_TMP/sgl302/
-
-
-	#
 	# Copy to destination
 	#
 	cp -r $SATURN_TMP/sgl302/lib/* $1/lib
