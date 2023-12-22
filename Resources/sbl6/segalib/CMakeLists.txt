@@ -28,6 +28,7 @@ add_compile_options(
 
 add_subdirectory(bpl)
 add_subdirectory(cdc)
+add_subdirectory(clib)
 add_subdirectory(cmp)
 add_subdirectory(csh)
 add_subdirectory(csh_sgl)

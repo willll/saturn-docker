@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.12)
 
 set(SOURCES
   ${SATURN_COMMON}/crt0.s
-  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x1.c
-  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x2.c
-  ${PROJECT_SOURCE_DIR}/per/smpclib/per_x3.src
   spr2.c
   move.c
   disp.c
@@ -25,7 +22,7 @@ add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
 target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR}
-    ${PROJECT_SOURCE_DIR}/per/smpclib)
+    )
 
 target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags}>
                                                  $<$<COMPILE_LANGUAGE:ASM>:${as_flags}> )
@@ -42,6 +39,7 @@ target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_mth.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_spr.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_clib.a )
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
