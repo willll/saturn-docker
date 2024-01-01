@@ -21,6 +21,7 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	cp --verbose -rf $SATURN_TMP/sgl_/* $SATURN_TMP/sgl302/
 	cp -rv $SATURN_TMP/sgl302/sample/* $1/samples/sample1
 	cp -rv $SATURN_TMP/sgl302/sample2/* $1/samples/sample2
+	cp -rv $SATURN_TMP/sgl302/sample4/* $1/samples/sample4
 	cp -rv $SATURN_TMP/sgl302/demos/* $1/demos
 
 	#
@@ -42,6 +43,16 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 			-DCMAKE_INSTALL_PREFIX=$1
 	make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ && \
 	 		make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ install
+
+	#
+	# build sample4
+	#
+	mkdir -p ${SATURN_TMP}/sgl302/sample4/bin
+	cmake -S $SATURN_TMP/sgl302/sample4/ -B $SATURN_TMP/sgl302/sample4/bin/ \
+			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
+			-DCMAKE_INSTALL_PREFIX=$1
+	make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ && \
+	 		make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ install
 
 	#
 	# build demos

@@ -18,12 +18,32 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	    exit 1
 	fi
 
-	#curl -s -o nul -c ./cookie-file2 -s -L "https://drive.google.com/file/d/1CMDCnjfggL7PQRb-VLPrk0qtTesBgHtd/view?usp=sharing"& \
-	#curl -Lb ./cookie-file2 "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' \
-	#./cookie-file2`&id=1CMDCnjfggL7PQRb-VLPrk0qtTesBgHtd/" -o "$SATURN_TMP/libsgl_real_elf_from_vbt.zip"
+	#
+	# download extra samples from SGL 3.20
+	#
 
+	gdown 1zFb9g3x6AZfDvP1dW7PWIXkFqT-boWzl -O "$SATURN_TMP/sgl320_sample4.zip"
+
+	if [ ! -f "$SATURN_TMP/sgl320_sample4.zip" ]; then
+	    echo "$SATURN_TMP/sgl320_sample4.zip not downloaded."
+	    #exit 1
+	fi
+
+	#
+	# download extra shared code from SGL 3.20
+	#
+
+	gdown 1qFQZP7qu8I-rEXGxegeHAtgoLnNJ2jkh -O "$SATURN_TMP/sgl320_share.zip"
+
+	if [ ! -f "$SATURN_TMP/sgl320_share.zip" ]; then
+			echo "$SATURN_TMP/sgl320_share.zip not downloaded."
+			#exit 1
+	fi
+
+	#
+	# download SGL 3.02 patched version
+	#
 	gdown 1CMDCnjfggL7PQRb-VLPrk0qtTesBgHtd -O "$SATURN_TMP/libsgl_real_elf_from_vbt.zip"
-
 
 	if [ ! -f "$SATURN_TMP/libsgl_real_elf_from_vbt.zip" ]; then
 			echo "$SATURN_TMP/libsgl_real_elf_from_vbt.zip not downloaded."
@@ -35,16 +55,24 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	#
 	unzip $SATURN_TMP/sgl302.zip -d $SATURN_TMP
 
-	if [ -f "$SATURN_TMP/libsgl_real_elf_from_vbt.zip" ]; then
-		ls -lh "$SATURN_TMP/libsgl_real_elf_from_vbt.zip"
+	EXTRA_FILES="libsgl_real_elf_from_vbt.zip
+							sgl320_sample4.zip
+							sgl320_share.zip"
 
-		unzip "$SATURN_TMP/libsgl_real_elf_from_vbt.zip" -d $SATURN_TMP/sgl302
-		retVal=$?
-		if [ $retVal -ne 0 ]; then
-		    echo "unzip unzip $SATURN_TMP/libsgl_real_elf_from_vbt.zip failed !"
-				exit $retVal
+	for F in $EXTRA_FILES
+	do
+		if [ -f "$SATURN_TMP/$F" ]; then
+			ls -lh "$SATURN_TMP/$F"
+
+			unzip "$SATURN_TMP/$F" -d $SATURN_TMP/sgl302
+			retVal=$?
+			if [ $retVal -ne 0 ]; then
+					echo "unzip $SATURN_TMP/$F failed !"
+					exit $retVal
+			fi
 		fi
-	fi
+	done
+
 fi
 
 exit 0

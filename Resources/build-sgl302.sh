@@ -38,7 +38,7 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	#
 	# Create destination directories
 	#
-	mkdir -p $1/{common,lib,include,samples/{sample1,sample2},demos,doc,sddrv}
+	mkdir -p $1/{common,lib,include,samples/{sample1,sample2,sample4},demos,doc,sddrv,share}
 
 
 	#
@@ -69,9 +69,11 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	cp -r $SATURN_TMP/sgl302/inc/* $1/include
 	cp -r $SATURN_TMP/sgl302/sample/* $1/samples/sample1
 	cp -r $SATURN_TMP/sgl302/sample2/* $1/samples/sample2
+	cp -r $SATURN_TMP/sgl302/sample4/* $1/samples/sample4
 	cp -r $SATURN_TMP/sgl302/demos/* $1/demos
 	cp -r $SATURN_TMP/sgl302/doc/* $1/doc
 	cp -r $SATURN_TMP/sgl302/sddrv/* $1/sddrv
+	cp -r $SATURN_TMP/sgl302/share/* $1/share
 	cp -r $SATURN_TMP/sgl302/sample/common/* $1/common
 	cp -r $SATURN_TMP/sgl302/sample/scroll/ $1/demos/biplane
 
