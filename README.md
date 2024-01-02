@@ -138,6 +138,12 @@ TODO
   - [X] rotatebg
     - [X] coef
     - [X] linecol    
+  - [X] shadow    
+    - [X] msb
+    - [X] sprite
+  - [ ] sound    
+      - [ ] mapchg **(Black screen)**
+      - [ ] sndtest **(no sounds ?)**
   - [X] spccalc
     - [X] cel
     - [X] dot    
