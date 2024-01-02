@@ -117,19 +117,38 @@ TODO
   - [x] torus2
   - [x] torus3
 - [ ] SGL Samples from SGL 3.20
-  - [ ] bitmap  
-  - [ ] cdda
-  - [ ] coloff
-  - [ ] expccalc
-  - [ ] grad
-  - [ ] linecol
-  - [ ] linscl
+  - [X] bitmap  
+  - [X] cdda **(Missing tracks ?)**
+  - [X] coloff
+  - [X] expccalc
+  - [X] grad
+  - [X] linecol
+  - [X] linscl
   - [ ] pcm
-  - [ ] rotatebg
-  - [ ] spccalc
-  - [ ] spprio
-  - [ ] sprcc2bg
-  - [ ] window
+    - [ ] seamless
+      - [ ] all **(Error : Stream System open)**
+      - [ ] basic **(Error : Stream System open)**      
+      - [ ] ff **(Error : Stream System open)**     
+      - [ ] pause **(Error : Stream System open)**                 
+    - [ ] simple
+      - [ ] all **(Error : Stream System open)**
+      - [ ] gfs **(Error : Stream System open)**      
+      - [ ] mem **(Error : Stream System open)**     
+      - [ ] stm **(Error : Stream System open)**   
+  - [X] rotatebg
+    - [X] coef
+    - [X] linecol    
+  - [X] spccalc
+    - [X] cel
+    - [X] dot    
+  - [X] spprio
+    - [X] cel
+    - [X] dot    
+  - [X] sprcc2bg
+    - [X] apply
+    - [X] basic      
+  - [X] window
+    - [X] sprwin
 - [ ] SGL Demos
   - [ ] biplane **(Missing files in scroll folder)**
   - [ ] cdda_sgl **(Missing files in src folder)**

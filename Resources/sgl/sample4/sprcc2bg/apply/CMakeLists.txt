@@ -1,6 +1,8 @@
 set(SOURCES
   ${SEGASGL}/samples/sample2/common/cinit.c
-  ${SEGASGL}/share/sddrvs.c
+  ${SEGASGL}/share/scl_func.c
+  spr_data.c
+  scl_data.c
   main.c
   )
 
@@ -8,8 +10,8 @@ set(CD_FILES
       0.bin
     )
 
-set(TARGET_NAME pcm_seamless_all)
-set(TARGET_PATH pcm_seamless_all)
+set(TARGET_NAME sprcc2bg_apply)
+set(TARGET_PATH sprcc2bg_apply)
 
 add_compile_definitions(MODEL_S _SH)
 

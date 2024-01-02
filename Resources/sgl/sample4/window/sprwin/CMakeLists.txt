@@ -1,6 +1,8 @@
 set(SOURCES
   ${SEGASGL}/samples/sample2/common/cinit.c
-  ${SEGASGL}/share/sddrvs.c
+  ${SEGASGL}/share/scroll.c
+  scldata.c
+  sprdata.c
   main.c
   )
 
@@ -8,8 +10,8 @@ set(CD_FILES
       0.bin
     )
 
-set(TARGET_NAME pcm_seamless_all)
-set(TARGET_PATH pcm_seamless_all)
+set(TARGET_NAME window_sprwin)
+set(TARGET_PATH window_sprwin)
 
 add_compile_definitions(MODEL_S _SH)
 

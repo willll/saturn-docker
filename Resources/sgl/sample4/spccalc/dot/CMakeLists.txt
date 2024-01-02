@@ -8,8 +8,8 @@ set(CD_FILES
       0.bin
     )
 
-set(TARGET_NAME pcm_seamless_all)
-set(TARGET_PATH pcm_seamless_all)
+set(TARGET_NAME spccalc_dot)
+set(TARGET_PATH spccalc_dot)
 
 add_compile_definitions(MODEL_S _SH)
 
