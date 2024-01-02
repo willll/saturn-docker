@@ -24,9 +24,21 @@ Change GCC version (default 8.4.0) :
 Examples :
  - docker build --build-arg GCC_VERSION_ARG=11.3.0 --build-arg INSTALL_SATURNSDK_SAMPLES=0 --build-arg INSTALL_JO_ENGINE_LIB=0 --build-arg INSTALL_JO_ENGINE_SAMPLES=0 --build-arg INSTALL_YAUL_LIB_ARG=0 --build-arg INSTALL_YAUL_SAMPLES=0 --build-arg INSTALL_SBL_LIB=1 --build-arg INSTALL_SBL_SAMPLES=0 --build-arg INSTALL_SBL_EXAMPLES=0 --build-arg INSTALL_SGL_LIB=0 --build-arg INSTALL_SGL_SAMPLES=0 -t saturn-docker . --file ./Dockerfile
 
+- docker build  --build-arg GCC_VERSION_ARG=12.3.0 \
+  --build-arg INSTALL_SATURNSDK_SAMPLES=1 \
+  --build-arg INSTALL_JO_ENGINE_LIB=1 \
+  --build-arg INSTALL_JO_ENGINE_SAMPLES=1 \
+  --build-arg INSTALL_YAUL_LIB_ARG=1 \
+  --build-arg INSTALL_YAUL_SAMPLES=1 \
+  --build-arg INSTALL_SBL_LIB=1 \
+  --build-arg INSTALL_SBL_SAMPLES=1 \
+  --build-arg INSTALL_SBL_EXAMPLES=1 \
+  --build-arg INSTALL_SGL_LIB=1 \
+  --build-arg INSTALL_SGL_SAMPLES=1 \
+  --build-arg MAKEFLAGS_ARG="-j 8" \
+  -t saturn-docker . --file ./Dockerfile
 
 Docker Hub :
-
 https://hub.docker.com/r/willll/saturn-docker/tags
 
 ## Content
@@ -117,7 +129,7 @@ TODO
   - [ ] spccalc
   - [ ] spprio
   - [ ] sprcc2bg
-  - [ ] window            
+  - [ ] window
 - [ ] SGL Demos
   - [ ] biplane **(Missing files in scroll folder)**
   - [ ] cdda_sgl **(Missing files in src folder)**
