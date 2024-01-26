@@ -11659,6 +11659,20 @@ diff -crBN --binary sbl6/segasmp/dual/slvsamp.c sbl6_patch/segasmp/dual/slvsamp.
       BKBank = 1 - BKBank; /* 1 -> 0; 0 -> 1 */
   }
 ! 
+diff -crBN --binary sbl6/segasmp/dual/spr_mtx3.h sbl6_patch/segasmp/dual/spr_mtx3.h
+*** sbl6/segasmp/dual/spr_mtx3.h	1996-02-08 05:28:28.000000000 -0500
+--- sbl6_patch/segasmp/dual/spr_mtx3.h	2024-01-20 19:56:24.000000000 -0500
+***************
+*** 9,14 ****
+--- 9,16 ----
+   *
+   *----------------------------------------------------------------------------
+   */
++  
++ #include "sega_spr.h"
+  
+  #define	PRODUCT(a, b)\
+  (MUL_FIXED((a).x, (b).x) + MUL_FIXED((a).y, (b).y) + MUL_FIXED((a).z, (b).z))
 diff -crBN --binary sbl6/segasmp/dual/spr_xpt.c sbl6_patch/segasmp/dual/spr_xpt.c
 *** sbl6/segasmp/dual/spr_xpt.c	1996-02-08 05:28:28.000000000 -0500
 --- sbl6_patch/segasmp/dual/spr_xpt.c	2022-09-24 10:01:54.000000000 -0400

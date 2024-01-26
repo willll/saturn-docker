@@ -7,10 +7,10 @@ set(SOURCES
   slvsamp.c
   slavesh.c
   spr_xpt.c
-  slv_mtx3.src
-  spr_mtx3.src
-  spr_fmat.src
   spr_sinc.src
+  spr_fmat.src
+  spr_mtx3.src
+  slv_mtx3.src
   )
 
 set(CD_FILES
