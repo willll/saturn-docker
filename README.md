@@ -65,6 +65,8 @@ TODO
 
 
 ### SGL 3.02
+
+[SGL 3.02](SGL_3.02/README.md)
 - [X] SGL **(patched)**
 - [ ] SGL Samples
   - [x] akira

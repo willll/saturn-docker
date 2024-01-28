@@ -11,15 +11,24 @@
 ![demo_a](./pics/demo_a.png)
 ### demo_b
 ![demo_b](./pics/demo_b.png)
-  - [x] demo_c
-  - [x] demo_d
-  - [x] demogun
-  - [x] design1
-  - [x] design2
-  - [x] design3
-  - [x] driving
-  - [x] driving2
-  - [x] fighting
+### demo_c
+![demo_c](./pics/demo_c.png)
+### demo_d
+![demo_d](./pics/demo_d.png)
+### demogun
+![demogun](./pics/demogun.png)
+### design1
+![design1](./pics/design1.png)
+### design2
+![design2](./pics/design2.png)
+### design3
+![design3](./pics/design3.png)
+### driving
+![driving](./pics/driving.png)
+### driving2
+![driving2](./pics/driving2.png)
+### fighting
+![fighting](./pics/fighting.png)
   - [x] s_2_2
   - [x] s_3_2
   - [x] s_4_2
@@ -110,7 +119,7 @@
 ### sprcc2bg
 #### apply
 ![sprcc2bg_apply](./pics/sprcc2bg_apply.png)  
-####basic     
+#### basic     
 ![sprcc2bg_basic](./pics/sprcc2bg_basic.png)   
 ### window
 #### sprwin
