@@ -74,39 +74,50 @@
 ### linscl
 ![linscl](./pics/linscl.png)  
 ### pcm
-    #### seamless
-      ##### all **(Error : Stream System open)**
-      ##### basic **(Error : Stream System open)**      
-      ##### ff **(Error : Stream System open)**     
-      ##### pause **(Error : Stream System open)**                 
-    #### simple
-      ##### all **(Error : Stream System open)**
-      ##### gfs **(Error : Stream System open)**      
-      ##### mem **(Error : Stream System open)**     
-      ##### stm **(Error : Stream System open)**   
+#### seamless
+##### all **(Error : Stream System open)**
+##### basic **(Error : Stream System open)**      
+##### ff **(Error : Stream System open)**     
+##### pause **(Error : Stream System open)**                 
+#### simple
+##### all **(Error : Stream System open)**
+##### gfs **(Error : Stream System open)**      
+##### mem **(Error : Stream System open)**     
+##### stm **(Error : Stream System open)**   
 ### rotatebg
-    #### coef
-![rotatebg_coef](./pics/rotatebg_coef.png) 
-    #### linecol    
+#### coef
+![rotatebg_coef](./pics/rotatebg_coef.png)
+#### linecol    
 ![rotatebg_linecol](./pics/rotatebg_linecol.png)  
-  - [X] shadow    
-    - [X] msb
-    - [X] sprite
-  - [ ] sound    
-      - [ ] mapchg **(Black screen)**
-      - [ ] sndtest **(no sounds ?)**
-  - [X] spccalc
-    - [X] cel
-    - [X] dot    
-  - [X] spprio
-    - [X] cel
-    - [X] dot    
-  - [X] sprcc2bg
-    - [X] apply
-    - [X] basic      
-  - [X] window
-    - [X] sprwin
-- [ ] SGL Demos
+### shadow    
+#### msb
+![shadow_msb](./pics/shadow_msb.png)  
+#### sprite
+![shadow_sprite](./pics/shadow_sprite.png)  
+### sound    
+#### mapchg **(Black screen)**
+#### sndtest **(no sounds ?)**
+### spccalc
+#### cel
+![spccalc_cel](./pics/spccalc_cel.png)  
+#### dot  
+![spccalc_dot](./pics/spccalc_dot.png)  
+### spprio
+#### cel
+![spprio_cel](./pics/spprio_cel.png)  
+#### dot    
+![spprio_dot](./pics/spprio_dot.png)  
+### sprcc2bg
+#### apply
+![sprcc2bg_apply](./pics/sprcc2bg_apply.png)  
+####basic     
+![sprcc2bg_basic](./pics/sprcc2bg_basic.png)   
+### window
+#### sprwin
+![window_sprwin](./pics/window_sprwin.png)  
+
+## SGL Demos
+
   - [ ] biplane **(Missing files in scroll folder)**
   - [ ] cdda_sgl **(Missing files in src folder)**
   - [x] chrome
