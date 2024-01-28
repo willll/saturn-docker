@@ -1,0 +1,387 @@
+
+
+About bitmap graphics functions
+slInitBitMap -- Function
+slInitBitMapNbg0 -- Macro
+slInitBitMapNbg1 -- Macro
+slInitBitMapRbg0 -- Macro
+    slInitBitMap - declaration and initialization of bitmap graphics usage.
+[Format]
+    #include "sgl.h"
+
+    Uint16 mode;
+    Uint16 size;
+    void *addr_A;
+
+    Bool slInitBitMap( mode, size, addr_A );
+    Bool slInitBitMapNbg0( size, addr_A );
+    Bool slInitBitMapNbg1( size, addr_A );
+    Bool slInitBitMapRbg0( size, addr_A );
+【argument】
+    Uint16 mode - Screen to draw (described later).
+    Uint16 size - Screen size (described later).
+    void *addr_A - Start (absolute) address of VRAM used as bitmap (described below).
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Sets the bitmap screen in 256 color mode.
+    Screen clearing will not be performed.
+    In mode,
+      bmNBG0, bmNBG1, bmRBG0
+    any of
+    For size,
+      BM_512x256, BM_512x512, BM_1024x256, BM_1024x512
+    Specify one of the following.
+    addr_A must be a 20000H boundary.
+    In this function, slBitMapNbg0, slBitMapNbg1,
+    slBitMapRbg0 is executed.
+    The center position of the screen is set as the origin.
+[Example]
+    slInitSystem( TV_320x224, NULL, 1 );
+    slInitBitMap( bmNBG1, BM_512x256, ( void * )0x25e00000 );
+
+    slScrAutoDisp( NBG0ON| NBG1ON| NBG2OFF| NBG3OFF);
+【reference】
+    slBitMapNbg0, slBitMapNbg1, slBitMapRbg0
+
+
+slBitMapBase -- Function
+    slBitMapBase - Setting the center point of bitmap graphics.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_x;
+    Sint16 pos_y;
+
+    void slBitMapBase( pos_x, pos_y );
+【argument】
+    Sint16 pos_x - X coordinate of the bitmap screen origin.
+    Sint16 pos_y - Y coordinate of the origin of the bitmap screen.
+[Return number]
+    void - returns nothing.
+【function】
+    Set the origin position of the bitmap screen.
+    Specify the top left of the screen as (0,0).
+[Example]
+    Set the center coordinates to the center and bottom of the screen.
+    slInitSystem( TV_320x224, NULL, 1 );
+    slInitBitMap( bmNBG1, BM_512x256, ( void * )0x25e00000 );
+    slBitMapBase( 160, 224 );
+【reference】
+    slInitBitMap
+
+
+slLocateBitMap -- Function
+    slLocateBitMap - Coordinate address conversion
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_x;
+    Sint16 pos_y;
+
+    Sint8 *slLocateBitMap( pos_x, pos_y );
+【argument】
+    Sint16 pos_x - X coordinate of the position for which you want the address.
+    Sint16 pos_y - Y coordinate of the position you want to find the address for.
+[Return number]
+    Sint8* - VRAM (absolute) address of the specified location.
+【function】
+    Returns the VRAM address of the specified location.
+    Returns NULL if it is off-screen.
+[Example]
+    Block transfer data to the address obtained with slLocateBitMap.
+    addr = slLocateBitMap( 10, 10 );
+    slDMACopy( addr, dest, size );
+【reference】
+    slClearBitMap -- Function
+    slClearBitMap - Clear bitmap graphics surface.
+[Format]
+    #include "sgl.h"
+
+    Sint8 col;
+
+    void slClearBitMap( col );
+【argument】
+    Sint8 col - Palette number.
+[Return number]
+    void - returns nothing.
+【function】
+    Clears the bitmap screen with the specified color.
+[Example]
+    slClearBitMap( 6 );
+【reference】
+    slBMPset -- Function
+    slBMPset - Puts a dot on a bitmap graphics surface.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_x;
+    Sint16 pos_y;
+    Sint8 col;
+
+    Bool slBMPset( pos_x, pos_y, col );
+【argument】
+    Sint16 pos_x - X coordinate of the position you want to draw.
+    Sint16 pos_y - Y coordinate of the position you want to draw.
+    Sint8 col;
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Draws a point at the specified location.
+    Returns FALSE if it is off-screen.
+[Example]
+    Point a dot at (10,10).
+    if ( slBMPset( 10, 10, 3 ) == FALSE ) {
+      slPrint( "Error occurred.", slLocate( 9, 2 ) );
+    }
+【reference】
+    slBMPoint, slBMCircle, slBMLine, slBMBox
+    slBMBoxFill
+
+
+slBMPoint -- Function
+    slBMPoint - Get the palette value of a bitmap coordinate.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_x;
+    Sint16 pos_y;
+
+    Sint8 slBMPoint( pos_x, pos_y );
+【argument】
+    Sint16 pos_x - X coordinate of the position for which you want to know the palette code.
+    Sint16 pos_y - Y coordinate of the position for which you want to know the palette code.
+[Return number]
+    Sint8 palette code
+【function】
+    Reads the point at the specified position and returns the palette code.
+    If it is off-screen, 0 is returned.
+[Example]
+    Know the RGB code of dot (10,5).
+    rgb = *( Uint16 * )( 0x25f00000 + slBMPoint( 10, 5 ) );
+【reference】
+    slBMPoint, slBMCircle, slBMBox, slBMBoxFill
+    slBMPset
+
+
+slBMCircle -- Function
+    slBMCircle - Draw a circle on a bitmap graphic surface.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_x;
+    Sint16 pos_y;
+    Sint16 size;
+    Sint8 col;
+
+    void slBMCircle( pos_x, pos_y, size, col );
+【argument】
+    Sint16 pos_x - X coordinate of the position you want to display.
+    Sint16 pos_y - Y coordinate of the position you want to display.
+    Sint16 size - radius of the circle.
+    Sint8 col - Palette code of the color you want to display.
+[Return number]
+    void - returns nothing.
+【function】
+    Draws a circle centered at the specified location.
+[Example]
+    Draw a circle with radius 20 centered at the origin.
+    slBMCircle( 0, 0, 20, 120 );
+【reference】
+    slBMPoint, slBMPset, slBMLine, slBMBox
+    slBMBoxFill
+
+
+slBMLine -- Function
+    slBMLine - Draws a line on a bitmap graphics surface.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_s_x;
+    Sint16 pos_s_y;
+    Sint16 pos_e_x;
+    Sint16 pos_e_y;
+    Sint8 col;
+
+    Bool slBMLine( pos_s_x, pos_s_y, pos_e_x, pos_e_y, col );
+【argument】
+    Sint16 pos_s_x - X coordinate of the starting point of the line.
+    Sint16 pos_s_y - Y coordinate of the starting point of the line.
+    Sint16 pos_e_x - X coordinate of the end point of the line.
+    Sint16 pos_e_y - Y coordinate of the end point of the line
+    Sint8 col - Palette code.
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Draws a straight line connecting two specified points.
+    Returns FALSE if it is off-screen.
+[Example]
+    Draw a line starting at (10,54) and ending at (-3,35).
+    slBMLine( 10, 54, -3, 35 );
+【reference】
+    slBMPoint, slBMCircle, slBMPset, slBMBox
+    slBMBoxFill
+
+
+slBMBox -- Function
+    slBMBox - Draws a rectangle on a bitmap graphics surface.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_s_x;
+    Sint16 pos_s_y;
+    Sint16 pos_e_x;
+    Sint16 pos_e_y;
+    Sint8 col;
+
+    Bool slBMBox( pos_s_x, pos_s_y, pos_e_x, pos_e_y, col );
+【argument】
+    Sint16 pos_s_x - X coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_s_y - Y coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_e_x - X coordinate of the lower right point of the rectangle to draw.
+    Sint16 pos_e_y - Y coordinate of the lower right point of the rectangle to draw.
+    Sint8 col - Palette code for the color to draw.
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Draws a rectangle with two vertices at the specified points.
+    Returns FALSE if it is off-screen.
+[Example]
+    Draw a rectangle with top left (120,35) and bottom right (47,100).
+    slBMBox( 120, 35, 47, 100, 1 );
+【reference】
+    slBMPoint, slBMCircle, slBMLine, slBMPset
+    slBMBox
+
+
+slBMBoxFill -- Function
+    slBMBoxFill - Draws a rectangle on a bitmap graphics surface and fills it.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_s_x;
+    Sint16 pos_s_y;
+    Sint16 pos_e_x;
+    Sint16 pos_e_y;
+    Sint8 col;
+
+    Bool slBMBoxFill( pos_s_x, pos_s_y, pos_e_x, pos_e_y, col );
+【argument】
+    Sint16 pos_s_x - X coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_s_y - Y coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_e_x - X coordinate of the lower right point of the rectangle to draw.
+    Sint16 pos_e_y - Y coordinate of the lower right point of the rectangle to draw.
+    Sint8 col - Palette code for the color to draw.
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Draws a rectangle with two vertices at the specified points.
+    Also draw the inside of the rectangle.
+    Returns FALSE if it is off-screen.
+[Example]
+    Draw a rectangle with the upper left (120,35) and lower right (47,100) and fill it in.
+    slBMBoxFill( 120, 35, 47, 100, 1 );
+【reference】
+    slBMPoint, slBMCircle, slBMLine, slBMPset
+    slBMBox
+
+
+slBMGet -- Function
+    slBMGet - Get bitmap data of a rectangular area.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_s_x;
+    Sint16 pos_s_y;
+    Sint16 pos_e_x;
+    Sint16 pos_e_y;
+    Sint8 addr_A;
+
+    Bool slBMGet( pos_s_x, pos_s_y, pos_e_x, pos_e_y, addr_A );
+【argument】
+    Sint16 pos_s_x - X coordinate of the top left point of the rectangle to retrieve.
+    Sint16 pos_s_y - Y coordinate of the top left point of the rectangle to retrieve.
+    Sint16 pos_e_x - X coordinate of the lower right point of the rectangle to retrieve.
+    Sint16 pos_e_y - Y coordinate of the lower right point of the rectangle to retrieve.
+    Sint8 addr_A - Address of the buffer that will hold the area's data.
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Copy the bitmap data in a rectangle with two vertices at the specified point to the buffer
+    To do. If part of the rectangle is outside the screen, that part's data will be copied.
+    It will not be.
+    Returns FALSE if the entire rectangle is off-screen.
+[Example]
+    Store the inside of the rectangle with upper left (20,20) and lower right (30,50) as a buffer.
+    Uint8 buffer[ 10 * 30 ];
+    slBMGet( 20, 20, 30, 50, buffer );
+【reference】
+    slBMPut, slBMSprPut
+
+
+slBMPut -- Function
+    slBMPut - Transfer data to a rectangular area in a bitmap graphics surface.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_s_x;
+    Sint16 pos_s_y;
+    Sint16 pos_e_x;
+    Sint16 pos_e_y;
+    Sint8 *addr_A;
+
+    Bool slBMPut( pos_s_x, pos_s_y, pos_e_x, pos_e_y, addr_A );
+【argument】
+    Sint16 pos_s_x - X coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_s_y - Y coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_e_x - X coordinate of the lower right point of the rectangle to draw.
+    Sint16 pos_e_y - Y coordinate of the lower right point of the rectangle to draw.
+    Sint8 *addr_A - Address where the original data is located.
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Copy the bitmap data of the buffer into a rectangle with two vertices at the specified points.
+    To do. If part of the rectangle is outside the screen, that part's data will be copied.
+    It will not be.
+    Returns FALSE if the entire rectangle is off-screen.
+[Example]
+    Uint8 buffer[ 50 * 50 ];
+
+    slDMACopy( buffer, dest, 50 * 50 );
+    slBMPut( 34, 56, 84, 106, buffer );
+【reference】
+    slBMGet, slBMSprPut
+
+
+slBMSprPut -- Function
+    slBMSprPut - Transfer data to a rectangular area in a bitmap graphics surface.
+[Format]
+    #include "sgl.h"
+
+    Sint16 pos_s_x;
+    Sint16 pos_s_y;
+    Sint16 pos_e_x;
+    Sint16 pos_e_y;
+    Sint8 *addr_A;
+
+    Bool slBMSprPut( pos_s_x, pos_s_y, pos_e_x, pos_e_y, addr_A );
+【argument】
+    Sint16 pos_s_x - X coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_s_y - Y coordinate of the upper left point of the rectangle to draw.
+    Sint16 pos_e_x - X coordinate of the lower right point of the rectangle to draw.
+    Sint16 pos_e_y - Y coordinate of the lower right point of the rectangle to draw.
+    Sint8 *addr_A - Address where the original data is located.
+[Return number]
+    Bool - Error code (described below).
+【function】
+    Copy the bitmap data of the buffer into a rectangle with two vertices at the specified points.
+    To do. However, the space part (palette code 0) is not copied.
+    If part of the rectangle is off-screen, the data in that part will not be copied.
+    Returns FALSE if the entire rectangle is off-screen.
+[Example]
+    Uint8 buffer[ 50 * 50 ];
+
+    slDMACopy( buffer, dest, 50 * 50 );
+    slBMPut( 34, 56, 84, 106, buffer );
+【reference】
+    slBMGet, slBMPut

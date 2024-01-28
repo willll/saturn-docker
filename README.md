@@ -64,9 +64,8 @@ TODO
 - [x] satcon : Sega Saturn image convertor https://git.sr.ht/~ndiddy/satconv/
 
 
-### SGL 3.02
+### [SGL 3.02](SGL_3.02/README.md)
 
-[SGL 3.02](SGL_3.02/README.md)
 - [X] SGL **(patched)**
 - [ ] SGL Samples
   - [x] akira

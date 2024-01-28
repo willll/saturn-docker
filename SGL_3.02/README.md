@@ -29,7 +29,8 @@
 ![driving2](./pics/driving2.png)
 ### fighting
 ![fighting](./pics/fighting.png)
-  - [x] s_2_2
+### s_2_2
+![s_2_2](./pics/s_2_2.png)
   - [x] s_3_2
   - [x] s_4_2
   - [x] s_4_3_1
