@@ -1,0 +1,737 @@
+
+
+★TV screen output
+slTVOn -- Function
+    slTVOn - Start output to monitor.
+[Format]
+    #include "sgl.h"
+
+    void slTVOn();
+【argument】
+    void - gives nothing.
+[Return number]
+    void - returns nothing.
+【function】
+    Starts output to the monitor.
+[Example]
+    Resumes output to the monitor that was stopped with slTVOff.
+    slTVOff();
+       :
+    slTVOn();
+【Note】
+    When this function is executed, it is immediately set in the VDP2 register.
+【reference】
+    slTVOff, VDP2_TVMD
+
+
+slTVOff -- Function
+    slTVOff - Stop output to monitor.
+[Format]
+    #include "sgl.h"
+
+    void slTVOff();
+【argument】
+    void - gives nothing.
+[Return number]
+    void - returns nothing.
+【function】
+    Stops output to the monitor.
+    Nothing will be displayed on the monitor.
+[Example]
+    Stops output to the monitor.
+     slTVOff();
+【Note】
+    When this function is executed, it is immediately set in the VDP2 register.
+    There are some cases where troubles occur when using this function before executing slInitSystem.
+    It has been reported. This function can be executed only when slInitSystem is executed.
+    Only later.
+【reference】
+    slTVOn, VDP2_TVMD
+
+
+★External signal and screen scanning
+slGetHCount -- Function
+    slGetHCount - Read the H counter of VDP2.
+[Format]
+    #include "sgl.h"
+
+    Uint16 slGetHCount( void );
+【argument】
+    void - gives nothing.
+[Return number]
+    Uint16 - VDP2 H counter value
+【function】
+    Read the H counter of VDP2.
+[Example]
+    h_cnt = slGetHCount();
+【reference】
+    slGetVCount, VDP2_EXTEN, VDP2_HCNT
+
+
+slGetVCount -- Function
+    slGetVCount - Read VDP2's V counter.
+[Format]
+    #include "sgl.h"
+
+    Uint16 slGetVCount( void );
+【argument】
+    void - gives nothing.
+[Return number]
+    Uint16 - V counter value of VDP2
+【function】
+    Read the V counter of VDP2.
+[Example]
+    v_cnt = slGetVCount();
+【reference】
+    slGetHCount, VDP2_EXTEN, VDP2_VCNT
+
+
+slExtSignal -- Function
+    slExtSignal - Manipulate external signal enable register.
+[Format]
+    #include "sgl.h"
+
+    Uint16 signal;
+    Uint16 mask;
+
+    void slExtSignal( signal, mask );
+【argument】
+    Uint16 signal - the name of the signal you want to set.
+    Uint16 mask - the name of the signal you want to manipulate.
+[Return number]
+    void - returns nothing.
+【function】
+    Manipulate the external signal enable register.
+    There are four signal names:
+    EXLTEN: When adjusting the timing to latch the HV counter value to an external signal.
+             Specify.
+    EXSYEN: Specify this when displaying the TV screen in accordance with an external synchronization signal.
+    DASEL: Specify when using the image display area to fill the standard area.
+    EXBGEN: Specify when inputting external screen data.
+[Example]
+    slExtSignal( EXLTEN| DASEL, DASEL);
+【Note】
+    This function is used for commercial purposes such as ST-V and karaoke machines (Prologue).
+    It is never used by SATURN.
+【reference】
+    VDP2_EXTEN
+
+
+★Bitmap screen
+slBitMapNbg0 -- Function
+slBitMapNbg1 -- Function
+slBitMapRbg0 -- Function
+    slBitMapNbg0, slBitMapNbg1, slBitMapRbg0
+                    - Scroll bitmap screen settings.
+[Format]
+    #include "sgl.h"
+
+    Uint16 type;
+    Uint16 size;
+    void *addr_A;
+
+    void slBitMapNbg0( type, size, addr_A );
+    void slBitMapNbg1( type, size, addr_A );
+    void slBitMapRbg0( type, size, addr_A );
+【argument】
+    Uint16 type - color mode.
+    Uint16 size - Bitmap size.
+    void *addr_A - V-RAM address to set bitmap data.
+[Return number]
+    void - returns nothing.
+【function】
+    Set the NBG0/1 screen to bitmap mode and set the bitmap size.
+    Specify the following parameters for type.
+        COL_TYPE_16, COL_TYPE_256, COL_TYPE_2048, COL_TYPE_32768
+        COL_TYPE_1M
+    Specify the following parameters for size.
+        BM_512x256, BM_512x512, BM_1024x256, BM_1024x512
+    Set the V-RAM address where the bitmap data will be set in addr_A.
+    This must be an address on the 0x20000 boundary.
+[Example]
+    slBitMapNbg0( COL_TYPE_256, BM_1024x256, ( void * )( 0x25e40000 ) );
+【reference】
+    slBMPaletteNbg0, slBMPaletteNbg1, slBMPaletteRbg0, VDP2_CHCTLA
+    VDP2_CHCTLB, VDP2_MPOFN, VDP2_MPOFR, nbg0_page_adr
+    nbg1_page_adr, ra_page_adr
+
+
+slBMPaletteNbg0 -- Function
+slBMPaletteNbg1 -- Macro
+slBMPaletteRbg0 -- Macro
+    slBMPaletteNbg0, slBMPaletteNbg1, slBMPaletteRbg0
+                           - Define palette number for bitmap screen.
+[Format]
+    #include "sgl.h"
+
+    Uint16 num;
+
+    void slBMPaletteNbg0( num );
+    void slBMPaletteNbg1( num );
+    void slBMPaletteRbg0( num );
+【argument】
+    Uint16 num - Palette number when displaying a bitmap screen.
+[Return number]
+    void - returns nothing.
+【function】
+    Set the palette number when displaying the bitmap screen.
+[Example]
+    Uses a palette starting with 0x25f00200 in 16Bit color mode.
+    slBMPaletteNbg1( 1 );
+【reference】
+    slBitMapNbg0, slBitMapNbg1, slBitMapRbg0, VDP2_BMPNA
+    ★Sprite
+slSpriteWinMode -- Function
+    slSpriteWinMode - Specifies whether the sprite window is enabled or disabled.
+[Format]
+    #include "sgl.h"
+
+    Uint16 flag;
+
+    void slSpriteWinMode( flag );
+【argument】
+    Uint16 flag - Flag parameter that specifies whether the sprite window is enabled or disabled.
+[Return number]
+    void - returns nothing.
+【function】
+    Specify whether to enable or disable the sprite window.
+    The flag contains
+        ON: Sprite window enabled
+        OFF: Sprite window disabled
+    is entered.
+[Example]
+    Display the NBG2 screen only inside the sprite window.
+    /* Set the sprite's color mode to palette-only mode. */
+    slSpriteColMode(SPR_PAL);
+    /* Declare the use of sprite window. */
+    slSpriteWinMode( ON );
+    /* Display NBG2 inside the sprite window. */
+    slScrWindowModeNbg2( spw_IN);
+【Note】
+    When using the sprite window, the sprite color mode is set to RGB palette.
+    It cannot be used in mixed mode, so use slSpriteWinMode.
+    Please use it in palette mode.
+【reference】
+    slSpriteColMode, slScrWindowMode, slScrWindowModeNbg0, slScrWindowModeNbg1
+    slScrWindowModeNbg2, slScrWindowModeNbg3, slScrWindowModeRbg0, slScrWindowModeSPR
+    slScrWindowModeROT, slScrWindowModeCCAL, slSpriteType, VDP2_SPCTL
+    slSpriteCCalcCond -- Function
+    slSpriteCCalcCond - Specifies sprite color calculation conditions.
+[Format]
+    #include "sgl.h"
+
+    Uint16 cond;
+
+    void slSpriteCCalcCond( cond );
+【argument】
+    Uint16 cond - Sprite color calculation condition.
+[Return number]
+    void - returns nothing.
+【function】
+    Specify sprite color calculation conditions.
+    Specify the following parameters for cond.
+      CC_pr_CN: When the priority is the same as or smaller than the color calculation condition number
+                 Performs color calculations. (Priority <= ConditionNumber)
+      CC_PR_CN: Color operation is performed when the priority is the same as the color operation condition number.
+                 I'll do the math. (Priority == ConditionNumber)
+      CC_PR_cn: When the priority is the same as or greater than the color calculation condition number
+                 Performs color calculations. (Priority >= ConditionNumber)
+      CC_MSB: Perform color calculations when the most significant bit of color data is 1.
+[Example]
+    Specify a sprite as sprite type 5 and set its priority number to 6.
+    do.
+    Next, only the sprites that match the color calculation number and priority number,
+    Specifies to perform color calculations with NBG0.
+    SPR_ATTRattr = SPR_ATTRIBUTE[macro]( 0, 0x100 | ( 6 << 12 ) | ( 1 << 11 ),
+    /* ^^^^^^^ ^^^^^^^*/
+    /* Priority number 6 color calculation ratio bit */
+                                  No_Gouraud, CL256Bnk, sprNoflip | _ZmCC );
+                                 :
+    /* Set any sprite parameters. */
+    slSpriteType( 5 );
+    slPrioritySpr4( 6 );
+    slSpriteCCalcCond( CC_PR_CN);
+    slSpriteCCalcNum( 6 );
+
+    /* Set and Color calculation parameter. */
+    slColorCalc( CC_RATE| CC_2ND| NBG0ON| SPRON);
+    slColRateNbg0( CLRate20_12);
+                                 :
+    /* Display sprite. */
+    slPutSprite( &attr, pos, DEGtoANG( 90.0 ) );
+【reference】
+    slSpriteType, slSpriteCCalcCond, slSpriteCCalcNum, slColorCalc
+    slColorCalcOn, slColorCalcMode, slColRateSpr0, slColRateSpr1
+    slColRateSpr2, slColRateSpr3, slColRateSpr4, slColRateSpr5
+    slColRateSpr6, slColRateSpr7, slColRate, slPrioritySpr0
+    slPrioritySpr1, slPrioritySpr2, slPrioritySpr3, slPrioritySpr4
+    slPrioritySpr5, slPrioritySpr6, slPrioritySpr7, VDP2_SPCTL
+    slSpriteCCalcNum -- Function
+    slSpriteCCalcNum - Specify sprite color calculation condition number.
+[Format]
+    #include "sgl.h"
+
+    Uint16 num;
+
+    void slSpriteCCalcNum( num );
+【argument】
+    Uint16 num - Sprite color calculation condition number.
+[Return number]
+    void - returns nothing.
+【function】
+    Specify the sprite color calculation condition number.
+    Specify num in the range 0 to 7.
+[Example]
+    slSpriteCCalcCond( CC_PR_cn);
+    slSpriteCCalcNum( 2 );
+【reference】
+    slSpriteType, slSpriteCCalcCond, slSpriteCCalcCond, slColorCalc
+    slColorCalcOn, slColorCalcMode, slColRateSpr0, slColRateSpr1
+    slColRateSpr2, slColRateSpr3, slColRateSpr4, slColRateSpr5
+    slColRateSpr6, slColRateSpr7, slColRate, slPrioritySpr0
+    slPrioritySpr1, slPrioritySpr2, slPrioritySpr3, slPrioritySpr4
+    slPrioritySpr5, slPrioritySpr6, slPrioritySpr7, VDP2_SPCTL
+    slSpriteColMode -- Function
+    slSpriteColMode - Specifies the color mode of the sprite.
+[Format]
+    #include "sgl.h"
+
+    Uint16 mode;
+
+    void slSpriteColMode( mode );
+【argument】
+    Uint16 mode - sprite color mode
+[Return number]
+    void - returns nothing.
+【function】
+    Specifies the color mode of the sprite.
+     In mode
+       SPR_PAL, SPR_PAL_RGB
+     Specify one of the following.
+       SPR_PAL: When sprite data is only in palette data format
+                     Specify.
+       SPR_PAL_RGB: When sprite data is a mixture of palette format and RGB format
+                     Specify.
+[Example]
+    Set the sprite's color mode to palette mode.
+    slSpriteColMode(SPR_PAL)
+【reference】
+    slInitSystem, slSetSprTVMode, slSpriteWinMode, VDP2_SPCTL
+    slSpriteType -- Function
+    slSpriteType - Sprite type specification.
+[Format]
+    #include "sgl.h"
+
+    Uint16 type;
+
+    void slSpriteType( type );
+【argument】
+    Uint16 type - sprite data type
+[Return number]
+    void - returns nothing.
+【function】
+    Specify the type of sprite data.
+    Specify type from 0 to 15.
+    0 to 7 for low resolution (320 or 352), 8 to 15 for high resolution (640 or 704)
+    Become.
+[Example]
+    Set sprite type to 2.
+    slSpriteType( 2 );
+【Note】
+    The default value for sprite type in SGL is type 3. (When setting to high resolution,
+    It will be type B. )
+【reference】
+    slDispSprite, slSetSprite, slPutSprite, slDispSpriteHV
+    slDispSpriteSZ, slDispSprite4P, slSpriteWinMode, VDP2_SPCTL
+    ★Mosaic
+slScrMosaicOn -- Function
+    slScrMosaicOn - Specifies the scroll surface to be mosaiced.
+[Format]
+    #include "sgl.h"
+
+    Uint16 mode;
+
+    void slScrMosaicOn( mode );
+【argument】
+    Uint16 mode - Scroll surface to be mosaiced
+[Return number]
+    void - returns nothing.
+【function】
+    Specifies the scroll surface to be mosaiced.
+    In mode,
+    NBG0ON, NBG1ON, NBG2ON, NBG3ON, RBG0ON, LNCLON, SPRON [constscl]
+    is entered.
+[Example]
+    slScrMosaicOn( NBG2ON| NBG3ON);
+【reference】
+    slScrMosSize, VDP2_MZCTL
+
+
+slScrMosSize -- Function
+    slScrMosSize - Specify the size of the mosaic operation
+[Format]
+    #include "sgl.h"
+
+    Uint16 h_size, v_size;
+
+    void slScrMosSize( h_size, v_size );
+【argument】
+    Uint16 h_size - Horizontal size.
+    Uint16 v_size - Vertical size.
+[Return number]
+    void - returns nothing.
+【function】
+    Specify the size for mosaic processing.
+    The size that can be specified is 1 to 16 dots both horizontally and vertically.
+[Example]
+    slScrMosSize( 4, 6 );
+【Note】
+    If double-dense interlacing is used, the actual
+    The display size is in units of 2 dots in the V direction.
+    (v_size is doubled internally.)
+【reference】
+    slScrMosaicOn, Resolution, VDP2_MZCTL
+
+
+★Window
+slScrWindow0 -- Function
+slScrWindow1 -- Function
+    slScrWindow0, slScrWindow1 - Setting the rectangular window area.
+[Format]
+    #include "sgl.h"
+
+    Uint16 left, top, right, bottom;
+
+    void slScrWindow0( left, top, right, bottom );
+    void slScrWindow1( left, top, right, bottom );
+【argument】
+    Uint16 left - coordinates of the right corner
+    Uint16 top - top coordinate
+    Uint16 right - left corner coordinates
+    Uint16 bottom - bottom coordinate
+[Return number]
+    void - returns nothing.
+【function】
+    Set the area of ​​rectangular scroll window 0/1.
+    If a line window is specified, the line window is disabled.
+[Example]
+    slScrWindow1( 50, 50, 180, 150 );
+【reference】
+    slSpriteWinMode, slScrLineWindow0, slScrLineWindow1, slScrWindowMode
+    slScrWindowModeNbg0, slScrWindowModeNbg1, slScrWindowModeNbg2, slScrWindowModeNbg3
+    slScrWindowModeRbg0, slScrWindowModeSPR, slScrWindowModeROT, slScrWindowModeCCAL
+    VDP2_TVMD, VDP2_WPSX0, VDP2_WPEX0, VDP2_WPSX1
+    VDP2_WPEX1, VDP2_LWTA0, VDP2_LWTA1
+
+
+slScrLineWindow0 -- Function
+slScrLineWindow1 -- Function
+    slScrLineWindow0, slScrLineWindow1 - Line window table settings.
+[Format]
+    #include "sgl.h"
+
+    void *addr_A;
+
+    void slScrLineWindow0( addr_A );
+    void slScrLineWindow1( addr_A );
+【argument】
+    void *addr_A - address of line window data table
+[Return number]
+    void - returns nothing.
+【function】
+    Specify the address of line window data table 0/1.
+    When using a line window, set the most significant bit to 1.
+    Specify NULL if not used.
+[Example]
+    ・When using the line window
+    Address = 0x25E3F00
+    slScrLineWindow0( ( void * )( 0x25E3F000 | 0x80000000) );
+
+    ・If the address is held as a pointer variable
+    Sint16 *lnptr;
+    lnptr = ( Sint16 * )0x25e3f000 ;
+    slScrLineWindow1( ( void * )( lnptr + 0x40000000 ) );
+    (Because the value to be added is doubled by <sizeof( Sint16 )>)
+
+    ・When you no longer use the line window
+    slScrLineWindow0( ( void * )NULL);
+【Note】
+    Even if you set a line window, the data in the rectangular window remains valid.
+    (hardware specifications), so both areas are within the range of window 0.
+    Become.
+    If you want to invalidate the data in a rectangular window, click the top and bottom of the window and
+    Please set data that has inconsistent left and right positional relationships.
+    example)
+      slScrWindow0( 10, 0, 0, 10 ); /* The left and right positional relationship is incorrect */
+                     | | | |__ Bottom
+                     | | |_____ Right
+                     | |_______ Top
+                     |_________ Left
+      slScrWindow0(10,10,0,0); /* The vertical and horizontal positional relationships are incorrect */
+【reference】
+    slSpriteWinMode, slScrLineWindow0, slScrLineWindow1, slScrWindowMode
+    slScrWindowModeNbg0, slScrWindowModeNbg1, slScrWindowModeNbg2, slScrWindowModeNbg3
+    slScrWindowModeRbg0, slScrWindowModeSPR, slScrWindowModeROT, slScrWindowModeCCAL
+    VDP2_LWTA0, VDP2_LWTA1
+
+
+slScrWindowMode -- Function
+slScrWindowModeNbg0 -- Macro
+slScrWindowModeNbg1 -- Macro
+slScrWindowModeNbg2 -- Macro
+slScrWindowModeNbg3 -- Macro
+slScrWindowModeRbg0 -- Macro
+slScrWindowModeSPR -- Macro
+slScrWindowModeROT -- Macro
+slScrWindowModeCCAL -- Macro
+    slScrWindowModeNbg0, slScrWindowModeNbg1, slScrWindowModeNbg2,
+    slScrWindowModeNbg3, slScrWindowModeRbg0, slScrWindowModeSPR,
+    slScrWindowModeROT, slScrWindowModeCCAL
+        - Setting the usage mode of the scroll plane window.
+[Format]
+    #include "sgl.h"
+
+    Uint16 mode;
+    Uint16 type;
+
+    void slScrWindowMode( mode, type );
+    void slScrWindowModeNbg0( type );
+    void slScrWindowModeNbg1( type );
+    void slScrWindowModeNbg2( type );
+    void slScrWindowModeNbg3( type );
+    void slScrWindowModeRbg0( type );
+    void slScrWindowModeSPR( type );
+    void slScrWindowModeROT( type );
+    void slScrWindowModeCCAL( type );
+【argument】
+    Uint16 mode - Scroll surface to use (described later)
+    Uint16 type - condition/mode.
+[Return number]
+    void - returns nothing.
+【function】
+    Sets the window usage mode for each scroll plane.
+    In mode,
+        scnNBG0, scnNBG1, scnNBG2, scnNBG3, scnRBG0, scnSPR,
+        scnROT, scnCCAL
+    any of the
+    For type, select from the following elements.
+           [win_OR | win_AND] Condition for multiple windows
+           [win0_IN| win0_OUT]
+           [win1_IN| win1_OUT] ..._IN displays inside the window
+           [spw_IN | spw_OUT] ..._OUT displays outside the window
+[Example]
+    NBG0 is only inside window 0,
+    NBG1 only outside window 1,
+    NBG2 is inside window 0 and window 1,
+    If NBG3 is only inside the overlapping part of window 0 and window 1
+    slScrWindowModeNbg0( win0_IN);
+    slScrWindowModeNbg1( win1_OUT);
+    slScrWindowModeNbg2( win_OR| win0_IN| win1_IN);
+    slScrWindowModeNbg3( win_AND| win0_IN| win1_IN);
+【reference】
+    slSpriteWinMode, slScrWindow0, slScrWindow1, slScrLineWindow0
+    slScrLineWindow1, VDP2_WCTLA
+
+
+★Priority
+slPriority -- Function
+slPriorityNbg0 -- Macro
+slPriorityNbg1 -- Macro
+slPriorityNbg2 -- Macro
+slPriorityNbg3 -- Macro
+slPriorityRbg0 -- Macro
+slPrioritySpr0 -- Macro
+slPrioritySpr1 -- Macro
+slPrioritySpr2 -- Macro
+slPrioritySpr3 -- Macro
+slPrioritySpr4 -- Macro
+slPrioritySpr5 -- Macro
+slPrioritySpr6 -- Macro
+slPrioritySpr7 -- Macro
+    slPriority, slPriorityNbg0, slPriorityNbg1, slPriorityNbg2, slPriorityNbg3,
+    slPriorityRbg0, slPrioritySpr0, slPrioritySpr1, slPrioritySpr2,
+    slPrioritySpr3, slPrioritySpr4, slPrioritySpr5, slPrioritySpr6,
+    slPrioritySpr7 - Priority number setting.
+[Format]
+    #include "sgl.h"
+
+    Uint16 mode;
+    Uint16 num;
+
+    void slPriority( mode, num );
+    void slPriorityNbg0( num );
+    void slPriorityNbg1( num );
+    void slPriorityNbg2( num );
+    void slPriorityNbg3( num );
+    void slPriorityRbg0( num );
+    void slPrioritySpr0( num );
+    void slPrioritySpr1( num );
+    void slPrioritySpr2( num );
+    void slPrioritySpr3( num );
+    void slPrioritySpr4( num );
+    void slPrioritySpr5( num );
+    void slPrioritySpr6( num );
+    void slPrioritySpr7( num );
+【argument】
+    Uint16 num - Priority number.
+    Uint16 mode - The plane to set the priority (described later).
+[Return number]
+    void - returns nothing.
+【function】
+    Set the priority number for each screen.
+    The following parameters are included in mode.
+        scnNBG0, scnNBG1, scnNBG2, scnNBG3, scnRBG0, scnSPR0, scnSPR1 [constscl]
+        scnSPR2, scnSPR3, scnSPR4, scnSPR5, scnSPR6, scnSPR7
+    Specify a value between 0 and 7 for num (however, if you specify 0, it will not be displayed).
+[Example]
+    slPriority( scnSPR5, 6 );
+    slPriorityRbg0( 5 );
+【reference】
+    slSpriteType
+
+
+★Shadow
+slShadowOn -- Function
+    slShadowOn - Setting the scroll surface on which the shadow works.
+[Format]
+    #include "sgl.h"
+
+    Uint16 mode;
+
+    void slShadowOn( mode );
+【argument】
+    Uint16 mode - The side that uses the shadow function (described later).
+[Return number]
+    void - returns nothing.
+【function】
+    Specifies which scroll plane the shadow function works on.
+    In mode,
+        NBG0ON, NBG1ON, NBG2ON, NBG3ON, RBG0ON, BACKON
+    Give one of them.
+[Example]
+    slShadowOn(NBG2ON);
+【Note】
+    Valid for both normal shadows and MSB shadows.
+【reference】
+    slSpriteType, slTpShadowMode, VDP2_SDCTL, VDP2_PRISA
+    slTpShadowMode -- Function
+    slTpShadowMode - Specifies whether transparent shadow sprites are enabled.
+[Format]
+    #include "sgl.h"
+
+    Uint16 flag;
+
+    void slTpShadowMode( flag );
+【argument】
+    Uint16 flag - Flag indicating whether to enable sprites with transparent shadows.
+[Return number]
+    void - returns nothing.
+【function】
+    Specifies whether transparent shadow sprites are enabled.
+    The flag contains
+         'ON' or 'OFF'
+    Specify.
+[Example]
+    Apply a transparent shadow.
+    slTpShadowMode( ON );
+【Note】
+    To apply a transparent shadow, you must turn on the MSB of the sprite data.
+    It won't.
+【reference】
+    slSpriteType, slShadowOn, VDP2_SDCTL
+
+
+★Line/vertical cell scroll
+slLineScrollMode -- Function
+slLineScrollModeNbg0 -- Macro
+slLineScrollModeNbg1 -- Macro
+    slLineScrollMode, slLineScrollModeNbg0, slLineScrollModeNbg1
+                             - Setting the line scroll mode of the scroll surface.
+[Format]
+    #include "sgl.h"
+
+    Uint16 mode;
+    Uint16 type;
+
+    slLineScrollMode( mode, type );
+    slLineScrollModeNbg0( type );
+    slLineScrollModeNbg1( type );
+【argument】
+    Uint16 mode - Surface to set line scroll mode (described later).
+    Uint16 type - line scroll mode
+[Return number]
+    void - returns nothing.
+【function】
+    Sets the line scroll mode of the scroll surface.
+    In mode,
+        scnNBG0, scnNBG1
+    Either one of
+    For type,
+        lineSZ1| lineSZ2| lineSZ4| lineSZ8 : Line width
+        lineZoom : horizontal scaling
+        lineVScroll : vertical scroll
+        lineHScroll : horizontal scroll
+        VCellScroll : Vertical cell scroll
+    Specify the mode you want to use by connecting them with '|'.
+[Example]
+    slLineScrollMode( scnNBG1, lineSZ2| lineVScroll| VCellScroll);
+    slLineScrollModeNbg1( lineSZ8| lineZoom);
+【reference】
+    slScrCycleSet, slScrDisp, slLineScrollTable0, slLineScrollTable0
+    slVCellTable, VDP2_SCRCTL
+
+
+slLineScrollTable0 -- Function
+slLineScrollTable1 -- Function
+    slLineScrollTable0, slLineScrollTable1
+                  - Specify table of line scroll data
+[Format]
+    #include "sgl.h"
+
+    void *addr_A;
+
+    void slLineScrollTable0( addr_A );
+    void slLineScrollTable1( addr_A );
+【argument】
+    void *addr_A - VRAM address where line scroll data was set
+[Return number]
+    void - returns nothing.
+【function】
+    Specifies the table of line scroll data.
+[Example]
+    void slLineScrollTable0( ( void * )0x25e20000 );
+【reference】
+    slLineScrollMode, slLineScrollModeNbg0, slLineScrollModeNbg1, slVCellTable
+    VDP2_VCSTA, VDP2_LSTA0, VDP2_LSTA1
+
+
+slVCellTable -- Function
+    slVCellTable - Specifies the table of vertical cell scrolling data.
+[Format]
+    #include "sgl.h"
+
+    void *addr_A;
+
+    void slVCellTable( addr_A );
+【argument】
+    void addr_A - VRAM address where vertical cell scroll data is set
+[Return number]
+    void - returns nothing.
+【function】
+    Specifies the table of vertical cell scroll data.
+    When using vertical cell scrolling, it is necessary to set the VRAM access cycle.
+    Become.
+    Set it using the functions slScrCycleSet and slScrDisp.
+[Example]
+    Scroll NBG0 vertically.
+    slScrCycleSet( 0xc0feeeee, 0x44feeeee, 0xfeeeeeee, 0xfeeeeeee );
+    slScrDisp( NBG0ON);
+
+    void slVCellTable( ( void * )0x25e10000 );
+【Note】
+    Vertical cell scrolling is not available in high resolution mode.
+    It is also possible to use the same bank as the data (coefficients, CG, etc.) used for rotating scroll.
+    Not allowed.
+【reference】
+    slLineScrollMode, slLineScrollModeNbg0, slLineScrollModeNbg1, slLineScrollTable0
+    slLineScrollTable0, VDP2_VCSTA
