@@ -253,9 +253,8 @@ ARG INSTALL_SATURNSDK_SAMPLES=1
 
 ARG INSTALL_JO_ENGINE_LIB=1
 ARG INSTALL_JO_ENGINE_SAMPLES=1
-# Jo Engine commit from 2024.03.15 https://github.com/johannes-fetz/joengine/commit/163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
 # Jo Engine commit from 2024.03.15 https://github.com/johannes-fetz/joengine/commit/96c97a27555e901c3b6ce2fc1f53f5279f39ac49
-ARG JO_ENGINE_COMMIT_SHA=163b3f4c0ab1d49c2df4acea6addb3bb8de5b350
+ARG JO_ENGINE_COMMIT_SHA=96c97a27555e901c3b6ce2fc1f53f5279f39ac49
 
 ARG INSTALL_YAUL_LIB_ARG=1
 ENV INSTALL_YAUL_LIB=$INSTALL_YAUL_LIB_ARG
