@@ -55,7 +55,7 @@ TODO
 - [x] GCC 11.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_11.3.0
 - [x] GCC 12.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.2.0
 - [x] GCC 12.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.3.0
-- [x] GCC 13.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.2.0
+- [x] GCC 13.2.0 for SH2 (Default) : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.2.0
 - [ ] GDB for SH2 **(Not built yet)**
 - [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K **(To be integrated)**
 - [x] CMake profile
