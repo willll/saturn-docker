@@ -37,7 +37,8 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						dma-queue
 						dram-cart
 						fibers
-						#fileserver
+						#fileserver << This example is disabled\
+						gamemath
 						gdb
 						mm-stats
 						#netlink-template fatal error: sys/init.h: No such file or directory
@@ -51,7 +52,6 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 						vdp1-interlace
 						vdp1-mesh
 						vdp1-mic3d
-						#vdp1-normal-sprite : make: *** No rule to make target 'clean'.  Stop.
 						vdp1-software-blending
 						vdp1-st-niccc
 						vdp1-uv-coords
