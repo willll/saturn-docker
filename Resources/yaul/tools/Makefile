@@ -3,7 +3,9 @@ PROJECTS:= \
 	bin2o \
 	make-cue \
 	make-iso \
-	make-ip
+	make-ip \
+	bcl \
+	satconv
 
 include ../env.mk
 

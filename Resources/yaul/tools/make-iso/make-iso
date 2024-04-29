@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 2012-2019
+# Copyright (c) Israel Jacquez
 # See LICENSE for details.
 #
 # Israel Jacquez <mrkotfw@gmail.com>
@@ -27,7 +27,6 @@ trap '_exit_code=${?}; clean_up; exit ${_exit_code}' 0
 trap 'clean_up; exit 1' HUP INT QUIT ABRT SEGV PIPE
 
 if ! [ ${#} -eq 4 ]; then
-    printf -- "Not enough arguments(%d)\n" "${#}" >&2
     printf -- "Usage: %s cd-directory IP.BIN-path image-output-path image-output-name\n" "${PROGNAME}" >&2
     exit 2
 fi

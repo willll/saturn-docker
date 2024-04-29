@@ -72,64 +72,23 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+COPY Resources/Install/ubuntu-packages.list /tmp
+
 # Core Development Packages
-RUN apt-get update && apt-get install -y \
-	build-essential \
-	git \
-	nano \
-	unzip \
-	wget \
-	ca-certificates \
-	dos2unix \
-	gpg \
-	bison \
-	curl \
-	texinfo \
-	autotools-dev \
-	automake \
-  cmake \
-  shtool \
-  intltool \
-  libtool \
-  gettext \
-  autogen \
-	autoconf-archive \
-  xutils-dev \
-  xorriso \
-  doxygen \
-  ffmpeg \
-  ninja-build \
-  python3-pip \
-  python-is-python3 \
-  ## Visual Studio Code
-  openssh-server \
-  rsync \
-  zip \
-	--no-install-recommends && \
-	## Make sure we leave any X11 related library behind
-	apt-get purge -y 'libx11*' x11-common libxt6 && \
+RUN apt-get update && \
+  xargs -a /tmp/ubuntu-packages.list apt-get install --no-install-recommends -y && \
+  ## Make sure we leave any X11 related library behind
+  apt-get purge -y 'libx11*' x11-common libxt6 && \
 	apt autoremove -y --purge && \
 	rm -r /var/lib/apt/lists/*
 
 # Base Directories
-RUN mkdir -p "${SATURN_ROOT}" "${SATURN_SGL}" "${SATURN_SBL}" \
-  "${SATURN_CMAKE}" "${SATURN_JOENGINE}" "${SATURN_YAUL}" "${SATURN_IAPETUS}" \
-  "${SATURN_TMP}" "${SATURN_CD}" "${SATURN_SAMPLES}" "${SATURN_IPMAKER}" \
-  "${SATURN_SATCONV}" "${SATURN_COMMON}" "${SATURN_CYBERWARRIORX_CDC}" && \
-	chmod -R 777 "$SATURN_ROOT" && \
-	chmod -R 777 "$SATURN_SGL" && \
-	chmod -R 777 "$SATURN_SBL" && \
-	chmod -R 777 "$SATURN_CMAKE" && \
-	chmod -R 777 "$SATURN_JOENGINE" && \
-	chmod -R 777 "$SATURN_YAUL" && \
-  chmod -R 777 "$SATURN_IAPETUS" && \
-  chmod -R 777 "$SATURN_CYBERWARRIORX_CDC" && \
-  chmod -R 777 "$SATURN_CD" && \
-  chmod -R 777 "$SATURN_SAMPLES" && \
-  chmod -R 777 "$SATURN_IPMAKER" && \
-  chmod -R 777 "$SATURN_SATCONV" && \
-  chmod -R 777 "$SATURN_COMMON" && \
-  chmod -R 777 "$SATURN_TMP"
+RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
+                      ${SATURN_CMAKE} ${SATURN_JOENGINE} ${SATURN_YAUL} \
+                      ${SATURN_IAPETUS} ${SATURN_TMP} "${SATURN_CD}" "${SATURN_SAMPLES}" \
+                      "${SATURN_IPMAKER}" "${SATURN_SATCONV}" "${SATURN_COMMON}" \
+                      "${SATURN_CYBERWARRIORX_CDC}";\
+    do mkdir -p "$directory" && chmod -R 777 "$directory"; done
 
 WORKDIR "${SATURN_ROOT}"
 
@@ -207,22 +166,11 @@ RUN ./build-SDK-elf.sh
 RUN rm -rf "$SATURN_TMP"
 
 # Set GCC env variables and flags
-ENV PROGRAM_PREFIX=sh-elf-
-ENV TARGETMACH=sh-elf
-ENV OBJFORMAT=ELF
-ENV CXXFLAGS=""
 ENV LD_LIBRARY_PATH="${INSTALLDIR}/lib:${INSTALLDIR}/sh-elf/lib:${LD_LIBRARY_PATH}"
 ENV CPATH="${INSTALLDIR}/include:${CPATH}"
 ENV COMPILER_PATH="${INSTALLDIR}/include:${COMPILER_PATH}"
 ENV C_INCLUDE_PATH="${INSTALLDIR}/include:${C_INCLUDE_PATH}"
 ENV CPLUS_INCLUDE_PATH="${INSTALLDIR}/include:${CPLUS_INCLUDE_PATH}"
-ENV CC=${INSTALLDIR}/bin/${PROGRAM_PREFIX}gcc
-ENV CXX=${INSTALLDIR}/bin/${PROGRAM_PREFIX}g++
-ENV AR=${INSTALLDIR}/bin/${PROGRAM_PREFIX}ar
-ENV AS=${INSTALLDIR}/bin/${PROGRAM_PREFIX}as
-ENV LD=${INSTALLDIR}/bin/${PROGRAM_PREFIX}ld
-ENV RANLIB=${INSTALLDIR}/bin/${PROGRAM_PREFIX}ranlib
-ENV OBJCOPY=${INSTALLDIR}/bin/${PROGRAM_PREFIX}objcopy
 
 # Set PATH to access compilers
 ENV PATH="${INSTALLDIR}/bin:${PATH}"
@@ -238,6 +186,13 @@ COPY Resources/CD $SATURN_CD
 
 # CMAKE variables
 ENV CMAKE_MODULE_PATH=${SATURN_CMAKE}
+
+# Set GCC for SH2 the default
+RUN source $SATURN_COMMON/gcc_sh2.env
+
+# Add GCC SH2 to alternatives
+# RUN update-alternatives --install /usr/bin/gcc gcc "${CC}" 100 \
+#                        --slave /usr/bin/g++ g++ "${CXX}"
 
 #
 # LIBRARIES SETUP
@@ -259,9 +214,12 @@ ARG JO_ENGINE_COMMIT_SHA=96c97a27555e901c3b6ce2fc1f53f5279f39ac49
 ARG INSTALL_YAUL_LIB_ARG=1
 ENV INSTALL_YAUL_LIB=$INSTALL_YAUL_LIB_ARG
 ARG INSTALL_YAUL_SAMPLES=1
-ARG YAUL_TAG=0.2.0
+ARG YAUL_TAG=0.3.1
 # YAUL examples commit from 2023.03.17 https://github.com/yaul-org/libyaul-examples/tree/7b2160798db6fc1e7b4f38ad5290f2c3481b40fc
-ARG YAUL_EXAMPLES_COMMIT_SHA=7b2160798db6fc1e7b4f38ad5290f2c3481b40fc
+# YAUL examples commit from 2023.03.17 https://github.com/yaul-org/libyaul-examples/commit/56f17531186504e4fc96944612261fe86f1600f0
+# https://github.com/yaul-org/libyaul-examples/commit/21fd76d83dffd49afc4926d6a8408eecfec474f5
+ARG YAUL_EXAMPLES_COMMIT_SHA=21fd76d83dffd49afc4926d6a8408eecfec474f5
+# ARG YAUL_EXAMPLES_COMMIT_SHA=7b2160798db6fc1e7b4f38ad5290f2c3481b40fc
 
 ARG INSTALL_IAPETUS_SAMPLES=0
 ARG INSTALL_IAPETUS_LIB=0

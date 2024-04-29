@@ -18,10 +18,6 @@ ifneq (1,$(words [$(strip $(YAUL_PROG_SH_PREFIX))]))
   $(error YAUL_PROG_SH_PREFIX (tool-chain program prefix) contains spaces)
 endif
 
-ifeq ($(strip $(YAUL_CDB)),)
-  $(error Undefined YAUL_CDB (update JSON compile command database))
-endif
-
 ifeq ($(strip $(SILENT)),)
   ECHO=
 else
@@ -81,28 +77,30 @@ define macro-word-split
 $(word $2,$(subst ;, ,$1))
 endef
 
+# Always include Yaul
+include $(YAUL_INSTALL_ROOT)/share/build.yaul.mk
+
 # Customizable (must be overwritten in user's Makefile)
 SH_PROGRAM?= unknown-program
 SH_DEFSYMS?=
 SH_SRCS?=
 SH_SRCS_NO_LINK?=
-SH_LIBRARIES?=
 SH_BUILD_DIR?= build
 SH_OUTPUT_DIR?= .
 
 # Customizable variables (must be overwritten in user's Makefile)
-# IMAGE_DIRECTORY      ISO/CUE
-# AUDIO_TRACKS_DIRECTORY ISO/CUE
-# IMAGE_1ST_READ_BIN   ISO/CUE
-# IP_VERSION					 ISO/CUE, SS
-# IP_RELEASE_DATE			 ISO/CUE, SS
-# IP_AREAS						 ISO/CUE, SS
-# IP_PERIPHERALS    	 ISO/CUE, SS
-# IP_TITLE             ISO/CUE, SS
-# IP_MASTER_STACK_ADDR ISO/CUE, SS
-# IP_SLAVE_STACK_ADDR  ISO/CUE, SS
-# IP_1ST_READ_ADDR     ISO/CUE, SS
-# IP_1ST_READ_SIZE     ISO/CUE, SS
+#   IMAGE_DIRECTORY        ISO/CUE
+#   AUDIO_TRACKS_DIRECTORY ISO/CUE
+#   IMAGE_1ST_READ_BIN     ISO/CUE
+#   IP_VERSION             ISO/CUE, SS
+#   IP_RELEASE_DATE        ISO/CUE, SS
+#   IP_AREAS               ISO/CUE, SS
+#   IP_PERIPHERALS         ISO/CUE, SS
+#   IP_TITLE               ISO/CUE, SS
+#   IP_MASTER_STACK_ADDR   ISO/CUE, SS
+#   IP_SLAVE_STACK_ADDR    ISO/CUE, SS
+#   IP_1ST_READ_ADDR       ISO/CUE, SS
+#   IP_1ST_READ_SIZE       ISO/CUE, SS
 
 YAUL_PROG_SH_PREFIX?= $(YAUL_ARCH_SH_PREFIX)
 ifeq ($(strip $(YAUL_PROG_SH_PREFIX)),)
@@ -128,31 +126,50 @@ M68K_OBJCOPY:= $(YAUL_68K_TOOLCHAIN)/bin/$(YAUL_ARCH_M68K_PREFIX)-objcopy$(EXE_E
 M68K_OBJDUMP:= $(YAUL_68K_TOOLCHAIN)/bin/$(YAUL_ARCH_M68K_PREFIX)-objdump$(EXE_EXT)
 
 SH_AFLAGS= --fatal-warnings
-SH_CFLAGS= \
+SH_CFLAGS_shared:= \
 	-W \
 	-Wall \
+	-Wduplicated-branches \
+	-Wduplicated-cond \
 	-Wextra \
-	-Wunused-parameter \
-	-Wstrict-aliasing \
-	-Wno-main \
+	-Winit-self \
+	-Wmissing-include-dirs \
 	-Wno-format \
+	-Wno-main \
+	-Wnull-dereference \
+	-Wshadow \
+	-Wstrict-aliasing \
+	-Wunused \
+	-Wunused-parameter \
 	-save-temps=obj
 
-SH_LDFLAGS= \
+SH_LDFLAGS:= \
+	-static \
 	-Wl,--gc-sections \
-	-Wl,-Map,$(SH_BUILD_PATH)/$(SH_PROGRAM).map
+	-Wl,-Map,$(SH_BUILD_PATH)/$(SH_PROGRAM).map \
+	$(YAUL_LDFLAGS)
 
-SH_CXXFLAGS= $(SH_CFLAGS)
-SH_LXXFLAGS= $(SH_LDFLAGS)
+SH_CFLAGS:= \
+	-std=c11 \
+	-Wbad-function-cast \
+	$(SH_CFLAGS_shared) \
+	$(YAUL_CFLAGS)
 
-SH_BUILD_PATH:= $(abspath $(SH_BUILD_DIR))
+SH_CXXFLAGS:= \
+	-std=c++17 \
+	-fno-exceptions \
+	-fno-rtti \
+	-fno-unwind-tables \
+	-fno-asynchronous-unwind-tables \
+	-fno-threadsafe-statics \
+	-fno-use-cxa-atexit \
+	$(SH_CFLAGS_shared) \
+	$(YAUL_CXXFLAGS)
+
+SH_BUILD_PATH= $(abspath $(SH_BUILD_DIR))
 SH_OUTPUT_PATH= $(abspath $(SH_OUTPUT_DIR))
 
-CDB_FILE:= compile_commands.json
-CDB_GCC?= /usr/bin/gcc
-CDB_CPP?= /usr/bin/g++
-
-.PHONY: all clean .build
+.PHONY: all generate-cdb clean .build
 
 .SUFFIXES:
 .SUFFIXES: .c .cc .C .cpp .cxx .sx .o .bin .elf

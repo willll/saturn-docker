@@ -17,32 +17,6 @@ ifneq ($(shell test -d "$(YAUL_INSTALL_ROOT)" && printf "$${?}"),0)
   $(error Path YAUL_INSTALL_ROOT (install root directory) is not a directory)
 endif
 
-ifeq ($(strip $(YAUL_SH_TOOLCHAIN)),)
-  YAUL_SH_TOOLCHAIN = $(YAUL_INSTALL_ROOT)
-endif
-ifneq (1,$(words [$(strip $(YAUL_SH_TOOLCHAIN))]))
-	$(error YAUL_SH_TOOLCHAIN (install root directory) contains spaces)
-endif
-ifneq ($(shell test -e "$(YAUL_SH_TOOLCHAIN)"; printf "$${?}"),0)
-  $(error Path YAUL_SH_TOOLCHAIN (install root directory) does not exist)
-endif
-ifneq ($(shell test -d "$(YAUL_SH_TOOLCHAIN)" && printf "$${?}"),0)
-  $(error Path YAUL_SH_TOOLCHAIN (install root directory) is not a directory)
-endif
-
-ifeq ($(strip $(YAUL_68K_TOOLCHAIN)),)
-  YAUL_68K_TOOLCHAIN = $(YAUL_INSTALL_ROOT)
-endif
-ifneq (1,$(words [$(strip $(YAUL_68K_TOOLCHAIN))]))
-	$(error YAUL_68K_TOOLCHAIN (install root directory) contains spaces)
-endif
-ifneq ($(shell test -e "$(YAUL_68K_TOOLCHAIN)"; printf "$${?}"),0)
-  $(error Path YAUL_68K_TOOLCHAIN (install root directory) does not exist)
-endif
-ifneq ($(shell test -d "$(YAUL_68K_TOOLCHAIN)" && printf "$${?}"),0)
-  $(error Path YAUL_68K_TOOLCHAIN (install root directory) is not a directory)
-endif
-
 ifeq ($(strip $(YAUL_ARCH_SH_PREFIX)),)
   $(error Undefined YAUL_ARCH_SH_PREFIX (tool-chain prefix))
 endif
@@ -73,13 +47,6 @@ ifeq ($(strip $(YAUL_BUILD)),)
 endif
 ifneq (1,$(words [$(strip $(YAUL_BUILD))]))
   $(error YAUL_BUILD (build directory) contains spaces)
-endif
-
-ifeq ($(strip $(YAUL_CDB)),)
-  $(error Undefined YAUL_CDB (update JSON compile command database))
-endif
-ifneq ($(YAUL_CDB),$(filter $(YAUL_CDB),0 1))
-  $(error Invalid value for YAUL_CDB (update JSON compile command database))
 endif
 
 ifneq (1,$(words [$(strip $(YAUL_OPTION_MALLOC_IMPL))]))
@@ -119,26 +86,23 @@ SH_CFLAGS_shared:= \
 	-ffat-lto-objects \
 	-ffunction-sections \
 	-fdata-sections \
-	-pedantic \
-	-s \
-	-ffreestanding \
-	-ffast-math \
-	-fstrict-aliasing \
-	-fdelete-null-pointer-checks \
-	-fmerge-all-constants \
-	-Wmissing-include-dirs \
-	-Wfatal-errors \
 	-Wall \
 	-Wduplicated-branches \
 	-Wduplicated-cond \
 	-Wextra \
-	-Wfatal-errors \
 	-Winit-self \
 	-Wmissing-include-dirs \
 	-Wno-format \
 	-Wnull-dereference \
 	-Wshadow \
-	-Wunused
+	-Wunused \
+	-fdelete-null-pointer-checks \
+	-ffast-math \
+	-ffreestanding \
+	-fmerge-all-constants \
+	-fstrict-aliasing \
+	-pedantic \
+	-s
 
 ifeq ($(strip $(YAUL_OPTION_MALLOC_IMPL)),tlsf)
 SH_CFLAGS_shared += \
@@ -148,12 +112,16 @@ endif
 SH_CFLAGS:= \
 	-std=c11 \
 	-Wbad-function-cast \
+	-Wfatal-errors \
 	$(SH_CFLAGS_shared)
 
 SH_CXXFLAGS_shared:= \
 	$(SH_CFLAGS_shared)
 
+# -Wfatal-errors was removed for C++ as it prevented the compiler from giving
+#  more (better) diagnostics
 SH_CXXFLAGS:= \
+	-std=c++17 \
 	-fno-exceptions \
 	-fno-rtti \
 	-fno-unwind-tables \
@@ -165,10 +133,14 @@ SH_CXXFLAGS:= \
 SH_CFLAGS_shared_release:= -O2 -g -fomit-frame-pointer -fno-unwind-tables -fno-asynchronous-unwind-tables
 SH_CFLAGS_shared_debug:= -Og -g -DDEBUG
 
-SH_CFLAGS_release:= $(SH_CFLAGS_shared_release) $(SH_CFLAGS)
-SH_CFLAGS_debug:= $(SH_CFLAGS_shared_debug) $(SH_CFLAGS)
+ifeq ($(strip $(DEBUG_RELEASE)),1)
+  SH_CFLAGS_shared_release+= -DDEBUG
+endif
 
+SH_CFLAGS_release:= $(SH_CFLAGS_shared_release) $(SH_CFLAGS)
 SH_CXXFLAGS_release:= $(SH_CFLAGS_shared_release) $(SH_CXXFLAGS)
+
+SH_CFLAGS_debug:= $(SH_CFLAGS_shared_debug) $(SH_CFLAGS)
 SH_CXXFLAGS_debug:= $(SH_CFLAGS_shared_debug) $(SH_CXXFLAGS)
 
 # These include directories are strictly from libyaul, and are meant to be
@@ -177,9 +149,11 @@ SHARED_INCLUDE_DIRS:= \
 	$(abspath .) \
 	../lib$(MAIN_TARGET)/ \
 	../lib$(MAIN_TARGET)/bup \
-	../lib$(MAIN_TARGET)/lib/lib \
+	../lib$(MAIN_TARGET)/ip \
+	../lib$(MAIN_TARGET)/libc/libc \
 	../lib$(MAIN_TARGET)/kernel \
-	../lib$(MAIN_TARGET)/math \
+	../lib$(MAIN_TARGET)/kernel/dbgio \
+	../lib$(MAIN_TARGET)/gamemath \
 	../lib$(MAIN_TARGET)/scu \
 	../lib$(MAIN_TARGET)/scu/bus/a/cs0/arp \
 	../lib$(MAIN_TARGET)/scu/bus/a/cs0/dram-cart \
@@ -191,52 +165,29 @@ SHARED_INCLUDE_DIRS:= \
 	../lib$(MAIN_TARGET)/scu/bus/cpu \
 	../lib$(MAIN_TARGET)/scu/bus/cpu/smpc
 
-CDB_FILE:= $(join $(YAUL_BUILD_ROOT)/,compile_commands.json)
-CDB_GCC?= /usr/bin/gcc
-CDB_CPP?= /usr/bin/g++
-
-ifeq ($(strip $(YAUL_CDB)),1)
-# $1 -> Absolute path to compiler executable
-# $2 -> Absolute path to input file
-# $3 -> Absolute path to output file
-# $4 -> Absolute build path
-# $5 -> Absolute path to output compile DB file
-# $6 -> Compiler flags
-define macro-update-cdb
-  $(THIS_ROOT)/libyaul/common/wrap-error $(THIS_ROOT)/libyaul/common/update-cdb $1 "$2" "$3" $4 $5 $6
+# $1 -> Build type (release, debug)
+# $2 -> $<
+define macro-sh-generate-cdb-rule
+generate-cdb::
+	$(ECHO)printf -- "C\n" >&2
+	$(ECHO)printf -- "/usr/bin/gcc$(EXE_EXT)\n" >&2
+	$(ECHO)printf -- "$(abspath $(2))\n" >&2
+	$(ECHO)printf -- "-D__INTELLISENSE__ $(SH_CFLAGS_$1) \
+	$(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) \
+	--include="$(THIS_ROOT)/lib$(MAIN_TARGET)/intellisense.h" -c $(abspath $(2))\n" >&2
 endef
 
-# $1 -> Space delimited list of object files
-# $2 -> File extension (c, cxx)
-# $3 -> Absolute path to compiler executable ($(SH_CC), $(SH_CXX))
-# $4 -> Space delimited list of compiler flags ($(SH_CFLAGS_release), $(SH_CFLAGS_debug), ...)
-# $5 -> Build type (release, debug)
-# $6 -> Absolute path to output compile DB file
-define macro-loop-update-cdb
-	set -e; \
-	for object_file in $1; do \
-	    source_filename=$$(basename "$${object_file%%.o}.$2"); \
-	    build_directory=$$(dirname "$${object_file}"); \
-	    source_directory=$(YAUL_BUILD_ROOT)/lib$(TARGET)/$${build_directory#$(YAUL_BUILD_ROOT)/$(SUB_BUILD)/$5}; \
-	    source_file=$${source_directory}/$${source_filename}; \
-	    source_file=$$(printf -- "$${source_file}" | tr -s '/' '/'); \
-	    printf -- "$(V_BEGIN_YELLOW)$${source_file#$(YAUL_BUILD_ROOT)/}$(V_END)\n"; \
-	    $(call macro-update-cdb,\
-	      $3,\
-	      $${source_file},\
-	      $${object_file},\
-	      $${build_directory},\
-	      $6,\
-	      $4 $(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) -Ilib$(TARGET)/); \
-	done
+# $1 -> Build type (release, debug)
+# $2 -> $<
+define macro-sh-c++-generate-cdb-rule
+generate-cdb::
+	$(ECHO)printf -- "C++\n" >&2
+	$(ECHO)printf -- "/usr/bin/g++$(EXE_EXT)\n" >&2
+	$(ECHO)printf -- "$(abspath $(2))\n" >&2
+	$(ECHO)printf -- "-D__INTELLISENSE__ $(SH_CXXFLAGS_$1) \
+	$(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) \
+	--include="$(THIS_ROOT)/lib$(MAIN_TARGET)/intellisense.h" -c $(abspath $(2))\n" >&2
 endef
-else
-define macro-update-cdb
-endef
-
-define macro-loop-update-cdb
-endef
-endif
 
 # $1 -> Build type (release, debug)
 define macro-sh-build-object
@@ -245,13 +196,6 @@ define macro-sh-build-object
 	$(ECHO)$(SH_CC) -MT $(@) -MF $(YAUL_BUILD_ROOT)/$(SUB_BUILD)/$1/$*.d -MD $(SH_CFLAGS_$1) \
 		$(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) \
 		-c -o $@ $(abspath $(<))
-	$(ECHO)$(call macro-update-cdb,\
-		$(CDB_GCC),\
-		$(abspath $(<)),\
-		$(abspath $(@)),\
-		$(abspath $(<D)),\
-		$(CDB_FILE),\
-		$(SH_CFLAGS_$1) $(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))))
 endef
 
 # $1 -> Build type (release, debug)
@@ -261,19 +205,26 @@ define macro-sh-build-c++-object
 	$(ECHO)$(SH_CXX) -MT $(@) -MF $(YAUL_BUILD_ROOT)/$(SUB_BUILD)/$1/$*.d -MD $(SH_CXXFLAGS_$1) \
 		$(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))) \
 		-o $@ -c $(abspath $(<))
-	$(ECHO)$(call macro-update-cdb,\
-		$(CDB_CPP),\
-		$(abspath $(<)),\
-		$(abspath $(@)),\
-		$(abspath $(<D)),\
-		$(CDB_FILE),\
-		$(SH_CXXFLAGS_$1) $(foreach dir,$(SHARED_INCLUDE_DIRS),-I$(abspath $(dir))))
 endef
 
 # No arguments
 define macro-sh-build-library
 	@printf -- "$(V_BEGIN_YELLOW)$(shell v="$@"; printf -- "$${v#$(YAUL_BUILD_ROOT)/}")$(V_END)\n"
 	$(ECHO)$(SH_AR) rcs $@ $^
+endef
+
+# $1 ->
+# $2 ->
+# $3 ->
+# $4 ->
+# $5 ->
+define macro-generate-install-file-rule
+$(YAUL_PREFIX)/$3/$2: $1
+	@printf -- "$(V_BEGIN_BLUE)$2$(V_END)\n"
+	@mkdir -p $$(@D)
+	$(ECHO)$(INSTALL) -m $5 $$< $$@
+
+install-$4: $4 $(YAUL_PREFIX)/$3/$2
 endef
 
 # $1 ->
@@ -293,12 +244,13 @@ endef
 
 # $1 ->
 # $2 ->
+#
 # $3 ->
 define macro-sh-generate-install-lib-rule
 $(YAUL_PREFIX)/$(YAUL_ARCH_SH_PREFIX)/lib/$2: $1
 	@printf -- "$(V_BEGIN_BLUE)lib/$2$(V_END)\n"
 	$(ECHO)mkdir -p "$$(@D)"
-	$(ECHO)$(INSTALL) -m 644 $$< $$@
+	$(ECHO)$(INSTALL) -m 444 $$< $$@
 
 install-$3: $3 $(YAUL_PREFIX)/$(YAUL_ARCH_SH_PREFIX)/lib/$2
 endef
@@ -311,6 +263,16 @@ M68K_LD:=      $(YAUL_68K_TOOLCHAIN)/bin/$(YAUL_ARCH_M68K_PREFIX)-gcc$(EXE_EXT)
 M68K_NM:=      $(YAUL_68K_TOOLCHAIN)/bin/$(YAUL_ARCH_M68K_PREFIX)-nm$(EXE_EXT)
 M68K_OBJCOPY:= $(YAUL_68K_TOOLCHAIN)/bin/$(YAUL_ARCH_M68K_PREFIX)-objcopy$(EXE_EXT)
 M68K_OBJDUMP:= $(YAUL_68K_TOOLCHAIN)/bin/$(YAUL_ARCH_M68K_PREFIX)-objdump$(EXE_EXT)
+
+X86_AS:=      /usr/bin/as
+X86_AR:=      /usr/bin/ar
+X86_CC:=      /usr/bin/cc
+X86_CXX:=     /usr/bin/g++
+X86_LD:=      /usr/bin/gcc
+X86_NM:=      /usr/bin/nm
+X86_OBJCOPY:= /usr/bin/objcopy
+X86_OBJDUMP:= /usr/bin/objdump
+
 
 FIND:= find$(EXE_EXT)
 INSTALL:= install$(EXE_EXT)

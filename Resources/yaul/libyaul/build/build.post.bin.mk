@@ -46,11 +46,10 @@ SH_OBJS_UNIQ:= $(addsuffix .o,$(foreach SRC,$(SH_SRCS_C) $(SH_SRCS_CXX) $(SH_SRC
 SH_OBJS_UNIQ:= $(foreach OBJ,$(SH_OBJS_UNIQ),$(call macro-convert-build-path,$(OBJ)))
 
 SH_LDFLAGS+= $(SH_DEFSYMS)
-SH_LXXFLAGS+= $(SH_DEFSYMS)
 
 ifeq ($(strip $(SH_SPECS)),)
   SH_SPECS:= $(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul.specs \
-			$(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul-main.specs
+		$(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul-main.specs
 endif
 
 # If there are any C++ files, add the specific C++ specs file. This is done to
@@ -64,25 +63,30 @@ SH_TEMPS:= $(SH_OBJS_UNIQ:.o=.i) $(SH_OBJS_UNIQ:.o=.ii) $(SH_OBJS_UNIQ:.o=.s)
 
 # Parse out included paths from GCC when the specs files are used. This is used
 # to explictly populate each command database entry with include paths
-SH_INCLUDE_DIRS:=$(shell echo | $(SH_CC) -E -Wp,-v -nostdinc $(foreach specs,$(SH_SPECS),-specs=$(specs)) - 2>&1 | \
-	awk '/^\s/ { sub(/^\s+/,"-I"); print }')
-SH_SYSTEM_INCLUDE_DIRS=$(shell echo | $(SH_CC) -E -Wp,-v - 2>&1 | \
-	awk '/^\s/ { sub(/^\s+/,"-isystem "); print }')
+SH_SYSTEM_INCLUDE_DIRS:=$(shell echo | $(SH_CC) -E -Wp,-v - 2>&1 | \
+	awk '/^\s/ { sub(/^\s+/,""); gsub(/\\/,"/"); print }')
 
-ifeq ($(strip $(YAUL_CDB)),1)
-# $1 -> Absolute path to compiler executable
-# $2 -> Absolute path to input file
-# $3 -> Absolute path to output file
-# $4 -> Absolute build path
-# $5 -> Absolute path to output compile DB file
-# $6 -> Compiler flags
-define macro-update-cdb
-  $(YAUL_INSTALL_ROOT)/share/wrap-error $(YAUL_INSTALL_ROOT)/share/update-cdb $1 "$2" "$3" $4 $5 $6
+# $1 -> $<
+define macro-sh-generate-cdb-rule
+generate-cdb::
+	$(ECHO)printf -- "C\n" >&2
+	$(ECHO)printf -- "/usr/bin/gcc$(EXE_EXT)\n" >&2
+	$(ECHO)printf -- "$(abspath $(1))\n" >&2
+	$(ECHO)printf -- "-D__INTELLISENSE__ -m32 -nostdlibinc -Wno-gnu-statement-expression $(SH_CFLAGS) $(foreach dir,$(SH_SYSTEM_INCLUDE_DIRS),-isystem $(abspath $(dir))) $(foreach dir,$(SHARED_INCLUDE_DIRS),-isystem $(abspath $(dir))) --include="$(YAUL_INSTALL_ROOT)/$(YAUL_PROG_SH_PREFIX)/include/intellisense.h" -c $(abspath $(1))\n" >&2
 endef
-else
-define macro-update-cdb
+
+# $2 -> Build type (release, debug)
+define macro-sh-c++-generate-cdb-rule
+generate-cdb::
+	$(ECHO)printf -- "C++\n" >&2
+	$(ECHO)printf -- "/usr/bin/g++$(EXE_EXT)\n" >&2
+	$(ECHO)printf -- "$(abspath $(1))\n" >&2
+	$(ECHO)printf -- "-D__INTELLISENSE__ -m32 -nostdinc++ \
+	-nostdlibinc -Wno-gnu-statement-expression $(SH_CXXFLAGS) \
+	$(foreach dir,$(SH_SYSTEM_INCLUDE_DIRS),-isystem $(abspath $(dir))) \
+	$(foreach dir,$(SHARED_INCLUDE_DIRS),-isystem $(abspath $(dir))) \
+	--include="$(YAUL_INSTALL_ROOT)/$(YAUL_PROG_SH_PREFIX)/include/intellisense.h" -c $(abspath $(1))\n" >&2
 endef
-endif
 
 # $1 -> $<
 # $2 -> $@
@@ -90,13 +94,6 @@ define macro-generate-sh-build-object
 $2: $1
 	@printf -- "$(V_BEGIN_YELLOW)$1$(V_END)\n"
 	$(ECHO)$(SH_CC) -MT $2 -MF $(addsuffix .d,$(basename $2)) -MD $(SH_CFLAGS) $(foreach specs,$(SH_SPECS),-specs=$(specs)) -c -o $2 $1
-	$(ECHO)$(call macro-update-cdb,\
-		$(CDB_GCC),\
-		$(abspath $1),\
-		$(abspath $2),\
-		$(dir $(abspath $1)),\
-		$(CDB_FILE),\
-		$(SH_CFLAGS) $(SH_SYSTEM_INCLUDE_DIRS) $(SH_INCLUDE_DIRS))
 endef
 
 # $1 -> $<
@@ -113,22 +110,15 @@ define macro-generate-sh-build-c++-object
 $2: $1
 	@printf -- "$(V_BEGIN_YELLOW)$1$(V_END)\n"
 	$(ECHO)$(SH_CXX) -MT $2 -MF $(addsuffix .d,$(basename $2)) -MD $(SH_CXXFLAGS) $(foreach specs,$(SH_SPECS),-specs=$(specs)) $(foreach specs,$(SH_CXX_SPECS),-specs=$(specs)) -c -o $2 $1
-	$(ECHO)$(call macro-update-cdb,\
-		$(CDB_CPP),\
-		$(abspath $1),\
-		$(abspath $2),\
-		$(dir $(abspath $1)),\
-		$(CDB_FILE),\
-		$(SH_CXXFLAGS) $(SH_SYSTEM_INCLUDE_DIRS) $(SH_INCLUDE_DIRS))
 endef
 
 OUTPUT_FILES?=
 
 ifeq ($(strip $(OUTPUT_FILES)),)
-OUTPUT_FILES= $(SH_PROGRAM).bin
+OUTPUT_FILES= $(SH_OUTPUT_PATH)/$(SH_PROGRAM).bin
 CLEAN_OUTPUT_FILES?= $(OUTPUT_FILES)
 
-$(SH_PROGRAM).bin: $(SH_BUILD_PATH)/$(SH_PROGRAM).bin
+$(SH_OUTPUT_PATH)/$(SH_PROGRAM).bin: $(SH_BUILD_PATH)/$(SH_PROGRAM).bin
 	$(ECHO)cp $< $@
 endif
 
@@ -141,7 +131,7 @@ $(SH_BUILD_PATH)/$(SH_PROGRAM).bin: $(SH_BUILD_PATH)/$(SH_PROGRAM).elf
 
 $(SH_BUILD_PATH)/$(SH_PROGRAM).elf: $(SH_OBJS_UNIQ)
 	@printf -- "$(V_BEGIN_YELLOW)$(@F)$(V_END)\n"
-	$(ECHO)$(SH_LD) $(foreach specs,$(SH_SPECS),-specs=$(specs)) $(foreach specs,$(SH_CXX_SPECS),-specs=$(specs)) $(SH_OBJS_UNIQ) $(SH_LDFLAGS) $(foreach lib,$(SH_LIBRARIES),-l$(lib)) -o $@
+	$(ECHO)$(SH_LD) $(foreach specs,$(SH_SPECS),-specs=$(specs)) $(foreach specs,$(SH_CXX_SPECS),-specs=$(specs)) $(SH_OBJS_UNIQ) $(SH_LDFLAGS) -o $@
 	$(ECHO)$(SH_NM) $(SH_BUILD_PATH)/$(SH_PROGRAM).elf > $(SH_BUILD_PATH)/$(SH_PROGRAM).sym
 	$(ECHO)$(SH_OBJDUMP) -S $(SH_BUILD_PATH)/$(SH_PROGRAM).elf > $(SH_BUILD_PATH)/$(SH_PROGRAM).asm
 
@@ -157,6 +147,9 @@ $(foreach SRC,$(SH_SRCS_S), \
 	$(eval $(call macro-generate-sh-build-asm-object,$(SRC),\
 		$(call macro-convert-build-path,$(addsuffix .o,$(basename $(SRC)))))))
 
+$(foreach FILE,$(SH_SRCS_C),$(eval $(call macro-sh-generate-cdb-rule,$(FILE))))
+$(foreach FILE,$(SH_SRCS_CXX),$(eval $(call macro-sh-c++-generate-cdb-rule,$(FILE))))
+
 clean:
 	$(ECHO)printf -- "$(V_BEGIN_CYAN)$(SH_PROGRAM)$(V_END) $(V_BEGIN_GREEN)clean$(V_END)\n"
 	$(ECHO)-rm -f \
@@ -168,13 +161,11 @@ clean:
 	    $(SH_BUILD_PATH)/$(SH_PROGRAM).elf \
 	    $(SH_BUILD_PATH)/$(SH_PROGRAM).map \
 	    $(SH_BUILD_PATH)/$(SH_PROGRAM).sym \
-	    $(CDB_FILE) \
 	    $(CLEAN_OUTPUT_FILES)
 
 -include $(SH_DEPS)
 
 undefine macro-builtin-asset-rule
-undefine macro-update-cdb
 undefine macro-generate-sh-build-object
 undefine macro-generate-sh-build-asm-object
 undefine macro-generate-sh-build-c++-object

@@ -315,7 +315,7 @@ TODO
   - [ ] demo - hardcoded image
   - [X] demo - visual novel
 
-### Yaul (https://github.com/yaul-org/libyaul)
+### Yaul (https://github.com/yaul-org/libyaul) (Version 0.3.1)
 - [ ] Yaul
   - [X] Yaul Library
   - [ ] Yaul Examples (https://github.com/yaul-org/libyaul-examples)
