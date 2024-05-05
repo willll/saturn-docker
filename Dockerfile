@@ -92,6 +92,9 @@ RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
 
 WORKDIR "${SATURN_ROOT}"
 
+# pipx setup
+RUN pipx ensurepath && pipx completions
+
 #
 # Setup
 #
@@ -219,19 +222,13 @@ ARG INSTALL_SATURNSDK_SAMPLES=1
 
 ARG INSTALL_JO_ENGINE_LIB=1
 ARG INSTALL_JO_ENGINE_SAMPLES=1
-# Jo Engine commit from 2024.05.05 https://github.com/johannes-fetz/joengine/commit/a70af12c31c7325ac6f0c8b5739b03c0a002415d
-# Jo Engine commit from 2024.03.15 https://github.com/johannes-fetz/joengine/commit/96c97a27555e901c3b6ce2fc1f53f5279f39ac49
-ARG JO_ENGINE_COMMIT_SHA=a70af12c31c7325ac6f0c8b5739b03c0a002415d
+ARG JO_ENGINE_TAG=v2024.2
 
 ARG INSTALL_YAUL_LIB_ARG=1
 ENV INSTALL_YAUL_LIB=$INSTALL_YAUL_LIB_ARG
 ARG INSTALL_YAUL_SAMPLES=1
 ARG YAUL_TAG=0.3.1
-# YAUL examples commit from 2023.03.17 https://github.com/yaul-org/libyaul-examples/tree/7b2160798db6fc1e7b4f38ad5290f2c3481b40fc
-# YAUL examples commit from 2023.03.17 https://github.com/yaul-org/libyaul-examples/commit/56f17531186504e4fc96944612261fe86f1600f0
-# https://github.com/yaul-org/libyaul-examples/commit/21fd76d83dffd49afc4926d6a8408eecfec474f5
 ARG YAUL_EXAMPLES_COMMIT_SHA=21fd76d83dffd49afc4926d6a8408eecfec474f5
-# ARG YAUL_EXAMPLES_COMMIT_SHA=7b2160798db6fc1e7b4f38ad5290f2c3481b40fc
 
 ARG INSTALL_IAPETUS_SAMPLES=0
 ARG INSTALL_IAPETUS_LIB=0
