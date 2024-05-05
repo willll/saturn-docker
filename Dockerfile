@@ -132,7 +132,7 @@ ENV PATH="$PATH:$SATURN_SATCONV"
 #
 # Install gdown https://pypi.org/project/gdown/
 #
-RUN pip3 install gdown
+RUN pip3 install gdown --break-system-packages
 
 # Clean up
 RUN rm -rf "$SATURN_TMP"
