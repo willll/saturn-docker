@@ -132,7 +132,7 @@ ENV PATH="$PATH:$SATURN_SATCONV"
 #
 # Install gdown https://pypi.org/project/gdown/
 #
-RUN pip3 install gdown --break-system-packages
+RUN pipx install gdown
 
 # Clean up
 RUN rm -rf "$SATURN_TMP"
@@ -219,8 +219,9 @@ ARG INSTALL_SATURNSDK_SAMPLES=1
 
 ARG INSTALL_JO_ENGINE_LIB=1
 ARG INSTALL_JO_ENGINE_SAMPLES=1
+# Jo Engine commit from 2024.05.05 https://github.com/johannes-fetz/joengine/commit/a70af12c31c7325ac6f0c8b5739b03c0a002415d
 # Jo Engine commit from 2024.03.15 https://github.com/johannes-fetz/joengine/commit/96c97a27555e901c3b6ce2fc1f53f5279f39ac49
-ARG JO_ENGINE_COMMIT_SHA=96c97a27555e901c3b6ce2fc1f53f5279f39ac49
+ARG JO_ENGINE_COMMIT_SHA=a70af12c31c7325ac6f0c8b5739b03c0a002415d
 
 ARG INSTALL_YAUL_LIB_ARG=1
 ENV INSTALL_YAUL_LIB=$INSTALL_YAUL_LIB_ARG

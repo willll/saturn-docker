@@ -28,3 +28,4 @@ python-is-python3
 openssh-server
 rsync
 zip
+pipx
