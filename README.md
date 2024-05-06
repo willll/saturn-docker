@@ -277,7 +277,7 @@ TODO
   - [x] Textured Sprite
   - [ ] CDBrowser
 
-### Jo Engine (https://www.jo-engine.org/)
+### Jo Engine 2024.2 (https://www.jo-engine.org/)
 - [X] Jo Engine
 - [ ] Jo Engine Samples
   - [X] demo1

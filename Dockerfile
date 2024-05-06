@@ -136,7 +136,8 @@ ENV PATH="$PATH:$SATURN_SATCONV"
 # Install gdown https://pypi.org/project/gdown/
 #
 RUN pipx install gdown
-RUN alias gdown='pipx run gdown'
+RUN echo -e '#!/bin/bash\npipx run gdown "$@"' > /usr/bin/gdown && \
+    chmod +x /usr/bin/gdown
 
 # Clean up
 RUN rm -rf "$SATURN_TMP"
