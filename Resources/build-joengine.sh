@@ -17,7 +17,6 @@ if [ $INSTALL_JO_ENGINE_LIB -eq 1 ]; then
   cp --verbose -rf $SATURN_TMP/jo/Compiler/COMMON/* $SATURN_JOENGINE/common/
 	cp --verbose -f $SATURN_TMP/jo_engine_makefile $SATURN_JOENGINE/common/
 
-
 	#
 	# Patch the makefiles to point at the right places
 	#

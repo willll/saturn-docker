@@ -1,14 +1,6 @@
 #!/bin/bash
 set -e
 
-build () {
-	echo "BUILDING $1"
-	cd "$SATURN_JOENGINE/Samples/$1"
-	SILENT=1 make clean
-	SILENT=1 make
-}
-
-
 if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 
 	if [ ! -d $SATURN_JOENGINE ]; then
@@ -27,17 +19,19 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 					'demo_-_line_scroll'
 					'demo_-_3D'
 					'demo_-_map'
-					#'demo_-_3D_map'
+					'demo_-_3D_map'
 					'demo_-_mode7'
 					'demo_-_3D_-_programmatically'
 					'demo_-_multitap'
 					'demo_-_8bits_tga'
-					#'demo_-_nbg2_font'
+					'demo_-_nbg2_font'
 					'demo_-_advanced_3D'
-					'demo_-_paint'
+					'demo_-_analog'
 					'demo_-_audio'
+					'demo_-_paint'
 					'demo_-_printf'
 					'demo_-_background'
+					'demo_-_render_to_image'
 					'demo_-_shooter'
 					'demo_-_backup'
 					'demo_-_simple_water_effect'
@@ -53,8 +47,9 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 					'demo_-_vdp2_plane'
 					'demo_-_gouraud_shading'
 					'demo_-_video'
-					#'demo_-_hardcoded_image'
+					'demo_-_hardcoded_image'
 					'demo_-_visual_novel'
+					'demo_-_voxel'
 						)
 
 	#
@@ -64,7 +59,8 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 	do
 		echo "BUILDING $sample"
 		cd "$SATURN_JOENGINE/Samples/$sample"
-		make $MAKEFLAGS
+		make clean
+		make VERBOSE=1 $MAKEFLAGS
 	done
 
 else

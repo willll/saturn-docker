@@ -279,23 +279,26 @@ TODO
 
 ### Jo Engine 2024.2 (https://www.jo-engine.org/)
 - [X] Jo Engine
-- [ ] Jo Engine Samples
+- [X] Jo Engine Samples
   - [X] demo1
   - [X] demo - homing laser
   - [X] demo - 2D storyboard
   - [X] demo - line scroll
   - [X] demo - 3D
   - [X] demo - map
-  - [ ] demo - 3D map
+  - [X] demo - 3D map
   - [X] demo - mode7
   - [X] demo - 3D - programmatically
+  - [X] demo - mouse
   - [X] demo - multitap
   - [X] demo - 8bits tga
-  - [ ] demo - nbg2 font
+  - [X] demo - nbg2 font
   - [X] demo - advanced 3D
-  - [X] demo - paint
+  - [X] demo - paint  
   - [X] demo - audio
+  - [X] demo - analog
   - [X] demo - printf
+  - [X] demo - render to image
   - [X] demo - background
   - [X] demo - shooter
   - [X] demo - backup
@@ -312,8 +315,9 @@ TODO
   - [X] demo - vdp2 plane
   - [X] demo - gouraud shading
   - [x] demo - video
-  - [ ] demo - hardcoded image
+  - [X] demo - hardcoded image
   - [X] demo - visual novel
+  - [X] demo - voxel
 
 ### Yaul (https://github.com/yaul-org/libyaul) (Version 0.3.1)
 - [ ] Yaul
