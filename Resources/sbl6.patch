@@ -10303,18 +10303,10 @@ diff -crBN --binary sbl6/segalib/mth/mth_tri.s sbl6_patch/segalib/mth/mth_tri.s
 + 					.END
 diff -crBN --binary sbl6/segalib/pcm/pcm_lib.c sbl6_patch/segalib/pcm/pcm_lib.c
 *** sbl6/segalib/pcm/pcm_lib.c	1996-02-08 05:25:12.000000000 -0500
---- sbl6_patch/segalib/pcm/pcm_lib.c	2023-01-08 11:58:24.000000000 -0500
+--- sbl6_patch/segalib/pcm/pcm_lib.c	2024-05-19 20:23:24.000000000 -0400
 ***************
-*** 281,288 ****
-  	case PCM_STAT_PLAY_CREATE:
-  	case PCM_STAT_PLAY_START:
-  		return 0;
-  	}
-! 	return PCM_INFO_SAMPLING_RATE(&st->info);
-  }
-  
-  /********************************************************************/
---- 281,291 ----
+*** 281,286 ****
+--- 281,289 ----
   	case PCM_STAT_PLAY_CREATE:
   	case PCM_STAT_PLAY_START:
   		return 0;
@@ -10322,10 +10314,8 @@ diff -crBN --binary sbl6/segalib/pcm/pcm_lib.c sbl6_patch/segalib/pcm/pcm_lib.c
 + 		// ERROR CASE TBD
 + 		return -1;
   	}
-! 	return PCM_INFO_SAMPLING_RATEPCM_INFO_SAMPLING_RATE(&st->info);
+  	return PCM_INFO_SAMPLING_RATE(&st->info);
   }
-  
-  /********************************************************************/
 ***************
 *** 793,796 ****
   		return FALSE;
@@ -10615,6 +10605,19 @@ diff -crBN --binary sbl6/segalib/snd/snd_main.c sbl6_patch/segalib/snd/snd_main.
   }
   
 ! 
+diff -crBN --binary sbl6/segalib/stm/stm_acc.c sbl6_patch/segalib/stm/stm_acc.c
+*** sbl6/segalib/stm/stm_acc.c	1996-02-08 05:25:44.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_acc.c	2024-05-20 08:53:10.000000000 -0400
+***************
+*** 534,540 ****
+   *************************************************/
+  Bool    STM_GetSctInfo(StmHn stm, Sint32 spos, StmSct *sinfo)
+  {
+-     Sint32      ec;
+      Bool        ret;
+  
+      STMERR_SetFunc(STM_GETSCTINFO);
+--- 534,539 ----
 diff -crBN --binary sbl6/segalib/stm/stm_init.c sbl6_patch/segalib/stm/stm_init.c
 *** sbl6/segalib/stm/stm_init.c	1996-02-08 05:25:46.000000000 -0500
 --- sbl6_patch/segalib/stm/stm_init.c	2023-01-08 14:04:40.000000000 -0500
@@ -10698,11 +10701,603 @@ diff -crBN --binary sbl6/segalib/stm/stm_init.c sbl6_patch/segalib/stm/stm_init.
   
       STMERR_SetFunc(STM_CLOSEGRP);
       if (grp == NULL) {
+diff -crBN --binary sbl6/segalib/stm/stm_loc.c sbl6_patch/segalib/stm/stm_loc.c
+*** sbl6/segalib/stm/stm_loc.c	1996-02-08 05:25:46.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_loc.c	2024-05-20 08:17:36.000000000 -0400
+***************
+*** 28,33 ****
+--- 28,34 ----
+  #include        "stm_def.h"
+  #include        "gfs_def.h"
+  #include        "gfs_cdc.h"
++ #include        "gfs_cdb.h"
+  #include        "gfs_cdf.h"
+  #include        "gfs_dir.h"
+  #include        "stm_loc.h"
 diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
 *** sbl6/segalib/stm/stm_svr.c	1996-02-08 05:25:48.000000000 -0500
---- sbl6_patch/segalib/stm/stm_svr.c	2023-01-08 14:00:30.000000000 -0500
+--- sbl6_patch/segalib/stm/stm_svr.c	2024-05-20 14:05:32.000000000 -0400
 ***************
-*** 481,487 ****
+*** 1,27 ****
+  /*****************************************************************************
+!  *      ƒ\ƒtƒgƒEƒFƒAƒ‰ƒCƒuƒ‰ƒŠ
+   *
+   *      Copyright (c) 1994,1995,1996 SEGA
+   *
+!  * Library: ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€
+!  * Module : ƒT[ƒoƒ‚ƒWƒ…[ƒ‹
+   * File   : stm_svr.c
+   * Date   : 1995-02-01
+   * Version: 2.10
+   * Author : H.T
+   *
+   *****************************************************************************/
+! /* SGL‚Ìê‡ƒRƒ“ƒpƒCƒ‹ƒIƒvƒVƒ‡ƒ“‚É‚æ‚è’è‹`‚·‚é‚±‚Æ
+   * #define USE_SGL
+   */
+  
+  /*****************************************************************************
+!  *      ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+   *****************************************************************************/
+  #include        <stdlib.h>
+  #include        <string.h>
+  
+  #include        "sega_stm.h"
+  #include        "gfs_def.h"
+  #include        "gfs_cdc.h"
+  #include        "gfs_cdf.h"
+--- 1,28 ----
+  /*****************************************************************************
+!  *      ï¿½\ï¿½tï¿½gï¿½Eï¿½Fï¿½Aï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
+   *
+   *      Copyright (c) 1994,1995,1996 SEGA
+   *
+!  * Library: ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½
+!  * Module : ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½[ï¿½ï¿½
+   * File   : stm_svr.c
+   * Date   : 1995-02-01
+   * Version: 2.10
+   * Author : H.T
+   *
+   *****************************************************************************/
+! /* SGLï¿½Ìê‡ï¿½Rï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½é‚±ï¿½ï¿½
+   * #define USE_SGL
+   */
+  
+  /*****************************************************************************
+!  *      ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½tï¿½@ï¿½Cï¿½ï¿½
+   *****************************************************************************/
+  #include        <stdlib.h>
+  #include        <string.h>
+  
+  #include        "sega_stm.h"
++ #include        "stm_def.h"
+  #include        "gfs_def.h"
+  #include        "gfs_cdc.h"
+  #include        "gfs_cdf.h"
+***************
+*** 30,59 ****
+  #include        "gfs_buf.h"
+  #include        "gfs_dir.h"
+  #include        "stm_loc.h"
+- #include        "stm_def.h"
+  
+  /*****************************************************************************
+!  *      •Ï”‚Ì’è‹`
+   *****************************************************************************/
+  
+! /* ƒRƒ}ƒ“ƒh“o˜^—Ìˆæ     */
+  StmCmd  stm_cmd_area;
+  
+  /*****************************************************************************
+!  *      ŠÖ”‚Ì’è‹`
+   *****************************************************************************/
+  /*--- STMMNG functions -------------------------------------------------*/
+  
+  /*****************************************************
+!  * CDƒXƒgƒŠ[ƒ€‚ª‚È‚¢‚©‚Ç‚¤‚©‚ğ’²‚×‚é
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * –ß‚è’l : TRUE CDƒXƒgƒŠ[ƒ€‚Í‚È‚¢
+   *****************************************************/
+  STM_LOCAL Bool  stmmng_isNoCdFile(StmGrpHn grp)
+  {
+      StmHn       stm;
+  
+!     /* í’“ƒXƒgƒŠ[ƒ€‚Íƒ‹[ƒvƒXƒgƒŠ[ƒ€‚É‚È‚ç‚È‚¢       */
+      if (STM_GRP_LOOPSTM(grp) != NULL) {
+          return (FALSE);
+      }
+--- 31,59 ----
+  #include        "gfs_buf.h"
+  #include        "gfs_dir.h"
+  #include        "stm_loc.h"
+  
+  /*****************************************************************************
+!  *      ï¿½Ïï¿½ï¿½Ì’ï¿½ï¿½`
+   *****************************************************************************/
+  
+! /* ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½oï¿½^ï¿½Ìˆï¿½     */
+  StmCmd  stm_cmd_area;
+  
+  /*****************************************************************************
+!  *      ï¿½Öï¿½ï¿½Ì’ï¿½ï¿½`
+   *****************************************************************************/
+  /*--- STMMNG functions -------------------------------------------------*/
+  
+  /*****************************************************
+!  * CDï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ’²‚×‚ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE CDï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Í‚È‚ï¿½
+   *****************************************************/
+  STM_LOCAL Bool  stmmng_isNoCdFile(StmGrpHn grp)
+  {
+      StmHn       stm;
+  
+!     /* ï¿½í’“ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Íƒï¿½ï¿½[ï¿½vï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½È‚ï¿½       */
+      if (STM_GRP_LOOPSTM(grp) != NULL) {
+          return (FALSE);
+      }
+***************
+*** 67,85 ****
+  
+  
+  /*****************************************************
+!  * ‘SƒXƒgƒŠ[ƒ€‚ªí’“ƒXƒgƒŠ[ƒ€‚©‚Ç‚¤‚©‚ğ’²‚×‚é
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * –ß‚è’l : TRUE ‚·‚×‚Äí’“ƒXƒgƒŠ[ƒ€
+   *****************************************************/
+  STM_LOCAL Bool  stmmng_isAllResi(StmGrpHn grp)
+  {
+      StmHn       stm;
+  
+!     /* í’“ƒXƒgƒŠ[ƒ€‚Íƒ‹[ƒvƒXƒgƒŠ[ƒ€‚É‚È‚ç‚È‚¢       */
+      if (STM_GRP_LOOPSTM(grp) != NULL) {
+          return (FALSE);
+      }
+!     /* i‚è‚ªÚ‘±‚³‚ê‚Ä‚¢‚éê‡ */
+      if (STM_GRP_FLTLST(grp) != NULL) {
+          return (FALSE);
+      }
+--- 67,85 ----
+  
+  
+  /*****************************************************
+!  * ï¿½Sï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½í’“ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ’²‚×‚ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE ï¿½ï¿½ï¿½×‚Äí’“ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½
+   *****************************************************/
+  STM_LOCAL Bool  stmmng_isAllResi(StmGrpHn grp)
+  {
+      StmHn       stm;
+  
+!     /* ï¿½í’“ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Íƒï¿½ï¿½[ï¿½vï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½È‚ï¿½       */
+      if (STM_GRP_LOOPSTM(grp) != NULL) {
+          return (FALSE);
+      }
+!     /* ï¿½iï¿½è‚ªï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ */
+      if (STM_GRP_FLTLST(grp) != NULL) {
+          return (FALSE);
+      }
+***************
+*** 93,100 ****
+  
+  
+  /*************************************************
+!  * CSCTƒrƒbƒgŠÖ”‚Ì“o˜^
+!  * grp : Às’†ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+   *************************************************/
+  STM_LOCAL void  stm_execCsct(void *grp)
+  {
+--- 93,100 ----
+  
+  
+  /*************************************************
+!  * CSCTï¿½rï¿½bï¿½gï¿½Öï¿½ï¿½Ì“oï¿½^
+!  * grp : ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+   *************************************************/
+  STM_LOCAL void  stm_execCsct(void *grp)
+  {
+***************
+*** 118,125 ****
+  
+  
+  /*************************************************
+!  * ƒXƒe[ƒ^ƒX‚É‚æ‚éƒGƒ‰[‚Ìİ’è
+!  * stat : ƒhƒ‰ƒCƒu‚ÌƒXƒe[ƒ^ƒX
+   *************************************************/
+  STM_LOCAL void  stm_setErr(Sint32 stat)
+  {
+--- 118,125 ----
+  
+  
+  /*************************************************
+!  * ï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½É‚ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½Ìİ’ï¿½
+!  * stat : ï¿½hï¿½ï¿½ï¿½Cï¿½uï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½X
+   *************************************************/
+  STM_LOCAL void  stm_setErr(Sint32 stat)
+  {
+***************
+*** 142,156 ****
+          STMERR_SetCode(code);
+      }
+  }
+!         
+  
+  /*--- stmtsk functions -------------------------------------------------*/
+  
+  /*************************************************
+!  * ƒT[ƒoÀsƒOƒ‹[ƒv‚Ì•ÏX
+!  * grp    : •ÏXŒã‚ÌƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+!  * –ß‚è’l : TRUE        ˆ—Š®—¹
+!             FALSE       ˆ—’†
+   *************************************************/
+  STM_LOCAL Bool  stmtsk_setExecGrp(void *_grp)
+  {
+--- 142,156 ----
+          STMERR_SetCode(code);
+      }
+  }
+! 
+  
+  /*--- stmtsk functions -------------------------------------------------*/
+  
+  /*************************************************
+!  * ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½sï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½Ì•ÏX
+!  * grp    : ï¿½ÏXï¿½ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE        ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!             FALSE       ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   *************************************************/
+  STM_LOCAL Bool  stmtsk_setExecGrp(void *_grp)
+  {
+***************
+*** 168,178 ****
+      grp = (StmGrpHn)_grp;
+      if (MNG_CURGRP(stm_mng_ptr) != grp) {
+          oldgrp = MNG_CURGRP(stm_mng_ptr);
+!         /* “Ç‚İ‚İ’†‚ÌƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ğ’â~‚·‚é     */
+          if (oldgrp != NULL) {
+              stat = GFCF_GetStat(&fad, NULL);
+!             stm_setErr(stat);                   /* ƒGƒ‰[ƒR[ƒh‚Ìİ’è   */
+!             /* ƒhƒ‰ƒCƒu‚ğ’â~‚·‚é       */
+              if ((IS_PLAYING(oldgrp) == TRUE)&&
+                  (IS_PAUSING(oldgrp) == FALSE)) {
+                  ret = STL_StopIn(oldgrp);
+--- 168,178 ----
+      grp = (StmGrpHn)_grp;
+      if (MNG_CURGRP(stm_mng_ptr) != grp) {
+          oldgrp = MNG_CURGRP(stm_mng_ptr);
+!         /* ï¿½Ç‚İï¿½ï¿½İ’ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½     */
+          if (oldgrp != NULL) {
+              stat = GFCF_GetStat(&fad, NULL);
+!             stm_setErr(stat);                   /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½   */
+!             /* ï¿½hï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½       */
+              if ((IS_PLAYING(oldgrp) == TRUE)&&
+                  (IS_PAUSING(oldgrp) == FALSE)) {
+                  ret = STL_StopIn(oldgrp);
+***************
+*** 181,209 ****
+                  }
+                  STM_GRP_ATR(oldgrp) |= STMGRP_ATR_PAUSE;
+              }
+!             /* ƒsƒbƒNƒAƒbƒv‚ğ‰ğ•ú‚·‚é   */
+              if (STM_GRP_PUID(oldgrp) >= 0) {
+                  GFCD_UngetPickup(STM_GRP_PUID(oldgrp));
+                  STM_GRP_PUID(oldgrp) = -1;
+                  GFCD_SetCsctFunc(GFCD_NULLFUNC, NULL);
+              }
+!             /* ƒOƒ‹[ƒv‚ªˆ—’†‚Ìê‡   */
+              if (STM_GRP_ACSTAT(oldgrp) != STM_EXEC_COMPLETED) {
+!                 STM_GRP_ACSTAT(oldgrp) = STM_EXEC_PAUSE;  /* ƒ|[ƒYİ’è */
+!                 /* COMPLETED‚Ìê‡ƒXƒe[ƒ^ƒX‚Í•Ï‰»‚µ‚È‚¢        */
+              }
+!             /* ’â~Š®—¹                 */
+              if (stat == GFS_STAT_NOACT) {
+                  next = STM_GRP_NEXTTRNS(oldgrp);
+                  if (next != NULL) {
+                      GFTR_Stop(STM_GFS(next), GFTR_ALLSCT);
+                      GFS_TRN_STAT(&GFS_FILE_TRANS(STM_GFS(next))) =
+                                                                GFTR_ST_NOACT;
+!                                       /* END ó‘Ô‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é   */
+                  }
+                  if (IS_PAUSING(oldgrp) == TRUE) {
+                      lst_fad = STMMNG_GetLstFad(oldgrp);
+!                     /* “Ç‚İ‚İ‚ğŠ®—¹‚µ‚Ä‚¢‚È‚¢ê‡FAD‚ğXV‚·‚é        */
+                      fad = STL_GetCurFad();
+                      if (STM_GRP_FAD(oldgrp) <= lst_fad) {
+                          STM_GRP_FAD(oldgrp) = fad;
+--- 181,209 ----
+                  }
+                  STM_GRP_ATR(oldgrp) |= STMGRP_ATR_PAUSE;
+              }
+!             /* ï¿½sï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   */
+              if (STM_GRP_PUID(oldgrp) >= 0) {
+                  GFCD_UngetPickup(STM_GRP_PUID(oldgrp));
+                  STM_GRP_PUID(oldgrp) = -1;
+                  GFCD_SetCsctFunc(GFCD_NULLFUNC, NULL);
+              }
+!             /* ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡   */
+              if (STM_GRP_ACSTAT(oldgrp) != STM_EXEC_COMPLETED) {
+!                 STM_GRP_ACSTAT(oldgrp) = STM_EXEC_PAUSE;  /* ï¿½|ï¿½[ï¿½Yï¿½İ’ï¿½ */
+!                 /* COMPLETEDï¿½Ìê‡ï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½Í•Ï‰ï¿½ï¿½ï¿½ï¿½È‚ï¿½        */
+              }
+!             /* ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½                 */
+              if (stat == GFS_STAT_NOACT) {
+                  next = STM_GRP_NEXTTRNS(oldgrp);
+                  if (next != NULL) {
+                      GFTR_Stop(STM_GFS(next), GFTR_ALLSCT);
+                      GFS_TRN_STAT(&GFS_FILE_TRANS(STM_GFS(next))) =
+                                                                GFTR_ST_NOACT;
+!                                       /* END ï¿½ï¿½ï¿½Ô‚É‚È‚ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½   */
+                  }
+                  if (IS_PAUSING(oldgrp) == TRUE) {
+                      lst_fad = STMMNG_GetLstFad(oldgrp);
+!                     /* ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡FADï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½        */
+                      fad = STL_GetCurFad();
+                      if (STM_GRP_FAD(oldgrp) <= lst_fad) {
+                          STM_GRP_FAD(oldgrp) = fad;
+***************
+*** 215,221 ****
+              }
+          }
+  
+!         /* V‚µ‚¢ƒOƒ‹[ƒv‚ğİ’è‚·‚é                     */
+          if (oldgrp == NULL) {
+              if (grp != NULL) {
+                  if (STM_GRP_PUID(grp) < 0) {
+--- 215,221 ----
+              }
+          }
+  
+!         /* ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½                     */
+          if (oldgrp == NULL) {
+              if (grp != NULL) {
+                  if (STM_GRP_PUID(grp) < 0) {
+***************
+*** 226,232 ****
+                      GFCD_SetCsctFunc(stm_execCsct, grp);
+                  }
+                  if (STM_GRP_PUID(grp) >= 0) {
+!                     /* CDƒfƒoƒCƒX‚ÌÚ‘±•ÏX     */
+                      stm = STM_GRP_FLTLST(grp);
+                      if (stm != NULL) {
+                          fltno = GFS_CDR_FLT(STM_DTSRC(stm));
+--- 226,232 ----
+                      GFCD_SetCsctFunc(stm_execCsct, grp);
+                  }
+                  if (STM_GRP_PUID(grp) >= 0) {
+!                     /* CDï¿½fï¿½oï¿½Cï¿½Xï¿½ÌÚ‘ï¿½ï¿½ÏX     */
+                      stm = STM_GRP_FLTLST(grp);
+                      if (stm != NULL) {
+                          fltno = GFS_CDR_FLT(STM_DTSRC(stm));
+***************
+*** 258,265 ****
+  /*--- STM functions ----------------------------------------------------*/
+  
+  /*************************************************
+!  * ƒT[ƒoÀsƒOƒ‹[ƒv‚Ìw’è(7.1)
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  Bool    STM_NwSetExecGrp(StmGrpHn grp)
+  {
+--- 258,265 ----
+  /*--- STM functions ----------------------------------------------------*/
+  
+  /*************************************************
+!  * ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½sï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½Ìwï¿½ï¿½(7.1)
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  Bool    STM_NwSetExecGrp(StmGrpHn grp)
+  {
+***************
+*** 275,282 ****
+  
+  
+  /*************************************************
+!  * ƒT[ƒoÀsƒOƒ‹[ƒv‚Ìw’è(7.2)
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  Bool    STM_SetExecGrp(StmGrpHn grp)
+  {
+--- 275,282 ----
+  
+  
+  /*************************************************
+!  * ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½sï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½Ìwï¿½ï¿½(7.2)
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  Bool    STM_SetExecGrp(StmGrpHn grp)
+  {
+***************
+*** 296,305 ****
+  
+  
+  /*************************************************
+!  * ƒXƒgƒŠ[ƒ€ƒf[ƒ^“]‘—’†‚Ìæ“¾(6.3)
+!  * stm  : ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹
+!  * –ß‚è’l : TRUE        “]‘—’†
+!  *        : FALSE       “]‘—‚µ‚Ä‚¢‚È‚¢
+   *************************************************/
+  STM_LOCAL Bool  stmsvr_isTrans(StmHn stm)
+  {
+--- 296,305 ----
+  
+  
+  /*************************************************
+!  * ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾(6.3)
+!  * stm  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE        ï¿½]ï¿½ï¿½ï¿½ï¿½
+!  *        : FALSE       ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
+   *************************************************/
+  STM_LOCAL Bool  stmsvr_isTrans(StmHn stm)
+  {
+***************
+*** 333,340 ****
+  
+  
+  /*************************************************
+!  * “Ç‚İ‚İƒtƒ‰ƒO‚Ì‰ğœ
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  STM_LOCAL void  stm_setReadFalse(StmGrpHn grp)
+  {
+--- 333,340 ----
+  
+  
+  /*************************************************
+!  * ï¿½Ç‚İï¿½ï¿½İƒtï¿½ï¿½ï¿½Oï¿½Ì‰ï¿½ï¿½ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  STM_LOCAL void  stm_setReadFalse(StmGrpHn grp)
+  {
+***************
+*** 344,352 ****
+  
+      fad = STM_GRP_FAD(grp);
+      for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+!         /* ƒXƒgƒŠ[ƒ€‚ÌI—¹FAD‚ğæ“¾    */
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!         if (sfad > fad) {       /* ŠJnƒZƒNƒ^‚ªŒ»İˆÊ’uˆÈ~‚Ìê‡    */
+              GFS_FILE_ASTAT(STM_GFS(stm)) = GFS_SVR_COMPLETED;
+              STM_ATR(stm) &= ~STM_ATR_READ;
+          }
+--- 344,352 ----
+  
+      fad = STM_GRP_FAD(grp);
+      for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+!         /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌIï¿½ï¿½FADï¿½ï¿½ï¿½æ“¾    */
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!         if (sfad > fad) {       /* ï¿½Jï¿½nï¿½Zï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İˆÊ’uï¿½È~ï¿½Ìê‡    */
+              GFS_FILE_ASTAT(STM_GFS(stm)) = GFS_SVR_COMPLETED;
+              STM_ATR(stm) &= ~STM_ATR_READ;
+          }
+***************
+*** 355,362 ****
+  
+  
+  /*************************************************
+!  * “]‘——Ìˆæ‚Ì‰Šú‰»
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  STM_LOCAL void  stm_resetTrbuf(StmGrpHn grp)
+  {
+--- 355,362 ----
+  
+  
+  /*************************************************
+!  * ï¿½]ï¿½ï¿½ï¿½Ìˆï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  STM_LOCAL void  stm_resetTrbuf(StmGrpHn grp)
+  {
+***************
+*** 370,377 ****
+  
+  
+  /*************************************************
+!  * “]‘—ƒtƒ‰ƒO‚ÌƒŠƒZƒbƒg
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+   *************************************************/
+  STM_LOCAL void  stm_resetTrflag(StmGrpHn grp)
+  {
+--- 370,377 ----
+  
+  
+  /*************************************************
+!  * ï¿½]ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+   *************************************************/
+  STM_LOCAL void  stm_resetTrflag(StmGrpHn grp)
+  {
+***************
+*** 389,398 ****
+  
+  
+  /*************************************************
+!  * ƒ‹[ƒvŠJnƒXƒgƒŠ[ƒ€‚Ìw’è(7.5)
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+!  * stm  : ƒ‹[ƒvŠJnƒXƒgƒŠ[ƒ€
+!  * loopmax : ƒ‹[ƒv‰ñ”(–³ŒÀ‰ñ‚Ìê‡STM_LOOP_ENDLESS)
+   *************************************************/
+  STM_LOCAL Bool  stmsvr_setLoop(StmGrpHn grp, StmHn stm, Sint32 loopmax)
+  {
+--- 389,398 ----
+  
+  
+  /*************************************************
+!  * ï¿½ï¿½ï¿½[ï¿½vï¿½Jï¿½nï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìwï¿½ï¿½(7.5)
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * stm  : ï¿½ï¿½ï¿½[ï¿½vï¿½Jï¿½nï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½
+!  * loopmax : ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡STM_LOOP_ENDLESS)
+   *************************************************/
+  STM_LOCAL Bool  stmsvr_setLoop(StmGrpHn grp, StmHn stm, Sint32 loopmax)
+  {
+***************
+*** 403,409 ****
+          stm_resetTrflag(grp);
+      }
+      if (stm == STM_LOOP_DFL) {
+!         /* “Ç‚İ‚İ‚ÌI‚Á‚Ä‚¢‚È‚¢æ“ª‚ÌƒXƒgƒŠ[ƒ€‚ğƒT[ƒ`‚·‚é   */
+          for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+              if ((IS_STM_READEND(stm) == FALSE)&&(IS_STM_RESI(stm) == FALSE)) {
+                  break;
+--- 403,409 ----
+          stm_resetTrflag(grp);
+      }
+      if (stm == STM_LOOP_DFL) {
+!         /* ï¿½Ç‚İï¿½ï¿½İ‚ÌIï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½æ“ªï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½`ï¿½ï¿½ï¿½ï¿½   */
+          for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+              if ((IS_STM_READEND(stm) == FALSE)&&(IS_STM_RESI(stm) == FALSE)) {
+                  break;
+***************
+*** 448,455 ****
+  
+  
+  /*************************************************
+!  * “Ç‚İ‚İƒtƒ‰ƒO‚Ìİ’è
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  STM_LOCAL void  stm_setReadTrue(StmGrpHn grp)
+  {
+--- 448,455 ----
+  
+  
+  /*************************************************
+!  * ï¿½Ç‚İï¿½ï¿½İƒtï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  STM_LOCAL void  stm_setReadTrue(StmGrpHn grp)
+  {
+***************
+*** 459,467 ****
+  
+      fad = STM_GRP_FAD(grp);
+      for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+!         /* ƒXƒgƒŠ[ƒ€‚ÌŠJnFAD‚ğæ“¾    */
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!         /* ŠJnƒZƒNƒ^‚ªŒ»İˆÊ’uˆÈ~,‚Ü‚½‚Íí’“ƒXƒgƒŠ[ƒ€‚Ìê‡    */
+          if (((sfad >= fad)&&(IS_STM_READEND(stm) == FALSE))||
+              (IS_STM_RESI(stm) == TRUE)) {
+              STM_ATR(stm) |= STM_ATR_READ;
+--- 459,467 ----
+  
+      fad = STM_GRP_FAD(grp);
+      for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+!         /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŠJï¿½nFADï¿½ï¿½ï¿½æ“¾    */
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!         /* ï¿½Jï¿½nï¿½Zï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İˆÊ’uï¿½È~,ï¿½Ü‚ï¿½ï¿½Íí’“ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìê‡    */
+          if (((sfad >= fad)&&(IS_STM_READEND(stm) == FALSE))||
+              (IS_STM_RESI(stm) == TRUE)) {
+              STM_ATR(stm) |= STM_ATR_READ;
+***************
+*** 473,494 ****
+  
+  
+  /*************************************************
+!  * “Ç‚İ‚İI—¹ƒtƒ‰ƒO‚Ìİ’è
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  void    STMSVR_SetReadEnd(StmGrpHn grp)
+  {
       Sint32      fad;
       StmHn       stm;
       Sint32      sfad, efad;
@@ -10710,9 +11305,706 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Sint32      loopmax, loopcnt;
   
       fad = STM_GRP_FAD(grp);
---- 481,486 ----
+      for (stm = STM_GRP_FLTLST(grp); stm != NULL; stm = STM_FLTLST(stm)) {
+!         /* ƒXƒgƒŠ[ƒ€‚ÌŠJnFAD‚ğæ“¾    */
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!         /* I—¹ƒZƒNƒ^‚ªŒ»İˆÊ’uˆÈ‘O‚Å‚·‚Å‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚éê‡ */
+          if ((efad < fad)&&(IS_STM_READ(stm) == TRUE)&&
+              (IS_STM_LOOPNOREAD(stm) == TRUE)) {
+              STM_ATR(stm) |= STM_ATR_READEND;
+--- 473,493 ----
+  
+  
+  /*************************************************
+!  * ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  void    STMSVR_SetReadEnd(StmGrpHn grp)
+  {
+      Sint32      fad;
+      StmHn       stm;
+      Sint32      sfad, efad;
+      Sint32      loopmax, loopcnt;
+  
+      fad = STM_GRP_FAD(grp);
+      for (stm = STM_GRP_FLTLST(grp); stm != NULL; stm = STM_FLTLST(stm)) {
+!         /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŠJï¿½nFADï¿½ï¿½ï¿½æ“¾    */
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!         /* ï¿½Iï¿½ï¿½ï¿½Zï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İˆÊ’uï¿½È‘Oï¿½Å‚ï¿½ï¿½Å‚É“Ç‚İï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ */
+          if ((efad < fad)&&(IS_STM_READ(stm) == TRUE)&&
+              (IS_STM_LOOPNOREAD(stm) == TRUE)) {
+              STM_ATR(stm) |= STM_ATR_READEND;
 ***************
-*** 913,919 ****
+*** 508,518 ****
+  
+  
+  /*************************************************
+!  * Ä¶”ÍˆÍ‚Ìƒ`ƒFƒbƒN
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * fad  : Œ»İ‚ÌÄ¶FAD
+!  * –ß‚è’l: ³  ˆÚ“®æFAD
+!  *         •‰  ˆÚ“®•s—p
+   *************************************************/
+  STM_LOCAL Sint32        stm_checkArea(StmGrpHn grp, Sint32 fad)
+  {
+--- 507,517 ----
+  
+  
+  /*************************************************
+!  * ï¿½Äï¿½ï¿½ÍˆÍ‚Ìƒ`ï¿½Fï¿½bï¿½N
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * fad  : ï¿½ï¿½ï¿½İ‚ÌÄï¿½FAD
+!  * ï¿½ß‚ï¿½ï¿½l: ï¿½ï¿½  ï¿½Ú“ï¿½ï¿½ï¿½FAD
+!  *         ï¿½ï¿½  ï¿½Ú“ï¿½ï¿½sï¿½p
+   *************************************************/
+  STM_LOCAL Sint32        stm_checkArea(StmGrpHn grp, Sint32 fad)
+  {
+***************
+*** 525,567 ****
+      for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+          if (IS_STM_READEND(stm) == FALSE) {
+              STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!             /* Ä¶ˆÊ’u‚ª—LŒø”ÍˆÍ“à‚Ìê‡               */
+              if ((sfad <= fad)&&(efad >= fad)) {
+                  break;
+              }
+!             /* Ÿ‚ÌƒXƒgƒŠ[ƒ€‚ÌŠJnˆÊ’u‚ÉˆÚ“®‚·‚é       */
+              if (sfad > fad) {
+                  return (sfad);
+              }
+          }
+      }
+!     return (-1);                        /* ˆÚ“®‚·‚é•K—v‚È‚µ             */
+  }
+  
+!         
+  
+  /*************************************************
+!  * ƒ‹[ƒvƒXƒgƒŠ[ƒ€‚ÌFAD‚Ìæ“¾
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+   *************************************************/
+  STM_LOCAL Sint32        stm_getLoopFad(StmGrpHn grp)
+  {
+      Sint32      sfad, efad;
+  
+!     /* ƒ‹[ƒvƒXƒgƒŠ[ƒ€‚ÌŠJnFAD‚ğæ“¾  */
+      STL_GetPlayArea(STM_FLOW(STM_GRP_LOOPSTM(grp)), &sfad, &efad);
+      return (sfad);
+  }
+  
+  
+  /*************************************************
+!  * Ä¶ƒpƒ‰ƒ[ƒ^‚Ìæ“¾
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * fad  : Œ»İ‚ÌFAD
+!  * efad : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌI—¹FAD
+!  * seekpos : ƒsƒbƒNƒAƒbƒv‚ÌˆÚ“®æ
+!  * start : Ä¶‚ğŠJn‚·‚é‚©‚Ç‚¤‚©
+!  * –ß‚è’l : TRUE “Ç‚İ‚İI—¹  FALSE “Ç‚İ‚İ’†
+   *************************************************/
+  STM_LOCAL Bool  stm_getReadParam(StmGrpHn grp, Sint32 fad, Sint32 efad,
+                                   Sint32 stat, Sint32 *seekpos, Bool *start)
+--- 524,566 ----
+      for (stm = STM_GRP_SFADLST(grp); stm != NULL; stm = STM_SFADLST(stm)) {
+          if (IS_STM_READEND(stm) == FALSE) {
+              STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!             /* ï¿½Äï¿½ï¿½Ê’uï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ÍˆÍ“ï¿½ï¿½Ìê‡               */
+              if ((sfad <= fad)&&(efad >= fad)) {
+                  break;
+              }
+!             /* ï¿½ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŠJï¿½nï¿½Ê’uï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½       */
+              if (sfad > fad) {
+                  return (sfad);
+              }
+          }
+      }
+!     return (-1);                        /* ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½             */
+  }
+  
+! 
+  
+  /*************************************************
+!  * ï¿½ï¿½ï¿½[ï¿½vï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½FADï¿½Ìæ“¾
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+   *************************************************/
+  STM_LOCAL Sint32        stm_getLoopFad(StmGrpHn grp)
+  {
+      Sint32      sfad, efad;
+  
+!     /* ï¿½ï¿½ï¿½[ï¿½vï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŠJï¿½nFADï¿½ï¿½ï¿½æ“¾  */
+      STL_GetPlayArea(STM_FLOW(STM_GRP_LOOPSTM(grp)), &sfad, &efad);
+      return (sfad);
+  }
+  
+  
+  /*************************************************
+!  * ï¿½Äï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ìæ“¾
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * fad  : ï¿½ï¿½ï¿½İ‚ï¿½FAD
+!  * efad : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ÌIï¿½ï¿½FAD
+!  * seekpos : ï¿½sï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ÌˆÚ“ï¿½ï¿½ï¿½
+!  * start : ï¿½Äï¿½ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½  FALSE ï¿½Ç‚İï¿½ï¿½İ’ï¿½
+   *************************************************/
+  STM_LOCAL Bool  stm_getReadParam(StmGrpHn grp, Sint32 fad, Sint32 efad,
+                                   Sint32 stat, Sint32 *seekpos, Bool *start)
+***************
+*** 571,586 ****
+  
+      if (STM_GRP_LOOPCNT(grp) == STM_GRP_LOOPMAX(grp)) {
+          if (STM_GRP_FAD(grp) > efad) {
+!             /* ‘S‚Ä‚Ì“Ç‚İ‚İ‚ğI—¹‚µ‚Ä‚¢‚éê‡         */
+              *seekpos = -1;
+              *start = FALSE;
+              ret = TRUE;
+              return (ret);
+          } else if (stat == GFS_STAT_NOACT) {
+!             /* Ä¶”ÍˆÍ‚ğ‰z‚¦‚½Œã,ƒXƒgƒŠ[ƒ€‚ª’Ç‰Á‚³‚ê‚½ê‡    */
+              cdstat = GFCF_GetStat(NULL, NULL);
+!             stm_setErr(cdstat);                 /* ƒGƒ‰[ƒR[ƒh‚Ìİ’è   */
+!             /* Ä¶‚ğI—¹‚µ‚Ä‚¢‚éê‡           */
+              if (fad > MNG_EFAD(stm_mng_ptr)) {
+                  STM_GRP_FAD(grp) = STL_GetCurFad();
+                  STM_GRP_LOOPCNT(grp)--;
+--- 570,585 ----
+  
+      if (STM_GRP_LOOPCNT(grp) == STM_GRP_LOOPMAX(grp)) {
+          if (STM_GRP_FAD(grp) > efad) {
+!             /* ï¿½Sï¿½Ä‚Ì“Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡         */
+              *seekpos = -1;
+              *start = FALSE;
+              ret = TRUE;
+              return (ret);
+          } else if (stat == GFS_STAT_NOACT) {
+!             /* ï¿½Äï¿½ï¿½ÍˆÍ‚ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡    */
+              cdstat = GFCF_GetStat(NULL, NULL);
+!             stm_setErr(cdstat);                 /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½   */
+!             /* ï¿½Äï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡           */
+              if (fad > MNG_EFAD(stm_mng_ptr)) {
+                  STM_GRP_FAD(grp) = STL_GetCurFad();
+                  STM_GRP_LOOPCNT(grp)--;
+***************
+*** 590,596 ****
+          if (((STM_GRP_FAD(grp) > efad)&&(IS_PLAYING(grp) == FALSE))||
+              (STM_GRP_FLTLST(grp) == NULL)) {
+              if (STM_GRP_LOOPSTM(grp) == NULL) {
+!                 /* ‘S‚Ä‚Ì“Ç‚İ‚İ‚ğI—¹‚µ‚Ä‚¢‚éê‡             */
+                  *seekpos = -1;
+                  *start = FALSE;
+                  ret = TRUE;
+--- 589,595 ----
+          if (((STM_GRP_FAD(grp) > efad)&&(IS_PLAYING(grp) == FALSE))||
+              (STM_GRP_FLTLST(grp) == NULL)) {
+              if (STM_GRP_LOOPSTM(grp) == NULL) {
+!                 /* ï¿½Sï¿½Ä‚Ì“Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡             */
+                  *seekpos = -1;
+                  *start = FALSE;
+                  ret = TRUE;
+***************
+*** 600,636 ****
+              stm_resetTrflag(grp);
+          }
+      }
+!     /* “Ç‚İ‚İ‚ğŠJn‚µ‚Ä‚¢‚È‚¢ê‡     */
+      if (IS_PLAYING(grp) == FALSE) {
+          if (STM_GRP_PUID(grp) >= 0) {
+!             /* ƒsƒbƒNƒAƒbƒv‚ğg—p‚Å‚«‚éê‡     */
+              *seekpos = stm_checkArea(grp, STM_GRP_FAD(grp));
+              if (*seekpos >= 0) {
+                  STM_GRP_FAD(grp) = *seekpos;
+              }
+  
+!             *start = TRUE;                      /* “Ç‚İ‚İ‚ğŠJn‚·‚é   */
+              STM_GRP_ACSTAT(grp) = STM_EXEC_DOING;
+              *seekpos = -1;
+          } else {
+!             /* ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€g—p’†‚ÉŒÄ‚Î‚ê‚½ê‡‚È‚Ç */
+              *seekpos = -1;
+!             *start = FALSE;                     /* “Ç‚İ‚İ‚ğŠJn‚µ‚È‚¢ */
+          }
+      } else if (IS_READING(grp) == TRUE) {
+          if (fad <= efad) {
+              cdstat = GFCF_GetStat(NULL, NULL);
+!             stm_setErr(cdstat);                 /* ƒGƒ‰[ƒR[ƒh‚Ìİ’è   */
+!             /* Ä¶‚ğI—¹‚µ‚Ä‚¢‚éê‡   */
+              if ((stat == GFS_STAT_NOACT)&&(fad > MNG_EFAD(stm_mng_ptr))) {
+!                 /* Ÿ‰ñÄ¶ŠJn‚³‚¹‚é           */
+                  STM_GRP_FAD(grp) = fad;
+!                 /* Ä¶I—¹,“Ç‚İ‚İI—¹        */
+                  STM_GRP_ATR(grp) &= ~(STMGRP_ATR_PLAY|STMGRP_ATR_READ|
+                                        STMGRP_ATR_SEEK);
+                  *seekpos = -1;
+              } else {
+!                 /* “Ç‚İ‚İ’†           */
+                  STM_GRP_FAD(grp) = fad;
+                  if (IS_SEEKING(grp) == FALSE) {
+                      *seekpos = stm_checkArea(grp, fad);
+--- 599,635 ----
+              stm_resetTrflag(grp);
+          }
+      }
+!     /* ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡     */
+      if (IS_PLAYING(grp) == FALSE) {
+          if (STM_GRP_PUID(grp) >= 0) {
+!             /* ï¿½sï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½gï¿½pï¿½Å‚ï¿½ï¿½ï¿½ï¿½ê‡     */
+              *seekpos = stm_checkArea(grp, STM_GRP_FAD(grp));
+              if (*seekpos >= 0) {
+                  STM_GRP_FAD(grp) = *seekpos;
+              }
+  
+!             *start = TRUE;                      /* ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½   */
+              STM_GRP_ACSTAT(grp) = STM_EXEC_DOING;
+              *seekpos = -1;
+          } else {
+!             /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ÉŒÄ‚Î‚ê‚½ï¿½ê‡ï¿½È‚ï¿½ */
+              *seekpos = -1;
+!             *start = FALSE;                     /* ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½È‚ï¿½ */
+          }
+      } else if (IS_READING(grp) == TRUE) {
+          if (fad <= efad) {
+              cdstat = GFCF_GetStat(NULL, NULL);
+!             stm_setErr(cdstat);                 /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½   */
+!             /* ï¿½Äï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡   */
+              if ((stat == GFS_STAT_NOACT)&&(fad > MNG_EFAD(stm_mng_ptr))) {
+!                 /* ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½           */
+                  STM_GRP_FAD(grp) = fad;
+!                 /* ï¿½Äï¿½ï¿½Iï¿½ï¿½,ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½        */
+                  STM_GRP_ATR(grp) &= ~(STMGRP_ATR_PLAY|STMGRP_ATR_READ|
+                                        STMGRP_ATR_SEEK);
+                  *seekpos = -1;
+              } else {
+!                 /* ï¿½Ç‚İï¿½ï¿½İ’ï¿½           */
+                  STM_GRP_FAD(grp) = fad;
+                  if (IS_SEEKING(grp) == FALSE) {
+                      *seekpos = stm_checkArea(grp, fad);
+***************
+*** 644,658 ****
+                      *seekpos = -1;
+                  }
+              }
+!             *start = FALSE;                     /* “Ç‚İ‚İ‚ğŠJn‚µ‚È‚¢ */
+          } else if (stat == GFS_STAT_NOACT) {
+!             /* “Ç‚İ‚İI—¹             */
+              STM_GRP_FAD(grp) = fad;
+!             /* Ä¶I—¹,“Ç‚İ‚İI—¹    */
+              STM_GRP_ATR(grp) &= ~(STMGRP_ATR_PLAY|STMGRP_ATR_READ|
+                                    STMGRP_ATR_SEEK);
+!             STMSVR_SetReadEnd(grp);     /* “Ç‚İ‚İÏ‚İƒtƒ‰ƒO‚Ìİ’è     */
+!             /* í’“ƒXƒgƒŠ[ƒ€‚Ì“Ç‚İ‚ğI‚¦‚½‚Í,stm_trans‚ÅƒJƒEƒ“ƒg   */
+              if (stmmng_isAllResi(grp) == FALSE) {
+                  STM_GRP_LOOPCNT(grp)++;
+              }
+--- 643,657 ----
+                      *seekpos = -1;
+                  }
+              }
+!             *start = FALSE;                     /* ï¿½Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½È‚ï¿½ */
+          } else if (stat == GFS_STAT_NOACT) {
+!             /* ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½             */
+              STM_GRP_FAD(grp) = fad;
+!             /* ï¿½Äï¿½ï¿½Iï¿½ï¿½,ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½    */
+              STM_GRP_ATR(grp) &= ~(STMGRP_ATR_PLAY|STMGRP_ATR_READ|
+                                    STMGRP_ATR_SEEK);
+!             STMSVR_SetReadEnd(grp);     /* ï¿½Ç‚İï¿½ï¿½İÏ‚İƒtï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½     */
+!             /* ï¿½í’“ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì“Çï¿½ï¿½İ‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,stm_transï¿½ÅƒJï¿½Eï¿½ï¿½ï¿½g   */
+              if (stmmng_isAllResi(grp) == FALSE) {
+                  STM_GRP_LOOPCNT(grp)++;
+              }
+***************
+*** 663,673 ****
+                  ret = TRUE;
+              }
+          } else {
+!             /* “Ç‚İ‚İI—¹Œã‚ÌƒrƒW[ó‘Ô       */
+              *seekpos = -1;
+              *start = FALSE;
+          }
+!     } else {    /* Ä¶ŠJnŒã‚ÌƒrƒW[ó‘Ô       */
+          *seekpos = -1;
+          *start = FALSE;
+      }
+--- 662,672 ----
+                  ret = TRUE;
+              }
+          } else {
+!             /* ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½ï¿½ï¿½ï¿½Ìƒrï¿½Wï¿½[ï¿½ï¿½ï¿½ï¿½       */
+              *seekpos = -1;
+              *start = FALSE;
+          }
+!     } else {    /* ï¿½Äï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ìƒrï¿½Wï¿½[ï¿½ï¿½ï¿½ï¿½       */
+          *seekpos = -1;
+          *start = FALSE;
+      }
+***************
+*** 677,701 ****
+  
+  
+  /*************************************************
+!  * Ä¶ƒRƒ}ƒ“ƒh‚Ì”­s
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * seekpos : ƒsƒbƒNƒAƒbƒv‚ÌˆÚ“®æ
+!  * efad : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌÅIFAD
+!  * start : Ä¶‚ğŠJn‚·‚é‚©‚Ç‚¤‚©
+   *************************************************/
+  STM_LOCAL Sint32        stm_putPlayCmd(StmGrpHn grp, Sint32 seekpos,
+                                         Sint32 efad, Bool start)
+  {
+      Sint32      ret = STM_ERR_OK;
+  
+!     if (seekpos >= 0) {                 /* Ÿ‚ÌƒXƒgƒŠ[ƒ€‚ÉˆÚ“® */
+          ret = STL_MovePlaypos(grp, seekpos);
+!         STM_GRP_FAD(grp) = seekpos;             /* Œ»İ‚ÌFAD            */
+      } else if (STM_GRP_FAD(grp) <= efad) {
+!         /* ‚Ü‚¾“Ç‚İ‚İó‘Ô‚É‚È‚Á‚Ä‚¢‚È‚¢ê‡   */
+          if ((start == TRUE)&&(IS_PLAYING(grp) == FALSE)) {
+!             stm_setReadTrue(grp);               /* “Ç‚İ‚İƒtƒ‰ƒO‚Ìİ’è */
+!             ret = STL_FlowIn(grp);              /* “Ç‚İ‚İŠJn         */
+              if (ret == STM_ERR_OK) {
+                  STM_GRP_ATR(grp) |= STMGRP_ATR_PLAY;
+              }
+--- 676,700 ----
+  
+  
+  /*************************************************
+!  * ï¿½Äï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ì”ï¿½ï¿½s
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * seekpos : ï¿½sï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ÌˆÚ“ï¿½ï¿½ï¿½
+!  * efad : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ÌÅIFAD
+!  * start : ï¿½Äï¿½ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+   *************************************************/
+  STM_LOCAL Sint32        stm_putPlayCmd(StmGrpHn grp, Sint32 seekpos,
+                                         Sint32 efad, Bool start)
+  {
+      Sint32      ret = STM_ERR_OK;
+  
+!     if (seekpos >= 0) {                 /* ï¿½ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ */
+          ret = STL_MovePlaypos(grp, seekpos);
+!         STM_GRP_FAD(grp) = seekpos;             /* ï¿½ï¿½ï¿½İ‚ï¿½FAD            */
+      } else if (STM_GRP_FAD(grp) <= efad) {
+!         /* ï¿½Ü‚ï¿½ï¿½Ç‚İï¿½ï¿½İï¿½ï¿½Ô‚É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡   */
+          if ((start == TRUE)&&(IS_PLAYING(grp) == FALSE)) {
+!             stm_setReadTrue(grp);               /* ï¿½Ç‚İï¿½ï¿½İƒtï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½ */
+!             ret = STL_FlowIn(grp);              /* ï¿½Ç‚İï¿½ï¿½İŠJï¿½n         */
+              if (ret == STM_ERR_OK) {
+                  STM_GRP_ATR(grp) |= STMGRP_ATR_PLAY;
+              }
+***************
+*** 707,718 ****
+  
+  
+  /*************************************************
+!  * ƒXƒgƒŠ[ƒ€“Ç‚İ‚İ
+!  * grp  : Ä¶ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * fad  : Œ»İ‚ÌFAD
+!  * efad : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌÅIFAD
+!  * stat : CDƒuƒƒbƒN‚Ìó‘Ô
+!  * –ß‚è’l : TRUE “Ç‚İ‚İI—¹    FALSE “Ç‚İ‚İ’†
+   *************************************************/
+  STM_LOCAL Bool  stm_read(StmGrpHn grp, Sint32 fad, Sint32 efad, Sint32 stat)
+  {
+--- 706,717 ----
+  
+  
+  /*************************************************
+!  * ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
+!  * grp  : ï¿½Äï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * fad  : ï¿½ï¿½ï¿½İ‚ï¿½FAD
+!  * efad : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ÌÅIFAD
+!  * stat : CDï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½Ìï¿½ï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½    FALSE ï¿½Ç‚İï¿½ï¿½İ’ï¿½
+   *************************************************/
+  STM_LOCAL Bool  stm_read(StmGrpHn grp, Sint32 fad, Sint32 efad, Sint32 stat)
+  {
+***************
+*** 721,729 ****
+      Bool        ret;
+      Sint32      err;
+  
+!     /* ‘S‚Ä‚Ì“Ç‚İ‚İ‚ğI—¹‚µ‚½ê‡                     */
+      if (stmmng_isAllResi(grp) == TRUE) {
+!         /* ‘S‚Äí’“ƒXƒgƒŠ[ƒ€‚Ìê‡A“]‘—‚Ì‚İÀs‚·‚é   */
+          if (((STM_GRP_ACSTAT(grp) == STM_EXEC_PAUSE)||
+              ((STM_GRP_ATR(grp) & STMGRP_ATR_ALRSTREND) != 0))&&
+              (STM_GRP_SFADLST(grp) != NULL)&&
+--- 720,728 ----
+      Bool        ret;
+      Sint32      err;
+  
+!     /* ï¿½Sï¿½Ä‚Ì“Ç‚İï¿½ï¿½İ‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡                     */
+      if (stmmng_isAllResi(grp) == TRUE) {
+!         /* ï¿½Sï¿½Äí’“ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½]ï¿½ï¿½ï¿½Ì‚İï¿½ï¿½sï¿½ï¿½ï¿½ï¿½   */
+          if (((STM_GRP_ACSTAT(grp) == STM_EXEC_PAUSE)||
+              ((STM_GRP_ATR(grp) & STMGRP_ATR_ALRSTREND) != 0))&&
+              (STM_GRP_SFADLST(grp) != NULL)&&
+***************
+*** 737,746 ****
+          return (TRUE);
+      }
+  
+!     /* Ä¶ƒpƒ‰ƒ[ƒ^‚Ìæ“¾                             */
+      ret = stm_getReadParam(grp, fad, efad, stat, &seekpos, &start);
+  
+!     /* Ä¶ƒRƒ}ƒ“ƒh‚Ì”­s                               */
+      err = stm_putPlayCmd(grp, seekpos, efad, start);
+      if (err != STM_ERR_OK) {
+          STMERR_SetCode(err);
+--- 736,745 ----
+          return (TRUE);
+      }
+  
+!     /* ï¿½Äï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ìæ“¾                             */
+      ret = stm_getReadParam(grp, fad, efad, stat, &seekpos, &start);
+  
+!     /* ï¿½Äï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ì”ï¿½ï¿½s                               */
+      err = stm_putPlayCmd(grp, seekpos, efad, start);
+      if (err != STM_ERR_OK) {
+          STMERR_SetCode(err);
+***************
+*** 751,767 ****
+  
+  
+  /*************************************************
+!  * CDƒoƒbƒtƒ@“àƒZƒNƒ^”‚Ìæ“¾(5.1)
+!  * stm  : ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹
+!  * –ß‚è’l: CDƒoƒbƒtƒ@“à‚ÌƒZƒNƒ^”
+   *************************************************/
+  Sint32  STMSVR_GetNumCdbuf(StmHn stm)
+  {
+      Sint32      nsct;
+      Sint32      ret;
+!     
+      if (STM_IS_CDFILE(stm)) {
+!         ret = GFCD_GetLenData(GFS_CDR_BUFNO(STM_DTSRC(stm)), 0, 
+                                STM_LONG_MAX, &nsct, NULL);
+          if (ret != GFCD_ERR_OK) {
+              STM_SetGfcdErr(ret);
+--- 750,766 ----
+  
+  
+  /*************************************************
+!  * CDï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½Zï¿½Nï¿½^ï¿½ï¿½ï¿½Ìæ“¾(5.1)
+!  * stm  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l: CDï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ÌƒZï¿½Nï¿½^ï¿½ï¿½
+   *************************************************/
+  Sint32  STMSVR_GetNumCdbuf(StmHn stm)
+  {
+      Sint32      nsct;
+      Sint32      ret;
+! 
+      if (STM_IS_CDFILE(stm)) {
+!         ret = GFCD_GetLenData(GFS_CDR_BUFNO(STM_DTSRC(stm)), 0,
+                                STM_LONG_MAX, &nsct, NULL);
+          if (ret != GFCD_ERR_OK) {
+              STM_SetGfcdErr(ret);
+***************
+*** 783,789 ****
+  {
+      Sint32      nsct;
+      Sint32      ret;
+!     
+      STMERR_SetFunc(STM_GETNUMCDBUF);
+      if (stm == NULL) {
+          STMERR_SetCode(STM_ERR_HNDL);
+--- 782,788 ----
+  {
+      Sint32      nsct;
+      Sint32      ret;
+! 
+      STMERR_SetFunc(STM_GETNUMCDBUF);
+      if (stm == NULL) {
+          STMERR_SetCode(STM_ERR_HNDL);
+***************
+*** 801,815 ****
+  
+  
+  /*************************************************
+!  * ƒXƒgƒŠ[ƒ€ó‘Ô‚Ìæ“¾
+!  * stm  : ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹
+!  * sfad : ƒXƒgƒŠ[ƒ€‚ÌŠJnFAD
+!  * efad : ƒXƒgƒŠ[ƒ€‚ÌI—¹FAD
+!  * nsct : CDƒoƒbƒtƒ@‚ÌƒZƒNƒ^”
+!  * –ß‚è’l: STAT_NOREAD          ƒAƒNƒZƒX‚³‚ê‚È‚¢
+!  *         STAT_DOING           ˆ—’†
+!  *         STAT_WAIT            “]‘—‘Ò‚¿(ƒQ[ƒg•Â, —Ìˆæƒtƒ‹)
+!  *         STAT_COMPLETED       ƒAƒNƒZƒXŠ®—¹
+   *************************************************/
+  STM_LOCAL Sint32        stm_getStat(StmHn stm, Sint32 sfad, Sint32 efad, Sint32 nsct)
+  {
+--- 800,814 ----
+  
+  
+  /*************************************************
+!  * ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìæ“¾
+!  * stm  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * sfad : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŠJï¿½nFAD
+!  * efad : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌIï¿½ï¿½FAD
+!  * nsct : CDï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒZï¿½Nï¿½^ï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l: STAT_NOREAD          ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+!  *         STAT_DOING           ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!  *         STAT_WAIT            ï¿½]ï¿½ï¿½ï¿½Ò‚ï¿½(ï¿½Qï¿½[ï¿½gï¿½ï¿½, ï¿½Ìˆï¿½ï¿½tï¿½ï¿½)
+!  *         STAT_COMPLETED       ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½
+   *************************************************/
+  STM_LOCAL Sint32        stm_getStat(StmHn stm, Sint32 sfad, Sint32 efad, Sint32 nsct)
+  {
+***************
+*** 820,867 ****
+  
+      fad = STM_GRP_FAD(STM_GRPHN(stm));
+      if ((IS_STM_READEND(stm) == TRUE)&&(nsct == 0)) {
+!         /* ƒAƒNƒZƒX‚ªŠ®—¹‚µ‚½ƒXƒgƒŠ[ƒ€ */
+          return (STAT_COMPLETED);
+      }
+!     if ((fad <= efad)&&(STM_IS_CDFILE(stm))) {          /* “Ç‚İ‚İ’†   */
+          if ((IS_STM_READ(stm) == TRUE)||
+              (IS_STM_LOOPNOREAD(stm) == FALSE)) {
+              stat = GFCF_GetStat(NULL, &hirq);
+!             stm_setErr(stat);                   /* ƒGƒ‰[ƒR[ƒh‚Ìİ’è   */
+              if ((hirq & CDC_HIRQ_BFUL) == 0) {
+!                 /* CDƒoƒbƒtƒ@‚É‹ó‚«—Ìˆæ‚ ‚è     */
+                  return (STAT_DOING);
+!             } else if (nsct == 0) {     /* CDƒoƒbƒtƒ@‚Ìƒf[ƒ^‚Í‘S‚Ä‘¼‚Ì */
+!                 return (STAT_WAIT);     /* ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^           */
+              }
+          } else {
+              return (STAT_NOREAD);
+          }
+      } else if ((IS_STM_READ(stm) == TRUE)&&(nsct == 0)) {
+!         /* “Ç‚İ‚İŠ®—¹Œã,CDƒoƒbƒtƒ@‚Éƒf[ƒ^‚ª‚È‚¢      */
+!         return (STAT_COMPLETED);        /* “]‘—Š®—¹                     */
+      }
+      if (STM_TRFAD(stm) == STM_FAD_CDEND) {
+          trfad = STMMNG_GetLstFad(STM_GRPHN(stm));
+      } else {
+          trfad = STM_TRFAD(stm);
+      }
+!     /* “]‘—ƒQ[ƒg‚ª•Â‚¶‚Ä‚¢‚é,“]‘—FAD–¢–,ƒoƒbƒtƒ@ƒtƒ‹  */
+      if ((!GFS_TRN_ACTIVE(&(GFS_FILE_TRANS(STM_GFS(stm)))))||
+          ((fad >= sfad)&&(fad < trfad))||
+          (STMTRN_IsTrBufFull(stm) == TRUE)) {
+          return (STAT_WAIT);
+      }
+!     return (STAT_DOING);                        /* “]‘—’†               */
+  }
+  
+  
+  
+  /*************************************************
+!  * ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ì“]‘—
+!  * stm  : ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹
+!  * –ß‚è’l : TRUE  “]‘—‚µ‚½
+!  *          FALSE “]‘—‚Å‚«‚È‚©‚Á‚½
+   *************************************************/
+  STM_LOCAL Bool  stmsvr_execTrans(StmHn stm)
+  {
+--- 819,866 ----
+  
+      fad = STM_GRP_FAD(STM_GRPHN(stm));
+      if ((IS_STM_READEND(stm) == TRUE)&&(nsct == 0)) {
+!         /* ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ */
+          return (STAT_COMPLETED);
+      }
+!     if ((fad <= efad)&&(STM_IS_CDFILE(stm))) {          /* ï¿½Ç‚İï¿½ï¿½İ’ï¿½   */
+          if ((IS_STM_READ(stm) == TRUE)||
+              (IS_STM_LOOPNOREAD(stm) == FALSE)) {
+              stat = GFCF_GetStat(NULL, &hirq);
+!             stm_setErr(stat);                   /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½   */
+              if ((hirq & CDC_HIRQ_BFUL) == 0) {
+!                 /* CDï¿½oï¿½bï¿½tï¿½@ï¿½É‹ó‚«—Ìˆæ‚ ï¿½ï¿½     */
+                  return (STAT_DOING);
+!             } else if (nsct == 0) {     /* CDï¿½oï¿½bï¿½tï¿½@ï¿½Ìƒfï¿½[ï¿½^ï¿½Í‘Sï¿½Ä‘ï¿½ï¿½ï¿½ */
+!                 return (STAT_WAIT);     /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^           */
+              }
+          } else {
+              return (STAT_NOREAD);
+          }
+      } else if ((IS_STM_READ(stm) == TRUE)&&(nsct == 0)) {
+!         /* ï¿½Ç‚İï¿½ï¿½İŠï¿½ï¿½ï¿½ï¿½ï¿½,CDï¿½oï¿½bï¿½tï¿½@ï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½È‚ï¿½      */
+!         return (STAT_COMPLETED);        /* ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                     */
+      }
+      if (STM_TRFAD(stm) == STM_FAD_CDEND) {
+          trfad = STMMNG_GetLstFad(STM_GRPHN(stm));
+      } else {
+          trfad = STM_TRFAD(stm);
+      }
+!     /* ï¿½]ï¿½ï¿½ï¿½Qï¿½[ï¿½gï¿½ï¿½ï¿½Â‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½,ï¿½]ï¿½ï¿½FADï¿½ï¿½ï¿½ï¿½,ï¿½oï¿½bï¿½tï¿½@ï¿½tï¿½ï¿½  */
+      if ((!GFS_TRN_ACTIVE(&(GFS_FILE_TRANS(STM_GFS(stm)))))||
+          ((fad >= sfad)&&(fad < trfad))||
+          (STMTRN_IsTrBufFull(stm) == TRUE)) {
+          return (STAT_WAIT);
+      }
+!     return (STAT_DOING);                        /* ï¿½]ï¿½ï¿½ï¿½ï¿½               */
+  }
+  
+  
+  
+  /*************************************************
+!  * ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì“]ï¿½ï¿½
+!  * stm  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE  ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!  *          FALSE ï¿½]ï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
+   *************************************************/
+  STM_LOCAL Bool  stmsvr_execTrans(StmHn stm)
+  {
+***************
+*** 882,889 ****
+  
+  
+  /*************************************************
+!  * ƒoƒbƒtƒ@ƒTƒCƒYŠÄ‹ŠÖ”‚ÌÀs
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  STM_LOCAL void  stm_execCdbufFunc(StmGrpHn grp)
+  {
+--- 881,888 ----
+  
+  
+  /*************************************************
+!  * ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Yï¿½Äï¿½ï¿½Öï¿½ï¿½Ìï¿½ï¿½s
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  STM_LOCAL void  stm_execCdbufFunc(StmGrpHn grp)
+  {
+***************
+*** 894,911 ****
+          STM_GRP_ATR(grp) &= ~STMGRP_ATR_CHKBUF;
+      }
+  }
+!     
+  
+  /*************************************************
+!  * ƒf[ƒ^‚Ì“]‘—
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * first : Å‰‚É“]‘—‚µ‚½ƒXƒgƒŠ[ƒ€
+!  * cdstat : CD‚ÌƒXƒe[ƒ^ƒX
+!  * bflag  : Ÿ‚ÌƒXƒgƒŠ[ƒ€‚Ì“]‘—‚ğs‚È‚í‚È‚¢ê‡  TRUE
+!  * stat   : Ÿ‚É“]‘—‚·‚éƒXƒgƒŠ[ƒ€‚ÌƒXƒe[ƒ^ƒX
+!  * –ß‚è’l : ‘SƒXƒgƒŠ[ƒ€‚Ì“]‘—‚ğŠ®—¹‚µ‚½ê‡ TRUE
+   *************************************************/
+! STM_LOCAL Bool  stm_trans_sub(StmGrpHn grp, StmHn first, Uint8 cdstat, 
+                                                  Bool *bflag, Sint32 *stat)
+  {
+      Sint32      i;
+--- 893,910 ----
+          STM_GRP_ATR(grp) &= ~STMGRP_ATR_CHKBUF;
+      }
+  }
+! 
+  
+  /*************************************************
+!  * ï¿½fï¿½[ï¿½^ï¿½Ì“]ï¿½ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * first : ï¿½Åï¿½ï¿½É“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½
+!  * cdstat : CDï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½X
+!  * bflag  : ï¿½ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½È‚ï¿½ï¿½È‚ï¿½ï¿½ê‡  TRUE
+!  * stat   : ï¿½ï¿½ï¿½É“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½X
+!  * ï¿½ß‚ï¿½ï¿½l : ï¿½Sï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ TRUE
+   *************************************************/
+! STM_LOCAL Bool  stm_trans_sub(StmGrpHn grp, StmHn first, Uint8 cdstat,
+                                                  Bool *bflag, Sint32 *stat)
+  {
+      Sint32      i;
+***************
+*** 913,925 ****
       Sint32      nsct;
       Sint32      sfad, efad;
       Sint32      trfad;
@@ -10720,7 +12012,13 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Bool        complete = TRUE;
       Bool        set = FALSE;
       Uint8       atr;
---- 912,918 ----
+  
+      *bflag = FALSE;
+!     stm = STM_GRP_NEXTTRNS(grp);                /* “]‘—ƒXƒgƒŠ[ƒ€       */
+      if (STM_IS_CDFILE(stm)) {
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+      } else {
+--- 912,924 ----
       Sint32      nsct;
       Sint32      sfad, efad;
       Sint32      trfad;
@@ -10728,8 +12026,116 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Bool        complete = TRUE;
       Bool        set = FALSE;
       Uint8       atr;
+  
+      *bflag = FALSE;
+!     stm = STM_GRP_NEXTTRNS(grp);                /* ï¿½]ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½       */
+      if (STM_IS_CDFILE(stm)) {
+          STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+      } else {
 ***************
-*** 1022,1032 ****
+*** 940,966 ****
+          STM_ATR(stm) |= STM_ATR_TREND;
+      }
+      if (((atr & STM_ATR_TREND) == 0)&&((STM_ATR(stm) & STM_ATR_TREND) != 0)) {
+!         /* Ä¶”ÍˆÍ‚ğ‰z‚¦‚½‚çCDƒoƒbƒtƒ@‚É‚ ‚é•ª‚¾‚¯‚ğ“]‘—‚·‚é   */
+          nsct = GFBF_GetNumData(STM_GFS(stm));
+          GFTR_SetTransPara(&(GFS_FILE_TRANS(STM_GFS(stm))), nsct);
+      } else if (((atr & STM_ATR_TRSTART) == 0)&&
+                 ((STM_ATR(stm) & STM_ATR_TRSTART) != 0)) {
+!         /* Ä¶”ÍˆÍ‚É‚È‚Á‚½‚ç‚·‚×‚Ä‚Ìƒf[ƒ^‚ğ“]‘—‚·‚é           */
+          GFTR_SetTransPara(&(GFS_FILE_TRANS(STM_GFS(stm))), STM_LONG_MAX);
+      }
+!     stmsvr_execTrans(stm);                      /* “]‘—Às             */
+      if (stmsvr_isTrans(stm) == TRUE) {
+!         /* “]‘—’†‚Ìê‡         */
+          *bflag = TRUE;
+          *stat = stm_getStat(stm, sfad, efad, 1);
+!                                                 /* “]‘—’†‚Íƒf[ƒ^‚ª‚ ‚é */
+          return (FALSE);
+      }
+!     /* Ÿ‚Ì“]‘—ƒXƒgƒŠ[ƒ€‚Ìİ’è         */
+      _stm = stm;
+      for (i = 0; (i < 2)&&(set != TRUE); i++) {
+          for (stm = STM_SFADLST(stm); ; stm = STM_SFADLST(stm)) {
+!             /* ÅŒã‚È‚çæ“ª‚É–ß‚·       */
+              if (stm == NULL) {
+                  stm = STM_GRP_SFADLST(grp);
+              }
+--- 939,965 ----
+          STM_ATR(stm) |= STM_ATR_TREND;
+      }
+      if (((atr & STM_ATR_TREND) == 0)&&((STM_ATR(stm) & STM_ATR_TREND) != 0)) {
+!         /* ï¿½Äï¿½ï¿½ÍˆÍ‚ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½CDï¿½oï¿½bï¿½tï¿½@ï¿½É‚ï¿½ï¿½é•ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   */
+          nsct = GFBF_GetNumData(STM_GFS(stm));
+          GFTR_SetTransPara(&(GFS_FILE_TRANS(STM_GFS(stm))), nsct);
+      } else if (((atr & STM_ATR_TRSTART) == 0)&&
+                 ((STM_ATR(stm) & STM_ATR_TRSTART) != 0)) {
+!         /* ï¿½Äï¿½ï¿½ÍˆÍ‚É‚È‚ï¿½ï¿½ï¿½ï¿½ç‚·ï¿½×‚Ä‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½           */
+          GFTR_SetTransPara(&(GFS_FILE_TRANS(STM_GFS(stm))), STM_LONG_MAX);
+      }
+!     stmsvr_execTrans(stm);                      /* ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½s             */
+      if (stmsvr_isTrans(stm) == TRUE) {
+!         /* ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡         */
+          *bflag = TRUE;
+          *stat = stm_getStat(stm, sfad, efad, 1);
+!                                                 /* ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Íƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+          return (FALSE);
+      }
+!     /* ï¿½ï¿½ï¿½Ì“]ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìİ’ï¿½         */
+      _stm = stm;
+      for (i = 0; (i < 2)&&(set != TRUE); i++) {
+          for (stm = STM_SFADLST(stm); ; stm = STM_SFADLST(stm)) {
+!             /* ï¿½ÅŒï¿½ï¿½È‚ï¿½ï¿½æ“ªï¿½É–ß‚ï¿½       */
+              if (stm == NULL) {
+                  stm = STM_GRP_SFADLST(grp);
+              }
+***************
+*** 974,981 ****
+                  sfad = efad = STM_FAD_CDTOP;
+              }
+              *stat = stm_getStat(stm, sfad, efad, nsct);
+!             /* 1‰ñ–Ú‚ÍƒAƒNƒZƒX’†‚ÌƒXƒgƒŠ[ƒ€‚ğ’T‚·      */
+!             /* 2‰ñ–Ú‚Í“]‘—‘Ò‚¿‚ÌƒXƒgƒŠ[ƒ€‚ğ’T‚·        */
+              if (((nsct > 0)||(cdstat == GFS_STAT_SEEK)||
+                   (cdstat == GFS_STAT_READ))&&
+                  (((i == 0)&&(*stat == STAT_DOING))||
+--- 973,980 ----
+                  sfad = efad = STM_FAD_CDTOP;
+              }
+              *stat = stm_getStat(stm, sfad, efad, nsct);
+!             /* 1ï¿½ï¿½ï¿½Ú‚ÍƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½      */
+!             /* 2ï¿½ï¿½ï¿½Ú‚Í“]ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½        */
+              if (((nsct > 0)||(cdstat == GFS_STAT_SEEK)||
+                   (cdstat == GFS_STAT_READ))&&
+                  (((i == 0)&&(*stat == STAT_DOING))||
+***************
+*** 1001,1008 ****
+  
+  
+  /*************************************************
+!  * ƒAƒNƒZƒXƒ|ƒCƒ“ƒ^‚Ì‰Šú‰»
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒvƒnƒ“ƒhƒ‹
+   *************************************************/
+  STM_LOCAL void  stm_resetAcp(StmGrpHn grp)
+  {
+--- 1000,1007 ----
+  
+  
+  /*************************************************
+!  * ï¿½Aï¿½Nï¿½Zï¿½Xï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+   *************************************************/
+  STM_LOCAL void  stm_resetAcp(StmGrpHn grp)
+  {
+***************
+*** 1015,1050 ****
+  
+  
+  /*************************************************
+!  * ƒf[ƒ^‚Ì“]‘—
+!  * grp  : ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv
+!  * cdstat : CD‚ÌƒXƒe[ƒ^ƒX
+!  * –ß‚è’l : TRUE “]‘—I—¹  FALSE “]‘—’†
    *************************************************/
   STM_LOCAL Bool  stm_trans(StmGrpHn grp, Uint8 cdstat)
   {
@@ -10738,10 +12144,35 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Bool        bflag;
       Bool        ret;
   
-      /* “]‘—ƒXƒgƒŠ[ƒ€‚ª–¢İ’è‚Ìê‡             */
+!     /* “]‘—ƒXƒgƒŠ[ƒ€‚ª–¢İ’è‚Ìê‡             */
       if (STM_GRP_NEXTTRNS(grp) == NULL) {
           STM_GRP_NEXTTRNS(grp) = STM_GRP_SFADLST(grp);
---- 1021,1033 ----
+      }
+      first = STM_GRP_NEXTTRNS(grp);
+  
+!     /* ŠeƒXƒgƒŠ[ƒ€‚ğ‚P“x‚Ã‚ÂÀs‚ğ‚İ‚é       */
+!     /* “]‘—’†‚Ü‚½‚Í‚Pü‚Ü‚í‚Á‚½‚ç‚¨‚í‚è         */
+      do {
+          stm = STM_GRP_NEXTTRNS(grp);
+          ret = stm_trans_sub(grp, first, cdstat, &bflag, &stat);
+      } while(bflag == FALSE);
+  
+!     /* WAIT <-> DOING‚ÌˆÚs     */
+      if ((stat == STM_EXEC_WAIT)||(STM_GRP_ACSTAT(grp) == STM_EXEC_WAIT)) {
+          STM_GRP_ACSTAT(grp) = stat;
+      } else if (stmmng_isAllResi(grp) == TRUE) {
+!         /* í’“‚Ì‚İ‚Ìê‡‘S‚Ä‚Ì“]‘—‚ªI—¹‚µ‚½‚çƒ‹[ƒv‚µ‚½‚±‚Æ‚É‚·‚é     */
+          if (STM_GRP_LOOPCNT(grp) < STM_GRP_LOOPMAX(grp)) {
+              if (stat == STM_EXEC_COMPLETED) {
+                  STM_GRP_LOOPCNT(grp)++;
+--- 1014,1051 ----
+  
+  
+  /*************************************************
+!  * ï¿½fï¿½[ï¿½^ï¿½Ì“]ï¿½ï¿½
+!  * grp  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½v
+!  * cdstat : CDï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½X
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE ï¿½]ï¿½ï¿½ï¿½Iï¿½ï¿½  FALSE ï¿½]ï¿½ï¿½ï¿½ï¿½
    *************************************************/
   STM_LOCAL Bool  stm_trans(StmGrpHn grp, Uint8 cdstat)
   {
@@ -10751,29 +12182,290 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Bool        bflag;
       Bool        ret;
   
-+     (void)stm;
-      /* “]‘—ƒXƒgƒŠ[ƒ€‚ª–¢İ’è‚Ìê‡             */
+!     (void)stm;
+!     /* ï¿½]ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½Ìê‡             */
       if (STM_GRP_NEXTTRNS(grp) == NULL) {
           STM_GRP_NEXTTRNS(grp) = STM_GRP_SFADLST(grp);
+      }
+      first = STM_GRP_NEXTTRNS(grp);
+  
+!     /* ï¿½eï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½xï¿½Ã‚Âï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½       */
+!     /* ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½Í‚Pï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚¨ï¿½ï¿½ï¿½ï¿½         */
+      do {
+          stm = STM_GRP_NEXTTRNS(grp);
+          ret = stm_trans_sub(grp, first, cdstat, &bflag, &stat);
+      } while(bflag == FALSE);
+  
+!     /* WAIT <-> DOINGï¿½ÌˆÚs     */
+      if ((stat == STM_EXEC_WAIT)||(STM_GRP_ACSTAT(grp) == STM_EXEC_WAIT)) {
+          STM_GRP_ACSTAT(grp) = stat;
+      } else if (stmmng_isAllResi(grp) == TRUE) {
+!         /* ï¿½í’“ï¿½Ì‚İ‚Ìê‡ï¿½Sï¿½Ä‚Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½çƒ‹ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚É‚ï¿½ï¿½ï¿½     */
+          if (STM_GRP_LOOPCNT(grp) < STM_GRP_LOOPMAX(grp)) {
+              if (stat == STM_EXEC_COMPLETED) {
+                  STM_GRP_LOOPCNT(grp)++;
 ***************
-*** 1076,1082 ****
+*** 1060,1073 ****
+      return (ret);
+  }
+  
+!     
+  
+  /*************************************************
+!  * ƒT[ƒo‚ÌÀs(7.3)
+!  * –ß‚è’l: STM_EXEC_COMPLETED   ƒAƒNƒZƒXI—¹
+!  *         STM_EXEC_PAUSE       ˆê’â~
+!  *         STM_EXEC_DOING       ƒAƒNƒZƒX’†
+!  *         STM_EXEC_WAIT        “]‘—‘Ò‚¿ó‘Ô
+   *************************************************/
+  Sint32  STM_ExecServer(void)
+  {
+--- 1061,1074 ----
+      return (ret);
+  }
+  
+! 
+  
+  /*************************************************
+!  * ï¿½Tï¿½[ï¿½oï¿½Ìï¿½ï¿½s(7.3)
+!  * ï¿½ß‚ï¿½ï¿½l: STM_EXEC_COMPLETED   ï¿½Aï¿½Nï¿½Zï¿½Xï¿½Iï¿½ï¿½
+!  *         STM_EXEC_PAUSE       ï¿½êï¿½ï¿½ï¿½~
+!  *         STM_EXEC_DOING       ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½
+!  *         STM_EXEC_WAIT        ï¿½]ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½
+   *************************************************/
+  Sint32  STM_ExecServer(void)
+  {
+***************
+*** 1076,1085 ****
       Sint32      ret;
       Bool        read, trans;
       Bool        complete;
 !     Sint32      hirq;
       Sint32      stat;
   
-      /* ˆ—’†‚Ìƒ^ƒXƒN‚ª‚ ‚éê‡ */
---- 1077,1083 ----
+!     /* ˆ—’†‚Ìƒ^ƒXƒN‚ª‚ ‚éê‡ */
+      if (CMD_FUNC(&stm_cmd_area) != CMD_NULLFUNC) {
+          complete = CMD_FUNC(&stm_cmd_area)(CMD_OBJ(&stm_cmd_area));
+          if (complete == TRUE) {
+--- 1077,1086 ----
       Sint32      ret;
       Bool        read, trans;
       Bool        complete;
 ! //    Sint32      hirq;
       Sint32      stat;
   
-      /* ˆ—’†‚Ìƒ^ƒXƒN‚ª‚ ‚éê‡ */
+!     /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ^ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ */
+      if (CMD_FUNC(&stm_cmd_area) != CMD_NULLFUNC) {
+          complete = CMD_FUNC(&stm_cmd_area)(CMD_OBJ(&stm_cmd_area));
+          if (complete == TRUE) {
 ***************
-*** 1222,1228 ****
+*** 1089,1105 ****
+          return (STM_ERR_WHERE(&MNG_ERR(stm_mng_ptr)));
+      }
+  
+!     /* ƒXƒgƒŠ[ƒ€ƒAƒNƒZƒX       */
+      STMERR_SetFunc(STM_EXECSERVER);
+      grp = MNG_CURGRP(stm_mng_ptr);
+!     /* ˆ—’†‚ÌƒXƒgƒŠ[ƒ€‚ª‚ ‚éê‡     */
+      if ((grp != NULL)&&(STM_GRP_SFADLST(grp) != NULL)) {
+          if (MNG_SVREXEC(stm_mng_ptr) == FALSE) {
+              MNG_SVREXEC(stm_mng_ptr) = TRUE;
+!             /* SCU-DMAg—p’†‚Ìê‡‚É‚Í“]‘—I—¹ƒ`ƒFƒbƒN‚ğ‚¨‚±‚È‚¤        */
+              if (gfs_use_scudma == TRUE) {
+                  GFTR_ExecSvr(STM_GFS(STM_GRP_NEXTTRNS(grp)), &trans);
+!                 /* A-BusƒAƒNƒZƒX•s‰Â‚Ì‚½‚ßˆÈ~‚Ìˆ—‚Í‚¨‚±‚È‚í‚È‚¢      */
+                  if (gfs_use_scudma == TRUE) {
+                      MNG_SVREXEC(stm_mng_ptr) = FALSE;
+                      stat = STMERR_CheckFatalErr();
+--- 1090,1106 ----
+          return (STM_ERR_WHERE(&MNG_ERR(stm_mng_ptr)));
+      }
+  
+!     /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½Nï¿½Zï¿½X       */
+      STMERR_SetFunc(STM_EXECSERVER);
+      grp = MNG_CURGRP(stm_mng_ptr);
+!     /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡     */
+      if ((grp != NULL)&&(STM_GRP_SFADLST(grp) != NULL)) {
+          if (MNG_SVREXEC(stm_mng_ptr) == FALSE) {
+              MNG_SVREXEC(stm_mng_ptr) = TRUE;
+!             /* SCU-DMAï¿½gï¿½pï¿½ï¿½ï¿½Ìê‡ï¿½É‚Í“]ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½        */
+              if (gfs_use_scudma == TRUE) {
+                  GFTR_ExecSvr(STM_GFS(STM_GRP_NEXTTRNS(grp)), &trans);
+!                 /* A-Busï¿½Aï¿½Nï¿½Zï¿½Xï¿½sï¿½Â‚Ì‚ï¿½ï¿½ßˆÈ~ï¿½Ìï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½      */
+                  if (gfs_use_scudma == TRUE) {
+                      MNG_SVREXEC(stm_mng_ptr) = FALSE;
+                      stat = STMERR_CheckFatalErr();
+***************
+*** 1109,1125 ****
+                      return STM_GRP_ACSTAT(grp);
+                  }
+              }
+!             /* ƒXƒgƒŠ[ƒ€ƒAƒNƒZƒXˆ—   */
+!             stm_execCdbufFunc(grp);     /* ƒoƒbƒtƒ@ƒTƒCƒYŠÄ‹ŠÖ”‚ÌÀs */
+!             stat = GFCF_GetStat(&fad, NULL);    /* Œ»İ‚ÌFADæ“¾        */
+!             stm_setErr(stat);                   /* ƒGƒ‰[ƒR[ƒh‚Ìİ’è   */
+              if (IS_SET_ERRCODE(stm_mng_ptr) == TRUE) {
+                  STMERR_Exec();
+              } else {
+!                 efad = STMMNG_GetLstFad(grp);   /* ÅIFAD‚Ìæ“¾        */
+                  read = stm_read(grp, fad, efad, stat);
+!                                                 /* ƒXƒgƒŠ[ƒ€‚Ì“Ç‚İ‚İ */
+!                 trans = stm_trans(grp, stat);   /* ƒXƒgƒŠ[ƒ€‚Ì“]‘—     */
+                  if ((read == TRUE)&&(trans == TRUE)) {
+                      STM_GRP_ACSTAT(grp) = STM_EXEC_COMPLETED;
+                      stm_resetAcp(grp);
+--- 1110,1126 ----
+                      return STM_GRP_ACSTAT(grp);
+                  }
+              }
+!             /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½   */
+!             stm_execCdbufFunc(grp);     /* ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Yï¿½Äï¿½ï¿½Öï¿½ï¿½Ìï¿½ï¿½s */
+!             stat = GFCF_GetStat(&fad, NULL);    /* ï¿½ï¿½ï¿½İ‚ï¿½FADï¿½æ“¾        */
+!             stm_setErr(stat);                   /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½   */
+              if (IS_SET_ERRCODE(stm_mng_ptr) == TRUE) {
+                  STMERR_Exec();
+              } else {
+!                 efad = STMMNG_GetLstFad(grp);   /* ï¿½ÅIFADï¿½Ìæ“¾        */
+                  read = stm_read(grp, fad, efad, stat);
+!                                                 /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½ */
+!                 trans = stm_trans(grp, stat);   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì“]ï¿½ï¿½     */
+                  if ((read == TRUE)&&(trans == TRUE)) {
+                      STM_GRP_ACSTAT(grp) = STM_EXEC_COMPLETED;
+                      stm_resetAcp(grp);
+***************
+*** 1133,1139 ****
+          } else {
+              ret = STM_GRP_ACSTAT(grp);
+          }
+!     } else {                            /* ˆ—’†‚ÌƒXƒgƒŠ[ƒ€‚ª‚È‚¢ê‡ */
+          ret = STM_EXEC_PAUSE;
+      }
+      return ret;
+--- 1134,1140 ----
+          } else {
+              ret = STM_GRP_ACSTAT(grp);
+          }
+!     } else {                            /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒXï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ */
+          ret = STM_EXEC_PAUSE;
+      }
+      return ret;
+***************
+*** 1142,1150 ****
+  
+  
+  /*************************************************
+!  * ƒsƒbƒNƒAƒbƒv‚ÌˆÚ“®(7.4)
+!  * stm  : ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹
+!  * off  : ƒXƒgƒŠ[ƒ€æ“ª‚©‚ç‚ÌƒIƒtƒZƒbƒg
+   *************************************************/
+  void    STM_MovePickup(StmHn stm, Sint32 off)
+  {
+--- 1143,1151 ----
+  
+  
+  /*************************************************
+!  * ï¿½sï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ÌˆÚ“ï¿½(7.4)
+!  * stm  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * off  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½æ“ªï¿½ï¿½ï¿½ï¿½ï¿½ÌƒIï¿½tï¿½Zï¿½bï¿½g
+   *************************************************/
+  void    STM_MovePickup(StmHn stm, Sint32 off)
+  {
+***************
+*** 1161,1190 ****
+      }
+      stm = STM_ALIAS(stm);
+      grp = STM_GRPHN(stm);
+!     if (MNG_CURGRP(stm_mng_ptr) == grp) {       /* ˆ—’†ƒOƒ‹[ƒv‚Ìê‡ */
+          if (IS_PLAYING(grp) == TRUE) {
+!             ret = STL_StopIn(STM_GRPHN(stm));   /* “Ç‚İ‚İ’â~         */
+              if (ret != STM_ERR_OK) {
+                  STMERR_SetCode(ret);
+              }
+!             STM_GRP_ACSTAT(grp) = STM_EXEC_PAUSE; /* Ÿ‰ñƒT[ƒo‚É‚ÄˆÚ“® */
+          }
+!         stat = GFCF_GetStat(&sfad, NULL);       /* Œ»İ‚ÌFAD‚ğæ“¾      */
+!         stm_setErr(stat);                       /* ƒGƒ‰[ƒR[ƒh‚Ìİ’è   */
+          if (IS_SET_ERRCODE(stm_mng_ptr) == TRUE) {
+              STMERR_Exec();
+              return;
+          }
+          if (sfad >= 0) {
+!             STM_GRP_FAD(grp) = sfad;            /* Œ»İˆÊ’u‚ğİ’è       */
+          }
+!         /* Ä¶I—¹,“Ç‚İ‚İI—¹        */
+          STM_GRP_ATR(grp) &= ~(STMGRP_ATR_PLAY|STMGRP_ATR_READ|STMGRP_ATR_SEEK);
+      }
+!     STMSVR_SetReadEnd(grp);     /* “Ç‚İ‚İÏ‚İƒtƒ‰ƒO‚Ìİ’è             */
+!     stm_setReadFalse(grp);      /* “Ç‚İ‚İˆÊ’uˆÈ~‚Ìƒtƒ‰ƒO‚ğFALSE‚Éİ’è  */
+  
+!     /* ˆÚ“®æFAD‚ğæ“¾  */
+      STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+  
+      STM_GRP_FAD(grp) = sfad + off;
+--- 1162,1191 ----
+      }
+      stm = STM_ALIAS(stm);
+      grp = STM_GRPHN(stm);
+!     if (MNG_CURGRP(stm_mng_ptr) == grp) {       /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½Ìê‡ */
+          if (IS_PLAYING(grp) == TRUE) {
+!             ret = STL_StopIn(STM_GRPHN(stm));   /* ï¿½Ç‚İï¿½ï¿½İ’ï¿½ï¿½~         */
+              if (ret != STM_ERR_OK) {
+                  STMERR_SetCode(ret);
+              }
+!             STM_GRP_ACSTAT(grp) = STM_EXEC_PAUSE; /* ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½oï¿½É‚ÄˆÚ“ï¿½ */
+          }
+!         stat = GFCF_GetStat(&sfad, NULL);       /* ï¿½ï¿½ï¿½İ‚ï¿½FADï¿½ï¿½ï¿½æ“¾      */
+!         stm_setErr(stat);                       /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½   */
+          if (IS_SET_ERRCODE(stm_mng_ptr) == TRUE) {
+              STMERR_Exec();
+              return;
+          }
+          if (sfad >= 0) {
+!             STM_GRP_FAD(grp) = sfad;            /* ï¿½ï¿½ï¿½İˆÊ’uï¿½ï¿½ï¿½İ’ï¿½       */
+          }
+!         /* ï¿½Äï¿½ï¿½Iï¿½ï¿½,ï¿½Ç‚İï¿½ï¿½İIï¿½ï¿½        */
+          STM_GRP_ATR(grp) &= ~(STMGRP_ATR_PLAY|STMGRP_ATR_READ|STMGRP_ATR_SEEK);
+      }
+!     STMSVR_SetReadEnd(grp);     /* ï¿½Ç‚İï¿½ï¿½İÏ‚İƒtï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½             */
+!     stm_setReadFalse(grp);      /* ï¿½Ç‚İï¿½ï¿½İˆÊ’uï¿½È~ï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ï¿½FALSEï¿½Éİ’ï¿½  */
+  
+!     /* ï¿½Ú“ï¿½ï¿½ï¿½FADï¿½ï¿½ï¿½æ“¾  */
+      STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+  
+      STM_GRP_FAD(grp) = sfad + off;
+***************
+*** 1193,1201 ****
+  
+  
+  /*************************************************
+!  * ƒŠ[ƒhƒGƒ‰[”­¶‚ÌƒŠƒJƒoƒŠ(9.3)
+!  * –ß‚è’l : STM_ERR_CDRD  ƒŠƒJƒoƒŠ¸”s
+!  *          STM_ERR_OK    ƒŠƒJƒoƒŠ¬Œ÷
+   *************************************************/
+  Sint32  STM_Recover(void)
+  {
+--- 1194,1202 ----
+  
+  
+  /*************************************************
+!  * ï¿½ï¿½ï¿½[ï¿½hï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Jï¿½oï¿½ï¿½(9.3)
+!  * ï¿½ß‚ï¿½ï¿½l : STM_ERR_CDRD  ï¿½ï¿½ï¿½Jï¿½oï¿½ï¿½ï¿½ï¿½ï¿½s
+!  *          STM_ERR_OK    ï¿½ï¿½ï¿½Jï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   *************************************************/
+  Sint32  STM_Recover(void)
+  {
+***************
+*** 1212,1228 ****
+  
+  
+  /*************************************************
+!  * ƒAƒNƒZƒXI—¹‚Ìƒ`ƒFƒbƒN(7.8)
+!  * stm  : ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹
+!  * –ß‚è’l : TRUE  ƒXƒgƒŠ[ƒ€ƒAƒNƒZƒX‚ğI—¹‚µ‚½
+!  *          FALSE ƒXƒgƒŠ[ƒ€ƒAƒNƒZƒX‚ğI—¹‚µ‚Ä‚¢‚È‚¢
+   *************************************************/
+  Bool    STM_IsComplete(StmHn stm)
+  {
       Sint32      nsct;
       Sint32      stat;
       Sint32      sfad, efad;
@@ -10781,7 +12473,17 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
   
       STMERR_SetFunc(STM_ISCOMPLETE);
       if (stm == NULL) {
---- 1223,1229 ----
+--- 1213,1229 ----
+  
+  
+  /*************************************************
+!  * ï¿½Aï¿½Nï¿½Zï¿½Xï¿½Iï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N(7.8)
+!  * stm  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE  ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!  *          FALSE ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
+   *************************************************/
+  Bool    STM_IsComplete(StmHn stm)
+  {
       Sint32      nsct;
       Sint32      stat;
       Sint32      sfad, efad;
@@ -10790,7 +12492,49 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       STMERR_SetFunc(STM_ISCOMPLETE);
       if (stm == NULL) {
 ***************
-*** 1255,1261 ****
+*** 1231,1246 ****
+          return (FALSE);
+      }
+      stm = STM_ALIAS(stm);
+!     nsct = STMSVR_GetNumCdbuf(stm);             /* ƒoƒbƒtƒ@ƒZƒNƒ^”     */
+      STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!     stat = stm_getStat(stm, sfad, efad, nsct);  /* ƒXƒgƒŠ[ƒ€ƒXƒe[ƒ^ƒX */
+      STMERR_CheckFatalErr();
+!     if (stat == STAT_COMPLETED) {               /* ƒAƒNƒZƒXŠ®—¹‚Ìê‡   */
+          return (TRUE);
+      }
+      if ((stat == STAT_WAIT)&&
+          (!GFS_TRN_ACTIVE(&(GFS_FILE_TRANS(STM_GFS(stm)))))) {
+!                                               /* ƒEƒGƒCƒgó‘ÔAƒQ[ƒg•Â */
+          return (TRUE);
+      }
+      return (FALSE);
+--- 1232,1247 ----
+          return (FALSE);
+      }
+      stm = STM_ALIAS(stm);
+!     nsct = STMSVR_GetNumCdbuf(stm);             /* ï¿½oï¿½bï¿½tï¿½@ï¿½Zï¿½Nï¿½^ï¿½ï¿½     */
+      STL_GetPlayArea(STM_FLOW(stm), &sfad, &efad);
+!     stat = stm_getStat(stm, sfad, efad, nsct);  /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½eï¿½[ï¿½^ï¿½X */
+      STMERR_CheckFatalErr();
+!     if (stat == STAT_COMPLETED) {               /* ï¿½Aï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡   */
+          return (TRUE);
+      }
+      if ((stat == STAT_WAIT)&&
+          (!GFS_TRN_ACTIVE(&(GFS_FILE_TRANS(STM_GFS(stm)))))) {
+!                                               /* ï¿½Eï¿½Gï¿½Cï¿½gï¿½ï¿½ï¿½ÔAï¿½Qï¿½[ï¿½gï¿½ï¿½ */
+          return (TRUE);
+      }
+      return (FALSE);
+***************
+*** 1248,1261 ****
+  
+  
+  /*************************************************
+!  * ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ì“]‘—(7.9)
+!  * stm  : ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹
+!  * –ß‚è’l : TRUE  “]‘—‚µ‚½
+!  *          FALSE “]‘—‚Å‚«‚È‚©‚Á‚½
    *************************************************/
   Bool    STM_ExecTrans(StmHn stm)
   {
@@ -10798,7 +12542,14 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Sint32      tsct;
       GftrHn      gftr;
       Bool        trans;
---- 1256,1262 ----
+--- 1249,1262 ----
+  
+  
+  /*************************************************
+!  * ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì“]ï¿½ï¿½(7.9)
+!  * stm  : ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+!  * ï¿½ß‚ï¿½ï¿½l : TRUE  ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!  *          FALSE ï¿½]ï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
    *************************************************/
   Bool    STM_ExecTrans(StmHn stm)
   {
@@ -10806,6 +12557,29 @@ diff -crBN --binary sbl6/segalib/stm/stm_svr.c sbl6_patch/segalib/stm/stm_svr.c
       Sint32      tsct;
       GftrHn      gftr;
       Bool        trans;
+***************
+*** 1269,1278 ****
+      if (MNG_SVREXEC(stm_mng_ptr) == FALSE) {
+          MNG_SVREXEC(stm_mng_ptr) = TRUE;
+          stm = STM_ALIAS(stm);
+!         /* SCU-DMAg—p’†‚Ìê‡‚É‚Í“]‘—I—¹ƒ`ƒFƒbƒN‚ğ‚¨‚±‚È‚¤    */
+          if (gfs_use_scudma == TRUE) {
+              GFTR_ExecSvr(STM_GFS(stm), &trans);
+!             /* A-BusƒAƒNƒZƒX•s‰Â‚Ì‚½‚ßˆÈ~‚Ìˆ—‚Í‚¨‚±‚È‚í‚È‚¢  */
+              if (gfs_use_scudma == TRUE) {
+                  MNG_SVREXEC(stm_mng_ptr) = FALSE;
+                  return (trans);
+--- 1270,1279 ----
+      if (MNG_SVREXEC(stm_mng_ptr) == FALSE) {
+          MNG_SVREXEC(stm_mng_ptr) = TRUE;
+          stm = STM_ALIAS(stm);
+!         /* SCU-DMAï¿½gï¿½pï¿½ï¿½ï¿½Ìê‡ï¿½É‚Í“]ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½    */
+          if (gfs_use_scudma == TRUE) {
+              GFTR_ExecSvr(STM_GFS(stm), &trans);
+!             /* A-Busï¿½Aï¿½Nï¿½Zï¿½Xï¿½sï¿½Â‚Ì‚ï¿½ï¿½ßˆÈ~ï¿½Ìï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½  */
+              if (gfs_use_scudma == TRUE) {
+                  MNG_SVREXEC(stm_mng_ptr) = FALSE;
+                  return (trans);
 diff -crBN --binary sbl6/segalib/stm/stm_trn.c sbl6_patch/segalib/stm/stm_trn.c
 *** sbl6/segalib/stm/stm_trn.c	1996-02-08 05:25:48.000000000 -0500
 --- sbl6_patch/segalib/stm/stm_trn.c	2023-01-07 14:36:46.000000000 -0500
@@ -10890,9 +12664,37 @@ diff -crBN --binary sbl6/segasmp/bup/font/fnt_cod1.c sbl6_patch/segasmp/bup/font
 ! 
 diff -crBN --binary sbl6/segasmp/bup/smpbup1.c sbl6_patch/segasmp/bup/smpbup1.c
 *** sbl6/segasmp/bup/smpbup1.c	1996-02-08 05:26:38.000000000 -0500
---- sbl6_patch/segasmp/bup/smpbup1.c	2021-12-18 11:31:22.000000000 -0500
+--- sbl6_patch/segasmp/bup/smpbup1.c	2024-05-20 10:08:34.000000000 -0400
 ***************
-*** 20,27 ****
+*** 4,14 ****
+  *	Copyright(c) 1994 SEGA
+  *
+  *  PURPOSE:
+! *	uƒoƒbƒNƒAƒbƒvƒ‰ƒCƒuƒ‰ƒŠvƒeƒXƒgƒvƒƒOƒ‰ƒ€
+  *
+  *  AUTHOR(S):
+  *	K.M
+! *		
+  *  MOD HISTORY:
+  *	Written by K.M on 1994-08-27 Ver.1.00
+  *	Updated by K.M on 1994-09-12 Ver.1.00
+--- 4,14 ----
+  *	Copyright(c) 1994 SEGA
+  *
+  *  PURPOSE:
+! *	ï¿½uï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½vï¿½eï¿½Xï¿½gï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
+  *
+  *  AUTHOR(S):
+  *	K.M
+! *
+  *  MOD HISTORY:
+  *	Written by K.M on 1994-08-27 Ver.1.00
+  *	Updated by K.M on 1994-09-12 Ver.1.00
+***************
+*** 17,27 ****
+  
+  #include	<stdio.h>
+  #include	<machine.h>
   #include	"sega_scl.h"
   #include	"sega_per.h"
   #include	"sega_bup.h"
@@ -10901,7 +12703,11 @@ diff -crBN --binary sbl6/segasmp/bup/smpbup1.c sbl6_patch/segasmp/bup/smpbup1.c
   
   #define 	BUP_START_ADDR	0x6070000
   
---- 20,27 ----
+--- 17,28 ----
+  
+  #include	<stdio.h>
+  #include	<machine.h>
++ 
   #include	"sega_scl.h"
   #include	"sega_per.h"
   #include	"sega_bup.h"
@@ -10919,7 +12725,7 @@ diff -crBN --binary sbl6/segasmp/bup/smpbup1.c sbl6_patch/segasmp/bup/smpbup1.c
   {
   /* #if !(__GNUC__) */
   #ifndef __GNUC__
---- 73,79 ----
+--- 74,80 ----
   	"SAT"
   };
   
@@ -10928,8 +12734,262 @@ diff -crBN --binary sbl6/segasmp/bup/smpbup1.c sbl6_patch/segasmp/bup/smpbup1.c
   /* #if !(__GNUC__) */
   #ifndef __GNUC__
 ***************
+*** 101,112 ****
+  	clock = CLOCK_26;
+  	DispInit(clock);
+  
+! 	/* ƒoƒbƒNƒAƒbƒvƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰» */
+  	BackUpInit(CnTb);
+  
+  	while(1) switch(MainMenu(&sel)){
+  		case	1:
+! 			/* ƒoƒbƒNƒAƒbƒvƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰» */
+  			BackUpInit(CnTb);
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+--- 102,113 ----
+  	clock = CLOCK_26;
+  	DispInit(clock);
+  
+! 	/* ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	BackUpInit(CnTb);
+  
+  	while(1) switch(MainMenu(&sel)){
+  		case	1:
+! 			/* ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  			BackUpInit(CnTb);
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+***************
+*** 133,143 ****
+  			FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,buff,20,80,2,0);
+  #endif
+  			part=0;
+! 			PadInputWait();/* ƒpƒbƒh“ü—Í‘Ò‚¿ */
+  			dummy = 0;
+  			break;
+  		case	2:
+! 			/* ƒp[ƒeƒBƒVƒ‡ƒ“‘I‘ğ */
+  			if(device==2){
+  				if(part==0)	part = 1;
+  				else		part = 0;
+--- 134,144 ----
+  			FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,buff,20,80,2,0);
+  #endif
+  			part=0;
+! 			PadInputWait();/* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½Í‘Ò‚ï¿½ */
+  			dummy = 0;
+  			break;
+  		case	2:
+! 			/* ï¿½pï¿½[ï¿½eï¿½Bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ */
+  			if(device==2){
+  				if(part==0)	part = 1;
+  				else		part = 0;
+***************
+*** 145,151 ****
+  			}
+  			break;
+  		case	3:
+! 			/* ‚e‚‚’‚‚‚” */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  			ClrVram((Uint8 *)SCL_VDP2_VRAM_A0);
+--- 146,152 ----
+  			}
+  			break;
+  		case	3:
+! 			/* ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  			ClrVram((Uint8 *)SCL_VDP2_VRAM_A0);
+***************
+*** 159,165 ****
+  			err_disp( BackUpFormat(device),ON);
+  			break;
+  		case	4:
+! 			/* ƒXƒeƒCƒ^ƒXæ“¾ */
+  			err_disp( BUP_Stat(device,10,&StTb),OFF);
+  			sprintf((char *)buff,"Total Size  :%10ld",StTb.totalsize);
+  /* #if !(__GNUC__) */
+--- 160,166 ----
+  			err_disp( BackUpFormat(device),ON);
+  			break;
+  		case	4:
+! 			/* ï¿½Xï¿½eï¿½Cï¿½^ï¿½Xï¿½æ“¾ */
+  			err_disp( BUP_Stat(device,10,&StTb),OFF);
+  			sprintf((char *)buff,"Total Size  :%10ld",StTb.totalsize);
+  /* #if !(__GNUC__) */
+***************
+*** 191,199 ****
+  			PadInputWait();
+  			break;
+  		case	5:
+! 			/* ƒtƒ@ƒCƒ‹‘‚«‚İ */
+  			sprintf((char *)DirTb[0].filename,"DUMMYDAT%03d",dummy);
+! 			sprintf((char *)DirTb[0].comment,"ºÒİÄ%03d",dummy);
+  			DirTb[0].language = BUP_JAPANESE;
+  			DirTb[0].datasize = sizeof(DummyData);
+  			DirTb[0].date = 0;
+--- 192,200 ----
+  			PadInputWait();
+  			break;
+  		case	5:
+! 			/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  			sprintf((char *)DirTb[0].filename,"DUMMYDAT%03d",dummy);
+! 			sprintf((char *)DirTb[0].comment,"ï¿½ï¿½ï¿½ï¿½%03d",dummy);
+  			DirTb[0].language = BUP_JAPANESE;
+  			DirTb[0].datasize = sizeof(DummyData);
+  			DirTb[0].date = 0;
+***************
+*** 201,207 ****
+  			dummy++;
+  			break;
+  		case	6:
+! 			/* ƒtƒ@ƒCƒ‹“Ç‚İ‚İ */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  			err_disp( BUP_Read(device,DirTb[fp].filename,
+--- 202,208 ----
+  			dummy++;
+  			break;
+  		case	6:
+! 			/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½ */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  			err_disp( BUP_Read(device,DirTb[fp].filename,
+***************
+*** 228,238 ****
+  #endif
+  			break;
+  		case	7:
+! 			/* ƒtƒ@ƒCƒ‹‚Ìíœ */
+  			err_disp( BackUpDelete(device,DirTb[fp].filename),ON );
+  			break;
+  		case	8:
+! 			/* ƒtƒ@ƒCƒ‹ˆê——æ“¾ */
+  			num = BUP_Dir(device,(Uint8 *)"",50,DirTb);
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+--- 229,239 ----
+  #endif
+  			break;
+  		case	7:
+! 			/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìíœ */
+  			err_disp( BackUpDelete(device,DirTb[fp].filename),ON );
+  			break;
+  		case	8:
+! 			/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ê——ï¿½æ“¾ */
+  			num = BUP_Dir(device,(Uint8 *)"",50,DirTb);
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+***************
+*** 312,318 ****
+  			}
+  			break;
+  		case	9:
+! 			/* ƒxƒŠƒtƒ@ƒC */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  			err_disp( BUP_Verify(device,DirTb[fp].filename,
+--- 313,319 ----
+  			}
+  			break;
+  		case	9:
+! 			/* ï¿½xï¿½ï¿½ï¿½tï¿½@ï¿½C */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  			err_disp( BUP_Verify(device,DirTb[fp].filename,
+***************
+*** 323,329 ****
+  #endif
+  			break;
+  		case	10:
+! 			/* ƒNƒƒbƒNƒ`ƒFƒ“ƒW */
+  			if(clock == CLOCK_26)	clock = CLOCK_28;
+  			else			clock = CLOCK_26;
+  			DispInit(clock);
+--- 324,330 ----
+  #endif
+  			break;
+  		case	10:
+! 			/* ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½`ï¿½Fï¿½ï¿½ï¿½W */
+  			if(clock == CLOCK_26)	clock = CLOCK_28;
+  			else			clock = CLOCK_26;
+  			DispInit(clock);
+***************
+*** 336,344 ****
+  		case	12:if(!size)	size =   1000;
+  		case	13:if(!size)	size =  10000;
+  		case	14:if(!size)	size = 100000;
+! 			/* ƒtƒ@ƒCƒ‹‘‚«‚İ */
+  			sprintf((char *)DirTb[0].filename,"DUMMYDAT%03d",dummy);
+! 			sprintf((char *)DirTb[0].comment,"ºÒİÄ%03d",dummy);
+  			DirTb[0].language = BUP_JAPANESE;
+  			DirTb[0].datasize = size;
+  			size = 0;
+--- 337,345 ----
+  		case	12:if(!size)	size =   1000;
+  		case	13:if(!size)	size =  10000;
+  		case	14:if(!size)	size = 100000;
+! 			/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  			sprintf((char *)DirTb[0].filename,"DUMMYDAT%03d",dummy);
+! 			sprintf((char *)DirTb[0].comment,"ï¿½ï¿½ï¿½ï¿½%03d",dummy);
+  			DirTb[0].language = BUP_JAPANESE;
+  			DirTb[0].datasize = size;
+  			size = 0;
+***************
+*** 356,370 ****
+  		case	16:
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+! 			/* ƒtƒ@ƒCƒ‹‚Ì–³ŒÀƒI[ƒo[ƒ‰ƒCƒg */
+  			ClrVram((Uint8 *)SCL_VDP2_VRAM_A0);
+  			FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 				(Uint8 *)"ÊŞ¯¸±¯Ìß×²ÌŞ×Ø Test Program",40,10,2,0);
+  #else
+! 			/* ƒtƒ@ƒCƒ‹‚Ì–³ŒÀƒI[ƒo[ƒ‰ƒCƒg */
+  			ClrVram((volatile Uint8 *)SCL_VDP2_VRAM_A0);
+  			FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 				(Uint8 *)"ÊŞ¯¸±¯Ìß×²ÌŞ×Ø Test Program",40,10,2,0);
+  #endif
+  			dummy = 0;
+  			count = 0;
+--- 357,371 ----
+  		case	16:
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+! 			/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Cï¿½g */
+  			ClrVram((Uint8 *)SCL_VDP2_VRAM_A0);
+  			FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 				(Uint8 *)"ï¿½Ş¯ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ Test Program",40,10,2,0);
+  #else
+! 			/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì–ï¿½ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Cï¿½g */
+  			ClrVram((volatile Uint8 *)SCL_VDP2_VRAM_A0);
+  			FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 				(Uint8 *)"ï¿½Ş¯ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ Test Program",40,10,2,0);
+  #endif
+  			dummy = 0;
+  			count = 0;
+***************
+*** 376,382 ****
+  			PadData1E = 0;
+  			while( !(PadData1E & PAD_B) ){
+  				sprintf((char *)DirTb[0].filename,"DUMMYDA%04d",dummy);
+! 				sprintf((char *)DirTb[0].comment,"ºÒİÄ%04d",dummy);
+  				ret = BackUpWrite(device,&DirTb[0],DummyData2,(Uint8 )OFF);
+  				sprintf((char *)buff,"Write :%s",DirTb[0].filename);
+  /* #if !(__GNUC__) */
+--- 377,383 ----
+  			PadData1E = 0;
+  			while( !(PadData1E & PAD_B) ){
+  				sprintf((char *)DirTb[0].filename,"DUMMYDA%04d",dummy);
+! 				sprintf((char *)DirTb[0].comment,"ï¿½ï¿½ï¿½ï¿½%04d",dummy);
+  				ret = BackUpWrite(device,&DirTb[0],DummyData2,(Uint8 )OFF);
+  				sprintf((char *)buff,"Write :%s",DirTb[0].filename);
+  /* #if !(__GNUC__) */
+***************
 *** 433,438 ****
---- 433,440 ----
+--- 434,441 ----
   			PadInputWait();
   			break;
   	}
@@ -10939,13 +12999,359 @@ diff -crBN --binary sbl6/segasmp/bup/smpbup1.c sbl6_patch/segasmp/bup/smpbup1.c
   
   
 ***************
-*** 865,868 ****
+*** 450,462 ****
+  
+  
+  static	Uint32	color[7] = {
+! 	0x00000000,/* “§–¾F‚É‚È‚é‚Æ‚±‚ë‚¾‚©‚ç‰½‚ğ“ü‚ê‚Ä‚à—Ç‚¢ */
+! 	0x00000000,/* • */
+! 	0x00FFFFFF,/* ”’ */
+! 	0x00FF0000,/* Â */
+! 	0x0000FF00,/* —Î */
+! 	0x000000FF,/* Ô */
+! 	0x00008000 /* [—Î */
+  };
+  
+  #define	BLACK	1
+--- 453,465 ----
+  
+  
+  static	Uint32	color[7] = {
+! 	0x00000000,/* ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½É‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ë‚¾ï¿½ï¿½ï¿½ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ç‚ï¿½ */
+! 	0x00000000,/* ï¿½ï¿½ */
+! 	0x00FFFFFF,/* ï¿½ï¿½ */
+! 	0x00FF0000,/* ï¿½ï¿½ */
+! 	0x0000FF00,/* ï¿½ï¿½ */
+! 	0x000000FF,/* ï¿½ï¿½ */
+! 	0x00008000 /* ï¿½[ï¿½ï¿½ */
+  };
+  
+  #define	BLACK	1
+***************
+*** 475,490 ****
+  
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+! 	*(Uint16 *)0x25F80000 &= 0x7fff;/* ‰æ–Ê•\¦‚ğ‚n‚e‚e‚É‚·‚é */
+  #else
+! 	*(volatile Uint16 *)0x25F80000 &= 0x7fff;/* ‰æ–Ê•\¦‚ğ‚n‚e‚e‚É‚·‚é */
+  #endif
+  	SCL_Vdp2Init();
+  	if(clock == CLOCK_26)
+  		SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_A);
+  	else
+  		SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_B);
+! 	PER_SMPC_RES_ENA();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“—LŒø */
+  
+  	SCL_SetColRamMode(SCL_CRM24_1024);
+  	BackCol = RGB16_COLOR(0,0,0) & 0x7fff;
+--- 478,493 ----
+  
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+! 	*(Uint16 *)0x25F80000 &= 0x7fff;/* ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½eï¿½eï¿½É‚ï¿½ï¿½ï¿½ */
+  #else
+! 	*(volatile Uint16 *)0x25F80000 &= 0x7fff;/* ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½eï¿½eï¿½É‚ï¿½ï¿½ï¿½ */
+  #endif
+  	SCL_Vdp2Init();
+  	if(clock == CLOCK_26)
+  		SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_A);
+  	else
+  		SCL_SetDisplayMode(SCL_NON_INTER,SCL_240LINE,SCL_NORMAL_B);
+! 	PER_SMPC_RES_ENA();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Lï¿½ï¿½ */
+  
+  	SCL_SetColRamMode(SCL_CRM24_1024);
+  	BackCol = RGB16_COLOR(0,0,0) & 0x7fff;
+***************
+*** 492,498 ****
+  #ifndef __GNUC__
+  	SCL_SetBack(SCL_VDP2_VRAM+0x80000-2,1,&BackCol);
+  #else
+! 	SCL_SetBack((volatile)(SCL_VDP2_VRAM+0x80000-2),1,&BackCol);
+  #endif
+  	FNT_SetBuffSize(512,256,FNT_JAPAN);
+  	SetVblank();
+--- 495,501 ----
+  #ifndef __GNUC__
+  	SCL_SetBack(SCL_VDP2_VRAM+0x80000-2,1,&BackCol);
+  #else
+! 	SCL_SetBack((volatile Uint32)(SCL_VDP2_VRAM+0x80000-2),1,&BackCol);
+  #endif
+  	FNT_SetBuffSize(512,256,FNT_JAPAN);
+  	SetVblank();
+***************
+*** 505,511 ****
+  
+  	SCL_SetPriority(SCL_NBG0,5);
+  
+! 	/* ƒTƒCƒNƒ‹ƒpƒ^[ƒ“İ’è */
+  	Scl_s_reg.vramcyc[0] = 0x44FF;	/* NBG0 256 Bitmap */
+  
+  	SCL_InitConfigTb(&Nbg0Scfg);
+--- 508,514 ----
+  
+  	SCL_SetPriority(SCL_NBG0,5);
+  
+! 	/* ï¿½Tï¿½Cï¿½Nï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½İ’ï¿½ */
+  	Scl_s_reg.vramcyc[0] = 0x44FF;	/* NBG0 256 Bitmap */
+  
+  	SCL_InitConfigTb(&Nbg0Scfg);
+***************
+*** 517,528 ****
+  #ifndef __GNUC__
+  		Nbg0Scfg.plate_addr[i] = SCL_VDP2_VRAM_A0;
+  #else
+! 		Nbg0Scfg.plate_addr[i] = (volatile) SCL_VDP2_VRAM_A0;
+  #endif
+  	SCL_SetConfig(SCL_NBG0, &Nbg0Scfg);
+  
+  	/**************************************
+! 	*	ƒXƒNƒ[ƒ‹‰æ–Ê‚Ì‰Šú•`‰æ      *
+  	**************************************/
+  	SCL_Open(SCL_NBG0);
+  		SCL_MoveTo(FIXED(0), FIXED(0), FIXED(0));
+--- 520,531 ----
+  #ifndef __GNUC__
+  		Nbg0Scfg.plate_addr[i] = SCL_VDP2_VRAM_A0;
+  #else
+! 		Nbg0Scfg.plate_addr[i] = (volatile Uint32) SCL_VDP2_VRAM_A0;
+  #endif
+  	SCL_SetConfig(SCL_NBG0, &Nbg0Scfg);
+  
+  	/**************************************
+! 	*	ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Ìï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½      *
+  	**************************************/
+  	SCL_Open(SCL_NBG0);
+  		SCL_MoveTo(FIXED(0), FIXED(0), FIXED(0));
+***************
+*** 542,552 ****
+  #ifndef __GNUC__
+  	ClrVram((Uint8 *)SCL_VDP2_VRAM_A0);
+  	FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 		(Uint8 *)"ÊŞ¯¸±¯Ìß×²ÌŞ×Ø Test Program",40,10,2,0);
+  #else
+  	ClrVram((volatile Uint8 *)SCL_VDP2_VRAM_A0);
+  	FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 		(Uint8 *)"ÊŞ¯¸±¯Ìß×²ÌŞ×Ø Test Program",40,10,2,0);
+  #endif
+  	for(i=0;i<16;i++)	back[i] = 0;
+  
+--- 545,555 ----
+  #ifndef __GNUC__
+  	ClrVram((Uint8 *)SCL_VDP2_VRAM_A0);
+  	FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 		(Uint8 *)"ï¿½Ş¯ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ Test Program",40,10,2,0);
+  #else
+  	ClrVram((volatile Uint8 *)SCL_VDP2_VRAM_A0);
+  	FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 		(Uint8 *)"ï¿½Ş¯ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ Test Program",40,10,2,0);
+  #endif
+  	for(i=0;i<16;i++)	back[i] = 0;
+  
+***************
+*** 607,616 ****
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  					FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"Å²¿Ş³ ÒÓØ ",200, 40,WHITE,0);
+  #else
+  					FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"Å²¿Ş³ ÒÓØ ",200, 40,WHITE,0);
+  #endif
+  					break;
+  				case	1:
+--- 610,619 ----
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  					FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"Å²ï¿½Ş³ ï¿½ï¿½ï¿½ ",200, 40,WHITE,0);
+  #else
+  					FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"Å²ï¿½Ş³ ï¿½ï¿½ï¿½ ",200, 40,WHITE,0);
+  #endif
+  					break;
+  				case	1:
+***************
+*** 618,627 ****
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  					FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"¶°ÄØ¯¼Ş   ",200, 40,WHITE,0);
+  #else
+  					FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"¶°ÄØ¯¼Ş   ",200, 40,WHITE,0);
+  #endif
+  					break;
+  				case	2:
+--- 621,630 ----
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  					FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"ï¿½ï¿½ï¿½Ø¯ï¿½ï¿½   ",200, 40,WHITE,0);
+  #else
+  					FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"ï¿½ï¿½ï¿½Ø¯ï¿½ï¿½   ",200, 40,WHITE,0);
+  #endif
+  					break;
+  				case	2:
+***************
+*** 629,638 ****
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  					FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"¼Ø±Ù      ",200, 40,WHITE,0);
+  #else
+  					FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"¼Ø±Ù      ",200, 40,WHITE,0);
+  #endif
+  					break;
+  			}
+--- 632,641 ----
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  					FNT_Print256((Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"ï¿½Ø±ï¿½      ",200, 40,WHITE,0);
+  #else
+  					FNT_Print256((volatile Uint8 *)SCL_VDP2_VRAM_A0,
+! 						(Uint8 *)"ï¿½Ø±ï¿½      ",200, 40,WHITE,0);
+  #endif
+  					break;
+  			}
+***************
+*** 713,719 ****
+  	return(*sel+1);
+  }
+  
+! /* ƒpƒbƒh“ü—Í‘Ò‚¿ */
+  void	PadInputWait(void)
+  {
+  	PadData1E = 0;
+--- 716,722 ----
+  	return(*sel+1);
+  }
+  
+! /* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½Í‘Ò‚ï¿½ */
+  void	PadInputWait(void)
+  {
+  	PadData1E = 0;
+***************
+*** 776,793 ****
+  
+  
+  /****************************/
+! /* ‘‚«‚İ’†’f–h~“Á•Êˆ— */
+  /****************************/
+  void	BackUpInit(BupConfig cntb[3])
+  {
+! 	PER_SMPC_RES_DIS();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“–³Œø */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  	BUP_Init((Uint32 *)BUP_START_ADDR,BackUpRamWork,cntb);
+  #else
+  	BUP_Init((volatile Uint32 *)BUP_START_ADDR,BackUpRamWork,cntb);
+  #endif
+! 	PER_SMPC_RES_ENA();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“—LŒø */
+  }
+  
+  void	DispDate(char *comment,Uint16 x,Uint16 y)
+--- 779,796 ----
+  
+  
+  /****************************/
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½fï¿½hï¿½~ï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½ */
+  /****************************/
+  void	BackUpInit(BupConfig cntb[3])
+  {
+! 	PER_SMPC_RES_DIS();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  /* #if !(__GNUC__) */
+  #ifndef __GNUC__
+  	BUP_Init((Uint32 *)BUP_START_ADDR,BackUpRamWork,cntb);
+  #else
+  	BUP_Init((volatile Uint32 *)BUP_START_ADDR,BackUpRamWork,cntb);
+  #endif
+! 	PER_SMPC_RES_ENA();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Lï¿½ï¿½ */
+  }
+  
+  void	DispDate(char *comment,Uint16 x,Uint16 y)
+***************
+*** 823,829 ****
+  	Uint8	*time;
+  	BupDate	date;
+  
+! 	/* “ú•tƒf[ƒ^‚ª‚O‚¾‚Á‚½‚çŒ»İ‚Ì“ú•t‚ğ“ü—Í‚·‚é */
+  	if(!dir->date){
+  		time = PER_GET_TIM();
+  		date.year = (Uint8 )( (Uint16 )(time[6]>>4) * 1000
+--- 826,832 ----
+  	Uint8	*time;
+  	BupDate	date;
+  
+! 	/* ï¿½ï¿½ï¿½tï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½çŒ»ï¿½İ‚Ì“ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ */
+  	if(!dir->date){
+  		time = PER_GET_TIM();
+  		date.year = (Uint8 )( (Uint16 )(time[6]>>4) * 1000
+***************
+*** 837,845 ****
+  		dir->date = BUP_SetDate(&date);
+  	}
+  
+! 	PER_SMPC_RES_DIS();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“–³Œø */
+  	ret = BUP_Write(device,dir,data,sw);
+! 	PER_SMPC_RES_ENA();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“—LŒø */
+  
+  	return(ret);
+  }
+--- 840,848 ----
+  		dir->date = BUP_SetDate(&date);
+  	}
+  
+! 	PER_SMPC_RES_DIS();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	ret = BUP_Write(device,dir,data,sw);
+! 	PER_SMPC_RES_ENA();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Lï¿½ï¿½ */
+  
+  	return(ret);
+  }
+***************
+*** 848,856 ****
+  {
+  	Sint32	ret;
+  
+! 	PER_SMPC_RES_DIS();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“–³Œø */
+  	ret = BUP_Delete(device,filename);
+! 	PER_SMPC_RES_ENA();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“—LŒø */
+  
+  	return(ret);
+  }
+--- 851,859 ----
+  {
+  	Sint32	ret;
+  
+! 	PER_SMPC_RES_DIS();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	ret = BUP_Delete(device,filename);
+! 	PER_SMPC_RES_ENA();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Lï¿½ï¿½ */
+  
+  	return(ret);
+  }
+***************
+*** 859,868 ****
+  {
+  	Sint32	ret;
+  
+! 	PER_SMPC_RES_DIS();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“–³Œø */
+  	ret = BUP_Format(device);
+! 	PER_SMPC_RES_ENA();/* ƒŠƒZƒbƒgƒ{ƒ^ƒ“—LŒø */
   
   	return(ret);
   }
 ! 
 \ No newline at end of file
---- 867,870 ----
+--- 862,871 ----
+  {
+  	Sint32	ret;
+  
+! 	PER_SMPC_RES_DIS();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	ret = BUP_Format(device);
+! 	PER_SMPC_RES_ENA();/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Lï¿½ï¿½ */
   
   	return(ret);
   }

@@ -5,10 +5,9 @@ set(CMAKE_CXX_COMPILER_WORKS 1)
 
 set(GCC_STOP_ON_ERROR "-Wfatal-errors")
 
-set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} ${GCC_STOP_ON_ERROR}")
-#set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_STOP_ON_ERROR}")
+set(CMAKE_C_FLAGS  "${GCC_STOP_ON_ERROR}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fdiagnostics-color=always")
 
 set(CMAKE_AS_FLAGS "")
