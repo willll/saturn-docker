@@ -21,7 +21,7 @@ SHELL ["/bin/bash", "-c"]
 # Environment Variable
 ENV DEBIAN_FRONTEND=noninteractive
 
-env TERM=xterm
+ENV TERM=xterm
 
 ENV SATURN_ROOT=/opt/saturn
 
