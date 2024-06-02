@@ -58,6 +58,8 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 
 ### List of variables
 
+#### GCC build variables
+
 | GCC build variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | MAKEFLAGS_ARG | "-j 1" | Extra parameters for make |
@@ -66,10 +68,14 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 | CREATEINSTALLER | "NO" | To be removed ? |
 | BUILD_TYPE_ARG | Release | Release vs Debug, use CMAKE_BUILD_TYPE |
 
+#### SGL variables
+
 | SGL variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | INSTALL_SGL_LIB | 1 | 0 to disable |
 | INSTALL_SGL_SAMPLES | 1 | 0 to disable |
+
+#### SBL variables
 
 | SBL variable | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
@@ -77,15 +83,21 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 | INSTALL_SBL_SAMPLES | 1 | 0 to disable |
 | INSTALL_SBL_EXAMPLES | 1 | 0 to disable |
 
+#### SATURN SDK variables
+
 | SATURN SDK Variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | INSTALL_SATURNSDK_SAMPLES | 1 | 0 to disable |
+
+#### JO ENGINE variables
 
 | JO ENGINE variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | INSTALL_JO_ENGINE_LIB | 1 | 0 to disable |
 | INSTALL_JO_ENGINE_SAMPLES | 1 | 0 to disable |
 | JO_ENGINE_TAG | v2024.2 | ... |
+
+#### Yaul variables
 
 | Yaul variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
@@ -94,13 +106,17 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 | YAUL_TAG | 0.3.1 | Tag to retrieve from Yaul's github |
 | YAUL_EXAMPLES_COMMIT_SHA | 21fd76d83dffd49afc4926d6a8408eecfec474f5 | Commit that match YAUL_TAG in yaul-examples github |
 
+#### IAPETUS variables
+
 | IAPETUS variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | INSTALL_IAPETUS_LIB | 0 | 1 to enable |
 | INSTALL_IAPETUS_SAMPLES | 0 | 1 to enable |
 | IAPETUS_COMMIT_SHA | 955d7c50f634cdd18722657c920987200d9ba3a5 | ... |
 
-| CyberwarriorX CDC reimplmentation variables | Default Value | Description |
+#### CyberwarriorX CDC
+
+| CyberwarriorX CDC reimplementation variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | INSTALL_CYBERWARRIORX_CDC_LIB | 0 | 1 to enable |
 
