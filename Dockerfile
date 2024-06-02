@@ -15,7 +15,6 @@
 # * http://vberthelot.free.fr/SX/satdev/Tools.html
 
 FROM ubuntu:latest as linux
-MAINTAINER willll "XXX@XXX.XXX"
 
 SHELL ["/bin/bash", "-c"]
 
@@ -72,15 +71,49 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-COPY Resources/Install/ubuntu-packages.list /tmp
+# COPY Resources/Install/ubuntu-packages.list /tmp
 
 # Core Development Packages
-RUN apt-get update && \
-  xargs -a /tmp/ubuntu-packages.list apt-get install --no-install-recommends -y && \
+RUN apt-get update \
+  && apt-get install --no-install-recommends -y \
+  build-essential \
+  git \
+  nano \
+  unzip \
+  wget \
+  ca-certificates \
+  dos2unix \
+  gpg \
+  bison \
+  curl \
+  texinfo \
+  autotools-dev \
+  automake \
+  cmake \
+  shtool \
+  intltool \
+  libtool \
+  gettext \
+  autogen \
+  autoconf-archive \
+  xutils-dev \
+  xorriso \
+  doxygen \
+  ffmpeg \
+  ninja-build \
+  python3-pip \
+  python-is-python3 \
+  openssh-server \
+  rsync \
+  zip \
+  pipx \
+  libgmp-dev \
+  libmpfr-dev \
+  ## && xargs -a /tmp/ubuntu-packages.list apt-get install --no-install-recommends -y \
   ## Make sure we leave any X11 related library behind
-  apt-get purge -y 'libx11*' x11-common libxt6 && \
-	apt autoremove -y --purge && \
-	rm -r /var/lib/apt/lists/*
+  && apt-get purge -y 'libx11*' x11-common libxt6 \
+  && apt autoremove -y --purge \
+  && rm -r /var/lib/apt/lists/*
 
 # Base Directories
 RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
@@ -136,8 +169,8 @@ ENV PATH="$PATH:$SATURN_SATCONV"
 # Install gdown https://pypi.org/project/gdown/
 #
 RUN pipx install gdown
-RUN echo -e '#!/bin/bash\npipx run gdown "$@"' > /usr/bin/gdown && \
-    chmod +x /usr/bin/gdown
+RUN echo -e '#!/bin/bash\npipx run gdown "$@"' > /usr/bin/gdown \
+    && chmod +x /usr/bin/gdown
 
 # Clean up
 RUN rm -rf "$SATURN_TMP"
@@ -213,6 +246,9 @@ RUN source $SATURN_COMMON/gcc_sh2.env
 #
 # LIBRARIES SETUP
 #
+ARG BUILD_TYPE_ARG=Release
+ENV BUILD_TYPE=$BUILD_TYPE_ARG
+
 ARG INSTALL_SGL_LIB=1
 ARG INSTALL_SGL_SAMPLES=1
 
@@ -380,10 +416,10 @@ VOLUME /saturn
 WORKDIR /opt/saturn/tmp/
 
 # Bash Settings
-RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc && \
-    echo "export PS1='\[\e[0;36m\]\u\[\e[0m\]@\[\e[0;33m\]\h\[\e[0m\]:\[\e[0;35m\]\w\[\e[0m\]\$ '" >> ~/.bashrc && \
-    echo "alias ll='ls -lah'" >> ~/.bashrc && \
-    echo "alias ls='ls --color=auto'" >> ~/.bashrc
+RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc \
+    && echo "export PS1='\[\e[0;36m\]\u\[\e[0m\]@\[\e[0;33m\]\h\[\e[0m\]:\[\e[0;35m\]\w\[\e[0m\]\$ '" >> ~/.bashrc \
+    && echo "alias ll='ls -lah'" >> ~/.bashrc \
+    && echo "alias ls='ls --color=auto'" >> ~/.bashrc
 
 # Establish the operating directory of OpenSSH
 RUN mkdir /var/run/sshd
@@ -392,11 +428,11 @@ RUN mkdir /var/run/sshd
 RUN echo 'root:root' | chpasswd
 
 # For remote connection (VS Code)
-RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
-    echo 'PermitEmptyPasswords yes' >> /etc/ssh/sshd_config && \
-    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
-    ssh-keygen -A && \
-    echo -e 'if [[ -n $SSH_CONNECTION ]] ; then\n /opt/saturn/common/set_env.sh \n fi\n' >> /etc/bash.bashrc
+RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config \
+    && echo 'PermitEmptyPasswords yes' >> /etc/ssh/sshd_config \
+    && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config \
+    && ssh-keygen -A \
+    && echo -e 'if [[ -n $SSH_CONNECTION ]] ; then\n /opt/saturn/common/set_env.sh \n fi\n' >> /etc/bash.bashrc
 
 # SSH login fix
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
@@ -411,6 +447,7 @@ ARG BUILD_VERSION
 LABEL \
 	org.label-schema.schema-version="1.0" \
 	org.label-schema.vendor="willll" \
+    org.opencontainers.image.authors="willll" \
 	org.label-schema.name="willll/saturn-docker" \
 	org.label-schema.description="SH2 SuperH Compiler" \
 	org.label-schema.url="https://github.com/willll/saturn-docker" \

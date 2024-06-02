@@ -35,7 +35,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	cmake -S $SATURN_TMP/sbl6/segalib/ -B $SATURN_TMP/sbl6/segalib/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL \
-			-DCMAKE_BUILD_TYPE=Debug || exit 1
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
 	make -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ VERBOSE=1 $MAKEFLAGS || exit 1
 	make -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ install $MAKEFLAGS || exit 1
 
@@ -46,7 +46,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	cmake -S $SATURN_TMP/sbl6/segalib/sat -B $SATURN_TMP/sbl6/segalib/sat/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL \
-			-DCMAKE_BUILD_TYPE=Debug || exit 1
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
 	make $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ || exit 1
 	make $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ install || exit 1
 

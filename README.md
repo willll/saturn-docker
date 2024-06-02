@@ -13,7 +13,7 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 Use it in an IDE :
 TODO
 
-Change GCC version (default 8.4.0) :
+Change GCC version (default 13.2.0) :
  - 8.4.0 : docker build --build-arg GCC_VERSION_ARG=8.4.0 -t saturn-docker . --file ./Dockerfile
  - 9.5.0 : docker build --build-arg GCC_VERSION_ARG=9.5.0 -t saturn-docker . --file ./Dockerfile
  - 10.4.0 : docker build --build-arg GCC_VERSION_ARG=10.4.0 -t saturn-docker . --file ./Dockerfile
@@ -23,7 +23,19 @@ Change GCC version (default 8.4.0) :
  - 13.2.0 : docker build --build-arg GCC_VERSION_ARG=13.2.0 -t saturn-docker . --file ./Dockerfile
 
 Examples :
- - docker build --build-arg GCC_VERSION_ARG=11.3.0 --build-arg INSTALL_SATURNSDK_SAMPLES=0 --build-arg INSTALL_JO_ENGINE_LIB=0 --build-arg INSTALL_JO_ENGINE_SAMPLES=0 --build-arg INSTALL_YAUL_LIB_ARG=0 --build-arg INSTALL_YAUL_SAMPLES=0 --build-arg INSTALL_SBL_LIB=1 --build-arg INSTALL_SBL_SAMPLES=0 --build-arg INSTALL_SBL_EXAMPLES=0 --build-arg INSTALL_SGL_LIB=0 --build-arg INSTALL_SGL_SAMPLES=0 -t saturn-docker . --file ./Dockerfile
+ - docker build \
+ -  --build-arg GCC_VERSION_ARG=11.3.0 \
+ -  --build-arg INSTALL_SATURNSDK_SAMPLES=0 \
+ -  --build-arg INSTALL_JO_ENGINE_LIB=0 \
+ -  --build-arg INSTALL_JO_ENGINE_SAMPLES=0 \
+ -  --build-arg INSTALL_YAUL_LIB_ARG=0 \
+ -  --build-arg INSTALL_YAUL_SAMPLES=0 \
+ -  --build-arg INSTALL_SBL_LIB=1 \
+ -  --build-arg INSTALL_SBL_SAMPLES=0 \
+ -  --build-arg INSTALL_SBL_EXAMPLES=0 \
+ -  --build-arg INSTALL_SGL_LIB=0 \
+ -  --build-arg INSTALL_SGL_SAMPLES=0 \
+ -  S-t saturn-docker . --file ./Dockerfile
 
 - docker build  --build-arg GCC_VERSION_ARG=12.3.0 \
   --build-arg INSTALL_SATURNSDK_SAMPLES=1 \
@@ -44,7 +56,12 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 
 ## Content
 
-TODO
+### List of variables
+
+| Variable                                                | Default Value | Description |
+| --------------------------------------------------- | ---------- | ------- |
+| MAKEFLAGS_ARG | High       | Low     |
+
 
 ## Build status
 
@@ -56,7 +73,8 @@ TODO
 - [x] GCC 12.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.2.0
 - [x] GCC 12.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.3.0
 - [x] GCC 13.2.0 for SH2 (Default) : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.2.0
-- [ ] GDB for SH2 **(Not built yet)**
+- [ ] GCC 14.1.0 for SH2 **(not stable)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.1.0
+- [ ] GDB for SH2 **(Not tested yet)**
 - [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K **(To be integrated)**
 - [x] CMake profile
 - [x] schily-tools : ISO generation tools

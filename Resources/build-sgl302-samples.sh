@@ -30,7 +30,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	mkdir -p ${SATURN_TMP}/sgl302/sample/bin
 	cmake -S $SATURN_TMP/sgl302/sample/ -B $SATURN_TMP/sgl302/sample/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
-			-DCMAKE_INSTALL_PREFIX=$1
+			-DCMAKE_INSTALL_PREFIX=$1 \
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
 	make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ $MAKEFLAGS && \
 		make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ install $MAKEFLAGS
 
@@ -40,7 +41,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	mkdir -p ${SATURN_TMP}/sgl302/sample2/bin
 	cmake -S $SATURN_TMP/sgl302/sample2/ -B $SATURN_TMP/sgl302/sample2/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
-			-DCMAKE_INSTALL_PREFIX=$1
+			-DCMAKE_INSTALL_PREFIX=$1 \
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
 	make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ && \
 	 		make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ install
 
@@ -50,7 +52,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	mkdir -p ${SATURN_TMP}/sgl302/sample4/bin
 	cmake -S $SATURN_TMP/sgl302/sample4/ -B $SATURN_TMP/sgl302/sample4/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
-			-DCMAKE_INSTALL_PREFIX=$1
+			-DCMAKE_INSTALL_PREFIX=$1 \
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
 	make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ && \
 	 		make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ install
 
@@ -60,7 +63,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 	mkdir -p ${SATURN_TMP}/sgl302/demos/bin
 	cmake -S $SATURN_TMP/sgl302/demos/ -B $SATURN_TMP/sgl302/demos/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
-			-DCMAKE_INSTALL_PREFIX=$1
+			-DCMAKE_INSTALL_PREFIX=$1 \
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
 	make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ && \
 	 		make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ install
 
