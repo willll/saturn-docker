@@ -6,8 +6,7 @@ set(TARGET_NAME lib3d)
 
 set(as_flags -I ${CMAKE_CURRENT_SOURCE_DIR}/)
 
-add_compile_options(  "$<$<COMPILE_LANGUAGE:ASM>:${as_flags}>"
-)
+add_compile_options("$<$<COMPILE_LANGUAGE:ASM>:${as_flags}>")
 
 set_property(SOURCE ${ASM_SOURCES} PROPERTY LANGUAGE ASM)
 
