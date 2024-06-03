@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.5)
 
 SET(CMAKE_SYSTEM_NAME Generic)
 
@@ -13,7 +13,6 @@ project(segalib
 set(c_flags -Wall
             -Wpointer-sign
             -m2
-            #-finline-functions
             -fomit-frame-pointer
             )
 
@@ -22,8 +21,6 @@ cmake_path(NORMAL_PATH CMAKE_SOURCE_DIR OUTPUT_VARIABLE PROJECT_ROOT_NORMALIZED)
 add_compile_options(
   "$<$<COMPILE_LANGUAGE:C>:${c_flags}>"
   "$<$<COMPILE_LANGUAGE:C>:-ffile-prefix-map=${PROJECT_ROOT_NORMALIZED}=./src/${SEGALIB_DESTINATION_LIB}>"
-  "$<$<CONFIG:DEBUG>:-g>"
-  "$<$<CONFIG:RELEASE>:-Os>"
 )
 
 add_subdirectory(bpl)
