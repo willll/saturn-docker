@@ -66,7 +66,7 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 | GCC_VERSION_ARG | 13.2.0 | Version of GCC, possible values : [  8.4.0, 9.5.0, 10.4.0, 11.3.0, 12.2.0, 12.3.0, 13.2.0 ] |
 | NCPU | 1 | Number of CPUs available to build GCC |
 | CREATEINSTALLER | "NO" | To be removed ? |
-| BUILD_TYPE_ARG | Release | Release vs Debug, use CMAKE_BUILD_TYPE |
+| BUILD_TYPE_ARG | Release | Release vs Debug, use CMAKE_BUILD_TYPE [ Release, Debug, RelWithDebInfo,MinSizeRel ] |
 
 #### SGL variables
 
