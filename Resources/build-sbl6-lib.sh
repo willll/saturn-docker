@@ -20,10 +20,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		-exec sed -i 's/\o32//g' {} \;
 
 	rm $SATURN_TMP/sbl6/segalib/spr/sega_spr.h
-	#rm $SATURN_TMP/sbl6/segalib/include/sl_def.h
 	rm $SATURN_TMP/sbl6/segalib/include/sgl.h
-	#rm $SATURN_TMP/sbl6/segasmp/dual/sega_spr.h
-	#rm $SATURN_TMP/sbl6/segasmp/dual/sega_xpt.h
 
 	# Inject Build System
 	cp --verbose -rf $SATURN_TMP/sbl6_/* $SATURN_TMP/sbl6/
@@ -58,10 +55,9 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
 				$SATURN_TMP/sbl6/segalib/lib/$filename
 		cp -v $SATURN_TMP/sbl6/segalib/lib/$filename $SATURN_SBL/segalib/lib
-  done
+    done
 
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_adp.a $SATURN_SBL/segalib/lib
-	#cp -v $SATURN_TMP/sbl6/segalib/lib/sega_sys.a $SATURN_SBL/segalib/lib
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_per_vbt.a $SATURN_SBL/segalib/lib
 
 else
