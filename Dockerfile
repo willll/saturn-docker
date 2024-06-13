@@ -422,7 +422,7 @@ RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc \
     && echo "alias ls='ls --color=auto'" >> ~/.bashrc
 
 # Establish the operating directory of OpenSSH
-RUN mkdir /var/run/sshd
+RUN mkdir -p /var/run/sshd
 
 # Set Root password
 RUN echo 'root:root' | chpasswd
@@ -439,6 +439,9 @@ RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config \
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
     pam_loginuid.so@g' -i /etc/pam.d/sshd
 
+# Freeze environment variables for SSH login
+RUN env | grep _ >> /etc/environment
+
 # Metadata Params
 ARG BUILD_DATE
 ARG VCS_REF
@@ -448,7 +451,7 @@ ARG BUILD_VERSION
 LABEL \
 	org.label-schema.schema-version="1.0" \
 	org.label-schema.vendor="willll" \
-    org.opencontainers.image.authors="willll" \
+    	org.opencontainers.image.authors="willll" \
 	org.label-schema.name="willll/saturn-docker" \
 	org.label-schema.description="SH2 SuperH Compiler" \
 	org.label-schema.url="https://github.com/willll/saturn-docker" \
@@ -461,4 +464,4 @@ LABEL \
 ENTRYPOINT ["/opt/saturn/common/set_env.sh"]
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["/usr/sbin/sshd","-D"] 
