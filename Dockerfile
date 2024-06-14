@@ -379,9 +379,9 @@ RUN "$SATURN_TMP/dl-yaul.sh"
 COPY Resources/yaul/ "$SATURN_TMP/yaul/"
 COPY Resources/build-yaul.sh "$SATURN_TMP"
 COPY Resources/yaul/yaul.env.in "$SATURN_YAUL"
-RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul.sh"
+RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul.sh"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
-RUN "$SATURN_COMMON/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
+RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
 
 # TODO : Add https://github.com/ijacquez/saturn-compos.git
 
@@ -433,14 +433,14 @@ RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config \
     && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config \
     && echo 'Port 22' >> /etc/ssh/sshd_config \
     && ssh-keygen -A \
-    && echo -e 'if [[ -n $SSH_CONNECTION ]] ; then\n /opt/saturn/common/set_env.sh \n fi\n' >> /etc/bash.bashrc
+    && echo -e 'if [[ -n $SSH_CONNECTION ]] ; then\n /opt/saturn/common/startup.sh \n fi\n' >> ~/.bashrc
 
 # SSH login fix
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
     pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 # Freeze environment variables for SSH login
-RUN env | grep _ >> /etc/environment
+RUN "$SATURN_COMMON/set_env.sh"
 
 # Metadata Params
 ARG BUILD_DATE
@@ -451,7 +451,7 @@ ARG BUILD_VERSION
 LABEL \
 	org.label-schema.schema-version="1.0" \
 	org.label-schema.vendor="willll" \
-    	org.opencontainers.image.authors="willll" \
+  org.opencontainers.image.authors="willll" \
 	org.label-schema.name="willll/saturn-docker" \
 	org.label-schema.description="SH2 SuperH Compiler" \
 	org.label-schema.url="https://github.com/willll/saturn-docker" \
@@ -459,9 +459,9 @@ LABEL \
 	org.label-schema.build-date=$BUILD_DATE \
 	org.label-schema.vcs-ref=$VCS_REF \
 	org.label-schema.version=$BUILD_VERSION \
-	org.label-schema.docker.cmd="docker run -it --rm -v ${pwd}:/saturn saturn-docker"
+	org.label-schema.docker.cmd="docker run -it -p 2222:22 --rm -v ${pwd}:/saturn saturn-docker"
 
-ENTRYPOINT ["/opt/saturn/common/set_env.sh"]
+ENTRYPOINT ["/opt/saturn/common/startup.sh"]
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd","-D"] 
+CMD ["/usr/sbin/sshd","-D"]

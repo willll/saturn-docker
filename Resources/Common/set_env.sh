@@ -1,14 +1,13 @@
 #!/bin/bash
 set -e
 
-source $SATURN_COMMON/gcc_sh2.env
+. $SATURN_COMMON/gcc_sh2.env
 
 if [ $INSTALL_YAUL_LIB -eq 1 ]; then
-  source $SATURN_YAUL/yaul.env.in
+  . $SATURN_YAUL/yaul.env.in
 fi
 
-# Start SSHD
-service ssh restart
+env | grep _ >> /etc/environment
 
-# Run the main container command
-exec "$@"
+egrep -Eo ' [a-zA-Z_-]+=' $SATURN_COMMON/gcc_sh2.env | cut -c 2- | rev | cut -c 2- | rev |\
+while read line; do env | grep "$line" >> /etc/environment ; done
