@@ -179,7 +179,8 @@ RUN rm -rf "$SATURN_TMP"
 # Install base tools
 #
 
-ARG GCC_VERSION_ARG=13.3.0_0
+# GCC_VERSION_ARG : must match tags from https://github.com/willll/Saturn-SDK-GCC-SH2/tags
+ARG GCC_VERSION_ARG=13.2.0_0
 ENV GCC_VERSION=$GCC_VERSION_ARG
 
 ARG NCPU=1
