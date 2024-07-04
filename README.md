@@ -22,6 +22,7 @@ Change GCC version (default 13.2.0) :
  - 12.3.0 : docker build --build-arg GCC_VERSION_ARG=12.3.0 -t saturn-docker . --file ./Dockerfile
  - 13.2.0 : docker build --build-arg GCC_VERSION_ARG=13.2.0 -t saturn-docker . --file ./Dockerfile
  - 13.3.0 : docker build --build-arg GCC_VERSION_ARG=13.3.0 -t saturn-docker . --file ./Dockerfile
+ - 14.1.0 : docker build --build-arg GCC_VERSION_ARG=14.1.0 -t saturn-docker . --file ./Dockerfile
 
 Examples :
  - docker build \
@@ -64,7 +65,7 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 | GCC build variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | MAKEFLAGS_ARG | "-j 1" | Extra parameters for make |
-| GCC_VERSION_ARG | 13.2.0 | Version of GCC, possible values : [  8.4.0, 9.5.0, 10.4.0, 11.3.0, 12.2.0, 12.3.0, 13.2.0, 13.3.0 ] |
+| GCC_VERSION_ARG | 13.2.0 | Version of GCC, possible values : [  8.4.0, 9.5.0, 10.4.0, 11.3.0, 12.2.0, 12.3.0, 13.2.0, 13.3.0, 14.1.0 ] |
 | NCPU | 1 | Number of CPUs available to build GCC |
 | CREATEINSTALLER | "NO" | To be removed ? |
 | BUILD_TYPE_ARG | Release | Release vs Debug, use CMAKE_BUILD_TYPE [ Release, Debug, RelWithDebInfo,MinSizeRel ] |
