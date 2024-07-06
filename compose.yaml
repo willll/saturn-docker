@@ -4,3 +4,4 @@ services:
     ports:
       - "2222:22"
     command: /bin/bash
+    tty: true
