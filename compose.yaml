@@ -1,3 +1,5 @@
 services:
   build-saturn:
     build: .
+    ports:
+      - "2222:22"
