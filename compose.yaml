@@ -2,6 +2,6 @@ services:
   build-saturn:
     build: .
     ports:
-      - "2222:22"
+      - "${SSH_PORT:-2222}:22"
     command: /bin/bash
     tty: true
