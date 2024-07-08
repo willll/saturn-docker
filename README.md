@@ -56,6 +56,10 @@ Examples :
 Docker Hub :
 https://hub.docker.com/r/willll/saturn-docker/tags
 
+
+Mount it with SSHFS :
+sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 2222
+
 ## Content
 
 ### List of variables
