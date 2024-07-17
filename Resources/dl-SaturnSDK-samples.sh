@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
+
 if [ $INSTALL_SATURNSDK_SAMPLES -eq 1 ]; then
 
 	git clone --depth 1 https://github.com/SaturnSDK/Saturn-SDK-Sample-00-Basic.git \
@@ -14,6 +18,10 @@ if [ $INSTALL_SATURNSDK_SAMPLES -eq 1 ]; then
 	git clone --depth 1 https://github.com/SaturnSDK/Saturn-SDK-Sample-13-CDBrowser.git \
 	    "$SATURN_SAMPLES"/Saturn-SDK-Sample-13-CDBrowser
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0

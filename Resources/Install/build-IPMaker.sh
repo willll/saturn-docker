@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
+
 if [ ! -d $SATURN_IPMAKER ]; then
 	mkdir -p $SATURN_IPMAKER
 fi
@@ -25,5 +29,9 @@ make -f $SATURN_TMP/bin/Makefile \
 			-C $SATURN_TMP/bin/ install $MAKEFLAGS
 
 rm -rf "$SATURN_TMP/tmp"
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
+fi
 
 exit 0

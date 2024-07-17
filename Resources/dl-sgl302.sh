@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
 
 if [ $INSTALL_SGL_LIB -eq 1 ]; then
 
@@ -73,6 +76,10 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 		fi
 	done
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0

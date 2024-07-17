@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
+
 build () {
 	echo "BUILDING $1"
 	SILENT=1 make -C $1 clean $MAKEFLAGS
@@ -89,6 +93,10 @@ if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
 else
 	echo "$(tput setaf 1)No YAUL examples will be built$(tput sgr 0)"
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0

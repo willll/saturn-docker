@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
+
 if [ $INSTALL_JO_ENGINE_LIB -eq 1 ]; then
 
 	if [ ! -d $SATURN_JOENGINE ]; then
@@ -28,6 +32,10 @@ if [ $INSTALL_JO_ENGINE_LIB -eq 1 ]; then
 else
 	echo "$(tput setaf 1)No joengine libraries will be built$(tput sgr 0)"
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0

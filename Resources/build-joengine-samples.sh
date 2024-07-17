@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+VERBOSE=""
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+	$VERBOSE="VERBOSE=1"
+fi
+
 if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 
 	if [ ! -d $SATURN_JOENGINE ]; then
@@ -59,13 +66,17 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 	do
 		echo "BUILDING $sample"
 		cd "$SATURN_JOENGINE/Samples/$sample"
-		make clean
-		make VERBOSE=1 $MAKEFLAGS
+		make $VERBOSE clean
+		make $VERBOSE $MAKEFLAGS
 	done
 
 else
 	echo "$(tput setaf 1)No joengine samples will be built$(tput sgr 0)"
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0

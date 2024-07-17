@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+VERBOSE=""
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+	$VERBOSE="VERBOSE=1"
+fi
+
 if [ $INSTALL_SBL_LIB -eq 1 ]; then
 
 	if [ ! -d $SATURN_TMP ]; then
@@ -33,8 +40,8 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL \
 			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ VERBOSE=1 $MAKEFLAGS || exit 1
-	make -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ install $MAKEFLAGS || exit 1
+	make $VERBOSE -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ VERBOSE=1 $MAKEFLAGS || exit 1
+	make $VERBOSE -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ install $MAKEFLAGS || exit 1
 
 	#
 	# build sega_sat
@@ -44,8 +51,8 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL \
 			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ || exit 1
-	make $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ install || exit 1
+	make $VERBOSE $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ || exit 1
+	make $VERBOSE $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ install || exit 1
 
 	#
 	# convert sega_sgl and sega_adp to ELF
@@ -63,6 +70,10 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 else
 	echo "$(tput setaf 1)No SBL libraries will be built$(tput sgr 0)"
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0

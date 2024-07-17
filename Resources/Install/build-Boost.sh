@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
+
 if [ ! -d $BOOST_ROOT ]; then
 	mkdir -p $BOOST_ROOT
 fi
@@ -66,5 +70,9 @@ done
 "$SATURN_TMP/tmp/b2" headers
 
 rm -rf "$SATURN_TMP/tmp"
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
+fi
 
 exit 0

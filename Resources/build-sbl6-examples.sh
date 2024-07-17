@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
+
 if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 
 	if [ ! -d $SATURN_TMP/examples ]; then
@@ -36,6 +40,10 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 else
 	echo "$(tput setaf 1)No SBL examples will be built$(tput sgr 0)"
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0

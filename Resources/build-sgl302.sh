@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set -x
+fi
+
 if [ $INSTALL_SGL_LIB -eq 1 ]; then
 
 	if [ ! -d $SATURN_TMP ]; then
@@ -39,7 +43,6 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	# Create destination directories
 	#
 	mkdir -p $1/{common,lib,include,samples/{sample1,sample2,sample4},demos,doc,sddrv,share}
-
 
 	#
 	# convert coff to ELF
@@ -85,6 +88,10 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 else
 	echo "$(tput setaf 1)No SGL libraries will be built$(tput sgr 0)"
 
+fi
+
+if [ "$DOCKER_BUILDKIT" == "1" ]; then
+	set +x
 fi
 
 exit 0
