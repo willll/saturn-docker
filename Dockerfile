@@ -14,7 +14,7 @@
 # * https://github.com/cyberwarriorx/iapetus
 # * http://vberthelot.free.fr/SX/satdev/Tools.html
 
-FROM ubuntu:latest as linux
+FROM ubuntu:latest AS linux
 
 SHELL ["/bin/bash", "-c"]
 
@@ -180,7 +180,7 @@ RUN rm -rf "$SATURN_TMP"
 #
 
 # GCC_VERSION_ARG : must match tags from https://github.com/willll/Saturn-SDK-GCC-SH2/tags
-ARG GCC_VERSION_ARG=13.2.0_0
+ARG GCC_VERSION_ARG=13.3.0_0
 ENV GCC_VERSION=$GCC_VERSION_ARG
 
 ARG NCPU=1
@@ -247,6 +247,7 @@ RUN source $SATURN_COMMON/gcc_sh2.env
 #
 # LIBRARIES SETUP
 #
+
 ARG BUILD_TYPE_ARG=Release
 ENV BUILD_TYPE=$BUILD_TYPE_ARG
 
