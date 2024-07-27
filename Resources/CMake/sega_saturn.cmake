@@ -5,6 +5,13 @@ set(CMAKE_CXX_COMPILER_WORKS 1)
 
 set(GCC_STOP_ON_ERROR "-Wfatal-errors")
 
+set( SEGALIB $ENV{SATURN_SBL}/segalib )
+set( SEGASGL $ENV{SATURN_SGL} )
+
+set( SATURN_ROOT $ENV{SATURN_ROOT} )
+set( SATURN_COMMON $ENV{SATURN_COMMON} )
+set( SATURN_CMAKE $ENV{SATURN_CMAKE} )
+
 set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always")
 set(CMAKE_C_FLAGS "${GCC_STOP_ON_ERROR} -fdiagnostics-color=always")
 set(CMAKE_AS_FLAGS "")
