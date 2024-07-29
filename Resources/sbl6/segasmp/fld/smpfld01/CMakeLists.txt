@@ -40,7 +40,8 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
-    "SHELL:-lc -lgcc -lm"
+    "SHELL:-lc -lgcc"
+    #"SHELL: --specs=nosys.specs"
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/fld_load.a )
