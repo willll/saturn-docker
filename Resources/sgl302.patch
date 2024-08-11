@@ -2041,6 +2041,943 @@ diff -crBN --binary sgl302/sample/design1/main.c sgl302_patch/sample/design1/mai
   }
   
 ! 
+diff -crBN --binary sgl302/sample/design2/main.c sgl302_patch/sample/design2/main.c
+*** sgl302/sample/design2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/design2/main.c	2024-08-11 11:56:54.000000000 -0400
+***************
+*** 4,9 ****
+--- 4,11 ----
+  #include	"sgl.h"
+  #include	"sega_sys.h"
+  
++ #include	<string.h>
++ 
+  #define		max_texture		2
+  
+  extern PDATA pdata_sample[];
+***************
+*** 163,166 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 165,168 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/design3/main.c sgl302_patch/sample/design3/main.c
+*** sgl302/sample/design3/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/design3/main.c	2024-08-11 12:04:36.000000000 -0400
+***************
+*** 4,9 ****
+--- 4,11 ----
+  #include	"sgl.h"
+  #include	"sega_sys.h"
+  
++ #include	<string.h>
++ 
+  #define		max_texture		2
+  
+  extern OBJECT	object_sample[];
+***************
+*** 193,196 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 195,198 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/driving/main.c sgl302_patch/sample/driving/main.c
+*** sgl302/sample/driving/main.c	1996-09-10 23:00:00.000000000 -0400
+--- sgl302_patch/sample/driving/main.c	2024-08-11 12:30:48.000000000 -0400
+***************
+*** 11,16 ****
+--- 11,19 ----
+  
+  #include	"sglcolli.h"
+  
++ #include <math.h>
++ #include <stdlib.h>
++ 
+  #define FLASH_SATURN_CD
+  
+  
+***************
+*** 153,159 ****
+  	slMakeKtable((void *)RBG0_KTB_ADR);
+  	slCharRbg0(COL_TYPE_256 , CHAR_SIZE_1x1);
+  	slPageRbg0((void *)RBG0RB_CEL_ADR , 0 , PNB_1WORD|CN_12BIT);
+! 	
+  	slPlaneRA(PL_SIZE_1x1);
+  	sl1MapRA((void *)RBG0RA_MAP_ADR);
+  	slOverRA(0);
+--- 156,162 ----
+  	slMakeKtable((void *)RBG0_KTB_ADR);
+  	slCharRbg0(COL_TYPE_256 , CHAR_SIZE_1x1);
+  	slPageRbg0((void *)RBG0RB_CEL_ADR , 0 , PNB_1WORD|CN_12BIT);
+! 
+  	slPlaneRA(PL_SIZE_1x1);
+  	sl1MapRA((void *)RBG0RA_MAP_ADR);
+  	slOverRA(0);
+***************
+*** 161,167 ****
+  	Cel2VRAM(tuti_cel , (void *)RBG0RA_CEL_ADR , 65536);
+  	Map2VRAM(tuti_map , (void *)RBG0RA_MAP_ADR , 64 , 64 , 2 , 884);
+  	Pal2CRAM(tuti_pal , (void *)RBG0RA_COL_ADR , 160);
+! 	
+  	slPlaneRB(PL_SIZE_1x1);
+  	sl1MapRB((void *)RBG0RB_MAP_ADR);
+  	slOverRB(0);
+--- 164,170 ----
+  	Cel2VRAM(tuti_cel , (void *)RBG0RA_CEL_ADR , 65536);
+  	Map2VRAM(tuti_map , (void *)RBG0RA_MAP_ADR , 64 , 64 , 2 , 884);
+  	Pal2CRAM(tuti_pal , (void *)RBG0RA_COL_ADR , 160);
+! 
+  	slPlaneRB(PL_SIZE_1x1);
+  	sl1MapRB((void *)RBG0RB_MAP_ADR);
+  	slOverRB(0);
+***************
+*** 169,178 ****
+  	Cel2VRAM(sora_cel , (void *)RBG0RB_CEL_ADR , 28288);
+  	Map2VRAM(sora_map , (void *)RBG0RB_MAP_ADR , 64 , 20 , 1 , 0);
+  	Pal2CRAM(sora_pal , (void *)RBG0RB_COL_ADR , 256);
+! 	
+  	slRparaMode(K_CHANGE);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+! 	
+  	slScrAutoDisp(NBG0ON | RBG0ON );
+  }
+  /*--------------------------------------------------------------------------*/
+--- 172,181 ----
+  	Cel2VRAM(sora_cel , (void *)RBG0RB_CEL_ADR , 28288);
+  	Map2VRAM(sora_map , (void *)RBG0RB_MAP_ADR , 64 , 20 , 1 , 0);
+  	Pal2CRAM(sora_pal , (void *)RBG0RB_COL_ADR , 256);
+! 
+  	slRparaMode(K_CHANGE);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+! 
+  	slScrAutoDisp(NBG0ON | RBG0ON );
+  }
+  /*--------------------------------------------------------------------------*/
+***************
+*** 190,206 ****
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);	
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  	slWindowClipLevel(50);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ƒCƒxƒ“ƒg‚Ì‰Šú‰»		*/
+! 	slSetEvent((void *)main_pad);			/*  ƒpƒbƒh“ü—ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ƒJƒƒ‰ˆÊ’uw’èŠÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ƒ|ƒŠƒSƒ“ƒ}ƒbƒv•\¦ŠÖŒW	*/
+! 	slSetEvent((void *)main_map);			/*  ‚a‚f•\¦ŠÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	while(1)
+  	{
+--- 193,209 ----
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  	slWindowClipLevel(50);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½		*/
+! 	slSetEvent((void *)main_pad);			/*  ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½wï¿½ï¿½ï¿½ÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+! 	slSetEvent((void *)main_map);			/*  ï¿½aï¿½fï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	while(1)
+  	{
+***************
+*** 209,225 ****
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ƒCƒxƒ“ƒg‚ÌÀs			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+  //		slPrintFX(pos[X],slLocate(3,10));
+  //		slPrintFX(pos[Y],slLocate(3,11));
+! 		slSynch();							/*	ƒVƒ“ƒN					*/
+! 	} 
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ƒJƒƒ‰ŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+--- 212,228 ----
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½s			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+  //		slPrintFX(pos[X],slLocate(3,10));
+  //		slPrintFX(pos[Y],slLocate(3,11));
+! 		slSynch();							/*	ï¿½Vï¿½ï¿½ï¿½N					*/
+! 	}
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+***************
+*** 227,233 ****
+  	slLookAt(sega3D.cpos, sega3D.ctarget, sega3D.cangle[Z]);
+  }
+  /*--------------------------------------*/
+! /*	ƒ|ƒŠƒSƒ“ƒ}ƒbƒvŠÖŒW‚Ì•\¦			*/
+  /*--------------------------------------*/
+  void	main_Pmap(EVENT *evptr)
+  {
+--- 230,236 ----
+  	slLookAt(sega3D.cpos, sega3D.ctarget, sega3D.cangle[Z]);
+  }
+  /*--------------------------------------*/
+! /*	ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½ÖŒWï¿½Ì•\ï¿½ï¿½			*/
+  /*--------------------------------------*/
+  void	main_Pmap(EVENT *evptr)
+  {
+***************
+*** 241,247 ****
+  	Sint32	my_xx,my_yy;
+  	Sint32	X_MAX,X_MIN;
+  	Sint32	Y_MAX,Y_MIN;
+! 	
+  	my_xx	=((Sint16)((pos[X]+256*slSin(ang[Z]))>>16))>>5;
+  	my_yy	=((Sint16)((pos[Y]+256*slCos(ang[Z]))>>16))>>5;
+  	MapAngX	= slCos(ang[Z])*256;
+--- 244,250 ----
+  	Sint32	my_xx,my_yy;
+  	Sint32	X_MAX,X_MIN;
+  	Sint32	Y_MAX,Y_MIN;
+! 
+  	my_xx	=((Sint16)((pos[X]+256*slSin(ang[Z]))>>16))>>5;
+  	my_yy	=((Sint16)((pos[Y]+256*slCos(ang[Z]))>>16))>>5;
+  	MapAngX	= slCos(ang[Z])*256;
+***************
+*** 258,264 ****
+  		Y_MAX	=(my_yy>>2)+15;
+  		if(Y_MIN < 0)Y_MIN=0;
+  		if(Y_MAX > pol_map_y)Y_MAX=pol_map_y;
+! 		
+  		for(ax = X_MIN ; ax < X_MAX ; ax++)
+  		{
+  			for(ay = Y_MIN ; ay < Y_MAX ; ay++)
+--- 261,267 ----
+  		Y_MAX	=(my_yy>>2)+15;
+  		if(Y_MIN < 0)Y_MIN=0;
+  		if(Y_MAX > pol_map_y)Y_MAX=pol_map_y;
+! 
+  		for(ax = X_MIN ; ax < X_MAX ; ax++)
+  		{
+  			for(ay = Y_MIN ; ay < Y_MAX ; ay++)
+***************
+*** 286,292 ****
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	‚a‚f•\¦ŠÖŒW						*/
+  /*--------------------------------------*/
+  void	main_map(EVENT *evptr)
+  {
+--- 289,295 ----
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½aï¿½fï¿½\ï¿½ï¿½ï¿½ÖŒW						*/
+  /*--------------------------------------*/
+  void	main_map(EVENT *evptr)
+  {
+***************
+*** 309,315 ****
+  	pos_move();
+  }
+  /*--------------------------------------*/
+! /*	ˆÊ’u•Û‘¶							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+--- 312,318 ----
+  	pos_move();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Ê’uï¿½Û‘ï¿½							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+***************
+*** 321,327 ****
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ƒpƒbƒhŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+--- 324,330 ----
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ï¿½pï¿½bï¿½hï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+***************
+*** 331,337 ****
+  	Sint16		aa;
+  	Uint16		data;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[15].data;					//ƒpƒbƒh‚Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+--- 334,340 ----
+  	Sint16		aa;
+  	Uint16		data;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[15].data;					//ï¿½pï¿½bï¿½hï¿½Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+***************
+*** 340,346 ****
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	ang[X]	=ang_z;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ƒpƒbƒh‚P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+--- 343,349 ----
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	ang[X]	=ang_z;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ï¿½pï¿½bï¿½hï¿½P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+***************
+*** 348,356 ****
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*Ô‚Ì‹““®‚ÍƒAƒoƒEƒg‚Éì‚Á‚Ä‚¢‚é‚Ì‚ÅQl‚É‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B*/
+  /*---------------------------------------------*/
+! 	/*‰Á‘¬Œ¸‘¬*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+--- 351,359 ----
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*ï¿½Ô‚Ì‹ï¿½ï¿½ï¿½ï¿½ÍƒAï¿½oï¿½Eï¿½gï¿½Éï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅQï¿½lï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B*/
+  /*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+***************
+*** 372,378 ****
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10+col_x;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10+col_y;
+  	/*---------------------------------------------*/
+! 	/*ƒTƒCƒhˆÚ“®*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+--- 375,381 ----
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10+col_x;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10+col_y;
+  	/*---------------------------------------------*/
+! 	/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+***************
+*** 383,389 ****
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+--- 386,392 ----
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+***************
+*** 432,438 ****
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 	
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+--- 435,441 ----
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+***************
+*** 489,495 ****
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ƒRƒŠƒWƒ‡ƒ“	‚‚³’Šo							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+--- 492,498 ----
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+***************
+*** 511,517 ****
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 	
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+--- 514,520 ----
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+***************
+*** 593,596 ****
+  		}
+  	}
+  }
+! 
+\ No newline at end of file
+--- 596,599 ----
+  		}
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/driving2/main.c sgl302_patch/sample/driving2/main.c
+*** sgl302/sample/driving2/main.c	1996-09-10 23:00:00.000000000 -0400
+--- sgl302_patch/sample/driving2/main.c	2024-08-11 12:23:22.000000000 -0400
+***************
+*** 11,16 ****
+--- 11,19 ----
+  
+  #include	"sglcolli.h"
+  
++ #include <math.h>
++ #include <stdlib.h>
++ 
+  #define FLASH_SATURN_CD
+  
+  #define	pol_map_x	64
+***************
+*** 185,199 ****
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);	
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ƒCƒxƒ“ƒg‚Ì‰Šú‰»		*/
+! 	slSetEvent((void *)main_pad);			/*  ƒpƒbƒh“ü—ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ƒJƒƒ‰ˆÊ’uw’èŠÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ƒ|ƒŠƒSƒ“ƒ}ƒbƒv•\¦ŠÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,11,5);
+--- 188,202 ----
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½		*/
+! 	slSetEvent((void *)main_pad);			/*  ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½wï¿½ï¿½ï¿½ÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,11,5);
+***************
+*** 211,225 ****
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ƒCƒxƒ“ƒg‚ÌÀs			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ƒVƒ“ƒN					*/
+! 	} 
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ƒJƒƒ‰ŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+--- 214,228 ----
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½s			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ï¿½Vï¿½ï¿½ï¿½N					*/
+! 	}
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+***************
+*** 285,291 ****
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ˆÊ’u•Û‘¶							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+--- 288,294 ----
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Ê’uï¿½Û‘ï¿½							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+***************
+*** 297,303 ****
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ƒpƒbƒhŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+--- 300,306 ----
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ï¿½pï¿½bï¿½hï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+***************
+*** 307,313 ****
+  	Sint16		aa;
+  	Uint16		data;
+  
+! 	data = Smpc_Peripheral[15].data;					//ƒpƒbƒh‚Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+--- 310,316 ----
+  	Sint16		aa;
+  	Uint16		data;
+  
+! 	data = Smpc_Peripheral[15].data;					//ï¿½pï¿½bï¿½hï¿½Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+***************
+*** 315,321 ****
+  	if((data & PER_DGT_KU) == 0)ang[X]+=DEGtoANG(4.0);
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ƒpƒbƒh‚P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+--- 318,324 ----
+  	if((data & PER_DGT_KU) == 0)ang[X]+=DEGtoANG(4.0);
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ï¿½pï¿½bï¿½hï¿½P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+***************
+*** 323,331 ****
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*Ô‚Ì‹““®‚ÍƒAƒoƒEƒg‚Éì‚Á‚Ä‚¢‚é‚Ì‚ÅQl‚É‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B*/
+  /*---------------------------------------------*/
+! 	/*‰Á‘¬Œ¸‘¬*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+--- 326,334 ----
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*ï¿½Ô‚Ì‹ï¿½ï¿½ï¿½ï¿½ÍƒAï¿½oï¿½Eï¿½gï¿½Éï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅQï¿½lï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B*/
+  /*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+***************
+*** 359,365 ****
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10;
+  	/*---------------------------------------------*/
+! 	/*ƒTƒCƒhˆÚ“®*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+--- 362,368 ----
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10;
+  	/*---------------------------------------------*/
+! 	/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+***************
+*** 370,376 ****
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+--- 373,379 ----
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+***************
+*** 418,424 ****
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 	
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+--- 421,427 ----
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+***************
+*** 475,481 ****
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ƒRƒŠƒWƒ‡ƒ“	‚‚³’Šo							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+--- 478,484 ----
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+***************
+*** 495,501 ****
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 	
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+--- 498,504 ----
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+***************
+*** 559,562 ****
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
+\ No newline at end of file
+--- 562,565 ----
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/s_10/main.c sgl302_patch/sample/s_10/main.c
+*** sgl302/sample/s_10/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_10/main.c	2024-08-11 12:44:00.000000000 -0400
+***************
+*** 3,8 ****
+--- 3,10 ----
+  /*----------------------------------------------------------------------*/
+  #include	"sgl.h"
+  
++ void set_event();
++ 
+  void ss_main(void)
+  {
+  	slInitSystem(TV_320x224,NULL,1) ;
+***************
+*** 14,17 ****
+  		slSynch() ;
+  	}
+  }
+! 
+\ No newline at end of file
+--- 16,19 ----
+  		slSynch() ;
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/s_4_2/main.c sgl302_patch/sample/s_4_2/main.c
+*** sgl302/sample/s_4_2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_4_2/main.c	2024-08-11 12:39:04.000000000 -0400
+***************
+*** 7,13 ****
+  
+  void ss_main(void){
+  	static ANGLE	ang[XYZ];
+- 	static ANGLE	angper[XYZ];
+  	static FIXED	pos[XYZ];
+  	static ANGLE	tmp = DEGtoANG(90.0);
+  	static ANGLE	adang = DEGtoANG(0.5);
+--- 7,12 ----
+***************
+*** 28,34 ****
+  		slPrintHex(slAng2Dec(tmp) , slLocate(18,5));
+  
+  		tmp += adang;
+! 		if (tmp > DEGtoANG(160.0)) 
+  			adang = DEGtoANG(-0.5);
+  		if (tmp < DEGtoANG(20.0))
+  			adang = DEGtoANG(0.5);
+--- 27,33 ----
+  		slPrintHex(slAng2Dec(tmp) , slLocate(18,5));
+  
+  		tmp += adang;
+! 		if (tmp > DEGtoANG(160.0))
+  			adang = DEGtoANG(-0.5);
+  		if (tmp < DEGtoANG(20.0))
+  			adang = DEGtoANG(0.5);
+***************
+*** 49,52 ****
+  		slSynch();
+  	}
+  }
+! 
+\ No newline at end of file
+--- 48,51 ----
+  		slSynch();
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/s_6_3/main.c sgl302_patch/sample/s_6_3/main.c
+*** sgl302/sample/s_6_3/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_6_3/main.c	2024-08-11 12:38:34.000000000 -0400
+***************
+*** 32,38 ****
+  
+  void ss_main(void)
+  {
+- 	static ANGLE	ang[XYZ];
+  	static CAMERA	cmbuf;
+  	static ANGLE	tmp = DEGtoANG(0.0);
+  
+--- 32,37 ----
+***************
+*** 62,65 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 61,64 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/s_8_9_1/main.c sgl302_patch/sample/s_8_9_1/main.c
+*** sgl302/sample/s_8_9_1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_8_9_1/main.c	2024-08-11 12:37:36.000000000 -0400
+***************
+*** 13,19 ****
+  void ss_main(void)
+  {
+  	ANGLE yama_angz = DEGtoANG(0.0);
+- 	FIXED posx = toFIXED(128.0) , posy = toFIXED(64.0);
+  	
+  	slInitSystem(TV_320x224,NULL,1);
+  	slTVOff();
+--- 13,18 ----
+***************
+*** 42,48 ****
+  		slZrotR(yama_angz);
+  		yama_angz += DEGtoANG(1.0);
+  		slSynch();
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 41,47 ----
+  		slZrotR(yama_angz);
+  		yama_angz += DEGtoANG(1.0);
+  		slSynch();
+! 	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/s_9_1/main.c sgl302_patch/sample/s_9_1/main.c
+*** sgl302/sample/s_9_1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_9_1/main.c	2024-08-11 12:36:20.000000000 -0400
+***************
+*** 3,8 ****
+--- 3,9 ----
+  /*----------------------------------------------------------------------*/
+  #include	"sgl.h"
+  #include	"sega_sys.h"
++ #include	"ss_scrol.h"
+  
+  #define		NBG1_CEL_ADR		( VDP2_VRAM_B1 + 0x02000 )
+  #define		NBG1_MAP_ADR		( VDP2_VRAM_B1 + 0x12000 )
+***************
+*** 26,34 ****
+  	PER_DGT_TL,
+  };
+  
+! extern pad_cel[];
+! extern pad_map[];
+! extern pad_pal[];
+  extern TEXTURE tex_spr[];
+  extern PICTURE pic_spr[];
+  extern FIXED stat[][XYZS];
+--- 27,35 ----
+  	PER_DGT_TL,
+  };
+  
+! extern Uint8 pad_cel[];
+! extern Uint16 pad_map[];
+! extern Uint16 pad_pal[];
+  extern TEXTURE tex_spr[];
+  extern PICTURE pic_spr[];
+  extern FIXED stat[][XYZS];
+***************
+*** 38,44 ****
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+!  
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_spr + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+--- 39,45 ----
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+! 
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_spr + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+***************
+*** 69,75 ****
+  	slTVOff();
+  	set_sprite(pic_spr,1);
+  	slPrint("Sample program 9.1" , slLocate(9,2));
+! 	
+  	slColRAMMode(CRM16_1024);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+  
+--- 70,76 ----
+  	slTVOff();
+  	set_sprite(pic_spr,1);
+  	slPrint("Sample program 9.1" , slLocate(9,2));
+! 
+  	slColRAMMode(CRM16_1024);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+  
+***************
+*** 84,94 ****
+  	slScrPosNbg1(toFIXED(-32.0) , toFIXED(-36.0));
+  	slScrAutoDisp(NBG0ON | NBG1ON);
+  	slTVOn();
+! 	
+  	while(1) {
+  		disp_sprite();
+  		slSynch();
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 85,95 ----
+  	slScrPosNbg1(toFIXED(-32.0) , toFIXED(-36.0));
+  	slScrAutoDisp(NBG0ON | NBG1ON);
+  	slTVOn();
+! 
+  	while(1) {
+  		disp_sprite();
+  		slSynch();
+! 	}
+  }
+  
+! 
 diff -crBN --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/string.c
 *** sgl302/sample/sbklib/string.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample/sbklib/string.c	2022-09-15 21:12:04.000000000 -0400

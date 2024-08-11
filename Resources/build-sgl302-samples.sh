@@ -36,8 +36,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$1 \
 			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ $MAKEFLAGS && \
-		make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ install $MAKEFLAGS
+	make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ $MAKEFLAGS || exit 1
+	make -f $SATURN_TMP/sgl302/sample/bin/Makefile -C $SATURN_TMP/sgl302/sample/bin/ install $MAKEFLAGS || exit 1
 
 	#
 	# build sample2
@@ -47,8 +47,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$1 \
 			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ && \
-	 		make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ install
+	make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ || exit 1
+	make -f $SATURN_TMP/sgl302/sample2/bin/Makefile -C $SATURN_TMP/sgl302/sample2/bin/ install || exit 1
 
 	#
 	# build sample4
@@ -58,8 +58,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$1 \
 			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ && \
-	 		make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ install
+	make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ || exit 1
+	make -f $SATURN_TMP/sgl302/sample4/bin/Makefile -C $SATURN_TMP/sgl302/sample4/bin/ install || exit 1
 
 	#
 	# build demos
@@ -69,8 +69,8 @@ if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$1 \
 			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ && \
-	 		make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ install
+	make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ || exit 1
+	make -f $SATURN_TMP/sgl302/demos/bin/Makefile -C $SATURN_TMP/sgl302/demos/bin/ install || exit 1
 
 else
 	echo "$(tput setaf 1)No SGL samples will be built$(tput sgr 0)"

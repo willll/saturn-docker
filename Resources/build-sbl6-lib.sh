@@ -62,7 +62,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
 				$SATURN_TMP/sbl6/segalib/lib/$filename
 		cp -v $SATURN_TMP/sbl6/segalib/lib/$filename $SATURN_SBL/segalib/lib
-    done
+  done
 
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_adp.a $SATURN_SBL/segalib/lib
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_per_vbt.a $SATURN_SBL/segalib/lib
