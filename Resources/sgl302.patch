@@ -1,4 +1,1931 @@
-diff -crB --binary sgl302/sample/common/cinit.c sgl302_patch/sample/common/cinit.c
+diff -crBN --binary sgl302/demos/chrome/main.c sgl302_patch/demos/chrome/main.c
+*** sgl302/demos/chrome/main.c	1996-10-13 09:01:14.000000000 -0400
+--- sgl302_patch/demos/chrome/main.c	2024-08-01 16:48:28.000000000 -0400
+***************
+*** 13,22 ****
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION 
+  //	00/00/00
+  //
+! //	ORIGINAL FILE 
+  //	s:\sgl_3\sgl\sample\chrome\main.c
+  //
+  //------------------------------------------------------------------------
+--- 13,22 ----
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION
+  //	00/00/00
+  //
+! //	ORIGINAL FILE
+  //	s:\sgl_3\sgl\sample\chrome\main.c
+  //
+  //------------------------------------------------------------------------
+***************
+*** 64,70 ****
+  	GRTBL( 13, 16, 16 ),
+  	GRTBL( 14, 16, 16 ),
+  	GRTBL( 15, 16, 16 ),
+! 	GRTBL( 16, 16, 16 ),						  
+  	GRTBL( 17, 16, 16 ),
+  	GRTBL( 18, 16, 16 ),
+  	GRTBL( 19, 16, 16 ),
+--- 64,70 ----
+  	GRTBL( 13, 16, 16 ),
+  	GRTBL( 14, 16, 16 ),
+  	GRTBL( 15, 16, 16 ),
+! 	GRTBL( 16, 16, 16 ),
+  	GRTBL( 17, 16, 16 ),
+  	GRTBL( 18, 16, 16 ),
+  	GRTBL( 19, 16, 16 ),
+***************
+*** 117,122 ****
+--- 117,124 ----
+  	0xC9AE,
+  };
+  
++ void	Texture_Load(void);
++ 
+  void ss_main(void)
+  {
+  
+***************
+*** 130,136 ****
+  		{toFIXED(0.0), toFIXED(0.0), toFIXED(0.0)};
+  	ANGLE cm_ang[XYZ] =
+  		{DEGtoANG(0.0), DEGtoANG(0.0), DEGtoANG(0.0) };
+! 								   
+  
+  
+  
+--- 132,138 ----
+  		{toFIXED(0.0), toFIXED(0.0), toFIXED(0.0)};
+  	ANGLE cm_ang[XYZ] =
+  		{DEGtoANG(0.0), DEGtoANG(0.0), DEGtoANG(0.0) };
+! 
+  
+  
+  
+***************
+*** 179,191 ****
+  
+  		// SPIN OBJECT
+  		slRotZ(t_angZ);
+! 		slRotY(t_angY);			   
+  		slRotX(t_angX);
+! 								 
+  		t_angZ	+=	DEGtoANG(0.25);
+  		t_angY	+=	DEGtoANG(1.0);
+  		t_angX	+=	DEGtoANG(1.1);
+! 	
+  		// DRAW OBJECT
+  		slPutPolygonX((XPDATA*)&xpdata_test,light);
+  
+--- 181,193 ----
+  
+  		// SPIN OBJECT
+  		slRotZ(t_angZ);
+! 		slRotY(t_angY);
+  		slRotX(t_angX);
+! 
+  		t_angZ	+=	DEGtoANG(0.25);
+  		t_angY	+=	DEGtoANG(1.0);
+  		t_angX	+=	DEGtoANG(1.1);
+! 
+  		// DRAW OBJECT
+  		slPutPolygonX((XPDATA*)&xpdata_test,light);
+  
+***************
+*** 197,205 ****
+  
+  		slPrintHex(	slHex2Dec(slGetVCount())	, slLocate(16,2));	// Get vertical count position
+  
+! 		
+  		slSynch();	// SYNC SGL
+  
+  	}
+  }
+- 
+--- 199,206 ----
+  
+  		slPrintHex(	slHex2Dec(slGetVCount())	, slLocate(16,2));	// Get vertical count position
+  
+! 
+  		slSynch();	// SYNC SGL
+  
+  	}
+  }
+diff -crBN --binary sgl302/demos/flying/actor.c sgl302_patch/demos/flying/actor.c
+*** sgl302/demos/flying/actor.c	1996-08-07 09:05:04.000000000 -0400
+--- sgl302_patch/demos/flying/actor.c	2024-08-02 21:12:58.000000000 -0400
+***************
+*** 25,30 ****
+--- 25,32 ----
+  #include "vector.h"
+  #include "actor.h"
+  
++ void AISparks( void );
++ 
+  static int num_actors_executing;
+  static int actor_tree_extant = FALSE;
+  
+***************
+*** 48,54 ****
+  	PROCESS* p = (PROCESS*)n;
+  	List* l = &(((ACTOR*)v2)->process);
+  
+! 	LstUnlinkNode( l, n );	
+  	ACTOR_MEM_FREE( p );
+  	return( CONTINUE );
+  }
+--- 50,56 ----
+  	PROCESS* p = (PROCESS*)n;
+  	List* l = &(((ACTOR*)v2)->process);
+  
+! 	LstUnlinkNode( l, n );
+  	ACTOR_MEM_FREE( p );
+  	return( CONTINUE );
+  }
+***************
+*** 58,65 ****
+  	EOBJECT* o = (EOBJECT*)n;
+  	List* l = &(((ACTOR*)v2)->object);
+  
+! 	LstUnlinkNode( l, n );	
+! 	
+  	ACTOR_MEM_FREE( o );	// deletes object and graphic
+  	return( CONTINUE );
+  }
+--- 60,67 ----
+  	EOBJECT* o = (EOBJECT*)n;
+  	List* l = &(((ACTOR*)v2)->object);
+  
+! 	LstUnlinkNode( l, n );
+! 
+  	ACTOR_MEM_FREE( o );	// deletes object and graphic
+  	return( CONTINUE );
+  }
+***************
+*** 77,83 ****
+  		// 'twould be nice if we could get to a Tree** from the node
+  		// we're currently working on without having to search the tree.
+  
+! 		TreeDeleteByKey( &actor_tree, victim->tnode.key );		
+  		actor_tree_count--;
+  		ACTOR_MEM_FREE( victim );
+  }
+--- 79,85 ----
+  		// 'twould be nice if we could get to a Tree** from the node
+  		// we're currently working on without having to search the tree.
+  
+! 		TreeDeleteByKey( &actor_tree, victim->tnode.key );
+  		actor_tree_count--;
+  		ACTOR_MEM_FREE( victim );
+  }
+***************
+*** 101,107 ****
+  
+  	switch ((int)message)
+  	{
+! 		case AMESS_DESTROY		:	
+  		actor_kill = ACTOR_MEM_ALLOC( sizeof (Node) );
+  		if (actor_kill != NULL)
+  		{
+--- 103,109 ----
+  
+  	switch ((int)message)
+  	{
+! 		case AMESS_DESTROY		:
+  		actor_kill = ACTOR_MEM_ALLOC( sizeof (Node) );
+  		if (actor_kill != NULL)
+  		{
+***************
+*** 114,120 ****
+  		}
+  		break;
+  
+! 		case AMESS_RS_RUN		:	
+  		case AMESS_RS_WAIT		:
+  		case AMESS_RS_SLEEP		:
+  		case AMESS_RS_SUSPEND	:
+--- 116,122 ----
+  		}
+  		break;
+  
+! 		case AMESS_RS_RUN		:
+  		case AMESS_RS_WAIT		:
+  		case AMESS_RS_SLEEP		:
+  		case AMESS_RS_SUSPEND	:
+***************
+*** 128,138 ****
+  		case AMESS_COLLIDE_ATT:
+  		AISparks();
+  		break;
+! 	
+  		case AMESS_COLLIDE_DEF:
+  		current->invuln = 15;
+  		break;
+! 		
+  		default:
+  		break;
+  	}
+--- 130,140 ----
+  		case AMESS_COLLIDE_ATT:
+  		AISparks();
+  		break;
+! 
+  		case AMESS_COLLIDE_DEF:
+  		current->invuln = 15;
+  		break;
+! 
+  		default:
+  		break;
+  	}
+***************
+*** 141,147 ****
+  int _ActBroadcastCallback( Tree** node, long v1, long* v2 )
+  {
+  	ACTOR* a = (ACTOR*)(*node);
+! 	
+  	ActSendMessage( a, v1, (long) v2 );
+  	return( CONTINUE );
+  }
+--- 143,149 ----
+  int _ActBroadcastCallback( Tree** node, long v1, long* v2 )
+  {
+  	ACTOR* a = (ACTOR*)(*node);
+! 
+  	ActSendMessage( a, v1, (long) v2 );
+  	return( CONTINUE );
+  }
+***************
+*** 170,181 ****
+  
+  		case AFLAG_RS_SLEEP:
+  		if (mess > AMESS_PRIORITY_2)
+! 		block = TRUE; 
+  		break;
+! 		
+  		case AFLAG_RS_SUSPEND:
+  		if (mess > AMESS_PRIORITY_1)
+! 		block = TRUE; 
+  		break;
+  
+  		default:
+--- 172,183 ----
+  
+  		case AFLAG_RS_SLEEP:
+  		if (mess > AMESS_PRIORITY_2)
+! 		block = TRUE;
+  		break;
+! 
+  		case AFLAG_RS_SUSPEND:
+  		if (mess > AMESS_PRIORITY_1)
+! 		block = TRUE;
+  		break;
+  
+  		default:
+***************
+*** 221,254 ****
+  	actor_tree_extant = FALSE;
+  }
+  
+! // 
+! // ACTOR* ActCreateActor( 
+! // 	char* actor_name, 
+! // 	ACTOR_FLAGS flags, 
+! // 	short priority, 
+  // 	void (*message_handler)(),
+  // 	ACTOR* parent,
+! // 	int scratch  ) 
+! // 
+  // Allocates and initializes an actor with no objects or processes.
+  // priority is shifted left by 16 bits then incremented until a unique
+  // ID is created to serve as the index tag in the actor tree.
+! // scratch is the number of bytes of scratch space to allocate; the 
+  // actor scratch pointer is set to a buffer of this size.
+  // Once the actor is created, an AMESS_CREATE message is sent to that
+! // actor - the message handler should be prepared for this, and will 
+  // probably create the processes and objects for the actor.
+  //
+  // returns pointer to new actor or NULL
+  //
+  
+! ACTOR* ActCreateActor( 
+! 	char* actor_name, 
+! 	ACTOR_FLAGS flags, 
+! 	short priority, 
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+! 	int scratch  ) 
+  {
+  	Tree** scan;
+  	ACTOR* new_actor;
+--- 223,256 ----
+  	actor_tree_extant = FALSE;
+  }
+  
+! //
+! // ACTOR* ActCreateActor(
+! // 	char* actor_name,
+! // 	ACTOR_FLAGS flags,
+! // 	short priority,
+  // 	void (*message_handler)(),
+  // 	ACTOR* parent,
+! // 	int scratch  )
+! //
+  // Allocates and initializes an actor with no objects or processes.
+  // priority is shifted left by 16 bits then incremented until a unique
+  // ID is created to serve as the index tag in the actor tree.
+! // scratch is the number of bytes of scratch space to allocate; the
+  // actor scratch pointer is set to a buffer of this size.
+  // Once the actor is created, an AMESS_CREATE message is sent to that
+! // actor - the message handler should be prepared for this, and will
+  // probably create the processes and objects for the actor.
+  //
+  // returns pointer to new actor or NULL
+  //
+  
+! ACTOR* ActCreateActor(
+! 	char* actor_name,
+! 	ACTOR_FLAGS flags,
+! 	short priority,
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+! 	int scratch  )
+  {
+  	Tree** scan;
+  	ACTOR* new_actor;
+***************
+*** 287,293 ****
+  		new_actor->scratch.v = NULL;
+  
+  	new_actor->invuln = 0;
+! 	
+  	TreeAdd( &actor_tree, &(new_actor->tnode) );
+  	actor_tree_count++;
+  
+--- 289,295 ----
+  		new_actor->scratch.v = NULL;
+  
+  	new_actor->invuln = 0;
+! 
+  	TreeAdd( &actor_tree, &(new_actor->tnode) );
+  	actor_tree_count++;
+  
+***************
+*** 296,325 ****
+  	return( new_actor );
+  }
+  
+! // 
+! // PROCESS* ActAddProcess( 
+! // 	ACTOR* actor, 
+! // 	void (*function)(), 
+! // 	int delay, 
+! // 	int autodelay, 
+! // 	long priority )		
+! // 
+  // adds a process to the actor's process list.
+! // delay is the number of ticks before it will execute (0-1 = ASAP); 
+! // autodelay, if not 0, is the number of ticks to recycle 
+  // the delay with
+  // priority is the execution priority within the actor's processes
+  // only
+! // 
+  // returns pointer to new process or NULL
+  //
+  
+! PROCESS* ActAddProcess( 
+! 	ACTOR* actor, 
+  	PROCESS_FUNC function,
+! 	int delay, 
+! 	int autodelay, 
+! 	long priority )		
+  {
+  	PROCESS* new_process;
+  
+--- 298,327 ----
+  	return( new_actor );
+  }
+  
+! //
+! // PROCESS* ActAddProcess(
+! // 	ACTOR* actor,
+! // 	void (*function)(),
+! // 	int delay,
+! // 	int autodelay,
+! // 	long priority )
+! //
+  // adds a process to the actor's process list.
+! // delay is the number of ticks before it will execute (0-1 = ASAP);
+! // autodelay, if not 0, is the number of ticks to recycle
+  // the delay with
+  // priority is the execution priority within the actor's processes
+  // only
+! //
+  // returns pointer to new process or NULL
+  //
+  
+! PROCESS* ActAddProcess(
+! 	ACTOR* actor,
+  	PROCESS_FUNC function,
+! 	int delay,
+! 	int autodelay,
+! 	long priority )
+  {
+  	PROCESS* new_process;
+  
+***************
+*** 336,348 ****
+  		LstAddNodeByKey( &(actor->process), &(new_process->lnode) );
+  	}
+  	return( new_process );
+! }		
+  
+  //
+! // EOBJECT* ActAddObject( 
+! //	ACTOR* actor, 
+! //	OBJECT_FLAGS flags, 
+! //	int num_verts, 
+  //	int num_patches )
+  //
+  // adds an object with the specified flags
+--- 338,350 ----
+  		LstAddNodeByKey( &(actor->process), &(new_process->lnode) );
+  	}
+  	return( new_process );
+! }
+  
+  //
+! // EOBJECT* ActAddObject(
+! //	ACTOR* actor,
+! //	OBJECT_FLAGS flags,
+! //	int num_verts,
+  //	int num_patches )
+  //
+  // adds an object with the specified flags
+***************
+*** 353,374 ****
+  // returns a pointer to new object or NULL
+  //
+  
+! EOBJECT* ActAddObject( 
+! 	ACTOR* actor, 
+! 	OBJECT_FLAGS flags, 
+! 	int num_verts, 
+  	int num_patches )
+  {
+  	EOBJECT* new_object;
+  	int size;
+! 	
+  	assert( actor != NULL );
+! 	
+  	switch	(flags & OFLAG_MASK_GRAPHIC)
+  	{
+  		case OFLAG_NVGRAPH:
+! 		size =	sizeof( EOBJECT ) + 
+! 				sizeof( NVGRAPH ) + 
+  				(num_verts * sizeof( NVVERTEX )) +
+  				(num_patches * sizeof( NVPATCH ));
+  
+--- 355,376 ----
+  // returns a pointer to new object or NULL
+  //
+  
+! EOBJECT* ActAddObject(
+! 	ACTOR* actor,
+! 	OBJECT_FLAGS flags,
+! 	int num_verts,
+  	int num_patches )
+  {
+  	EOBJECT* new_object;
+  	int size;
+! 
+  	assert( actor != NULL );
+! 
+  	switch	(flags & OFLAG_MASK_GRAPHIC)
+  	{
+  		case OFLAG_NVGRAPH:
+! 		size =	sizeof( EOBJECT ) +
+! 				sizeof( NVGRAPH ) +
+  				(num_verts * sizeof( NVVERTEX )) +
+  				(num_patches * sizeof( NVPATCH ));
+  
+***************
+*** 385,392 ****
+  		break;
+  
+  		case OFLAG_SATPOLY:
+! 		size =	sizeof( EOBJECT ) + 
+! 				sizeof( SATPOLY ) + 
+  				(num_verts * sizeof( POINT )) +
+  				(num_patches * (sizeof( POLYGON )+sizeof( ATTR )));
+  
+--- 387,394 ----
+  		break;
+  
+  		case OFLAG_SATPOLY:
+! 		size =	sizeof( EOBJECT ) +
+! 				sizeof( SATPOLY ) +
+  				(num_verts * sizeof( POINT )) +
+  				(num_patches * (sizeof( POLYGON )+sizeof( ATTR )));
+  
+***************
+*** 403,409 ****
+  		break;
+  
+  		case OFLAG_SATSPRITE:
+! 		size =	sizeof( EOBJECT ) + 
+  				sizeof( SATSPRITE );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+--- 405,411 ----
+  		break;
+  
+  		case OFLAG_SATSPRITE:
+! 		size =	sizeof( EOBJECT ) +
+  				sizeof( SATSPRITE );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+***************
+*** 416,422 ****
+  		break;
+  
+  		case OFLAG_SATBACKGR:
+! 		size =	sizeof( EOBJECT ) + 
+  				sizeof( SATBACKGR );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+--- 418,424 ----
+  		break;
+  
+  		case OFLAG_SATBACKGR:
+! 		size =	sizeof( EOBJECT ) +
+  				sizeof( SATBACKGR );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+***************
+*** 444,450 ****
+  int _ActUpdateProcessCallback( Node* n, long v1, long* v2 )
+  {
+  	PROCESS* p = (PROCESS*)n;
+! 	
+  	if (p->delay <= 1)
+  	{
+  		(*p->function)( (ACTOR*)v2, p );
+--- 446,452 ----
+  int _ActUpdateProcessCallback( Node* n, long v1, long* v2 )
+  {
+  	PROCESS* p = (PROCESS*)n;
+! 
+  	if (p->delay <= 1)
+  	{
+  		(*p->function)( (ACTOR*)v2, p );
+***************
+*** 517,523 ****
+  	{
+  	 	LstIterateValue( &(a->process), _ActUpdateProcessCallback, 0, (long*)a );
+  		num_actors_executing++;
+! 	}		
+  
+  	return( CONTINUE );
+  }
+--- 519,525 ----
+  	{
+  	 	LstIterateValue( &(a->process), _ActUpdateProcessCallback, 0, (long*)a );
+  		num_actors_executing++;
+! 	}
+  
+  	return( CONTINUE );
+  }
+diff -crBN --binary sgl302/demos/flying/actor.h sgl302_patch/demos/flying/actor.h
+*** sgl302/demos/flying/actor.h	1996-08-07 13:53:02.000000000 -0400
+--- sgl302_patch/demos/flying/actor.h	2024-08-05 16:23:48.000000000 -0400
+***************
+*** 28,33 ****
+--- 28,35 ----
+  
+  //-------------------------- MACROS & TYPEDEFS ---------------------------
+  
++ extern 	pointer	Memmalloc				(dword size);
++ 
+  #define ACTOR_MEM_ALLOC(size)		Memmalloc(size)
+  #define ACTOR_MEM_FREE(ptr)			Memfree(ptr)
+  
+***************
+*** 50,56 ****
+  #define DELAY_1HZ		60
+  
+  //--------------------------- GLOBAL VARIABLES ---------------------------
+! 	
+  extern char* act_xyz_order;
+  extern char* act_xzy_order;
+  extern char* act_yxz_order;
+--- 52,58 ----
+  #define DELAY_1HZ		60
+  
+  //--------------------------- GLOBAL VARIABLES ---------------------------
+! 
+  extern char* act_xyz_order;
+  extern char* act_xzy_order;
+  extern char* act_yxz_order;
+***************
+*** 63,85 ****
+  extern void ActSendMessage( ACTOR* receive, MESSAGE_FLAGS mess, long data );
+  extern void ActCreateActorTree( void );
+  extern void ActKillActorTree( void );
+! extern ACTOR* ActCreateActor( 
+! 	char* actor_name, 
+! 	ACTOR_FLAGS flags, 
+! 	short priority, 
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+  	int scratch  );
+! extern PROCESS* ActAddProcess( 
+! 	ACTOR* actor, 
+  	PROCESS_FUNC function,
+! 	int delay, 
+! 	int autodelay, 
+! 	long priority );		
+! extern EOBJECT* ActAddObject( 
+! 	ACTOR* actor, 
+! 	OBJECT_FLAGS flags, 
+! 	int num_verts, 
+  	int num_patches );
+  extern int ActUpdate( long clock );
+  extern void ProcSetDelay( PROCESS* proc, int delay, int autodelay );
+--- 65,87 ----
+  extern void ActSendMessage( ACTOR* receive, MESSAGE_FLAGS mess, long data );
+  extern void ActCreateActorTree( void );
+  extern void ActKillActorTree( void );
+! extern ACTOR* ActCreateActor(
+! 	char* actor_name,
+! 	ACTOR_FLAGS flags,
+! 	short priority,
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+  	int scratch  );
+! extern PROCESS* ActAddProcess(
+! 	ACTOR* actor,
+  	PROCESS_FUNC function,
+! 	int delay,
+! 	int autodelay,
+! 	long priority );
+! extern EOBJECT* ActAddObject(
+! 	ACTOR* actor,
+! 	OBJECT_FLAGS flags,
+! 	int num_verts,
+  	int num_patches );
+  extern int ActUpdate( long clock );
+  extern void ProcSetDelay( PROCESS* proc, int delay, int autodelay );
+***************
+*** 89,92 ****
+  extern EOBJECT* ActGetNextObject( ACTOR* act, EOBJECT* obj );
+  
+  #endif
+- 
+--- 91,93 ----
+diff -crBN --binary sgl302/demos/flying/ai.c sgl302_patch/demos/flying/ai.c
+*** sgl302/demos/flying/ai.c	1996-08-07 09:16:42.000000000 -0400
+--- sgl302_patch/demos/flying/ai.c	2024-08-05 17:14:54.000000000 -0400
+***************
+*** 40,49 ****
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+! ATTR tile_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TILE, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! SPR_ATTR spark_attr = 
+  	SPR_ATTRIBUTE( TEX_SPARK16, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SPARK_AGE ((act->scratch.l)[0])
+--- 40,49 ----
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+! ATTR tile_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TILE, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! SPR_ATTR spark_attr =
+  	SPR_ATTRIBUTE( TEX_SPARK16, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SPARK_AGE ((act->scratch.l)[0])
+***************
+*** 51,57 ****
+  void AISparkProcess1( ACTOR* act, PROCESS* proc )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* dad;
+  	SATSPRITE* ss;
+  
+  	obj = ActGetFirstObject( act );
+--- 51,56 ----
+***************
+*** 67,73 ****
+  void AISparkBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* dad;
+  	SATSPRITE* ss;
+  
+  	obj = ActAddObject( act, OFLAG_SATSPRITE|OFLAG_AUTOMOVE|OFLAG_GRAVITY, 0, 0 );
+--- 66,71 ----
+***************
+*** 127,137 ****
+  	POINT* pt;
+  	ATTR* at;
+  
+- 	int x, y, v;
+- 	FIXED fx, fy;
+- 
+  	obj = ActGetFirstObject( act );
+! 	
+  	obj->pos.x = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.y = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.z = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+--- 125,132 ----
+  	POINT* pt;
+  	ATTR* at;
+  
+  	obj = ActGetFirstObject( act );
+! 
+  	obj->pos.x = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.y = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.z = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+***************
+*** 147,163 ****
+  		}
+  	}
+  
+! 	obj->rot.x = (ANGLE)slRandom(); 
+! 	obj->rot.y = (ANGLE)slRandom(); 
+! 	obj->rot.z = (ANGLE)slRandom(); 
+! 	obj->rotvel.x = ((ANGLE)slRandom()) >> 5; 
+! 	obj->rotvel.y = ((ANGLE)slRandom()) >> 5; 
+! 	obj->rotvel.z = ((ANGLE)slRandom()) >> 5; 
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+  	TILE_AGE = 0;
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 142,158 ----
+  		}
+  	}
+  
+! 	obj->rot.x = (ANGLE)slRandom();
+! 	obj->rot.y = (ANGLE)slRandom();
+! 	obj->rot.z = (ANGLE)slRandom();
+! 	obj->rotvel.x = ((ANGLE)slRandom()) >> 5;
+! 	obj->rotvel.y = ((ANGLE)slRandom()) >> 5;
+! 	obj->rotvel.z = ((ANGLE)slRandom()) >> 5;
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+  	TILE_AGE = 0;
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 178,184 ****
+  
+  	pt[3][X] = toFIXED( -50.0 );
+  	pt[3][Y] = toFIXED(  50.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );			  
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+--- 173,179 ----
+  
+  	pt[3][X] = toFIXED( -50.0 );
+  	pt[3][Y] = toFIXED(  50.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+***************
+*** 188,194 ****
+  	pg[0].Vertices[2] = 2;
+  	pg[0].Vertices[3] = 3;
+  
+! 	at[0] = tile_attr;	 
+  
+  	ProcSetFunction( proc, AITileProcess2 );
+  }
+--- 183,189 ----
+  	pg[0].Vertices[2] = 2;
+  	pg[0].Vertices[3] = 3;
+  
+! 	at[0] = tile_attr;
+  
+  	ProcSetFunction( proc, AITileProcess2 );
+  }
+***************
+*** 331,337 ****
+  	actMaster = AICreateActor( AT_KEY_MASTER, NULL );
+  }
+  
+! ACTOR_TEMPLATE aiTemplates[] = 
+  {
+  	{	AT_KEY_MASTER,  	"Master",	AFLAG_RS_RUN, 10, AIMasterMsgHand,  8	},
+  	{	AT_KEY_SAUCER,  	"Saucer",	AFLAG_RS_RUN, 20, AISaucerMsgHand,  32	},
+--- 326,332 ----
+  	actMaster = AICreateActor( AT_KEY_MASTER, NULL );
+  }
+  
+! ACTOR_TEMPLATE aiTemplates[] =
+  {
+  	{	AT_KEY_MASTER,  	"Master",	AFLAG_RS_RUN, 10, AIMasterMsgHand,  8	},
+  	{	AT_KEY_SAUCER,  	"Saucer",	AFLAG_RS_RUN, 20, AISaucerMsgHand,  32	},
+***************
+*** 355,364 ****
+  	{
+  		if (at->key == key)
+  		{
+! 			return( ActCreateActor( at->name, at->flags, at->pri, at->mh, parent, at->scr ) ); 
+  		}
+  		at++;
+  	}
+! 	return( NULL );		
+  }
+- 
+--- 350,358 ----
+  	{
+  		if (at->key == key)
+  		{
+! 			return( ActCreateActor( at->name, at->flags, at->pri, at->mh, parent, at->scr ) );
+  		}
+  		at++;
+  	}
+! 	return( NULL );
+  }
+diff -crBN --binary sgl302/demos/flying/aictrl.c sgl302_patch/demos/flying/aictrl.c
+*** sgl302/demos/flying/aictrl.c	1996-08-07 09:16:46.000000000 -0400
+--- sgl302_patch/demos/flying/aictrl.c	2024-08-05 10:52:40.000000000 -0400
+***************
+*** 26,37 ****
+  void AISaucerAntiGrav( ACTOR* act, FIXED v );
+  void AISaucerAccelerate( ACTOR* act, FIXED x, FIXED y, FIXED z );
+  void AISaucerShoot( ACTOR* act );
+  
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+  #define PAD_START		PER_DGT_ST
+! #define PAD_S			(PAD_START)	
+  #define PAD_RIGHT		PER_DGT_KR
+  #define PAD_R			(PAD_RIGHT)
+  #define PAD_LEFT		PER_DGT_KL
+--- 26,40 ----
+  void AISaucerAntiGrav( ACTOR* act, FIXED v );
+  void AISaucerAccelerate( ACTOR* act, FIXED x, FIXED y, FIXED z );
+  void AISaucerShoot( ACTOR* act );
++ void AISaucerTurn( ACTOR* act, FIXED thrust );
++ void AISaucerSlip( ACTOR* act, FIXED thrust );
++ void AISaucerForward( ACTOR* act, FIXED thrust );
+  
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+  #define PAD_START		PER_DGT_ST
+! #define PAD_S			(PAD_START)
+  #define PAD_RIGHT		PER_DGT_KR
+  #define PAD_R			(PAD_RIGHT)
+  #define PAD_LEFT		PER_DGT_KL
+***************
+*** 63,70 ****
+  	if (Per_Connect1)
+  	{
+  		ctrlPadStatusCurrent = ~(Smpc_Peripheral[0].data);
+! 	}	
+! 	
+  	ctrlPadStatusNew = ctrlPadStatusCurrent & (~ctrlPadStatusOld);
+  	ctrlPadStatusDelta = ctrlPadStatusCurrent  ^ ctrlPadStatusOld;
+  }
+--- 66,73 ----
+  	if (Per_Connect1)
+  	{
+  		ctrlPadStatusCurrent = ~(Smpc_Peripheral[0].data);
+! 	}
+! 
+  	ctrlPadStatusNew = ctrlPadStatusCurrent & (~ctrlPadStatusOld);
+  	ctrlPadStatusDelta = ctrlPadStatusCurrent  ^ ctrlPadStatusOld;
+  }
+***************
+*** 105,108 ****
+  		return( FALSE );
+  	}
+  }
+- 
+--- 108,110 ----
+diff -crBN --binary sgl302/demos/flying/ailand.c sgl302_patch/demos/flying/ailand.c
+*** sgl302/demos/flying/ailand.c	1996-08-07 09:16:50.000000000 -0400
+--- sgl302_patch/demos/flying/ailand.c	2024-08-02 21:02:02.000000000 -0400
+***************
+*** 18,24 ****
+  //------------------------------------------------------------------------
+  #include <stdlib.h>
+  
+! // Floating point math package is used *only* to precalculate an 
+  // interestingly curved "ground" surface. Not used during main run loop.
+  
+  #include <math.h>
+--- 18,24 ----
+  //------------------------------------------------------------------------
+  #include <stdlib.h>
+  
+! // Floating point math package is used *only* to precalculate an
+  // interestingly curved "ground" surface. Not used during main run loop.
+  
+  #include <math.h>
+***************
+*** 31,40 ****
+  #include "enigma.h"
+  #include "actor.h"
+  #include "texture.h"
+  
+  #define random(range)		(rand()%(range))
+  
+! ATTR land_attr = 
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_LAND, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  #define LAND_X_PATCHES		6
+--- 31,41 ----
+  #include "enigma.h"
+  #include "actor.h"
+  #include "texture.h"
++ #include "vector.h"
+  
+  #define random(range)		(rand()%(range))
+  
+! ATTR land_attr =
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_LAND, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  #define LAND_X_PATCHES		6
+***************
+*** 67,82 ****
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = LAND_Y_POS;
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = (ANGLE)0; 
+! 	obj->rot.y = (ANGLE)0; 
+! 	obj->rot.z = (ANGLE)0; 
+! 	obj->rotvel.x = (ANGLE)0; 
+! 	obj->rotvel.y = (ANGLE)0; 
+! 	obj->rotvel.z = (ANGLE)0; 
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 68,83 ----
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = LAND_Y_POS;
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = (ANGLE)0;
+! 	obj->rot.y = (ANGLE)0;
+! 	obj->rot.z = (ANGLE)0;
+! 	obj->rotvel.x = (ANGLE)0;
+! 	obj->rotvel.y = (ANGLE)0;
+! 	obj->rotvel.z = (ANGLE)0;
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 89,97 ****
+  		{
+  			pt[v][X] = slMulFX( toFIXED(i-(LAND_X_PATCHES/2)), LAND_PATCH_SIZE );
+  			pt[v][Z] = slMulFX( toFIXED(j-(LAND_Y_PATCHES/2)), LAND_PATCH_SIZE );
+! 			
+  			xx = (double)pt[v][X];
+! 			xx /= 65536.0;				
+  			xx /= 2.0;
+  			zz = (double)pt[v][Z];
+  			zz /= 65536.0;
+--- 90,98 ----
+  		{
+  			pt[v][X] = slMulFX( toFIXED(i-(LAND_X_PATCHES/2)), LAND_PATCH_SIZE );
+  			pt[v][Z] = slMulFX( toFIXED(j-(LAND_Y_PATCHES/2)), LAND_PATCH_SIZE );
+! 
+  			xx = (double)pt[v][X];
+! 			xx /= 65536.0;
+  			xx /= 2.0;
+  			zz = (double)pt[v][Z];
+  			zz /= 65536.0;
+***************
+*** 128,134 ****
+  			pg[p].norm[Y] = norm.y;
+  			pg[p].norm[Z] = norm.z;
+  
+! 			at[p] = land_attr;	 
+  		}
+  	}
+  }
+--- 129,135 ----
+  			pg[p].norm[Y] = norm.y;
+  			pg[p].norm[Z] = norm.z;
+  
+! 			at[p] = land_attr;
+  		}
+  	}
+  }
+***************
+*** 145,148 ****
+  		return( FALSE );
+  	}
+  }
+- 
+--- 146,148 ----
+diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/aisaucer.c
+*** sgl302/demos/flying/aisaucer.c	1996-08-07 09:16:54.000000000 -0400
+--- sgl302_patch/demos/flying/aisaucer.c	2024-08-05 16:58:32.000000000 -0400
+***************
+*** 24,35 ****
+  #include "texture.h"
+  #include "assert.h"
+  
+! ATTR nose_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(0, 31, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+! ATTR vect_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(31, 0, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+  
+! VECTOR3F dummy = { toFIXED(0.0), toFIXED(0.0), toFIXED(0.0) }; 
+  
+  void AIPointerProcess1( ACTOR* act, PROCESS* proc )
+  {
+--- 24,38 ----
+  #include "texture.h"
+  #include "assert.h"
+  
+! void VecSetMag( VECTOR3F* dest, FIXED scale );
+! ANGLE VecAzimuth( VECTOR3F* a );
+! 
+! ATTR nose_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(0, 31, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+! ATTR vect_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(31, 0, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+  
+! VECTOR3F dummy = { toFIXED(0.0), toFIXED(0.0), toFIXED(0.0) };
+  
+  void AIPointerProcess1( ACTOR* act, PROCESS* proc )
+  {
+***************
+*** 58,64 ****
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pt = pdata->pntbl;
+! 	
+  	pt[1][X] = pt[2][X] = slMulFX( nose->x, toFIXED(200.0) );
+  	pt[1][Y] = pt[2][Y] = slMulFX( nose->y, toFIXED(200.0) );
+  	pt[1][Z] = pt[2][Z] = slMulFX( nose->z, toFIXED(200.0) );
+--- 61,67 ----
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pt = pdata->pntbl;
+! 
+  	pt[1][X] = pt[2][X] = slMulFX( nose->x, toFIXED(200.0) );
+  	pt[1][Y] = pt[2][Y] = slMulFX( nose->y, toFIXED(200.0) );
+  	pt[1][Z] = pt[2][Z] = slMulFX( nose->z, toFIXED(200.0) );
+***************
+*** 71,101 ****
+  void AIPointerBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* sobj;
+  	SATPOLY* sg;
+  	PDATA* pdata;
+  	POLYGON* pg;
+  	POINT* pt;
+  	ATTR* at;
+  
+- 	int x, y, v;
+- 	FIXED fx, fy;
+- 
+  	obj = ActAddObject( act, OFLAG_SATPOLY, 6, 2 );
+! 	
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = toFIXED(0.0);
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = 0; 
+! 	obj->rot.y = 0; 
+! 	obj->rot.z = 0; 
+! 	obj->rotvel.x = (ANGLE)0; 
+! 	obj->rotvel.y = (ANGLE)0; 
+! 	obj->rotvel.z = (ANGLE)0; 
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 74,100 ----
+  void AIPointerBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+  	SATPOLY* sg;
+  	PDATA* pdata;
+  	POLYGON* pg;
+  	POINT* pt;
+  	ATTR* at;
+  
+  	obj = ActAddObject( act, OFLAG_SATPOLY, 6, 2 );
+! 
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = toFIXED(0.0);
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = 0;
+! 	obj->rot.y = 0;
+! 	obj->rot.z = 0;
+! 	obj->rotvel.x = (ANGLE)0;
+! 	obj->rotvel.y = (ANGLE)0;
+! 	obj->rotvel.z = (ANGLE)0;
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 112,118 ****
+  
+  	pt[3][X] = toFIXED(   0.0 );
+  	pt[3][Y] = toFIXED( -20.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );			  
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+--- 111,117 ----
+  
+  	pt[3][X] = toFIXED(   0.0 );
+  	pt[3][Y] = toFIXED( -20.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+***************
+*** 130,137 ****
+  	pg[1].Vertices[2] = 5;
+  	pg[1].Vertices[3] = 3;
+  
+! 	at[0] = nose_attr;	 
+! 	at[1] = vect_attr;	 
+  }
+  
+  int AIPointerMsgHand( ACTOR* act, MESSAGE_FLAGS mess, long data )
+--- 129,136 ----
+  	pg[1].Vertices[2] = 5;
+  	pg[1].Vertices[3] = 3;
+  
+! 	at[0] = nose_attr;
+! 	at[1] = vect_attr;
+  }
+  
+  int AIPointerMsgHand( ACTOR* act, MESSAGE_FLAGS mess, long data )
+***************
+*** 150,163 ****
+  
+  VECTOR3F ai_blip_offset;
+  
+! SPR_ATTR blip_attr = 
+  	SPR_ATTRIBUTE( TEX_BLIP, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  #define BLIP_AGE ((act->scratch.l)[0])
+  
+  void AIBlipProcess1( ACTOR* act, PROCESS* proc )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* dad;
+  	SATSPRITE* ss;
+  
+  	obj = ActGetFirstObject( act );
+--- 149,161 ----
+  
+  VECTOR3F ai_blip_offset;
+  
+! SPR_ATTR blip_attr =
+  	SPR_ATTRIBUTE( TEX_BLIP, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  #define BLIP_AGE ((act->scratch.l)[0])
+  
+  void AIBlipProcess1( ACTOR* act, PROCESS* proc )
+  {
+  	EOBJECT* obj;
+  	SATSPRITE* ss;
+  
+  	obj = ActGetFirstObject( act );
+***************
+*** 191,197 ****
+  	obj->vel.y = FRANDOM(8.0) - toFIXED(4.0);
+  	obj->vel.z = FRANDOM(8.0) - toFIXED(4.0);
+  
+! 	obj->rotvel.z = (ANGLE)((slRandom()-toFIXED(0.5)) >> 3); 
+  
+  	BLIP_AGE = 0;
+  }
+--- 189,195 ----
+  	obj->vel.y = FRANDOM(8.0) - toFIXED(4.0);
+  	obj->vel.z = FRANDOM(8.0) - toFIXED(4.0);
+  
+! 	obj->rotvel.z = (ANGLE)((slRandom()-toFIXED(0.5)) >> 3);
+  
+  	BLIP_AGE = 0;
+  }
+***************
+*** 210,216 ****
+  	}
+  }
+  
+! SPR_ATTR shot_attr = 
+  	SPR_ATTRIBUTE( TEX_BALL, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SHOT_AGE ((act->scratch.l)[0])
+--- 208,214 ----
+  	}
+  }
+  
+! SPR_ATTR shot_attr =
+  	SPR_ATTRIBUTE( TEX_BALL, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SHOT_AGE ((act->scratch.l)[0])
+***************
+*** 228,234 ****
+  		ActSendMessage( act, AMESS_DESTROY, 0 );
+  
+  	ss->zrot += (ANGLE)20;
+! 	
+  }
+  
+  void AIShotBuild( ACTOR* act )
+--- 226,232 ----
+  		ActSendMessage( act, AMESS_DESTROY, 0 );
+  
+  	ss->zrot += (ANGLE)20;
+! 
+  }
+  
+  void AIShotBuild( ACTOR* act )
+***************
+*** 282,306 ****
+  #define SAUCER_THROTTLE ((act->scratch.f)[1])
+  #define SAUCER_FACING  ((VECTOR3F*)((act->scratch.f)+2))
+  
+! ATTR saucer_attr = 
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! ATTR xsaucer_attr = 
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AISaucerBlips( ACTOR* act )
+  {
+- 	int i;
+- 
+  	if (slRandom() > toFIXED(0.7))
+  		AICreateActor( AT_KEY_BLIP, act );
+  }
+  
+  void AISaucerShoot( ACTOR* act )
+  {
+! 	ACTOR* shot;
+! 
+! 	shot = AICreateActor( AT_KEY_SHOT, act );
+  }
+  
+  void AISaucerRestart( ACTOR* act )
+--- 280,301 ----
+  #define SAUCER_THROTTLE ((act->scratch.f)[1])
+  #define SAUCER_FACING  ((VECTOR3F*)((act->scratch.f)+2))
+  
+! ATTR saucer_attr =
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! ATTR xsaucer_attr =
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AISaucerBlips( ACTOR* act )
+  {
+  	if (slRandom() > toFIXED(0.7))
+  		AICreateActor( AT_KEY_BLIP, act );
+  }
+  
+  void AISaucerShoot( ACTOR* act )
+  {
+! 	ACTOR* shot = AICreateActor( AT_KEY_SHOT, act );
+! 	shot;
+  }
+  
+  void AISaucerRestart( ACTOR* act )
+***************
+*** 335,343 ****
+  	if (SAUCER_ANTIGRAV > toFIXED(40.0))
+  		SAUCER_ANTIGRAV = toFIXED(40.0);
+  
+! 	ai_blip_offset.x = toFIXED(0.0); 
+! 	ai_blip_offset.y = -slMulFX( v, toFIXED(30.0) ); 
+! 	ai_blip_offset.z = toFIXED(0.0); 
+  
+  //	AISaucerBlips( act );
+  }
+--- 330,338 ----
+  	if (SAUCER_ANTIGRAV > toFIXED(40.0))
+  		SAUCER_ANTIGRAV = toFIXED(40.0);
+  
+! 	ai_blip_offset.x = toFIXED(0.0);
+! 	ai_blip_offset.y = -slMulFX( v, toFIXED(30.0) );
+! 	ai_blip_offset.z = toFIXED(0.0);
+  
+  //	AISaucerBlips( act );
+  }
+***************
+*** 352,364 ****
+  	if (SAUCER_THROTTLE < toFIXED(-3.0))
+  		SAUCER_THROTTLE = toFIXED(-3.0);
+  
+! 	ai_blip_offset.x = -slMulFX( SAUCER_FACING->x, toFIXED(30.0) ); 
+! 	ai_blip_offset.y = -slMulFX( SAUCER_FACING->y, toFIXED(30.0) ); 
+! 	ai_blip_offset.z = -slMulFX( SAUCER_FACING->z, toFIXED(30.0) ); 
+  
+  //	AISaucerBlips( act );
+  }
+! 												  
+  void AISaucerSlip( ACTOR* act, FIXED thrust )
+  {
+  	VECTOR3F up, right;
+--- 347,359 ----
+  	if (SAUCER_THROTTLE < toFIXED(-3.0))
+  		SAUCER_THROTTLE = toFIXED(-3.0);
+  
+! 	ai_blip_offset.x = -slMulFX( SAUCER_FACING->x, toFIXED(30.0) );
+! 	ai_blip_offset.y = -slMulFX( SAUCER_FACING->y, toFIXED(30.0) );
+! 	ai_blip_offset.z = -slMulFX( SAUCER_FACING->z, toFIXED(30.0) );
+  
+  //	AISaucerBlips( act );
+  }
+! 
+  void AISaucerSlip( ACTOR* act, FIXED thrust )
+  {
+  	VECTOR3F up, right;
+***************
+*** 369,385 ****
+  	up.z = toFIXED(0.0);
+  	VecCross( &right, SAUCER_FACING, &up );
+  	VecSetMag( &right, thrust );
+! 	
+! 	ai_blip_offset.x = -slMulFX( right.x, toFIXED(30.0) ); 
+! 	ai_blip_offset.y = -slMulFX( right.y, toFIXED(30.0) ); 
+! 	ai_blip_offset.z = -slMulFX( right.z, toFIXED(30.0) ); 
+  
+  //	AISaucerBlips( act );
+  
+  	obj->vel.x += right.x;
+  	assert( right.y == toFIXED( 0.0 ) );
+  	obj->vel.z += right.z;
+! 	
+  	if (thrust > toFIXED(0.0))
+  	{
+  		if ((obj->rot.x > 0xE000u) || (obj->rot.x < 0x2000u))
+--- 364,380 ----
+  	up.z = toFIXED(0.0);
+  	VecCross( &right, SAUCER_FACING, &up );
+  	VecSetMag( &right, thrust );
+! 
+! 	ai_blip_offset.x = -slMulFX( right.x, toFIXED(30.0) );
+! 	ai_blip_offset.y = -slMulFX( right.y, toFIXED(30.0) );
+! 	ai_blip_offset.z = -slMulFX( right.z, toFIXED(30.0) );
+  
+  //	AISaucerBlips( act );
+  
+  	obj->vel.x += right.x;
+  	assert( right.y == toFIXED( 0.0 ) );
+  	obj->vel.z += right.z;
+! 
+  	if (thrust > toFIXED(0.0))
+  	{
+  		if ((obj->rot.x > 0xE000u) || (obj->rot.x < 0x2000u))
+***************
+*** 437,443 ****
+  	45,  36,  27,   0,  -18,  -36,  -40
+  };
+  
+! int vx_coords[ VERTEX_LAYERS ] = 
+  {
+  	 1,  27,  40, 114,  40,  27,   1
+  };
+--- 432,438 ----
+  	45,  36,  27,   0,  -18,  -36,  -40
+  };
+  
+! int vx_coords[ VERTEX_LAYERS ] =
+  {
+  	 1,  27,  40, 114,  40,  27,   1
+  };
+***************
+*** 507,516 ****
+  			pg[patch].norm[Z] = norm.z;
+  
+  			if (sector == 0)
+! 				at[patch] = xsaucer_attr;	 
+  			else
+! 				at[patch] = saucer_attr;	 
+! 		
+  		}
+  	}
+  
+--- 502,511 ----
+  			pg[patch].norm[Z] = norm.z;
+  
+  			if (sector == 0)
+! 				at[patch] = xsaucer_attr;
+  			else
+! 				at[patch] = saucer_attr;
+! 
+  		}
+  	}
+  
+***************
+*** 522,533 ****
+  
+  void AISaucerCruise( ACTOR* act, FIXED drag, FIXED stat )
+  {
+- 	ANGLE face_az;
+- 	ANGLE move_az;
+  	FIXED v;
+  
+  	EOBJECT* obj = ActGetFirstObject( act );
+! 	
+  	obj->vel.x += slMulFX( SAUCER_FACING->x, SAUCER_THROTTLE );
+  	obj->vel.y += slMulFX( SAUCER_FACING->y, SAUCER_THROTTLE );
+  	obj->vel.z += slMulFX( SAUCER_FACING->z, SAUCER_THROTTLE );
+--- 517,526 ----
+  
+  void AISaucerCruise( ACTOR* act, FIXED drag, FIXED stat )
+  {
+  	FIXED v;
+  
+  	EOBJECT* obj = ActGetFirstObject( act );
+! 
+  	obj->vel.x += slMulFX( SAUCER_FACING->x, SAUCER_THROTTLE );
+  	obj->vel.y += slMulFX( SAUCER_FACING->y, SAUCER_THROTTLE );
+  	obj->vel.z += slMulFX( SAUCER_FACING->z, SAUCER_THROTTLE );
+***************
+*** 542,548 ****
+  		v -= stat;
+  	else
+  		v = toFIXED( 0.0 );
+! 	
+  	VecSetMag( &(obj->vel), v );
+  
+  	slMulFX( SAUCER_THROTTLE, toFIXED( 0.9 ) );
+--- 535,541 ----
+  		v -= stat;
+  	else
+  		v = toFIXED( 0.0 );
+! 
+  	VecSetMag( &(obj->vel), v );
+  
+  	slMulFX( SAUCER_THROTTLE, toFIXED( 0.9 ) );
+***************
+*** 574,582 ****
+  	if (alt < toFIXED(5.0))
+  		alt = toFIXED(5.0);
+  
+! 	AISaucerAccelerate( act, toFIXED(0.0), slDivFX( slSquartFX(alt), SAUCER_ANTIGRAV ), toFIXED(0.0) ); 
+  	AISaucerCruise( act, toFIXED(0.9), toFIXED(0.01) );
+! 	
+  }
+  
+  void AISaucerProcess1( ACTOR* act, PROCESS* proc )
+--- 567,575 ----
+  	if (alt < toFIXED(5.0))
+  		alt = toFIXED(5.0);
+  
+! 	AISaucerAccelerate( act, toFIXED(0.0), slDivFX( slSquartFX(alt), SAUCER_ANTIGRAV ), toFIXED(0.0) );
+  	AISaucerCruise( act, toFIXED(0.9), toFIXED(0.01) );
+! 
+  }
+  
+  void AISaucerProcess1( ACTOR* act, PROCESS* proc )
+***************
+*** 600,603 ****
+  
+  	}
+  }
+- 
+--- 593,595 ----
+diff -crBN --binary sgl302/demos/flying/aitarget.c sgl302_patch/demos/flying/aitarget.c
+*** sgl302/demos/flying/aitarget.c	1996-08-09 06:54:18.000000000 -0400
+--- sgl302_patch/demos/flying/aitarget.c	2024-08-05 16:53:14.000000000 -0400
+***************
+*** 24,30 ****
+  #include "texture.h"
+  #include "assert.h"
+  
+! ATTR target_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TARGET, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AITargetProcess1( ACTOR* act, PROCESS* proc )
+--- 24,30 ----
+  #include "texture.h"
+  #include "assert.h"
+  
+! ATTR target_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TARGET, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AITargetProcess1( ACTOR* act, PROCESS* proc )
+***************
+*** 34,40 ****
+  void AITargetBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* sobj;
+  	SATPOLY* sg;
+  	PDATA* pdata;
+  	POLYGON* pg;
+--- 34,39 ----
+***************
+*** 43,62 ****
+  	int v, f;
+  
+  	obj = ActAddObject( act, OFLAG_AUTOMOVE|OFLAG_AUTOROTATE|OFLAG_SATPOLY, 8, 6 );
+! 	
+  	obj->pos.x = FRANDOM( 4000.0 ) - toFIXED(2000.0);
+  	obj->pos.y = FRANDOM( 300.0 ) + toFIXED( 100.0 );
+  	obj->pos.z = FRANDOM( 4000.0 ) + toFIXED(200.0);
+! 	obj->rot.x = (ANGLE)0; 
+! 	obj->rot.y = (ANGLE)0; 
+! 	obj->rot.z = (ANGLE)0; 
+! 	obj->rotvel.x = (ANGLE)0; 
+! 	obj->rotvel.y = (ANGLE)0; 
+! 	obj->rotvel.z = (ANGLE)0; 
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 42,61 ----
+  	int v, f;
+  
+  	obj = ActAddObject( act, OFLAG_AUTOMOVE|OFLAG_AUTOROTATE|OFLAG_SATPOLY, 8, 6 );
+! 
+  	obj->pos.x = FRANDOM( 4000.0 ) - toFIXED(2000.0);
+  	obj->pos.y = FRANDOM( 300.0 ) + toFIXED( 100.0 );
+  	obj->pos.z = FRANDOM( 4000.0 ) + toFIXED(200.0);
+! 	obj->rot.x = (ANGLE)0;
+! 	obj->rot.y = (ANGLE)0;
+! 	obj->rot.z = (ANGLE)0;
+! 	obj->rotvel.x = (ANGLE)0;
+! 	obj->rotvel.y = (ANGLE)0;
+! 	obj->rotvel.z = (ANGLE)0;
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 75,81 ****
+  		pg[f].norm[X] = toFIXED(  0.0 );
+  		pg[f].norm[Y] = toFIXED(  0.0 );
+  		pg[f].norm[Z] = toFIXED( -1.0 );
+! 		at[f] = target_attr;	 
+  	}
+  
+  	pg[0].Vertices[0] = 0;
+--- 74,80 ----
+  		pg[f].norm[X] = toFIXED(  0.0 );
+  		pg[f].norm[Y] = toFIXED(  0.0 );
+  		pg[f].norm[Z] = toFIXED( -1.0 );
+! 		at[f] = target_attr;
+  	}
+  
+  	pg[0].Vertices[0] = 0;
+***************
+*** 117,124 ****
+  
+  int AITargetMsgHand( ACTOR* act, MESSAGE_FLAGS mess, long data )
+  {
+- 	EOBJECT* obj;
+- 
+  	switch( mess )
+  	{
+  		case AMESS_CREATE:
+--- 116,121 ----
+***************
+*** 137,140 ****
+  		return( FALSE );
+  	}
+  }
+- 
+--- 134,136 ----
+diff -crBN --binary sgl302/demos/flying/assert.h sgl302_patch/demos/flying/assert.h
+*** sgl302/demos/flying/assert.h	1996-08-07 13:54:04.000000000 -0400
+--- sgl302_patch/demos/flying/assert.h	2024-08-02 20:51:12.000000000 -0400
+***************
+*** 22,27 ****
+--- 22,28 ----
+  #ifdef NDEBUG
+  	#define assert( test )		((void)0)
+  #else
++ 	void _sassert( char* message1, char* message2 );
+  	void _assert( char* message );
+  
+  	#define _STR(x)	_VAL(x)
+diff -crBN --binary sgl302/demos/flying/collide.c sgl302_patch/demos/flying/collide.c
+*** sgl302/demos/flying/collide.c	1996-08-07 09:17:20.000000000 -0400
+--- sgl302_patch/demos/flying/collide.c	2024-08-05 16:54:54.000000000 -0400
+***************
+*** 20,25 ****
+--- 20,26 ----
+  #include "enigma.h"
+  #include "collide.h"
+  #include "assert.h"
++ #include "actor.h"
+  
+  ACTOR** collide_alist;
+  ACTOR** collide_dlist;
+***************
+*** 51,57 ****
+  	if ((a->flags & AFLAG_DEFEND_MASK) && (a->invuln == 0))
+  		collide_dlist[ collide_dlist_count++ ] = a;
+  
+! 	return( CONTINUE );	
+  }
+  
+  void CollideBuildLists( void )
+--- 52,58 ----
+  	if ((a->flags & AFLAG_DEFEND_MASK) && (a->invuln == 0))
+  		collide_dlist[ collide_dlist_count++ ] = a;
+  
+! 	return( CONTINUE );
+  }
+  
+  void CollideBuildLists( void )
+***************
+*** 93,99 ****
+  			if (dz > dx)
+  				SWAP( dx, dz );
+  
+! 			dst = dx + (dy+dz>>2);
+  		}
+  
+  		if (dst < (o->radius+collide_attack_object->radius))
+--- 94,100 ----
+  			if (dz > dx)
+  				SWAP( dx, dz );
+  
+! 			dst = dx + ((dy+dz)>>2);
+  		}
+  
+  		if (dst < (o->radius+collide_attack_object->radius))
+***************
+*** 104,113 ****
+  			collide_loc.y = (o->pos.y + collide_attack_object->pos.y)/2;
+  			collide_loc.z = (o->pos.z + collide_attack_object->pos.z)/2;
+  
+! 			ActSendMessage( d, AMESS_COLLIDE_DEF, a );
+! 			ActSendMessage( a, AMESS_COLLIDE_ATT, d );
+  		}
+  	}
+  }
+  
+  int _CollideAttackCheckCallback( Node* n, long v1, long* v2 )
+--- 105,115 ----
+  			collide_loc.y = (o->pos.y + collide_attack_object->pos.y)/2;
+  			collide_loc.z = (o->pos.z + collide_attack_object->pos.z)/2;
+  
+! 			ActSendMessage( d, AMESS_COLLIDE_DEF, (long)a );
+! 			ActSendMessage( a, AMESS_COLLIDE_ATT, (long)d );
+  		}
+  	}
++ 	return 0;
+  }
+  
+  int _CollideAttackCheckCallback( Node* n, long v1, long* v2 )
+***************
+*** 120,127 ****
+  	{
+  		collide_attack_object = o;
+  		LstIterateValue( &(d->object), _CollideDefendCheckCallback, (long)a, (long*)d );
+! 	}	
+! 	
+  	return( CONTINUE );
+  }
+  
+--- 122,129 ----
+  	{
+  		collide_attack_object = o;
+  		LstIterateValue( &(d->object), _CollideDefendCheckCallback, (long)a, (long*)d );
+! 	}
+! 
+  	return( CONTINUE );
+  }
+  
+diff -crBN --binary sgl302/demos/flying/collide.h sgl302_patch/demos/flying/collide.h
+*** sgl302/demos/flying/collide.h	1996-08-07 09:34:26.000000000 -0400
+--- sgl302_patch/demos/flying/collide.h	2024-08-05 16:29:14.000000000 -0400
+***************
+*** 17,22 ****
+--- 17,26 ----
+  //
+  //------------------------------------------------------------------------
+  
++ #include "mem_mgr.h"
++ 
++ extern 	pointer	Memmalloc				(dword size);
++ 
+  #define COLLIDE_MEM_ALLOC(size)			Memmalloc(size)
+  #define COLLIDE_MEM_FREE(ptr)			Memfree(ptr)
+  
+diff -crBN --binary sgl302/demos/flying/master.h sgl302_patch/demos/flying/master.h
+*** sgl302/demos/flying/master.h	1996-08-07 14:00:34.000000000 -0400
+--- sgl302_patch/demos/flying/master.h	2024-08-05 16:40:30.000000000 -0400
+***************
+*** 55,60 ****
+  #undef NDEBUG
+  //#define NDEBUG			1
+  
+- #pragma warning ( disable : 4245 )
+- 
+  #endif
+--- 55,58 ----
+diff -crBN --binary sgl302/demos/flying/satrend.c sgl302_patch/demos/flying/satrend.c
+*** sgl302/demos/flying/satrend.c	1996-08-07 09:28:34.000000000 -0400
+--- sgl302_patch/demos/flying/satrend.c	2024-08-05 14:02:32.000000000 -0400
+***************
+*** 23,28 ****
+--- 23,29 ----
+  #include "vector.h"
+  #include "texture.h"
+  #include "assert.h"
++ #include "saturn.h"
+  
+  Tree* graphic_tree;
+  EOBJECT* rendCamera = NULL;
+***************
+*** 77,88 ****
+  			case 'z':	slRotZ( obj->rot.z );	break;
+  			default:	assert( TRUE==FALSE );	break;
+  		}
+! 	}	
+  
+  	slPutPolygon( sgp );
+  
+  	slPopMatrix();
+! }	
+  
+  void RendSatSpriteObject( EOBJECT* obj )
+  {
+--- 78,89 ----
+  			case 'z':	slRotZ( obj->rot.z );	break;
+  			default:	assert( TRUE==FALSE );	break;
+  		}
+! 	}
+  
+  	slPutPolygon( sgp );
+  
+  	slPopMatrix();
+! }
+  
+  void RendSatSpriteObject( EOBJECT* obj )
+  {
+***************
+*** 101,112 ****
+  	slPutSprite( pos, ss->attr, ss->zrot );
+  
+  	slPopMatrix();
+! }	
+  
+  void RendSatBackObject( EOBJECT* obj )
+  {
+  
+! }	
+  
+  int RendObjectCallback( Node* n )
+  {
+--- 102,113 ----
+  	slPutSprite( pos, ss->attr, ss->zrot );
+  
+  	slPopMatrix();
+! }
+  
+  void RendSatBackObject( EOBJECT* obj )
+  {
+  
+! }
+  
+  int RendObjectCallback( Node* n )
+  {
+***************
+*** 126,132 ****
+  	dst = dx + (dy+dz>>2);
+  
+  	if (dst > rendGrossDistanceClip)
+! 		return( CONTINUE );	
+  
+  	switch( o->flags & OFLAG_MASK_GRAPHIC )
+  	{
+--- 127,133 ----
+  	dst = dx + (dy+dz>>2);
+  
+  	if (dst > rendGrossDistanceClip)
+! 		return( CONTINUE );
+  
+  	switch( o->flags & OFLAG_MASK_GRAPHIC )
+  	{
+***************
+*** 148,154 ****
+  		break;
+  	}
+  
+! 	return( CONTINUE );	
+  }
+  
+  int RendActorCallback( Tree** node )
+--- 149,155 ----
+  		break;
+  	}
+  
+! 	return( CONTINUE );
+  }
+  
+  int RendActorCallback( Tree** node )
+diff -crBN --binary sgl302/demos/flying/saturn.c sgl302_patch/demos/flying/saturn.c
+*** sgl302/demos/flying/saturn.c	1996-08-07 14:00:32.000000000 -0400
+--- sgl302_patch/demos/flying/saturn.c	2024-08-05 16:55:16.000000000 -0400
+***************
+*** 17,22 ****
+--- 17,24 ----
+  //
+  //------------------------------------------------------------------------
+  
++ #include <sl_def.h>
++ 
+  #include "saturn.h"
+  #include "assert.h"
+  
+***************
+*** 24,32 ****
+  
+  void SatInitTime( void )
+  {
+! 	unsigned char tcsr;
+! 
+! 	*SH2_TCR = SH2_TCR_CKS1;	// í/128 clock - 200KHz?
+  
+  	// clear overflow
+  	*SH2_TCSR = 0;
+--- 26,32 ----
+  
+  void SatInitTime( void )
+  {
+! 	*SH2_TCR = SH2_TCR_CKS1;	// ï¿½/128 clock - 200KHz?
+  
+  	// clear overflow
+  	*SH2_TCSR = 0;
+***************
+*** 58,64 ****
+  /*
+  	assert handler
+  
+! */				  
+  
+  void _sassert( char* message1, char* message2 )
+  {
+--- 58,64 ----
+  /*
+  	assert handler
+  
+! */
+  
+  void _sassert( char* message1, char* message2 )
+  {
+***************
+*** 70,76 ****
+  
+  	asm("trapa	#12");
+  }
+- 
+- 
+- 		 
+- 
+--- 70,72 ----
+diff -crBN --binary sgl302/sample/common/cinit.c sgl302_patch/sample/common/cinit.c
 *** sgl302/sample/common/cinit.c	1996-09-10 23:00:00.000000000 -0400
 --- sgl302_patch/sample/common/cinit.c	2022-09-15 21:12:48.000000000 -0400
 ***************
@@ -34,7 +1961,87 @@ diff -crB --binary sgl302/sample/common/cinit.c sgl302_patch/sample/common/cinit
 + 	return 0;
   }
 ! 
-diff -crB --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/string.c
+diff -crBN --binary sgl302/sample/demo_d/main.c sgl302_patch/sample/demo_d/main.c
+*** sgl302/sample/demo_d/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/demo_d/main.c	2024-08-02 20:55:14.000000000 -0400
+***************
+*** 1,3 ****
+--- 1,5 ----
++ #include <string.h>
++ 
+  #include	"sgl.h"
+  #include	"ss_scrol.h"
+  
+***************
+*** 207,213 ****
+  		disp_poly();
+  		disp_scroll();
+  		slSynch();
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 209,215 ----
+  		disp_poly();
+  		disp_scroll();
+  		slSynch();
+! 	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/demogun/main.c sgl302_patch/sample/demogun/main.c
+*** sgl302/sample/demogun/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/demogun/main.c	2024-08-02 21:07:24.000000000 -0400
+***************
+*** 11,16 ****
+--- 11,18 ----
+  extern Sint8 SynchCount;
+  extern Uint16 VDP2_EXTEN;
+  
++ Bool slCheckIntBackSet(void);
++ 
+  static Uint8 GunCtrlFlag1P, GunCtrlFlag2P;
+  
+  static Uint8 getMegaDriveId(Uint8 pd1, Uint8 pd0)
+***************
+*** 154,157 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 156,159 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/design1/main.c sgl302_patch/sample/design1/main.c
+*** sgl302/sample/design1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/design1/main.c	2024-08-05 15:59:52.000000000 -0400
+***************
+*** 3,8 ****
+--- 3,9 ----
+  /*----------------------------------------------------------------------*/
+  #include	"sgl.h"
+  #include	"sega_sys.h"
++ #include	<string.h>
+  
+  extern PDATA pdata_sample[];
+  
+***************
+*** 147,150 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 148,151 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/string.c
 *** sgl302/sample/sbklib/string.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample/sbklib/string.c	2022-09-15 21:12:04.000000000 -0400
 ***************
@@ -113,7 +2120,7 @@ diff -crB --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/stri
         }
   
       return s;
-diff -crB --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cinit.c
+diff -crBN --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cinit.c
 *** sgl302/sample2/common/cinit.c	1996-09-10 23:00:00.000000000 -0400
 --- sgl302_patch/sample2/common/cinit.c	2022-09-15 21:13:10.000000000 -0400
 ***************
@@ -149,7 +2156,7 @@ diff -crB --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cin
 + 	return 0;
   }
 ! 
-diff -crB --binary sgl302/sample2/sega2d_1/scroll.c sgl302_patch/sample2/sega2d_1/scroll.c
+diff -crBN --binary sgl302/sample2/sega2d_1/scroll.c sgl302_patch/sample2/sega2d_1/scroll.c
 *** sgl302/sample2/sega2d_1/scroll.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega2d_1/scroll.c	2022-09-15 19:13:48.000000000 -0400
 ***************
@@ -177,7 +2184,7 @@ diff -crB --binary sgl302/sample2/sega2d_1/scroll.c sgl302_patch/sample2/sega2d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega2d_1/sega2d.h sgl302_patch/sample2/sega2d_1/sega2d.h
+diff -crBN --binary sgl302/sample2/sega2d_1/sega2d.h sgl302_patch/sample2/sega2d_1/sega2d.h
 *** sgl302/sample2/sega2d_1/sega2d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega2d_1/sega2d.h	2022-09-15 18:56:10.000000000 -0400
 ***************
@@ -202,7 +2209,7 @@ diff -crB --binary sgl302/sample2/sega2d_1/sega2d.h sgl302_patch/sample2/sega2d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_1/3d/dolphin.c sgl302_patch/sample2/sega3d_1/3d/dolphin.c
+diff -crBN --binary sgl302/sample2/sega3d_1/3d/dolphin.c sgl302_patch/sample2/sega3d_1/3d/dolphin.c
 *** sgl302/sample2/sega3d_1/3d/dolphin.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_1/3d/dolphin.c	2022-09-15 19:22:56.000000000 -0400
 ***************
@@ -216,7 +2223,32 @@ diff -crB --binary sgl302/sample2/sega3d_1/3d/dolphin.c sgl302_patch/sample2/seg
 ! #include	"./3d/model_2.c"
 ! #include	"./3d/model_4.c"
   
-diff -crB --binary sgl302/sample2/sega3d_1/sega3d.h sgl302_patch/sample2/sega3d_1/sega3d.h
+diff -crBN --binary sgl302/sample2/sega3d_1/main.c sgl302_patch/sample2/sega3d_1/main.c
+*** sgl302/sample2/sega3d_1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample2/sega3d_1/main.c	2024-08-02 20:54:20.000000000 -0400
+***************
+*** 17,22 ****
+--- 17,23 ----
+  	FIXED	scl[XYZ];
+  }Sega3D, *Sega3DPtr;
+  
++ void	chg_view(void *ptr);
+  
+  static void set_texture(void)
+  {
+***************
+*** 130,133 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 131,134 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample2/sega3d_1/sega3d.h sgl302_patch/sample2/sega3d_1/sega3d.h
 *** sgl302/sample2/sega3d_1/sega3d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_1/sega3d.h	2022-09-15 18:57:10.000000000 -0400
 ***************
@@ -260,7 +2292,7 @@ diff -crB --binary sgl302/sample2/sega3d_1/sega3d.h sgl302_patch/sample2/sega3d_
   #endif
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_2/3d/cube.c sgl302_patch/sample2/sega3d_2/3d/cube.c
+diff -crBN --binary sgl302/sample2/sega3d_2/3d/cube.c sgl302_patch/sample2/sega3d_2/3d/cube.c
 *** sgl302/sample2/sega3d_2/3d/cube.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_2/3d/cube.c	2022-09-15 19:38:04.000000000 -0400
 ***************
@@ -272,7 +2304,32 @@ diff -crB --binary sgl302/sample2/sega3d_2/3d/cube.c sgl302_patch/sample2/sega3d
   
 ! #include	"./3d/new_1.c"
   
-diff -crB --binary sgl302/sample2/sega3d_2/sega3d.h sgl302_patch/sample2/sega3d_2/sega3d.h
+diff -crBN --binary sgl302/sample2/sega3d_2/main.c sgl302_patch/sample2/sega3d_2/main.c
+*** sgl302/sample2/sega3d_2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample2/sega3d_2/main.c	2024-08-02 21:04:38.000000000 -0400
+***************
+*** 19,24 ****
+--- 19,25 ----
+  	FIXED	scl[XYZ];
+  }Sega3D, *Sega3DPtr;
+  
++ void	chg_view(void *ptr);
+  
+  static void set_texture(void)
+  {
+***************
+*** 136,139 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 137,140 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample2/sega3d_2/sega3d.h sgl302_patch/sample2/sega3d_2/sega3d.h
 *** sgl302/sample2/sega3d_2/sega3d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_2/sega3d.h	2022-09-15 19:28:20.000000000 -0400
 ***************
@@ -314,7 +2371,7 @@ diff -crB --binary sgl302/sample2/sega3d_2/sega3d.h sgl302_patch/sample2/sega3d_
   #endif
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_2/texture/cube.c sgl302_patch/sample2/sega3d_2/texture/cube.c
+diff -crBN --binary sgl302/sample2/sega3d_2/texture/cube.c sgl302_patch/sample2/sega3d_2/texture/cube.c
 *** sgl302/sample2/sega3d_2/texture/cube.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_2/texture/cube.c	2022-09-15 19:28:52.000000000 -0400
 ***************
@@ -332,7 +2389,7 @@ diff -crB --binary sgl302/sample2/sega3d_2/texture/cube.c sgl302_patch/sample2/s
   
   TEXTURE	tex_cube[] = {
   	{320, 82, 0x2000, 0x2852},
-diff -crB --binary sgl302/sample2/sega3d_3/3d/opa.c sgl302_patch/sample2/sega3d_3/3d/opa.c
+diff -crBN --binary sgl302/sample2/sega3d_3/3d/opa.c sgl302_patch/sample2/sega3d_3/3d/opa.c
 *** sgl302/sample2/sega3d_3/3d/opa.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/3d/opa.c	2022-09-15 20:18:12.000000000 -0400
 ***************
@@ -354,7 +2411,7 @@ diff -crB --binary sgl302/sample2/sega3d_3/3d/opa.c sgl302_patch/sample2/sega3d_
 ! #include	"./3d/model_11.c"
 ! #include	"./3d/model_13.c"
   
-diff -crB --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d_3/action.c
+diff -crBN --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d_3/action.c
 *** sgl302/sample2/sega3d_3/action.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/action.c	2022-09-15 19:33:12.000000000 -0400
 ***************
@@ -386,7 +2443,56 @@ diff -crB --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_3/scroll.c sgl302_patch/sample2/sega3d_3/scroll.c
+diff -crBN --binary sgl302/sample2/sega3d_3/main.c sgl302_patch/sample2/sega3d_3/main.c
+*** sgl302/sample2/sega3d_3/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample2/sega3d_3/main.c	2024-08-05 15:57:20.000000000 -0400
+***************
+*** 27,32 ****
+--- 27,34 ----
+  static void set_matrix(FIXED *, ANGLE *, FIXED *);
+  static void init_matrix(FIXED *, ANGLE *, FIXED *);
+  
++ void			whichAction(void *);
++ 
+  void	init_camera(void *ptr)
+  {
+  	Sega3DPtr	segaPtr = (Sega3DPtr)ptr;
+***************
+*** 110,116 ****
+  #endif
+  }
+  
+! static setAngLimit(ANGLE *ang, float min, float max)
+  {
+  	if(*ang > DEGtoANG(max))
+  		*ang = DEGtoANG(max);
+--- 112,118 ----
+  #endif
+  }
+  
+! static void setAngLimit(ANGLE *ang, float min, float max)
+  {
+  	if(*ang > DEGtoANG(max))
+  		*ang = DEGtoANG(max);
+***************
+*** 226,232 ****
+  		reset_vbar(39);
+  		slSynch();
+  		set_vbar(39);
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 228,234 ----
+  		reset_vbar(39);
+  		slSynch();
+  		set_vbar(39);
+! 	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample2/sega3d_3/scroll.c sgl302_patch/sample2/sega3d_3/scroll.c
 *** sgl302/sample2/sega3d_3/scroll.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/scroll.c	2022-09-15 20:24:12.000000000 -0400
 ***************
@@ -414,7 +2520,7 @@ diff -crB --binary sgl302/sample2/sega3d_3/scroll.c sgl302_patch/sample2/sega3d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_3/sega2d.h sgl302_patch/sample2/sega3d_3/sega2d.h
+diff -crBN --binary sgl302/sample2/sega3d_3/sega2d.h sgl302_patch/sample2/sega3d_3/sega2d.h
 *** sgl302/sample2/sega3d_3/sega2d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/sega2d.h	2022-09-15 20:19:00.000000000 -0400
 ***************
@@ -439,7 +2545,7 @@ diff -crB --binary sgl302/sample2/sega3d_3/sega2d.h sgl302_patch/sample2/sega3d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_3/sega3d.h sgl302_patch/sample2/sega3d_3/sega3d.h
+diff -crBN --binary sgl302/sample2/sega3d_3/sega3d.h sgl302_patch/sample2/sega3d_3/sega3d.h
 *** sgl302/sample2/sega3d_3/sega3d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/sega3d.h	2022-09-15 20:19:28.000000000 -0400
 ***************

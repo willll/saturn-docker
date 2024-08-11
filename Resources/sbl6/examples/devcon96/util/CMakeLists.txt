@@ -10,6 +10,8 @@ add_compile_options("$<$<COMPILE_LANGUAGE:ASM>:${as_flags}>")
 
 set_property(SOURCE ${ASM_SOURCES} PROPERTY LANGUAGE ASM)
 
+add_compile_options("$<$<COMPILE_LANGUAGE:C>:-Wno-implicit-function-declaration>")
+
 add_compile_definitions(_SH MODEL_S)
 
 add_library( ${TARGET_NAME} STATIC

@@ -44,6 +44,7 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
+    "SHELL: --specs=nosys.specs"
     "SHELL:-T${SEGASGL}/common/sl.lnk"
 )
 
