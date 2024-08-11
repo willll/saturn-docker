@@ -2978,6 +2978,271 @@ diff -crBN --binary sgl302/sample/s_9_1/main.c sgl302_patch/sample/s_9_1/main.c
   }
   
 ! 
+diff -crBN --binary sgl302/sample/sampsnd1/main.c sgl302_patch/sample/sampsnd1/main.c
+*** sgl302/sample/sampsnd1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/sampsnd1/main.c	2024-08-11 14:09:26.000000000 -0400
+***************
+*** 37,43 ****
+  /*------------------------------------------------------------------------*/
+  
+  void init_sound(){
+!     slInitSound(sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , mapsize) ;
+      slDMACopy(sound_dat , (void *)(SoundSeqBuf) , datsize) ;
+  }
+  
+--- 37,43 ----
+  /*------------------------------------------------------------------------*/
+  
+  void init_sound(){
+!     slInitSound((unsigned char *)sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , mapsize) ;
+      slDMACopy(sound_dat , (void *)(SoundSeqBuf) , datsize) ;
+  }
+  
+***************
+*** 47,68 ****
+      slPrintHex(vol , slLocate(11,6)) ;
+  }
+  
+! sound_test(EVENT *evptr){
+      SOUND_MAN	*smptr ;
+      PerDigital	*pptr ;
+      Sint16	padd ;
+      Sint16	padp ;
+  
+      int i ;
+!     
+      const Uint8 bank = 3 ;
+      const Uint8 song[] = {1 , 7 , 0 , 1} ;
+!     
+      smptr = (SOUND_MAN *)evptr->user ;
+      pptr = Smpc_Peripheral;
+      padd = ~pptr->data;
+      padp = ~pptr->push;
+!     
+      for (i = 7; i >= 0; i--){
+  	if(smptr->seq[i].stat && !(slSequenceStat(i))){
+  	    smptr->seq[i].stat = 0 ;
+--- 47,68 ----
+      slPrintHex(vol , slLocate(11,6)) ;
+  }
+  
+! void sound_test(EVENT *evptr){
+      SOUND_MAN	*smptr ;
+      PerDigital	*pptr ;
+      Sint16	padd ;
+      Sint16	padp ;
+  
+      int i ;
+! 
+      const Uint8 bank = 3 ;
+      const Uint8 song[] = {1 , 7 , 0 , 1} ;
+! 
+      smptr = (SOUND_MAN *)evptr->user ;
+      pptr = Smpc_Peripheral;
+      padd = ~pptr->data;
+      padp = ~pptr->push;
+! 
+      for (i = 7; i >= 0; i--){
+  	if(smptr->seq[i].stat && !(slSequenceStat(i))){
+  	    smptr->seq[i].stat = 0 ;
+***************
+*** 105,111 ****
+  	    if(--smptr->sequence < 1) smptr->sequence = 7;
+  	}
+      }
+!  
+      slPrintHex(slHex2Dec(smptr->banknum) , slLocate(7,10)) ;
+      slPrint("Bank     : " , slLocate(2,10)) ;
+      slPrintHex(slHex2Dec(smptr->songnum) , slLocate(7,11)) ;
+--- 105,111 ----
+  	    if(--smptr->sequence < 1) smptr->sequence = 7;
+  	}
+      }
+! 
+      slPrintHex(slHex2Dec(smptr->banknum) , slLocate(7,10)) ;
+      slPrint("Bank     : " , slLocate(2,10)) ;
+      slPrintHex(slHex2Dec(smptr->songnum) , slLocate(7,11)) ;
+***************
+*** 190,196 ****
+      for(i = 7; i >= 0; i--){
+  	smptr->seq[i].stat = 0 ;
+  	slPrintHex(i , slLocate(24,3+i)) ;
+!     }		
+      disp_vol(smptr->vol) ;
+  }
+  
+--- 190,196 ----
+      for(i = 7; i >= 0; i--){
+  	smptr->seq[i].stat = 0 ;
+  	slPrintHex(i , slLocate(24,3+i)) ;
+!     }
+      disp_vol(smptr->vol) ;
+  }
+  
+***************
+*** 216,222 ****
+  
+  /*------------------------------------------------------------------------*/
+  
+! sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)init_sound_test) ;
+--- 216,222 ----
+  
+  /*------------------------------------------------------------------------*/
+  
+! void sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)init_sound_test) ;
+***************
+*** 237,240 ****
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+\ No newline at end of file
+--- 237,240 ----
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+diff -crBN --binary sgl302/sample/sampsnd2/main.c sgl302_patch/sample/sampsnd2/main.c
+*** sgl302/sample/sampsnd2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/sampsnd2/main.c	2024-08-11 14:04:08.000000000 -0400
+***************
+*** 24,33 ****
+  
+  void init_sound(){
+      char sound_map[] = {0xff , 0xff} ;
+!     slInitSound(sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , sizeof(sound_map)) ;
+  }
+  
+! sound_test(EVENT *evptr){
+      PerDigital* pptr ;
+      Sint16	 pad ;
+  
+--- 24,33 ----
+  
+  void init_sound(){
+      char sound_map[] = {0xff , 0xff} ;
+!     slInitSound((unsigned char *)sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , sizeof(sound_map)) ;
+  }
+  
+! void sound_test(EVENT *evptr){
+      PerDigital* pptr ;
+      Sint16	 pad ;
+  
+***************
+*** 67,73 ****
+  
+  /*------------------------------------------------------------------------*/
+  
+! sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)sound_test) ;
+--- 67,73 ----
+  
+  /*------------------------------------------------------------------------*/
+  
+! void sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)sound_test) ;
+***************
+*** 88,91 ****
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+\ No newline at end of file
+--- 88,91 ----
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+diff -crBN --binary sgl302/sample/sbklib/sample2.c sgl302_patch/sample/sbklib/sample2.c
+*** sgl302/sample/sbklib/sample2.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/sbklib/sample2.c	2024-08-11 14:10:36.000000000 -0400
+***************
+*** 2,8 ****
+  #define		BUP_START_ADDR	0x6070000
+  #include	"sega_bup.h"
+  
+! 
+  
+  #define	FILE_NAME	"FILE_NAME01"
+  #define	BACKUP_DEVICE	(Uint32)0
+--- 2,8 ----
+  #define		BUP_START_ADDR	0x6070000
+  #include	"sega_bup.h"
+  
+! #include <string.h>
+  
+  #define	FILE_NAME	"FILE_NAME01"
+  #define	BACKUP_DEVICE	(Uint32)0
+***************
+*** 32,38 ****
+  	Sint32		ret;
+  	SmpcDateTime	*time;
+  	BupDate		date;
+! 	
+  	if(!dir->date){
+  		time = &(Smpc_Status->rtc);
+  		date.year  = (Uint8 )( slDec2Hex((Uint32)time->year)-1980 ); /* Modify K.T */
+--- 32,38 ----
+  	Sint32		ret;
+  	SmpcDateTime	*time;
+  	BupDate		date;
+! 
+  	if(!dir->date){
+  		time = &(Smpc_Status->rtc);
+  		date.year  = (Uint8 )( slDec2Hex((Uint32)time->year)-1980 ); /* Modify K.T */
+***************
+*** 89,102 ****
+  
+      slPrint("Sample program Backup Library" , slLocate(9,2));
+  
+!     slGetStatus(); 
+      for(i=0;i<100;i++)
+        {
+  	  slSynch() ;
+        }
+  
+      BackUpInit( conf );
+!                                                 
+      if( ( status = BUP_Stat( BACKUP_DEVICE, 10, &sttb ) ) == BUP_UNFORMAT  )
+        {
+  	  status = BackUpFormat(BACKUP_DEVICE);
+--- 89,102 ----
+  
+      slPrint("Sample program Backup Library" , slLocate(9,2));
+  
+!     slGetStatus();
+      for(i=0;i<100;i++)
+        {
+  	  slSynch() ;
+        }
+  
+      BackUpInit( conf );
+! 
+      if( ( status = BUP_Stat( BACKUP_DEVICE, 10, &sttb ) ) == BUP_UNFORMAT  )
+        {
+  	  status = BackUpFormat(BACKUP_DEVICE);
+***************
+*** 154,157 ****
+  	  slSynch() ;
+        }
+  }
+! 
+\ No newline at end of file
+--- 154,157 ----
+  	  slSynch() ;
+        }
+  }
+! 
 diff -crBN --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/string.c
 *** sgl302/sample/sbklib/string.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample/sbklib/string.c	2022-09-15 21:12:04.000000000 -0400
@@ -3057,6 +3322,315 @@ diff -crBN --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/str
         }
   
       return s;
+diff -crBN --binary sgl302/sample/s_cd4/main.c sgl302_patch/sample/s_cd4/main.c
+*** sgl302/sample/s_cd4/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_cd4/main.c	2024-08-11 14:04:46.000000000 -0400
+***************
+*** 13,22 ****
+  #include	"sddrvs.dat"
+  
+  /****************************************************************************/
+! #define	WIN_ORG_X	0		
+! #define	WIN_ORG_Y	0		
+! #define	WIN_SIZE_X	320		
+! #define	WIN_SIZE_Y	240	
+  #define	MAX_FILE	128
+  Sint32	dirwork[SLCD_WORK_SIZE(MAX_FILE)];
+  
+--- 13,22 ----
+  #include	"sddrvs.dat"
+  
+  /****************************************************************************/
+! #define	WIN_ORG_X	0
+! #define	WIN_ORG_Y	0
+! #define	WIN_SIZE_X	320
+! #define	WIN_SIZE_Y	240
+  #define	MAX_FILE	128
+  Sint32	dirwork[SLCD_WORK_SIZE(MAX_FILE)];
+  
+***************
+*** 33,39 ****
+  	0x30, 0x05, 0xA0, 0x00, 0x00, 0x02, 0x00, 0x00,
+  	0xFF, 0xFF
+      };
+!     
+  /****************************************************************************/
+  
+  void	ss_main(void)
+--- 33,39 ----
+  	0x30, 0x05, 0xA0, 0x00, 0x00, 0x02, 0x00, 0x00,
+  	0xFF, 0xFF
+      };
+! 
+  /****************************************************************************/
+  
+  void	ss_main(void)
+***************
+*** 45,53 ****
+      Sint32	stat;
+  
+      slInitSystem(TV_320x224, NULL, 1);
+!     slInitSound(sddrvstsk, sizeof(sddrvstsk), sdmap, sizeof(sdmap));
+      slCDDAOn(127, 127, 0, 0);
+      ndir = slCdInit(MAX_FILE, dirwork);
+  
+      key[0].cn = CDKEY_NONE;
+      key[0].sm = CDKEY_NONE;
+--- 45,55 ----
+      Sint32	stat;
+  
+      slInitSystem(TV_320x224, NULL, 1);
+!     slInitSound((unsigned char *)sddrvstsk, sizeof(sddrvstsk), sdmap, sizeof(sdmap));
+      slCDDAOn(127, 127, 0, 0);
+      ndir = slCdInit(MAX_FILE, dirwork);
++ 		ndir;
++ 
+  
+      key[0].cn = CDKEY_NONE;
+      key[0].sm = CDKEY_NONE;
+***************
+*** 71,74 ****
+  	;
+  }
+  
+! 
+\ No newline at end of file
+--- 73,76 ----
+  	;
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/shooting/main.c sgl302_patch/sample/shooting/main.c
+*** sgl302/sample/shooting/main.c	1996-09-11 23:00:00.000000000 -0400
+--- sgl302_patch/sample/shooting/main.c	2024-08-11 14:16:06.000000000 -0400
+***************
+*** 8,13 ****
+--- 8,16 ----
+  #include	"sglcolli.h"
+  #include	"sega_sys.h"
+  
++ #include <math.h>
++ #include <stdlib.h>
++ 
+  #define	pol_map_x	32
+  #define	pol_map_y	32
+  
+***************
+*** 184,197 ****
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);	
+  	init_main();
+  	slZdspLevel(7);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ƒCƒxƒ“ƒg‚Ì‰Šú‰»		*/
+! 	slSetEvent((void *)main_pad);			/*  ƒpƒbƒh“ü—ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ƒJƒƒ‰ˆÊ’uw’èŠÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ƒ|ƒŠƒSƒ“ƒ}ƒbƒv•\¦ŠÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,10,5);
+--- 187,200 ----
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);
+  	init_main();
+  	slZdspLevel(7);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½		*/
+! 	slSetEvent((void *)main_pad);			/*  ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½wï¿½ï¿½ï¿½ÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,10,5);
+***************
+*** 201,215 ****
+  	slNearClipFlag(1);
+  	while(1)
+  	{
+! 		slExecuteEvent();					/*	ƒCƒxƒ“ƒg‚ÌÀs			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ƒVƒ“ƒN					*/
+! 	} 
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ƒJƒƒ‰ŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+--- 204,218 ----
+  	slNearClipFlag(1);
+  	while(1)
+  	{
+! 		slExecuteEvent();					/*	ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½s			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ï¿½Vï¿½ï¿½ï¿½N					*/
+! 	}
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+***************
+*** 275,281 ****
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ƒpƒbƒhŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+--- 278,284 ----
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½pï¿½bï¿½hï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+***************
+*** 288,294 ****
+  	/*---------------------------------------------*/
+  	if(Smpc_Peripheral[0].id == 2)
+  	{
+! 		data = Smpc_Peripheral[0].data;						//ƒm[ƒ}ƒ‹ƒpƒbƒg
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		aa	=0;
+  		if((data & PER_DGT_TC) == 0)
+--- 291,297 ----
+  	/*---------------------------------------------*/
+  	if(Smpc_Peripheral[0].id == 2)
+  	{
+! 		data = Smpc_Peripheral[0].data;						//ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½pï¿½bï¿½g
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		aa	=0;
+  		if((data & PER_DGT_TC) == 0)
+***************
+*** 334,340 ****
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ƒTƒCƒhˆÚ“®*/
+  			if((data & PER_DGT_TL) == 0)
+  			{
+  				pos[X]	+=15*slCos(ang[Z]);
+--- 337,343 ----
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  			if((data & PER_DGT_TL) == 0)
+  			{
+  				pos[X]	+=15*slCos(ang[Z]);
+***************
+*** 345,351 ****
+  				pos[Y]	+=15*slSin(ang[Z]);
+  			}
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  			aa	=0;
+  			if((data & PER_DGT_KR) == 0)
+  			{
+--- 348,354 ----
+  				pos[Y]	+=15*slSin(ang[Z]);
+  			}
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  			aa	=0;
+  			if((data & PER_DGT_KR) == 0)
+  			{
+***************
+*** 383,389 ****
+  	if(Smpc_Peripheral[0].id == 0x16)
+  	{
+  		ana_pre	=(PerAnalog *)Smpc_Peripheral;
+! 		data = Smpc_Peripheral[0].data;						//ƒ}ƒ‹ƒRƒ“
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		if((data & PER_DGT_TC) == 0)
+  		{
+--- 386,392 ----
+  	if(Smpc_Peripheral[0].id == 0x16)
+  	{
+  		ana_pre	=(PerAnalog *)Smpc_Peripheral;
+! 		data = Smpc_Peripheral[0].data;						//ï¿½}ï¿½ï¿½ï¿½Rï¿½ï¿½
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		if((data & PER_DGT_TC) == 0)
+  		{
+***************
+*** 398,406 ****
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ƒTƒCƒhˆÚ“®*/
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  			ang_add	+=((int)ana_pre[0].x-0x80)*3;
+  		}
+  	}
+--- 401,409 ----
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  			ang_add	+=((int)ana_pre[0].x-0x80)*3;
+  		}
+  	}
+***************
+*** 465,471 ****
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ƒRƒŠƒWƒ‡ƒ“	‚‚³’Šo							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+--- 468,474 ----
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+***************
+*** 487,493 ****
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 	
+  	if(ux < 0)ux=0;
+  	if(ux >= pol_map_x)ux=pol_map_x-1;
+  	if(uy < 0)uy =0;
+--- 490,496 ----
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 
+  	if(ux < 0)ux=0;
+  	if(ux >= pol_map_x)ux=pol_map_x-1;
+  	if(uy < 0)uy =0;
+***************
+*** 573,576 ****
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
+\ No newline at end of file
+--- 576,579 ----
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
 diff -crBN --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cinit.c
 *** sgl302/sample2/common/cinit.c	1996-09-10 23:00:00.000000000 -0400
 --- sgl302_patch/sample2/common/cinit.c	2022-09-15 21:13:10.000000000 -0400
