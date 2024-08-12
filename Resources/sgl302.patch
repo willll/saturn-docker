@@ -4386,6 +4386,103 @@ diff -crBN --binary sgl302/sample4/bitmap/main.c sgl302_patch/sample4/bitmap/mai
       }
     }
   }
+diff -crBN --binary sgl302/sample4/cdda/main.c sgl302_patch/sample4/cdda/main.c
+*** sgl302/sample4/cdda/main.c	2024-01-03 06:49:28.000000000 -0500
+--- sgl302_patch/sample4/cdda/main.c	2024-08-12 07:49:24.000000000 -0400
+***************
+*** 15,21 ****
+       Not use MODE2 Track, CDDA Truck starts 2.
+       Use MODE2 Track, CDDA Tauck starts after 3.
+  */
+! #define TRACK_NO 2 
+  /* Use SGL sound functions (slCDDAOn) */
+  #define SGL_SND
+  
+--- 15,21 ----
+       Not use MODE2 Track, CDDA Truck starts 2.
+       Use MODE2 Track, CDDA Tauck starts after 3.
+  */
+! #define TRACK_NO 2
+  /* Use SGL sound functions (slCDDAOn) */
+  #define SGL_SND
+  
+***************
+*** 86,92 ****
+      slPrintHex( fid, slLocate( 15, 3 ) );
+      while( 1 ) slSynch();
+    }
+!   
+    if ( GFS_GetDirInfo( fid, &tbl ) < 0 ) {
+      slPrint( "Error! Can't get directory information.", slLocate( 2, 2 ) );
+      while( 1 ) slSynch();
+--- 86,92 ----
+      slPrintHex( fid, slLocate( 15, 3 ) );
+      while( 1 ) slSynch();
+    }
+! 
+    if ( GFS_GetDirInfo( fid, &tbl ) < 0 ) {
+      slPrint( "Error! Can't get directory information.", slLocate( 2, 2 ) );
+      while( 1 ) slSynch();
+***************
+*** 162,168 ****
+    case CDC_ST_ERROR:
+      slPrint( "READ ERROR!! ", slLocate( 10, 10 ) );
+    default:
+!     
+    }
+  }
+  
+--- 162,168 ----
+    case CDC_ST_ERROR:
+      slPrint( "READ ERROR!! ", slLocate( 10, 10 ) );
+    default:
+!     break;
+    }
+  }
+  
+***************
+*** 179,185 ****
+  #endif
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+!   
+    /* Initialize event */
+    slInitEvent();
+    slSetEvent( event );
+--- 179,185 ----
+  #endif
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+! 
+    /* Initialize event */
+    slInitEvent();
+    slSetEvent( event );
+***************
+*** 202,208 ****
+    } while( ( ret = ( CDC_STAT_STATUS( st ) & 0x0f ) ) != CDC_ST_PAUSE );
+  
+  #ifdef FAD
+!   /* Move pick to start of Track. */ 
+    CDC_POS_PTYPE( pos ) = CDC_PTYPE_TNO;
+    CDC_POS_TNO( pos )   = TRACK_NO;
+    ret = CDC_CdSeek( pos );
+--- 202,208 ----
+    } while( ( ret = ( CDC_STAT_STATUS( st ) & 0x0f ) ) != CDC_ST_PAUSE );
+  
+  #ifdef FAD
+!   /* Move pick to start of Track. */
+    CDC_POS_PTYPE( pos ) = CDC_PTYPE_TNO;
+    CDC_POS_TNO( pos )   = TRACK_NO;
+    ret = CDC_CdSeek( pos );
+***************
+*** 245,250 ****
+      slSynch();
+    }
+  }
+- 
+- 
+- 
+--- 245,247 ----
 diff -crBN --binary sgl302/sample4/coloff/main.c sgl302_patch/sample4/coloff/main.c
 *** sgl302/sample4/coloff/main.c	2024-01-03 06:49:34.000000000 -0500
 --- sgl302_patch/sample4/coloff/main.c	2024-08-11 14:44:20.000000000 -0400
