@@ -10,7 +10,7 @@ add_compile_definitions(MODEL_S)
 add_executable(Basic.elf ${SOURCES})
 
 target_link_options(Basic.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${OUTPUT_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Source/Saturn.lnk"
