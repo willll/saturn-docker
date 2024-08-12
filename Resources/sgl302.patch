@@ -118,6 +118,68 @@ diff -crBN --binary sgl302/demos/chrome/main.c sgl302_patch/demos/chrome/main.c
   
   	}
   }
+diff -crBN --binary sgl302/demos/chrome/texture.c sgl302_patch/demos/chrome/texture.c
+*** sgl302/demos/chrome/texture.c	1996-10-13 08:20:52.000000000 -0400
+--- sgl302_patch/demos/chrome/texture.c	2024-08-11 18:37:46.000000000 -0400
+***************
+*** 13,22 ****
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION 
+  //	00/00/00
+  //
+! //	ORIGINAL FILE 
+  //	s:\sgl_3\sgl\sample\chrome\texture.c
+  //
+  //------------------------------------------------------------------------
+--- 13,22 ----
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION
+  //	00/00/00
+  //
+! //	ORIGINAL FILE
+  //	s:\sgl_3\sgl\sample\chrome\texture.c
+  //
+  //------------------------------------------------------------------------
+***************
+*** 152,158 ****
+  void set_texture(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+!  
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_table + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+--- 152,158 ----
+  void set_texture(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+! 
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_table + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+***************
+*** 183,190 ****
+  
+  	// DMA TEXTURE TO VDP1 VRAM
+  	set_texture(pic_table,NUM_TEXTURES);
+! 	// Load custom FX palette that textures reference	
+! 	Pal2CRAM(palette , (void *)TEX_COL_ADR , 256);
+  
+  
+  
+--- 183,190 ----
+  
+  	// DMA TEXTURE TO VDP1 VRAM
+  	set_texture(pic_table,NUM_TEXTURES);
+! 	// Load custom FX palette that textures reference
+! 	Pal2CRAM((short unsigned int *)palette , (void *)TEX_COL_ADR , 256);
+  
+  
+  
 diff -crBN --binary sgl302/demos/flying/actor.c sgl302_patch/demos/flying/actor.c
 *** sgl302/demos/flying/actor.c	1996-08-07 09:05:04.000000000 -0400
 --- sgl302_patch/demos/flying/actor.c	2024-08-02 21:12:58.000000000 -0400
@@ -1052,7 +1114,7 @@ diff -crBN --binary sgl302/demos/flying/ailand.c sgl302_patch/demos/flying/ailan
 --- 146,148 ----
 diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/aisaucer.c
 *** sgl302/demos/flying/aisaucer.c	1996-08-07 09:16:54.000000000 -0400
---- sgl302_patch/demos/flying/aisaucer.c	2024-08-05 16:58:32.000000000 -0400
+--- sgl302_patch/demos/flying/aisaucer.c	2024-08-11 18:34:44.000000000 -0400
 ***************
 *** 24,35 ****
   #include "texture.h"
@@ -1305,7 +1367,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   }
   
   void AISaucerRestart( ACTOR* act )
---- 280,301 ----
+--- 280,300 ----
   #define SAUCER_THROTTLE ((act->scratch.f)[1])
   #define SAUCER_FACING  ((VECTOR3F*)((act->scratch.f)+2))
   
@@ -1324,7 +1386,6 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   void AISaucerShoot( ACTOR* act )
   {
 ! 	ACTOR* shot = AICreateActor( AT_KEY_SHOT, act );
-! 	shot;
   }
   
   void AISaucerRestart( ACTOR* act )
@@ -1339,7 +1400,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   
   //	AISaucerBlips( act );
   }
---- 330,338 ----
+--- 329,337 ----
   	if (SAUCER_ANTIGRAV > toFIXED(40.0))
   		SAUCER_ANTIGRAV = toFIXED(40.0);
   
@@ -1364,7 +1425,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   void AISaucerSlip( ACTOR* act, FIXED thrust )
   {
   	VECTOR3F up, right;
---- 347,359 ----
+--- 346,358 ----
   	if (SAUCER_THROTTLE < toFIXED(-3.0))
   		SAUCER_THROTTLE = toFIXED(-3.0);
   
@@ -1397,7 +1458,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   	if (thrust > toFIXED(0.0))
   	{
   		if ((obj->rot.x > 0xE000u) || (obj->rot.x < 0x2000u))
---- 364,380 ----
+--- 363,379 ----
   	up.z = toFIXED(0.0);
   	VecCross( &right, SAUCER_FACING, &up );
   	VecSetMag( &right, thrust );
@@ -1424,7 +1485,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   {
   	 1,  27,  40, 114,  40,  27,   1
   };
---- 432,438 ----
+--- 431,437 ----
   	45,  36,  27,   0,  -18,  -36,  -40
   };
   
@@ -1444,7 +1505,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   		}
   	}
   
---- 502,511 ----
+--- 501,510 ----
   			pg[patch].norm[Z] = norm.z;
   
   			if (sector == 0)
@@ -1469,7 +1530,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   	obj->vel.x += slMulFX( SAUCER_FACING->x, SAUCER_THROTTLE );
   	obj->vel.y += slMulFX( SAUCER_FACING->y, SAUCER_THROTTLE );
   	obj->vel.z += slMulFX( SAUCER_FACING->z, SAUCER_THROTTLE );
---- 517,526 ----
+--- 516,525 ----
   
   void AISaucerCruise( ACTOR* act, FIXED drag, FIXED stat )
   {
@@ -1489,7 +1550,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   	VecSetMag( &(obj->vel), v );
   
   	slMulFX( SAUCER_THROTTLE, toFIXED( 0.9 ) );
---- 535,541 ----
+--- 534,540 ----
   		v -= stat;
   	else
   		v = toFIXED( 0.0 );
@@ -1508,7 +1569,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   }
   
   void AISaucerProcess1( ACTOR* act, PROCESS* proc )
---- 567,575 ----
+--- 566,574 ----
   	if (alt < toFIXED(5.0))
   		alt = toFIXED(5.0);
   
@@ -1524,7 +1585,7 @@ diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/ais
   	}
   }
 - 
---- 593,595 ----
+--- 592,594 ----
 diff -crBN --binary sgl302/demos/flying/aitarget.c sgl302_patch/demos/flying/aitarget.c
 *** sgl302/demos/flying/aitarget.c	1996-08-09 06:54:18.000000000 -0400
 --- sgl302_patch/demos/flying/aitarget.c	2024-08-05 16:53:14.000000000 -0400
@@ -3924,7 +3985,7 @@ diff -crBN --binary sgl302/sample2/sega3d_3/3d/opa.c sgl302_patch/sample2/sega3d
   
 diff -crBN --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d_3/action.c
 *** sgl302/sample2/sega3d_3/action.c	1996-04-20 22:10:00.000000000 -0400
---- sgl302_patch/sample2/sega3d_3/action.c	2022-09-15 19:33:12.000000000 -0400
+--- sgl302_patch/sample2/sega3d_3/action.c	2024-08-11 14:30:14.000000000 -0400
 ***************
 *** 1,7 ****
   #include	"sgl.h"
@@ -3943,13 +4004,57 @@ diff -crBN --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d
   
   
 ***************
+*** 77,83 ****
+  
+  void	whichAction(void *ptr)
+  {
+- 	Sega3DPtr		segaPtr = (Sega3DPtr)ptr;
+  	short			h, v, button;
+  
+  slPrint("Y angle", slLocate(6,4));
+--- 77,82 ----
+***************
+*** 143,149 ****
+  {
+  	static FIXED	spd = toFIXED(JUMPSPD),
+  					acc = toFIXED(JUMPACC);
+! 	short	stat;
+  
+  	if(pos_model_0[Y] < toFIXED(0.0)){
+  		pos_model_0[Y] = toFIXED(0.0);
+--- 142,148 ----
+  {
+  	static FIXED	spd = toFIXED(JUMPSPD),
+  					acc = toFIXED(JUMPACC);
+! 	short	stat = 0;
+  
+  	if(pos_model_0[Y] < toFIXED(0.0)){
+  		pos_model_0[Y] = toFIXED(0.0);
+***************
+*** 151,157 ****
+  		ang_model_9[X] = DEGtoANG(0.0);
+  		spd = toFIXED(JUMPSPD);
+  		acc = toFIXED(JUMPACC);
+! 		return(0);
+  	}
+  	spd += acc;
+  	pos_model_0[Y] += spd;
+--- 150,156 ----
+  		ang_model_9[X] = DEGtoANG(0.0);
+  		spd = toFIXED(JUMPSPD);
+  		acc = toFIXED(JUMPACC);
+! 		return(stat);
+  	}
+  	spd += acc;
+  	pos_model_0[Y] += spd;
+***************
 *** 217,220 ****
   
   
   
 ! 
 \ No newline at end of file
---- 217,220 ----
+--- 216,219 ----
   
   
   
@@ -4100,3 +4205,1651 @@ diff -crBN --binary sgl302/sample2/sega3d_3/sega3d.h sgl302_patch/sample2/sega3d
   
   
 ! 
+diff -crBN --binary sgl302/sample4/bitmap/main.c sgl302_patch/sample4/bitmap/main.c
+*** sgl302/sample4/bitmap/main.c	2024-01-03 06:49:22.000000000 -0500
+--- sgl302_patch/sample4/bitmap/main.c	2024-08-11 14:38:32.000000000 -0400
+***************
+*** 1,6 ****
+--- 1,8 ----
+  #include "sgl.h"
+  #include "../scroll/flower.pal"
+  
++ #include <stdlib.h>
++ 
+  #define UNIT toFIXED( 2.0 );
+  
+  enum BMP_STATUS {
+***************
+*** 18,24 ****
+    Sint16 rand[ 5 ];
+    Uint16 pad;
+    FIXED  x, y;
+!   
+    x = y = toFIXED( 0.0 );
+  
+    slInitSystem(TV_320x224, NULL, 1);
+--- 20,26 ----
+    Sint16 rand[ 5 ];
+    Uint16 pad;
+    FIXED  x, y;
+! 
+    x = y = toFIXED( 0.0 );
+  
+    slInitSystem(TV_320x224, NULL, 1);
+***************
+*** 29,105 ****
+    /* Initialize bitmap functions. */
+    if ( slInitBitMap( bmNBG1, BM_512x256, ( void * )0x25e20000 ) == FALSE ) {
+      slPrint( "FALSE", slLocate( 10, 3 ) );
+!     exit( 0 );
+!   }
+! 
+!   /* Display NBG */
+!   slScrAutoDisp( NBG0ON | NBG1ON );
+  
+!   slPrint( "Bitmap Sample", slLocate( 9, 2 ) );
+  
+!   /* Select random value */
+!   slPrint( "Press Start button", slLocate( 10, 13 ) );
+!   while ( ( Smpc_Peripheral[ 0 ].data & PER_DGT_ST ) != 0 ) slSynch();
+!   slPrint( "                 ", slLocate( 10, 13 ) );
+! 
+!   /* Main looooop! */
+!   while( -1 ) {
+!     pad = Smpc_Peripheral[ 0 ].data;
+! 
+!     /* Set random value */
+!     rand[ 0 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!     rand[ 1 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!     rand[ 2 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!     rand[ 3 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!     rand[ 4 ] = ( Sint16 )( slRandom() & 0x000000ff );
+! 
+!     /* Pad control */
+!     if ( !( pad & PER_DGT_KU ) ) {
+!       y += UNIT;
+!     }
+!     if ( !( pad & PER_DGT_KD ) ) {
+!       y -= UNIT;
+!     }
+!     if ( !( pad & PER_DGT_KL ) ) {
+!       x += UNIT;
+!     }
+!     if ( !( pad & PER_DGT_KR ) ) {
+!       x -= UNIT;
+!     }
+!     if ( !( pad & PER_DGT_ST ) ) {
+!       x = y = toFIXED ( 0.0 );
+!     }
+  
+!     /* Switch any bitmap functions. */
+!     switch (  slRandom() & 0x00000007 ) {
+!     case BMP_PSET:
+!       slBMPset( rand[ 0 ], rand[ 1 ], rand[ 4 ] );
+!       break;
+!     case BMP_CIRCLE:
+!       slBMCircle( rand[ 0 ], rand[ 1 ],  rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_LINE:
+!       slBMLine( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_BOX:
+!       slBMBox( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_BOXFILL:
+!       slBMBoxFill( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_PUT:
+!       break;
+!     case BMP_SPRPUT:
+!       break;
+      }
+-     slScrPosNbg1( x, y );
+-     slSynch();
+    }
+  }
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+--- 31,100 ----
+    /* Initialize bitmap functions. */
+    if ( slInitBitMap( bmNBG1, BM_512x256, ( void * )0x25e20000 ) == FALSE ) {
+      slPrint( "FALSE", slLocate( 10, 3 ) );
+!   } else {
+  
+!     /* Display NBG */
+!     slScrAutoDisp( NBG0ON | NBG1ON );
+  
+!     slPrint( "Bitmap Sample", slLocate( 9, 2 ) );
+  
+!     /* Select random value */
+!     slPrint( "Press Start button", slLocate( 10, 13 ) );
+!     while ( ( Smpc_Peripheral[ 0 ].data & PER_DGT_ST ) != 0 ) slSynch();
+!     slPrint( "                 ", slLocate( 10, 13 ) );
+! 
+!     /* Main looooop! */
+!     while( -1 ) {
+!       pad = Smpc_Peripheral[ 0 ].data;
+! 
+!       /* Set random value */
+!       rand[ 0 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!       rand[ 1 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!       rand[ 2 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!       rand[ 3 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!       rand[ 4 ] = ( Sint16 )( slRandom() & 0x000000ff );
+! 
+!       /* Pad control */
+!       if ( !( pad & PER_DGT_KU ) ) {
+!         y += UNIT;
+!       }
+!       if ( !( pad & PER_DGT_KD ) ) {
+!         y -= UNIT;
+!       }
+!       if ( !( pad & PER_DGT_KL ) ) {
+!         x += UNIT;
+!       }
+!       if ( !( pad & PER_DGT_KR ) ) {
+!         x -= UNIT;
+!       }
+!       if ( !( pad & PER_DGT_ST ) ) {
+!         x = y = toFIXED ( 0.0 );
+!       }
+! 
+!       /* Switch any bitmap functions. */
+!       switch (  slRandom() & 0x00000007 ) {
+!       case BMP_PSET:
+!         slBMPset( rand[ 0 ], rand[ 1 ], rand[ 4 ] );
+!         break;
+!       case BMP_CIRCLE:
+!         slBMCircle( rand[ 0 ], rand[ 1 ],  rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_LINE:
+!         slBMLine( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_BOX:
+!         slBMBox( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_BOXFILL:
+!         slBMBoxFill( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_PUT:
+!         break;
+!       case BMP_SPRPUT:
+!         break;
+!       }
+!       slScrPosNbg1( x, y );
+!       slSynch();
+      }
+    }
+  }
+diff -crBN --binary sgl302/sample4/coloff/main.c sgl302_patch/sample4/coloff/main.c
+*** sgl302/sample4/coloff/main.c	2024-01-03 06:49:34.000000000 -0500
+--- sgl302_patch/sample4/coloff/main.c	2024-08-11 14:44:20.000000000 -0400
+***************
+*** 22,32 ****
+    slInitSystem( TV_320x224, NULL, 1 );
+    slTVOff();
+    slPrint( "Color Offset Sample", slLocate( 9, 2 ) );
+!   
+    slColRAMMode( CRM16_1024 );
+  
+    slBack1ColSet( ( void * )BACK_COL_ADR, 0 );
+!   
+    slCharNbg1(COL_TYPE_256 , CHAR_SIZE_1x1);
+    slPageNbg1( (void *)0x24e40000, (void *)0x600 , PNB_1WORD|CN_10BIT);
+    slPlaneNbg1(PL_SIZE_1x1);
+--- 22,32 ----
+    slInitSystem( TV_320x224, NULL, 1 );
+    slTVOff();
+    slPrint( "Color Offset Sample", slLocate( 9, 2 ) );
+! 
+    slColRAMMode( CRM16_1024 );
+  
+    slBack1ColSet( ( void * )BACK_COL_ADR, 0 );
+! 
+    slCharNbg1(COL_TYPE_256 , CHAR_SIZE_1x1);
+    slPageNbg1( (void *)0x24e40000, (void *)0x600 , PNB_1WORD|CN_10BIT);
+    slPlaneNbg1(PL_SIZE_1x1);
+***************
+*** 40,49 ****
+  
+    slColOffsetAUse( NBG1ON );
+  
+!   slTVOn();  
+  
+    while( 1 ){
+      pad = Smpc_Peripheral[ 0 ].data;
+  
+      if ( j == ACCELERANDO ) {
+        if ( ++i > 254 ) j = RITARDANDO;
+--- 40,50 ----
+  
+    slColOffsetAUse( NBG1ON );
+  
+!   slTVOn();
+  
+    while( 1 ){
+      pad = Smpc_Peripheral[ 0 ].data;
++     pad;
+  
+      if ( j == ACCELERANDO ) {
+        if ( ++i > 254 ) j = RITARDANDO;
+***************
+*** 52,56 ****
+      }
+      slColOffsetA( i, - i, i / 2 );
+      slSynch();
+!   } 
+  }
+--- 53,57 ----
+      }
+      slColOffsetA( i, - i, i / 2 );
+      slSynch();
+!   }
+  }
+diff -crBN --binary sgl302/sample4/expccalc/main.c sgl302_patch/sample4/expccalc/main.c
+*** sgl302/sample4/expccalc/main.c	2024-01-03 06:49:42.000000000 -0500
+--- sgl302_patch/sample4/expccalc/main.c	2024-08-11 14:43:54.000000000 -0400
+***************
+*** 72,78 ****
+  };
+  
+  /* Main function */
+! ss_main() {
+    FIXED  x[ 3 ], y[ 3 ]; /* Scroll positions.      */
+    Uint16 pad;            /* Pad Data               */
+    Sint8  rate_a = 12;    /* Color rate about NBG 1 */
+--- 72,78 ----
+  };
+  
+  /* Main function */
+! void ss_main() {
+    FIXED  x[ 3 ], y[ 3 ]; /* Scroll positions.      */
+    Uint16 pad;            /* Pad Data               */
+    Sint8  rate_a = 12;    /* Color rate about NBG 1 */
+***************
+*** 84,92 ****
+    slTVOff();
+    {
+      slColRAMMode( CRM16_1024 );
+!     
+      /* Clear VDP2 VRAM */
+!     slDMAXCopy( &i, ( void * )VDP2_VRAM_A0, 0x20000, Sfix_Dinc_Long ); 
+  
+      /* Set NBG1 Parameter */
+      slCharNbg1( COL_TYPE_256, CHAR_SIZE_1x1 );
+--- 84,92 ----
+    slTVOff();
+    {
+      slColRAMMode( CRM16_1024 );
+! 
+      /* Clear VDP2 VRAM */
+!     slDMAXCopy( &i, ( void * )VDP2_VRAM_A0, 0x20000, Sfix_Dinc_Long );
+  
+      /* Set NBG1 Parameter */
+      slCharNbg1( COL_TYPE_256, CHAR_SIZE_1x1 );
+***************
+*** 140,146 ****
+      /* Set parameters about color colculation. */
+      slColorCalc( CC_RATE | CC_TOP | NBG1ON | NBG3ON | CC_EXT );
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] ); 
+  
+      slPrint( "Expanded color calc Sample Program", slLocate( 2, 2 ) );
+    }
+--- 140,146 ----
+      /* Set parameters about color colculation. */
+      slColorCalc( CC_RATE | CC_TOP | NBG1ON | NBG3ON | CC_EXT );
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] );
+  
+      slPrint( "Expanded color calc Sample Program", slLocate( 2, 2 ) );
+    }
+***************
+*** 163,177 ****
+        if ( pad & PER_DGT_KL ) {
+  	x[ 0 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {	
+  	x[ 0 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {	
+  	if ( ++rate_a > 31 ) rate_a = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {	
+  	if ( --rate_a < 0 ) rate_a = 0;
+!       }      
+      }
+      /* Normal scroll 2 (2D Map) */
+      if ( !( pad & PER_DGT_TB ) ) {
+--- 163,177 ----
+        if ( pad & PER_DGT_KL ) {
+  	x[ 0 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {
+  	x[ 0 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {
+  	if ( ++rate_a > 31 ) rate_a = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {
+  	if ( --rate_a < 0 ) rate_a = 0;
+!       }
+      }
+      /* Normal scroll 2 (2D Map) */
+      if ( !( pad & PER_DGT_TB ) ) {
+***************
+*** 184,190 ****
+        if ( pad & PER_DGT_KL ) {
+  	x[ 1 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {	
+  	x[ 1 ] += UNIT;
+        }
+      }
+--- 184,190 ----
+        if ( pad & PER_DGT_KL ) {
+  	x[ 1 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {
+  	x[ 1 ] += UNIT;
+        }
+      }
+***************
+*** 199,211 ****
+        if ( pad & PER_DGT_KL ) {
+  	x[ 2 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {	
+  	x[ 2 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {	
+  	if ( ++rate_b > 31 ) rate_b = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {	
+  	if ( --rate_b < 0 ) rate_b = 0;
+        }
+      }
+--- 199,211 ----
+        if ( pad & PER_DGT_KL ) {
+  	x[ 2 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {
+  	x[ 2 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {
+  	if ( ++rate_b > 31 ) rate_b = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {
+  	if ( --rate_b < 0 ) rate_b = 0;
+        }
+      }
+***************
+*** 228,234 ****
+      }
+      /* Set Color Rate */
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] ); 
+  
+      /* Set scroll position */
+      slScrPosNbg1( x[ 0 ], y[ 0 ] );
+--- 228,234 ----
+      }
+      /* Set Color Rate */
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] );
+  
+      /* Set scroll position */
+      slScrPosNbg1( x[ 0 ], y[ 0 ] );
+***************
+*** 238,243 ****
+      slSynch();
+    }
+  }
+- 
+- 
+- 
+--- 238,240 ----
+diff -crBN --binary sgl302/sample4/pcm/simple/stm/main.c sgl302_patch/sample4/pcm/simple/stm/main.c
+*** sgl302/sample4/pcm/simple/stm/main.c	2024-01-03 06:51:10.000000000 -0500
+--- sgl302_patch/sample4/pcm/simple/stm/main.c	2024-08-11 17:34:00.000000000 -0400
+***************
+*** 2,8 ****
+   *
+   *	Copyright (c) 1994,1995,1997 SEGA
+   *
+!  * Library	:PCMEADPCMÄ¶ƒ‰ƒCƒuƒ‰ƒŠ
+   * Module 	:sample program of STREAM PLAY MODE
+   * File		:main.c
+   * Date		:1995-03-31
+--- 2,8 ----
+   *
+   *	Copyright (c) 1994,1995,1997 SEGA
+   *
+!  * Library	:PCMï¿½EADPCMï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
+   * Module 	:sample program of STREAM PLAY MODE
+   * File		:main.c
+   * Date		:1995-03-31
+***************
+*** 12,77 ****
+   * Modifier     :N.T
+   *
+   * Comment	:
+!  *      PCMƒXƒgƒŠ[ƒ€Ä¶ƒTƒ“ƒvƒ‹(AIFF)
+!  *        ¦smppcm2.c‚ğŒ³‚É‰ü—ÇB
+!  *          SGL‚ÅÄ¶‚³‚¹‚é‚½‚ß‚Éˆê•”ƒR[ƒh‚ğ•ÏXB
+   *
+!  *        ‚±‚ÌƒTƒ“ƒvƒ‹‚Å‚ÍAƒTƒEƒ“ƒhƒhƒ‰ƒCƒo‚ğƒvƒƒOƒ‰ƒ€‚É‘g‚İ‚Şƒ^ƒCƒv‚Ì
+!  *        ‚à‚Ì‚Å‚·B
+   ****************************************************************************/
+  
+! /*------------------------- sƒCƒ“ƒNƒ‹[ƒht -------------------------*/
+  #include "sgl.h"
+  #include "sgl_cd.h"
+  #include "sega_snd.h"
+  #include "sega_pcm.h"
+! /*--------------------------- sŠÖ”éŒ¾t ---------------------------*/
+  extern char *sddrvstsk;
+  extern long sddrvsize;
+! /*---------------------------- s’è”t ----------------------------*/
+  static char filename[] = "SAMPLE.AIF";
+  
+! /* ƒEƒF[ƒuRAM‚Ì“]‘—ƒAƒhƒŒƒX‚ÆƒTƒ“ƒvƒ‹” */
+  /*
+!    y’ˆÓz
+!    PCM_SIZE‚Ìƒf[ƒ^ƒTƒCƒY‚ğŒ³‚ÉA
+!     8Bit Mono   :~1
+!    16Bit Mono   :~2
+!     8Bit Stereo :~2
+!    16Bit Stereo :~4
+!    ‚Ìƒoƒbƒtƒ@‚ğ•K—v‚Æ‚µ‚Ü‚·B
+!    ¦PCM_SIZE‚Ìƒf[ƒ^ƒTƒCƒY‚ª‚»‚Ì‚Ü‚Üg‚í‚ê‚é–ó‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
+!    ]‚Á‚ÄAPCM_ADDR‚É—^‚¦‚éPCMƒoƒbƒtƒ@‚ÌƒXƒ^[ƒgƒAƒhƒŒƒX‚ÍA‚»‚Ì–‚ğl—¶‚µ‚½
+!    ã‚Åİ’è‚µ‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
+!    —á‚¦‚ÎA16Bit Stereo‚ÌAIFFƒf[ƒ^‚ğÄ¶‚·‚é‚Ì‚É
+     PCM_SIZE = 4096L * 2
+!    ‚ğİ’è‚µ‚½ê‡A( 4096 * 2 ) * 4 = 32768 = 8000H
+!    ‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğ•K—v‚Æ‚·‚é‚Ì‚ÅAPCM_ADDR‚ÌƒAƒhƒŒƒX‚ÍA
+!    25A78000HˆÈ‘O‚Éİ’è‚µ‚È‚¢‚ÆA‰¹‚ÌŒã”¼‚ÉƒmƒCƒY‚ª“ü‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
+!    –”APCM‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ª¬‚³‚¢ê‡AÄ¶’†‚ÉCD‚ÌƒŠ[ƒhƒGƒ‰[‚È‚Ç‚ÅA
+!    PCMƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ì‹Ÿ‹‹‚ª~‚Ü‚Á‚½ê‡A“¯‚¶‰¹‚ªŒJ‚è•Ô‚µÄ¶‚³‚ê‚é
+!    “™‚ÌÇó‚ª‹N‚±‚é–‚ª‚ ‚è‚Ü‚·B
+!    ‚»‚Ìê‡APCM_SIZE‚É­‚µ‘å‚«‚ß‚Ì’l‚ğ“ü‚ê‚é–‚Å‰ğŒˆ‚Å‚«‚Ü‚·B
+  */
+  #define	PCM_ADDR	( ( void * )0x25a20000 )
+  #define	PCM_SIZE	( 4096L * 8 )	           /* 8 */
+  
+  #define	SECTOR_SIZE	(STM_UNIT_FORM1)
+  
+! #define TR_MODE_CD      PCM_TRMODE_SCU	  /* SCU DMA‚É‚æ‚éƒf[ƒ^“]‘— */
+  
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@‚ÌƒTƒCƒY */
+  #define	RING_BUF_SIZE	(SECTOR_SIZE*10)	/* 10.. */
+! /*----------------------- sƒOƒ[ƒoƒ‹•Ï”t -----------------------*/
+  
+! /* ƒ[ƒNƒoƒbƒtƒ@ */
+  static PcmWork g_movie_work;
+  
+! /* ƒoƒbƒtƒ@‚ÌŠm•Û */
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@ */
+  Uint8 g_movie_buf[RING_BUF_SIZE];
+  
+! /*---------------------------- sŠÖ”t ----------------------------*/
+  
+  void errGfsFunc( void *obj, Sint32 ec )
+  {
+--- 12,77 ----
+   * Modifier     :N.T
+   *
+   * Comment	:
+!  *      PCMï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Äï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½(AIFF)
+!  *        ï¿½ï¿½smppcm2.cï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½ï¿½ÇB
+!  *          SGLï¿½ÅÄï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Éˆê•”ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ÏXï¿½B
+   *
+!  *        ï¿½ï¿½ï¿½ÌƒTï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Å‚ÍAï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½hï¿½ï¿½ï¿½Cï¿½oï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½É‘gï¿½İï¿½ï¿½Şƒ^ï¿½Cï¿½vï¿½ï¿½
+!  *        ï¿½ï¿½ï¿½Ì‚Å‚ï¿½ï¿½B
+   ****************************************************************************/
+  
+! /*------------------------- ï¿½sï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½t -------------------------*/
+  #include "sgl.h"
+  #include "sgl_cd.h"
+  #include "sega_snd.h"
+  #include "sega_pcm.h"
+! /*--------------------------- ï¿½sï¿½Öï¿½ï¿½éŒ¾ï¿½t ---------------------------*/
+  extern char *sddrvstsk;
+  extern long sddrvsize;
+! /*---------------------------- ï¿½sï¿½è”ï¿½t ----------------------------*/
+  static char filename[] = "SAMPLE.AIF";
+  
+! /* ï¿½Eï¿½Fï¿½[ï¿½uRAMï¿½Ì“]ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ÆƒTï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ */
+  /*
+!    ï¿½yï¿½ï¿½ï¿½Óz
+!    PCM_SIZEï¿½Ìƒfï¿½[ï¿½^ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ÉA
+!     8Bit Mono   :ï¿½~1
+!    16Bit Mono   :ï¿½~2
+!     8Bit Stereo :ï¿½~2
+!    16Bit Stereo :ï¿½~4
+!    ï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½Kï¿½vï¿½Æ‚ï¿½ï¿½Ü‚ï¿½ï¿½B
+!    ï¿½ï¿½PCM_SIZEï¿½Ìƒfï¿½[ï¿½^ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ü‚Ügï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚Í‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B
+!    ï¿½]ï¿½ï¿½ï¿½ÄAPCM_ADDRï¿½É—^ï¿½ï¿½ï¿½ï¿½PCMï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒXï¿½^ï¿½[ï¿½gï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ÍAï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!    ï¿½ï¿½ï¿½Åİ’è‚µï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B
+!    ï¿½á‚¦ï¿½ÎA16Bit Stereoï¿½ï¿½AIFFï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
+     PCM_SIZE = 4096L * 2
+!    ï¿½ï¿½ï¿½İ’è‚µï¿½ï¿½ï¿½ê‡ï¿½A( 4096 * 2 ) * 4 = 32768 = 8000H
+!    ï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Kï¿½vï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅAPCM_ADDRï¿½ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ÍA
+!    25A78000Hï¿½È‘Oï¿½Éİ’è‚µï¿½È‚ï¿½ï¿½ÆAï¿½ï¿½ï¿½ÌŒã”¼ï¿½Éƒmï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+!    ï¿½ï¿½ï¿½APCMï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½CDï¿½Ìƒï¿½ï¿½[ï¿½hï¿½Gï¿½ï¿½ï¿½[ï¿½È‚Ç‚ÅA
+!    PCMï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!    ï¿½ï¿½ï¿½ÌÇó‚ª‹Nï¿½ï¿½ï¿½é–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+!    ï¿½ï¿½ï¿½Ìê‡ï¿½APCM_SIZEï¿½Éï¿½ï¿½ï¿½ï¿½å‚«ï¿½ß‚Ì’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é–ï¿½Å‰ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½B
+  */
+  #define	PCM_ADDR	( ( void * )0x25a20000 )
+  #define	PCM_SIZE	( 4096L * 8 )	           /* 8 */
+  
+  #define	SECTOR_SIZE	(STM_UNIT_FORM1)
+  
+! #define TR_MODE_CD      PCM_TRMODE_SCU	  /* SCU DMAï¿½É‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½]ï¿½ï¿½ */
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒTï¿½Cï¿½Y */
+  #define	RING_BUF_SIZE	(SECTOR_SIZE*10)	/* 10.. */
+! /*----------------------- ï¿½sï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½ï¿½t -----------------------*/
+  
+! /* ï¿½ï¿½ï¿½[ï¿½Nï¿½oï¿½bï¿½tï¿½@ */
+  static PcmWork g_movie_work;
+  
+! /* ï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½ */
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ */
+  Uint8 g_movie_buf[RING_BUF_SIZE];
+  
+! /*---------------------------- ï¿½sï¿½Öï¿½ï¿½t ----------------------------*/
+  
+  void errGfsFunc( void *obj, Sint32 ec )
+  {
+***************
+*** 91,97 ****
+    slPrintHex( ec, slLocate( 20, 2 ) );
+  }
+  
+! /*====================== ƒTƒEƒ“ƒh‚Ìˆ— ===========================*/
+  static void sndInit(void)
+  {
+    SndIniDt 	snd_init;
+--- 91,97 ----
+    slPrintHex( ec, slLocate( 20, 2 ) );
+  }
+  
+! /*====================== ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  static void sndInit(void)
+  {
+    SndIniDt 	snd_init;
+***************
+*** 108,143 ****
+    SND_ChgMap( 0 );
+  }
+  
+! /*====================== ƒtƒ@ƒCƒ‹‚Ìˆ— ===========================*/
+  
+  /*
+!   ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚éƒtƒ@ƒCƒ‹‚ÌÅ‘å”
+!   ‚±‚Ì”‚ğ‰z‚¦‚½CD‚Ìê‡Aƒtƒ@ƒCƒ‹‚ÌŒŸõ‚É¸”s‚·‚é‹°‚ê‚ª‚ ‚è‚Ü‚·B
+  */
+  #define MAX_DIR		100
+  
+! /* “¯‚ÉŠJ‚­ƒtƒ@ƒCƒ‹‚ÌÅ‘å” */
+  #define OPEN_MAX	5
+  
+! /* ƒfƒBƒŒƒNƒgƒŠî•ñŠÇ——Ìˆæ */
+  static GfsDirTbl	dir_tbl;
+  
+! /* ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ñ‚¾î•ñ */
+  static GfsDirName dir_name[ MAX_DIR ];
+  
+! /* GFS‚Ìì‹Æ—Ìˆæ */
+  Uint32 g_gfs_work[ ( GFS_WORK_SIZE( OPEN_MAX ) + 3 ) / 4 ];
+  
+  static void fileInit( void )
+  {
+    Sint32 file_num;
+  
+!   /* GFS‚Ì‰Šú‰» */
+    GFS_DIRTBL_TYPE( &dir_tbl )    = GFS_DIR_NAME;
+    GFS_DIRTBL_DIRNAME( &dir_tbl ) = dir_name;
+    GFS_DIRTBL_NDIR( &dir_tbl )    = MAX_DIR;
+  
+!   /* ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+    file_num = GFS_Init( OPEN_MAX, g_gfs_work, &dir_tbl );
+    if ( file_num < 0 ) {
+      slPrint( "Error! GFS Init.", slLocate( 5, 2 ) );
+--- 108,143 ----
+    SND_ChgMap( 0 );
+  }
+  
+! /*====================== ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  
+  /*
+!   ï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å”
+!   ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½CDï¿½Ìê‡ï¿½Aï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½é‹°ï¿½ê‚ªï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+  */
+  #define MAX_DIR		100
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠJï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å” */
+  #define OPEN_MAX	5
+  
+! /* ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½Ìˆï¿½ */
+  static GfsDirTbl	dir_tbl;
+  
+! /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ñ‚¾ï¿½ï¿½ï¿½ */
+  static GfsDirName dir_name[ MAX_DIR ];
+  
+! /* GFSï¿½Ìï¿½ï¿½Æ—Ìˆï¿½ */
+  Uint32 g_gfs_work[ ( GFS_WORK_SIZE( OPEN_MAX ) + 3 ) / 4 ];
+  
+  static void fileInit( void )
+  {
+    Sint32 file_num;
+  
+!   /* GFSï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    GFS_DIRTBL_TYPE( &dir_tbl )    = GFS_DIR_NAME;
+    GFS_DIRTBL_DIRNAME( &dir_tbl ) = dir_name;
+    GFS_DIRTBL_NDIR( &dir_tbl )    = MAX_DIR;
+  
+!   /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    file_num = GFS_Init( OPEN_MAX, g_gfs_work, &dir_tbl );
+    if ( file_num < 0 ) {
+      slPrint( "Error! GFS Init.", slLocate( 5, 2 ) );
+***************
+*** 145,171 ****
+      while( 1 );
+    }
+  
+!   /* ƒGƒ‰[ŠÖ”‚Ìİ’è */
+    GFS_SetErrFunc( errGfsFunc, NULL );
+  }
+  
+  /*
+!    ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚ÉŠÖ‚·‚éİ’èB
+  */
+  #define MAX_GRP   1
+! /* ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌID */
+  static StmGrpHn grp_hd;
+  static Uint8    stm_work[ STM_WORK_SIZE( MAX_GRP, OPEN_MAX ) ];
+  
+  static void stmInit( void )
+  {
+!   /* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+    STM_Init( 12, 24, stm_work );
+!   
+!   /* ƒGƒ‰[ŠÖ”‚Ìİ’è */
+    STM_SetErrFunc( errStmFunc, NULL );
+!   
+!   /* ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌƒI[ƒvƒ“ */
+    grp_hd = STM_OpenGrp();
+    if ( grp_hd == NULL ) {
+      while( 1 );
+--- 145,171 ----
+      while( 1 );
+    }
+  
+!   /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Öï¿½ï¿½Ìİ’ï¿½ */
+    GFS_SetErrFunc( errGfsFunc, NULL );
+  }
+  
+  /*
+!    ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½B
+  */
+  #define MAX_GRP   1
+! /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ID */
+  static StmGrpHn grp_hd;
+  static Uint8    stm_work[ STM_WORK_SIZE( MAX_GRP, OPEN_MAX ) ];
+  
+  static void stmInit( void )
+  {
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    STM_Init( 12, 24, stm_work );
+! 
+!   /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Öï¿½ï¿½Ìİ’ï¿½ */
+    STM_SetErrFunc( errStmFunc, NULL );
+! 
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ÌƒIï¿½[ï¿½vï¿½ï¿½ */
+    grp_hd = STM_OpenGrp();
+    if ( grp_hd == NULL ) {
+      while( 1 );
+***************
+*** 178,187 ****
+  {
+    Sint32 fid;
+    StmKey key;
+!   /* ƒtƒ@ƒCƒ‹–¼‚©‚çƒtƒ@ƒCƒ‹¯•Êq‚ğ‹‚ß‚é */
+    fid = GFS_NameToId( ( Sint8 * )fname );
+!   
+!   /* ƒXƒgƒŠ[ƒ€ƒL[‚Ìİ’è */
+    STM_KEY_FN( &key ) = STM_KEY_NONE;
+    STM_KEY_CIMSK( &key ) = STM_KEY_CIVAL( &key ) = STM_KEY_NONE;
+    STM_KEY_CN( &key ) = STM_KEY_NONE;
+--- 178,187 ----
+  {
+    Sint32 fid;
+    StmKey key;
+!   /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Êqï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ */
+    fid = GFS_NameToId( ( Sint8 * )fname );
+! 
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Lï¿½[ï¿½Ìİ’ï¿½ */
+    STM_KEY_FN( &key ) = STM_KEY_NONE;
+    STM_KEY_CIMSK( &key ) = STM_KEY_CIVAL( &key ) = STM_KEY_NONE;
+    STM_KEY_CN( &key ) = STM_KEY_NONE;
+***************
+*** 204,225 ****
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+  
+!   /* Vƒuƒ‰ƒ“ƒN‚Ìİ’è */
+    slIntFunction( PCM_VblIn );
+  
+!   /* ƒtƒ@ƒCƒ‹‰Šú‰» */
+    fileInit();
+  
+!   /* ƒTƒEƒ“ƒh‚Ìİ’è */
+    sndInit();
+  
+!   /* PCMƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰» */
+    PCM_Init();
+  
+!   /* PCMƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
+    PCM_SetErrFunc( errPcmFunc, NULL );
+  
+!   /* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+    stmInit();
+  
+    restart = 1;
+--- 204,225 ----
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+  
+!   /* Vï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìİ’ï¿½ */
+    slIntFunction( PCM_VblIn );
+  
+!   /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+    fileInit();
+  
+!   /* ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìİ’ï¿½ */
+    sndInit();
+  
+!   /* PCMï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    PCM_Init();
+  
+!   /* PCMï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìİ’ï¿½ */
+    PCM_SetErrFunc( errPcmFunc, NULL );
+  
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    stmInit();
+  
+    restart = 1;
+***************
+*** 227,248 ****
+    while( -1 ) {
+      if ( restart ) {
+  
+!       /* ƒXƒgƒŠ[ƒ€ƒI[ƒvƒ“ */
+        if ( ( stm = stmOpen( filename ) ) == NULL ) {
+  	slPrint( "Error! Stream open.", slLocate( 5, 2 ) );
+  	slSynch();
+  	while( 1 );
+        }
+  
+!       /* æ‚èo‚µ—Ìˆæ‚ÌƒŠƒZƒbƒg
+!        *	ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ìd—l‚ª...
+!        *	Å‰‚Ì“]‘—‚ğ STM_ExecServer ‚Ås‚¤‚È‚çA‚±‚ê‚Í•s—vB
+         */
+        STM_ResetTrBuf(stm);
+  
+!       /* ƒnƒ“ƒhƒ‹‚Ìì¬ */
+        PCM_PARA_WORK( &para ) = ( struct PcmWork * )&g_movie_work;
+!       PCM_PARA_RING_ADDR( &para ) = g_movie_buf;
+        PCM_PARA_RING_SIZE( &para ) = RING_BUF_SIZE;
+        PCM_PARA_PCM_ADDR( &para ) = PCM_ADDR;
+        PCM_PARA_PCM_SIZE( &para ) = PCM_SIZE;
+--- 227,248 ----
+    while( -1 ) {
+      if ( restart ) {
+  
+!       /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ */
+        if ( ( stm = stmOpen( filename ) ) == NULL ) {
+  	slPrint( "Error! Stream open.", slLocate( 5, 2 ) );
+  	slSynch();
+  	while( 1 );
+        }
+  
+!       /* ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Ìˆï¿½ï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g
+!        *	ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìdï¿½lï¿½ï¿½...
+!        *	ï¿½Åï¿½ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ STM_ExecServer ï¿½Åsï¿½ï¿½ï¿½È‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Í•sï¿½vï¿½B
+         */
+        STM_ResetTrBuf(stm);
+  
+!       /* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬ */
+        PCM_PARA_WORK( &para ) = ( struct PcmWork * )&g_movie_work;
+!       PCM_PARA_RING_ADDR( &para ) = (unsigned char *)g_movie_buf;
+        PCM_PARA_RING_SIZE( &para ) = RING_BUF_SIZE;
+        PCM_PARA_PCM_ADDR( &para ) = PCM_ADDR;
+        PCM_PARA_PCM_SIZE( &para ) = PCM_SIZE;
+***************
+*** 250,281 ****
+        pcm = PCM_CreateStmHandle( &para, stm );
+  
+        if ( pcm == NULL ) {
+! 	slPrint( "Error! Open Handle.", slLocate( 5, 2 ) );
+! 	slSynch();
+! 	while( 1 );
+        }
+  
+!       /* ƒf[ƒ^‚Ì“]‘—•û®‚Ìİ’è(CDƒuƒƒbƒN¨) */
+        PCM_SetTrModeCd( pcm, TR_MODE_CD );
+  
+!       /* ŠJn */
+        PCM_Start( pcm );
+        restart = 0;
+      }
+  
+!     /* ƒT[ƒo‚ÌÀs */
+      STM_ExecServer();
+  
+!     /* Ä¶ƒ^ƒXƒN */
+      PCM_Task( pcm );
+  
+!     /* ƒ€[ƒr‚ÌI—¹”»’è */
+      if ( PCM_GetPlayStatus( pcm ) == PCM_STAT_PLAY_END ) {
+  
+!       /* ƒnƒ“ƒhƒ‹‚ÌÁ‹ */
+        PCM_DestroyStmHandle( pcm );
+  
+!       /* ƒXƒgƒŠ[ƒ€‚ÌƒNƒ[ƒY*/
+        stmClose( stm );
+  
+        restart = 1;
+--- 250,281 ----
+        pcm = PCM_CreateStmHandle( &para, stm );
+  
+        if ( pcm == NULL ) {
+!       	slPrint( "Error! Open Handle.", slLocate( 5, 2 ) );
+!       	slSynch();
+!       	while( 1 );
+        }
+  
+!       /* ï¿½fï¿½[ï¿½^ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½(CDï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½) */
+        PCM_SetTrModeCd( pcm, TR_MODE_CD );
+  
+!       /* ï¿½Jï¿½n */
+        PCM_Start( pcm );
+        restart = 0;
+      }
+  
+!     /* ï¿½Tï¿½[ï¿½oï¿½Ìï¿½ï¿½s */
+      STM_ExecServer();
+  
+!     /* ï¿½Äï¿½ï¿½^ï¿½Xï¿½N */
+      PCM_Task( pcm );
+  
+!     /* ï¿½ï¿½ï¿½[ï¿½rï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+      if ( PCM_GetPlayStatus( pcm ) == PCM_STAT_PLAY_END ) {
+  
+!       /* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ */
+        PCM_DestroyStmHandle( pcm );
+  
+!       /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y*/
+        stmClose( stm );
+  
+        restart = 1;
+***************
+*** 285,288 ****
+      reset_vbar( 3 );
+    }
+  }
+- 
+--- 285,287 ----
+diff -crBN --binary sgl302/sample4/shadow/msb/scldata.c sgl302_patch/sample4/shadow/msb/scldata.c
+*** sgl302/sample4/shadow/msb/scldata.c	2024-01-03 06:52:54.000000000 -0500
+--- sgl302_patch/sample4/shadow/msb/scldata.c	2024-08-11 14:50:40.000000000 -0400
+***************
+*** 5,10 ****
+--- 5,12 ----
+  
+  #include "scroll.h"
+  
++ void ScrollDataSet( SCROLL );
++ 
+  void VDP2DataSet( void ) {
+    SCROLL scr;
+  
+diff -crBN --binary sgl302/sample4/shadow/sprite/main.c sgl302_patch/sample4/shadow/sprite/main.c
+*** sgl302/sample4/shadow/sprite/main.c	2024-01-03 06:53:04.000000000 -0500
+--- sgl302_patch/sample4/shadow/sprite/main.c	2024-08-11 17:30:08.000000000 -0400
+***************
+*** 21,66 ****
+  
+  
+  SPRITE sonic_atr = {
+!   FUNC_Sprite,                           
+!   0,                                     
+!   ECdis | SPenb | CL16Look | CL_Trans,   
+!   ( 0x1b000 >> 3 ),                      
+!   ( 0x10000 >> 3 ),                      
+!   ( ( 64 / 8 ) << 8 | 96 ),              
+!   0 - 32,                                
+!   0 - 48,                                
+!   64 - 32,                               
+!   0 - 48,                                
+!   64 - 32,                               
+!   96 - 48,                               
+!   0 - 32,                                
+!   96 - 48,                               
+!   0,                                     
+!   0                                      
+  };
+  
+  SPRITE shadow_atr = {
+!   FUNC_Sprite,                           
+!   0,                                     
+!   ECdis | SPenb | CL16Bnk | CL_Trans,    
+!   0x7ff0,                                
+!   ( 0x10c00 >> 3 ),                      
+!   ( ( 64 / 8 ) << 8 | 96 ),              
+!   0 - 32,                                
+!   0 - 48,                                
+!   64 - 32,                               
+!   0 - 48,                                
+!   64 - 32,                               
+!   96 - 48,                               
+!   0 - 32,                                
+!   96 - 48,                               
+!   0,                                     
+!   0                                      
+  };
+  
+! ss_main() {
+    Uint16 pad;
+-   Sint8  rate = 0;
+  
+    slInitSystem( TV_320x224, NULL, 2 );
+    slSpriteType( 5 );
+--- 21,65 ----
+  
+  
+  SPRITE sonic_atr = {
+!   FUNC_Sprite,
+!   0,
+!   ECdis | SPenb | CL16Look | CL_Trans,
+!   ( 0x1b000 >> 3 ),
+!   ( 0x10000 >> 3 ),
+!   ( ( 64 / 8 ) << 8 | 96 ),
+!   0 - 32,
+!   0 - 48,
+!   64 - 32,
+!   0 - 48,
+!   64 - 32,
+!   96 - 48,
+!   0 - 32,
+!   96 - 48,
+!   0,
+!   0
+  };
+  
+  SPRITE shadow_atr = {
+!   FUNC_Sprite,
+!   0,
+!   ECdis | SPenb | CL16Bnk | CL_Trans,
+!   0x7ff0,
+!   ( 0x10c00 >> 3 ),
+!   ( ( 64 / 8 ) << 8 | 96 ),
+!   0 - 32,
+!   0 - 48,
+!   64 - 32,
+!   0 - 48,
+!   64 - 32,
+!   96 - 48,
+!   0 - 32,
+!   96 - 48,
+!   0,
+!   0
+  };
+  
+! void ss_main() {
+    Uint16 pad;
+  
+    slInitSystem( TV_320x224, NULL, 2 );
+    slSpriteType( 5 );
+***************
+*** 82,88 ****
+    slColRAMOffsetNbg2( 1 );
+    /* Set cycle pattern and debug display. */
+    slScrAutoDisp( NBG2ON );
+!  
+    slTVOn();
+  
+    slShadowOn( NBG2ON );
+--- 81,87 ----
+    slColRAMOffsetNbg2( 1 );
+    /* Set cycle pattern and debug display. */
+    slScrAutoDisp( NBG2ON );
+! 
+    slTVOn();
+  
+    slShadowOn( NBG2ON );
+***************
+*** 142,150 ****
+      slSynch();
+    }
+  }
+- 
+- 
+- 
+- 
+- 
+- 
+--- 141,143 ----
+diff -crBN --binary sgl302/sample4/shadow/sprite/scldata.c sgl302_patch/sample4/shadow/sprite/scldata.c
+*** sgl302/sample4/shadow/sprite/scldata.c	2024-01-03 06:53:10.000000000 -0500
+--- sgl302_patch/sample4/shadow/sprite/scldata.c	2024-08-11 17:29:38.000000000 -0400
+***************
+*** 5,10 ****
+--- 5,12 ----
+  
+  #include "../../../share/scroll.h"
+  
++ void ScrollDataSet( SCROLL );
++ 
+  void VDP2DataSet( void ) __attribute__ ((section(".text")));
+  void VDP2DataSet( void ) {
+    SCROLL scr;
+diff -crBN --binary sgl302/sample4/sound/sndtest/main.c sgl302_patch/sample4/sound/sndtest/main.c
+*** sgl302/sample4/sound/sndtest/main.c	2024-01-03 06:54:08.000000000 -0500
+--- sgl302_patch/sample4/sound/sndtest/main.c	2024-08-11 17:40:14.000000000 -0400
+***************
+*** 235,241 ****
+    }
+    if ( !( pad & PER_DGT_TC ) ) {
+      unit = 0x100;
+!   }  
+    if ( !( pad & PER_DGT_TX ) ) {
+      unit = 0x8;
+    }
+--- 235,241 ----
+    }
+    if ( !( pad & PER_DGT_TC ) ) {
+      unit = 0x100;
+!   }
+    if ( !( pad & PER_DGT_TX ) ) {
+      unit = 0x8;
+    }
+***************
+*** 244,250 ****
+    }
+    if ( !( pad & PER_DGT_TZ ) ) {
+      unit = 0x800;
+!   }  
+    if ( !( pad & PER_DGT_KL ) ) {
+      if ( seq->Tempo > -32767 + unit ) seq->Tempo -= unit;
+      else seq->Tempo = -32768;
+--- 244,250 ----
+    }
+    if ( !( pad & PER_DGT_TZ ) ) {
+      unit = 0x800;
+!   }
+    if ( !( pad & PER_DGT_KL ) ) {
+      if ( seq->Tempo > -32767 + unit ) seq->Tempo -= unit;
+      else seq->Tempo = -32768;
+***************
+*** 286,292 ****
+        slSequencePan( num, seq->Pan );
+      } else {
+        /* Equal slBGMPan( Sint8 pan ) */
+!       slSoundRequest( "bb", SND_SEQ_PAN, num, ( seq->Pan / 2 ) + 0x40 ); 
+      }
+    }
+    if ( !( pad & PER_DGT_TA ) ) {
+--- 286,292 ----
+        slSequencePan( num, seq->Pan );
+      } else {
+        /* Equal slBGMPan( Sint8 pan ) */
+!       slSoundRequest( "bb", SND_SEQ_PAN, num, ( seq->Pan / 2 ) + 0x40 );
+      }
+    }
+    if ( !( pad & PER_DGT_TA ) ) {
+***************
+*** 344,350 ****
+      slSndVolume( stat->TotalVolume << 3 );
+    }
+  }
+!   
+  void ss_main() {
+    Uint16  pad;
+    SeqStat stat[ 8 ];
+--- 344,350 ----
+      slSndVolume( stat->TotalVolume << 3 );
+    }
+  }
+! 
+  void ss_main() {
+    Uint16  pad;
+    SeqStat stat[ 8 ];
+***************
+*** 368,374 ****
+    slPrint( ">", slLocate( 2, cur[ pos ] ) );
+  
+    /* Initialize Sound */
+!   slInitSound( sddrvstsk, sddrvsize, map, map_size );
+    Reset( stat, 8 );
+  
+    while( -1 ) {
+--- 368,374 ----
+    slPrint( ">", slLocate( 2, cur[ pos ] ) );
+  
+    /* Initialize Sound */
+!   slInitSound( sddrvstsk, sddrvsize, (Uint8 *)map, map_size );
+    Reset( stat, 8 );
+  
+    while( -1 ) {
+***************
+*** 421,424 ****
+      slSynch();
+    }
+  }
+- 
+--- 421,423 ----
+diff -crBN --binary sgl302/sample4/sprcc2bg/apply/main.c sgl302_patch/sample4/sprcc2bg/apply/main.c
+*** sgl302/sample4/sprcc2bg/apply/main.c	2024-01-03 06:55:20.000000000 -0500
+--- sgl302_patch/sample4/sprcc2bg/apply/main.c	2024-08-11 17:38:36.000000000 -0400
+***************
+*** 1,65 ****
+  /*----------------------------------------------------------------------*/
+! /*  Pad Control + ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰Z + ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê               */
+! /*  Œ³ƒTƒ“ƒvƒ‹Fsample_9_1                                              */
+  /*                                                                      */
+! /*  C³ÒFA.H                                                         */
+! /*  C³“úF97/04/07                                                    */
+  /*                                                                      */
+! /*  ’Ç‰Á“à—eFƒXƒvƒ‰ƒCƒg–ˆ‚ÉˆÙ‚È‚Á‚½Š„‡‚É‚ÄAƒJƒ‰[‰‰Z‚ğs‚¤ƒTƒ“ƒvƒ‹  */
+  /*                                                                      */
+  /*                                                                      */
+! /*  “à—eF•¶š•\¦ƒGƒŠƒA‚Ìü•Ó‚Ì‚İ‚ğAƒJƒ‰[‰‰Z‚ğg—p‚µ‚Ä              */
+! /*        ‹P“x‚ğ—‚Æ‚µA•¶š‚ğŒ©‚â‚·‚­‚·‚éƒTƒ“ƒvƒ‹ ‚¨‚æ‚ÑA             */
+! /*        ƒXƒvƒ‰ƒCƒg–ˆ‚É‰‰ZŠ„‡‚ğİ’è‚·‚éƒTƒ“ƒvƒ‹B                    */
+  /*                                                                      */
+! /*  ‹@”\‚PF                                                            */
+! /*         NBG1 ‚É‘Î‚µAƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚Æ‚ÌƒJƒ‰[‰‰Z‚ğw’è‚µ‚Ü‚·D    */
+! /*         ƒJƒ‰[‰‰Z‚Ì”ÍˆÍ‚ğ TV‰æ–Ê’†‰›•”•ª‚ÉŒÀ’è‚·‚éˆ×A              */
+! /*         ƒm[ƒ}ƒ‹‹éŒ`ƒEƒBƒ“ƒhƒE‚ğ•¹—p‚µ‚Ä‚¢‚Ü‚·D                     */
+! /*         ‰‰ZŠ„‡‚ÍAã‰ºƒL[‚É‚æ‚Á‚Ä•ÏX‰Â”\‚Å‚·B                   */
+  /*                                                                      */
+! /*  ‹@”\‚QF                                                            */
+! /*         ƒXƒvƒ‰ƒCƒg‚Æ NBG1‚Æ‚ğAƒJƒ‰[‰‰Z‚µ‚Ü‚·B                    */
+! /*         ƒXƒvƒ‰ƒCƒg–ˆ‚ÉƒAƒgƒŠƒrƒ…[ƒg‚Ì’l‚ğŒÂ•Ê‚Éİ’è‚µA             */
+! /*         ‰‰ZŠ„‡‚ğŒÂ•Ê‚Éİ’è‚µ‚Ä‚¢‚Ü‚·B                             */
+! /*         ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰Z‚ÌğŒ‚Æ‚µ‚ÄA“Á’è‚Ìƒvƒ‰ƒCƒIƒŠƒeƒB’l     */
+! /*         ‚ÌƒXƒvƒ‰ƒCƒg‚Ì‚İ‚Éİ’è‚µ‚Ä‚¢‚Ü‚·B                           */
+  /*                                                                      */
+  /*                                                                      */
+! /*  •\¦‰æ–ÊF  •¶š•\¦:NBG0                                           */
+! /*              wƒJ[ƒ\ƒ‹:ƒXƒvƒ‰ƒCƒg(ƒpƒŒƒbƒgƒR[ƒh)                   */
+! /*              ‚o‚`‚c‚Ì”wŒi:NBG1                                       */
+! /*              ƒoƒbƒNƒJƒ‰[–Ê‚ğƒIƒŒƒ“ƒWF‚Éİ’è                        */
+  /*                                                                      */
+! /*  “Áê‰æ–ÊF  •F‡¬—p–Ê:ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê                           */
+! /*              ƒJƒ‰[‰‰Z”ÍˆÍw’èF‹éŒ`ƒEƒBƒ“ƒhƒE                      */
+  /*                                                                      */
+! /*  •â‘«FƒJƒ‰[‰‰Z‚Ìİ’è‚ÍAŸ‚Ì‚æ‚¤‚Éİ’è‚µ‚Ä‚¢‚Ü‚·D                */
+! /*        E‰‰ZŠ„‡‚É‚æ‚é‡¬                                          */
+! /*            ƒZƒJƒ“ƒh‰æ‘œ‘¤‚Åw’è(ƒ‰ƒCƒ“ƒJƒ‰[g—p)                  */
+! /*            ƒgƒbƒv‰æ‘œ‘¤‚Åw’è(ƒXƒvƒ‰ƒCƒg‚É‘Î‚µ‚ÄƒJƒ‰[‰‰Zg—p)    */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ‘€ì•û–@F‘S‚Ä‚Ìƒ{ƒ^ƒ“¨‘Î‰‚·‚éƒXƒvƒ‰ƒCƒg(wƒJ[ƒ\ƒ‹)‚ğ•\¦        */
+! /*            ‚`ƒ{ƒ^ƒ“  ‰‰ZŠ„‡   CLRate22_10   –ñ‚V‚O“               */
+! /*            ‚aƒ{ƒ^ƒ“  ‰‰ZŠ„‡   CLRate15_17     ‚T‚O“               */
+! /*            ‚bƒ{ƒ^ƒ“  ‰‰ZŠ„‡   CLRate6_26    –ñ‚Q‚O“ã             */
+! /*            ‚»‚Ì‘¼‚Ìƒ{ƒ^ƒ“  ’Êí‚ÌƒXƒvƒ‰ƒCƒg•\¦iƒJƒ‰[‰‰Z‚È‚µj    */
+  /*                                                                      */
+! /*            ƒXƒ^[ƒgƒ{ƒ^ƒ“FÄ‰Šú‰»                                  */
+  /*                                                                      */
+! /*            ã‰ºƒL[Fƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÌƒJƒ‰[‰‰Z‚ÌŠ„‡‚ğ•ÏX        */
+! /*            ‚wƒ{ƒ^ƒ“F‹@”\ØŠ·                                        */
+! /*                          ƒ‰ƒCƒ“ƒJƒ‰[,ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE‚Ì—LŒø     */
+! /*                          ƒXƒvƒ‰ƒCƒg‚Æ BG ‚Æ‚ÌƒJƒ‰[‰‰Z              */
+! /*            ‚xƒ{ƒ^ƒ“F‘S‚Ä‚ÌƒJƒ‰[‰‰Z‚ğ–³Œø                          */
+! /*            ‚yƒ{ƒ^ƒ“F‚xƒ{ƒ^ƒ“‚É‚æ‚é–³Œø‚ğ‰ğœ                        */
+  /*                                                                      */
+  /*                                                                      */
+! /*  •â‘«–€Fƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÍA•¡”‚Ì‰æ–Ê‚É“¯‚Éİ’è‰Â”\‚Å‚·B      */
+! /*            ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÍAƒoƒbƒN‰æ–Ê‚É‘Î‚µ‚Ä‚Ìw’è‚Ío—ˆ‚Ü‚¹‚ñB*/
+! /*            RGBƒR[ƒh‚ÌƒXƒvƒ‰ƒCƒg‚ÍAŒÂ•Ê‚É‰‰ZŠ„‡‚ğİ’èo—ˆ‚Ü‚¹‚ñB */
+  /*                                                                      */
+  /*----------------------------------------------------------------------*/
+  #include    "sgl.h"
+--- 1,65 ----
+  /*----------------------------------------------------------------------*/
+! /*  Pad Control + ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Z + ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½               */
+! /*  ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Fsample_9_1                                              */
+  /*                                                                      */
+! /*  ï¿½Cï¿½ï¿½ï¿½ÒFA.H                                                         */
+! /*  ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½F97/04/07                                                    */
+  /*                                                                      */
+! /*  ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½eï¿½Fï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ÉˆÙ‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ÄAï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½  */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½ï¿½ï¿½eï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Ìï¿½ï¿½Ó‚Ì‚İ‚ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½              */
+! /*        ï¿½Pï¿½xï¿½ğ—‚Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â‚·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ÑA             */
+! /*        ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½É‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½B                    */
+  /*                                                                      */
+! /*  ï¿½@ï¿½\ï¿½Pï¿½F                                                            */
+! /*         NBG1 ï¿½É‘Î‚ï¿½ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚Æ‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½wï¿½è‚µï¿½Ü‚ï¿½ï¿½D    */
+! /*         ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ì”ÍˆÍ‚ï¿½ TVï¿½ï¿½ï¿½Ê’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉŒï¿½ï¿½è‚·ï¿½ï¿½ï¿½×A              */
+! /*         ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ğ•¹—pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½D                     */
+! /*         ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ÍAï¿½ã‰ºï¿½Lï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ä•ÏXï¿½Â”\ï¿½Å‚ï¿½ï¿½B                   */
+  /*                                                                      */
+! /*  ï¿½@ï¿½\ï¿½Qï¿½F                                                            */
+! /*         ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ NBG1ï¿½Æ‚ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B                    */
+! /*         ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ÉƒAï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½Ì’lï¿½ï¿½ï¿½Â•Ê‚Éİ’è‚µï¿½A             */
+! /*         ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â•Ê‚Éİ’è‚µï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½B                             */
+! /*         ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½l     */
+! /*         ï¿½ÌƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ì‚İ‚Éİ’è‚µï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½B                           */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ÊF  ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½:NBG0                                           */
+! /*              ï¿½wï¿½Jï¿½[ï¿½\ï¿½ï¿½:ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g(ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Rï¿½[ï¿½h)                   */
+! /*              ï¿½oï¿½`ï¿½cï¿½Ì”wï¿½i:NBG1                                       */
+! /*              ï¿½oï¿½bï¿½Nï¿½Jï¿½ï¿½ï¿½[ï¿½Ê‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Fï¿½Éİ’ï¿½                        */
+  /*                                                                      */
+! /*  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊF  ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½:ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½                           */
+! /*              ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ÍˆÍwï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½`ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½E                      */
+  /*                                                                      */
+! /*  ï¿½â‘«ï¿½Fï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìİ’ï¿½ï¿½ÍAï¿½ï¿½ï¿½Ì‚æ‚¤ï¿½Éİ’è‚µï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½D                */
+! /*        ï¿½Eï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½é‡ï¿½ï¿½                                          */
+! /*            ï¿½Zï¿½Jï¿½ï¿½ï¿½hï¿½æ‘œï¿½ï¿½ï¿½Åwï¿½ï¿½(ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½gï¿½pï¿½ï¿½)                  */
+! /*            ï¿½gï¿½bï¿½vï¿½æ‘œï¿½ï¿½ï¿½Åwï¿½ï¿½(ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½É‘Î‚ï¿½ï¿½ÄƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½gï¿½pï¿½ï¿½)    */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Fï¿½Sï¿½Ä‚Ìƒ{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g(ï¿½wï¿½Jï¿½[ï¿½\ï¿½ï¿½)ï¿½ï¿½ï¿½\ï¿½ï¿½        */
+! /*            ï¿½`ï¿½{ï¿½^ï¿½ï¿½  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½   CLRate22_10   ï¿½ï¿½ï¿½Vï¿½Oï¿½ï¿½               */
+! /*            ï¿½aï¿½{ï¿½^ï¿½ï¿½  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½   CLRate15_17     ï¿½Tï¿½Oï¿½ï¿½               */
+! /*            ï¿½bï¿½{ï¿½^ï¿½ï¿½  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½   CLRate6_26    ï¿½ï¿½ï¿½Qï¿½Oï¿½ï¿½ï¿½ï¿½             */
+! /*            ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Ìƒ{ï¿½^ï¿½ï¿½  ï¿½Êï¿½ï¿½ÌƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½\ï¿½ï¿½ï¿½iï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½È‚ï¿½ï¿½j    */
+  /*                                                                      */
+! /*            ï¿½Xï¿½^ï¿½[ï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½                                  */
+  /*                                                                      */
+! /*            ï¿½ã‰ºï¿½Lï¿½[ï¿½Fï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ÌŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏX        */
+! /*            ï¿½wï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½@ï¿½\ï¿½ØŠï¿½                                        */
+! /*                          ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[,ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ì—Lï¿½ï¿½     */
+! /*                          ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ BG ï¿½Æ‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Z              */
+! /*            ï¿½xï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½Sï¿½Ä‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ğ–³Œï¿½                          */
+! /*            ï¿½yï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½xï¿½{ï¿½^ï¿½ï¿½ï¿½É‚ï¿½ï¿½é–³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                        */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½â‘«ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚ÍAï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Ê‚É“ï¿½ï¿½ï¿½ï¿½Éİ’ï¿½ï¿½Â”\ï¿½Å‚ï¿½ï¿½B      */
+! /*            ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚ÍAï¿½oï¿½bï¿½Nï¿½ï¿½ï¿½Ê‚É‘Î‚ï¿½ï¿½Ä‚Ìwï¿½ï¿½ï¿½Íoï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B*/
+! /*            RGBï¿½Rï¿½[ï¿½hï¿½ÌƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ÍAï¿½Â•Ê‚É‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½oï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B */
+  /*                                                                      */
+  /*----------------------------------------------------------------------*/
+  #include    "sgl.h"
+***************
+*** 68,91 ****
+  #define     NBG1_MAP_ADR        ( VDP2_VRAM_B1 + 0x12000 )
+  #define     NBG1_COL_ADR        ( VDP2_COLRAM + 0x00200 )
+  #define     BACK_COL_ADR        ( VDP2_VRAM_A1 + 0x1fffe )
+! #define     PAD_NUM         13   /*  ƒfƒWƒ^ƒ‹PAD ‚Ìƒ{ƒ^ƒ“” */
+  
+! /*  Add 96/07/18   ƒXƒvƒ‰ƒCƒg‚ğƒpƒŒƒbƒgŒ`®‚Å•\¦‚·‚éˆ×‚É’Ç‰Á  */
+  #define     SPR_COL_ADR     ( VDP2_COLRAM + 0x00400 )
+  /*  Add 96/07/18 */
+  
+! /*  Add 97/03/25   ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE‚Ìİ’è’Ç‰Á  */
+! #define    WIN0_LEFT   50    /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ¶ŒÀ */
+! #define    WIN0_TOP    70    /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ãŒÀ */
+! #define    WIN0_RIGHT  270   /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ‰EŒÀ */
+! #define    WIN0_BOTTOM 140   /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ‰ºŒÀ */
+  
+  #define    LINE_COR_TABLE_ADR  0x25E7FFFE
+!         /* ƒ‰ƒCƒ“ƒJƒ‰[ƒe[ƒuƒ‹Ši”[ƒAƒhƒŒƒX */
+  #define    LINE_COR_TABLE_COR_CODE    00
+!         /* ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÌƒpƒŒƒbƒgƒR[ƒh */
+  
+! #define    DEFAULT_ccRATE  0x0f   /* ƒ‰ƒCƒ“ƒJƒ‰[‰‰ZŠ„‡‰Šú’l  50%  */
+  /*  Add 97/03/25  */
+  
+  
+--- 68,91 ----
+  #define     NBG1_MAP_ADR        ( VDP2_VRAM_B1 + 0x12000 )
+  #define     NBG1_COL_ADR        ( VDP2_COLRAM + 0x00200 )
+  #define     BACK_COL_ADR        ( VDP2_VRAM_A1 + 0x1fffe )
+! #define     PAD_NUM         13   /*  ï¿½fï¿½Wï¿½^ï¿½ï¿½PAD ï¿½Ìƒ{ï¿½^ï¿½ï¿½ï¿½ï¿½ */
+  
+! /*  Add 96/07/18   ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½`ï¿½ï¿½ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚É’Ç‰ï¿½  */
+  #define     SPR_COL_ADR     ( VDP2_COLRAM + 0x00400 )
+  /*  Add 96/07/18 */
+  
+! /*  Add 97/03/25   ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìİ’ï¿½ï¿½Ç‰ï¿½  */
+! #define    WIN0_LEFT   50    /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½ï¿½ï¿½ï¿½ */
+! #define    WIN0_TOP    70    /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½ï¿½ï¿½ï¿½ */
+! #define    WIN0_RIGHT  270   /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½Eï¿½ï¿½ */
+! #define    WIN0_BOTTOM 140   /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½ï¿½ï¿½ï¿½ */
+  
+  #define    LINE_COR_TABLE_ADR  0x25E7FFFE
+!         /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½iï¿½[ï¿½Aï¿½hï¿½ï¿½ï¿½X */
+  #define    LINE_COR_TABLE_COR_CODE    00
+!         /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚Ìƒpï¿½ï¿½ï¿½bï¿½gï¿½Rï¿½[ï¿½h */
+  
+! #define    DEFAULT_ccRATE  0x0f   /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l  50%  */
+  /*  Add 97/03/25  */
+  
+  
+***************
+*** 119,131 ****
+  extern void Pal2CRAM(Uint16 * , void * , Uint32 ) ;
+  
+  /*********  Add 96/07/18 **************/
+! extern spr_pal[];
+  /** End **  Add 96/07/18 **************/
+  
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+      TEXTURE *txptr;
+!  
+      for(; NbPicture-- > 0; pcptr++){
+          txptr = tex_spr + pcptr->texno;
+          slDMACopy((void *)pcptr->pcsrc,
+--- 119,131 ----
+  extern void Pal2CRAM(Uint16 * , void * , Uint32 ) ;
+  
+  /*********  Add 96/07/18 **************/
+! extern Uint16 spr_pal[];
+  /** End **  Add 96/07/18 **************/
+  
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+      TEXTURE *txptr;
+! 
+      for(; NbPicture-- > 0; pcptr++){
+          txptr = tex_spr + pcptr->texno;
+          slDMACopy((void *)pcptr->pcsrc,
+***************
+*** 154,185 ****
+  
+  void init_moji_window(void)
+  {
+!   extern  Uint16*    VDP2_LCTA;  /* ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Êƒe[ƒuƒ‹ƒAƒhƒŒƒX */
+!                                   /* ƒVƒXƒeƒ€•Ï”‚ğg—p */
+    VDP2_LCTA = (Uint16 *)((LINE_COR_TABLE_ADR - VDP2_VRAM_A0) / 2);
+!     /*  ƒ‰ƒCƒ“ƒJƒ‰[ƒe[ƒuƒ‹ƒAƒhƒŒƒX‚Ìİ’è(’PFİ’è) */
+  
+    *(Uint16 *)LINE_COR_TABLE_ADR = LINE_COR_TABLE_COR_CODE;
+!     /*  ƒ‰ƒCƒ“ƒJƒ‰[‚ÌƒJƒ‰[ƒR[ƒh‚Ìİ’è */
+  
+    slScrWindow0(WIN0_LEFT, WIN0_TOP, WIN0_RIGHT, WIN0_BOTTOM);
+    slScrWindowMode(scnCCAL , win0_IN);
+  
+! #if 0 /* ‚±‚±‚ğ•œŠˆ‚³‚¹‚é‚ÆAƒXƒvƒ‰ƒCƒg‚àƒ‰ƒCƒ“ƒJƒ‰[‚Å‰‰Z‚³‚ê‚Ü‚·B */
+!     slSpriteCCalcCond(CC_pr_CN );  /*  ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰ZğŒ */
+  /*     CC_Condition
+!             CC_pr_CN : ( Priority <= ‰‰ZğŒƒiƒ“ƒo[ )
+!             CC_PR_CN : ( Priority == ‰‰ZğŒƒiƒ“ƒo[ )
+!             CC_PR_cn : ( Priority >= ‰‰ZğŒƒiƒ“ƒo[ )
+              CC_MSB   : ( MSB of ColorData == 1)
+  */
+  
+!     slSpriteCCalcNum(7);  /*  ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰ZğŒƒiƒ“ƒo[  */
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+!         /*            ª      ª   ^^^^^^^^^^^^ª^^^^^^^^^^^^^^^^^^^  */
+!         /*          Š„‡‚ğAƒZƒJƒ“ƒh‘¤‚Åw’èA ‰‰Z‚·‚é‰æ–Ê ‚Ìw’è    */
+    slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON);
+!     /*  !!’ˆÓ  'LNCLON' ‚ÍAƒXƒvƒ‰ƒCƒg‰æ–Ê‚Ìw’è */
+  #else
+  
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+--- 154,185 ----
+  
+  void init_moji_window(void)
+  {
+!   extern  Uint16*    VDP2_LCTA;  /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Êƒeï¿½[ï¿½uï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½X */
+!                                   /* ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½ï¿½gï¿½p */
+    VDP2_LCTA = (Uint16 *)((LINE_COR_TABLE_ADR - VDP2_VRAM_A0) / 2);
+!     /*  ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Ìİ’ï¿½(ï¿½Pï¿½Fï¿½İ’ï¿½) */
+  
+    *(Uint16 *)LINE_COR_TABLE_ADR = LINE_COR_TABLE_COR_CODE;
+!     /*  ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½ */
+  
+    slScrWindow0(WIN0_LEFT, WIN0_TOP, WIN0_RIGHT, WIN0_BOTTOM);
+    slScrWindowMode(scnCCAL , win0_IN);
+  
+! #if 0 /* ï¿½ï¿½ï¿½ï¿½ï¿½ğ•œŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆAï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½Å‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B */
+!     slSpriteCCalcCond(CC_pr_CN );  /*  ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ */
+  /*     CC_Condition
+!             CC_pr_CN : ( Priority <= ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ )
+!             CC_PR_CN : ( Priority == ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ )
+!             CC_PR_cn : ( Priority >= ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ )
+              CC_MSB   : ( MSB of ColorData == 1)
+  */
+  
+!     slSpriteCCalcNum(7);  /*  ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[  */
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+!         /*            ï¿½ï¿½      ï¿½ï¿½   ^^^^^^^^^^^^ï¿½ï¿½^^^^^^^^^^^^^^^^^^^  */
+!         /*          ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Zï¿½Jï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Åwï¿½ï¿½ï¿½A ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìwï¿½ï¿½    */
+    slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON);
+!     /*  !!ï¿½ï¿½ï¿½ï¿½  'LNCLON' ï¿½ÍAï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½Ê‚Ìwï¿½ï¿½ */
+  #else
+  
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+***************
+*** 243,251 ****
+  /* ---- 960718  added ----------------------------------------------------- */
+      Pal2CRAM( (Uint16 *)spr_pal , (void *)SPR_COL_ADR , 256);
+  
+!     slPriority(scnSPR0 , 7); /* ƒJƒ‰[‰‰Z‚ğs‚í‚È‚¢ƒXƒvƒ‰ƒCƒg */
+!     slPriority(scnSPR1 , 4); /* ƒJƒ‰[‰‰Z‚ğs‚¤ƒXƒvƒ‰ƒCƒg */
+!     slPriority(scnNBG1 , 2); /* PAD‚Ì”wŒi */
+  
+      slSpriteCCalcCond(CC_PR_CN );
+  /*
+--- 243,251 ----
+  /* ---- 960718  added ----------------------------------------------------- */
+      Pal2CRAM( (Uint16 *)spr_pal , (void *)SPR_COL_ADR , 256);
+  
+!     slPriority(scnSPR0 , 7); /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g */
+!     slPriority(scnSPR1 , 4); /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g */
+!     slPriority(scnNBG1 , 2); /* PADï¿½Ì”wï¿½i */
+  
+      slSpriteCCalcCond(CC_PR_CN );
+  /*
+***************
+*** 261,272 ****
+    slColRate(scnSPR1  , CLRate22_10 );  /*  BUTTON A */
+    slColRate(scnSPR2  , CLRate15_17 );  /*  BUTTON B */
+    slColRate(scnSPR3  , CLRate6_26 );  /*  BUTTON C */
+! /*  
+     scrn : scnNBG0 , scnNBG1 , scnNBG2 , scnNBG3 , scnRBG0 , scnLNCL , scnBACK
+            scnSPR0 , scnSPR1 , scnSPR2 , scnSPR3 , scnSPR4 , scnSPR5 ,
+            scnSPR6 , scnSPR7
+  
+!    rate : CLRate31_1 ` CLRate0_32
+             rate      Top Screen : Second Screen
+           CLRate31_1         31  :  1
+           CLRate30_2         32  :  2
+--- 261,272 ----
+    slColRate(scnSPR1  , CLRate22_10 );  /*  BUTTON A */
+    slColRate(scnSPR2  , CLRate15_17 );  /*  BUTTON B */
+    slColRate(scnSPR3  , CLRate6_26 );  /*  BUTTON C */
+! /*
+     scrn : scnNBG0 , scnNBG1 , scnNBG2 , scnNBG3 , scnRBG0 , scnLNCL , scnBACK
+            scnSPR0 , scnSPR1 , scnSPR2 , scnSPR3 , scnSPR4 , scnSPR5 ,
+            scnSPR6 , scnSPR7
+  
+!    rate : CLRate31_1 ï¿½` CLRate0_32
+             rate      Top Screen : Second Screen
+           CLRate31_1         31  :  1
+           CLRate30_2         32  :  2
+***************
+*** 275,284 ****
+           CLRate0_32          0  :  32
+  */
+  
+!   slSpriteType(3);  /* ƒXƒvƒ‰ƒCƒgƒ^ƒCƒv‚R‚Éİ’è */
+  #if 0
+!     slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ƒJƒ‰[‰‰Z‚Ìİ’è */
+!        /*  ‰‰ZŠ„‡‚ğg—pAƒgƒbƒv‰æ‘œ‘¤AƒXƒvƒ‰ƒCƒg‰æ–Ê */
+  #endif
+  
+  /* END - 96/07/18  added -------------------------------------------- */
+--- 275,284 ----
+           CLRate0_32          0  :  32
+  */
+  
+!   slSpriteType(3);  /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½^ï¿½Cï¿½vï¿½Rï¿½Éİ’ï¿½ */
+  #if 0
+!     slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìİ’ï¿½ */
+!        /*  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½Aï¿½gï¿½bï¿½vï¿½æ‘œï¿½ï¿½ï¿½Aï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+  #endif
+  
+  /* END - 96/07/18  added -------------------------------------------- */
+***************
+*** 286,306 ****
+      while(1) {
+          disp_sprite();
+  
+!         /* ƒ‰ƒCƒ“ƒJƒ‰[‚ÌON/OFF */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TX)) {
+        if(cc_window_ena == OFF){
+          cc_window_ena = ON;
+!         init_moji_window(); /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE ‚n‚m */
+  /*        slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON); */
+!             /* ƒ‰ƒCƒ“ƒJƒ‰[ ON */
+        }else{
+          cc_window_ena = OFF;
+!           slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ƒJƒ‰[‰‰Z‚Ìİ’è */
+!              /*  ‰‰ZŠ„‡‚ğg—pAƒgƒbƒv‰æ‘œ‘¤AƒXƒvƒ‰ƒCƒg‰æ–Ê */
+          slScrWindowMode(scnCCAL ,(Uint16)NULL);
+!             /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE OFF */
+          slLineColDisp((Uint16)NULL);
+!             /* ƒ‰ƒCƒ“ƒJƒ‰[ OFF */
+          slPrint("LINECOLOR OFF           " , slLocate(9,10));
+            slPrint("BUTTON A:CLRate22_10    " , slLocate(9,12));
+            slPrint("BUTTON B:CLRate15_17    " , slLocate(9,13));
+--- 286,306 ----
+      while(1) {
+          disp_sprite();
+  
+!         /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ON/OFF */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TX)) {
+        if(cc_window_ena == OFF){
+          cc_window_ena = ON;
+!         init_moji_window(); /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½E ï¿½nï¿½m */
+  /*        slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON); */
+!             /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ ON */
+        }else{
+          cc_window_ena = OFF;
+!           slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìİ’ï¿½ */
+!              /*  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½Aï¿½gï¿½bï¿½vï¿½æ‘œï¿½ï¿½ï¿½Aï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+          slScrWindowMode(scnCCAL ,(Uint16)NULL);
+!             /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½E OFF */
+          slLineColDisp((Uint16)NULL);
+!             /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ OFF */
+          slPrint("LINECOLOR OFF           " , slLocate(9,10));
+            slPrint("BUTTON A:CLRate22_10    " , slLocate(9,12));
+            slPrint("BUTTON B:CLRate15_17    " , slLocate(9,13));
+***************
+*** 309,315 ****
+        }
+      }
+  
+!     /* ƒJƒ‰[‰‰Z ON */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TZ)) {
+        if(cc_window_ena == OFF){
+          slColorCalc(CC_RATE|CC_TOP|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+--- 309,315 ----
+        }
+      }
+  
+!     /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Z ON */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TZ)) {
+        if(cc_window_ena == OFF){
+          slColorCalc(CC_RATE|CC_TOP|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+***************
+*** 317,330 ****
+          slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+      }
+  
+!     /* ‘S‚Ä‚ÌƒJƒ‰[‰‰Z‚ğƒLƒƒƒ“ƒZƒ‹ */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TY)) {
+        slColorCalc((Uint32)NULL);
+      }
+! #if 0    /*Šg’£ƒJƒ‰[‰‰Z‚ÌƒeƒXƒg */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TL)) {
+!       slLineColDisp((Uint16)NULL); /* ƒ‰ƒCƒ“ƒJƒ‰[‚ğƒLƒƒƒ“ƒZƒ‹ */
+!       slColorCalc(CC_RATE|CC_TOP|CC_EXT|NBG0ON|SPRON); /* Šg’£ƒJƒ‰[‰‰Z“o˜^ */
+  /*      slColorCalc(CC_EXT|NBG0ON|SPRON); */
+        slColRateNbg0(ccRate);
+      }
+--- 317,330 ----
+          slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+      }
+  
+!     /* ï¿½Sï¿½Ä‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TY)) {
+        slColorCalc((Uint32)NULL);
+      }
+! #if 0    /*ï¿½gï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìƒeï¿½Xï¿½g */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TL)) {
+!       slLineColDisp((Uint16)NULL); /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
+!       slColorCalc(CC_RATE|CC_TOP|CC_EXT|NBG0ON|SPRON); /* ï¿½gï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½oï¿½^ */
+  /*      slColorCalc(CC_EXT|NBG0ON|SPRON); */
+        slColRateNbg0(ccRate);
+      }
+***************
+*** 334,339 ****
+      if(!(Smpc_Peripheral[0].push & PER_DGT_ST))
+        init_moji_window();
+          slSynch();
+!     } 
+  }
+- 
+--- 334,338 ----
+      if(!(Smpc_Peripheral[0].push & PER_DGT_ST))
+        init_moji_window();
+          slSynch();
+!     }
+  }
+diff -crBN --binary sgl302/sample4/window/sprwin/main.c sgl302_patch/sample4/window/sprwin/main.c
+*** sgl302/sample4/window/sprwin/main.c	2024-01-03 06:55:44.000000000 -0500
+--- sgl302_patch/sample4/window/sprwin/main.c	2024-08-11 18:26:06.000000000 -0400
+***************
+*** 29,35 ****
+  };
+  
+  /* Main loop */
+! ss_main() {
+    Uint16 pad;
+    Sint8  rate = 0;
+    Uint32 dumy = 0;
+--- 29,35 ----
+  };
+  
+  /* Main loop */
+! void ss_main() {
+    Uint16 pad;
+    Sint8  rate = 0;
+    Uint32 dumy = 0;
+diff -crBN --binary sgl302/sample4/window/sprwin/scldata.c sgl302_patch/sample4/window/sprwin/scldata.c
+*** sgl302/sample4/window/sprwin/scldata.c	2024-01-03 06:55:50.000000000 -0500
+--- sgl302_patch/sample4/window/sprwin/scldata.c	2024-08-11 18:08:34.000000000 -0400
+***************
+*** 8,13 ****
+--- 8,15 ----
+  
+  #include "scroll.h"
+  
++ void ScrollDataSet( SCROLL );
++ 
+  void VDP2DataSet( void ) {
+    SCROLL scr;
+  

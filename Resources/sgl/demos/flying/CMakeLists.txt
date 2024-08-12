@@ -36,11 +36,11 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC
     ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR} )
 
-target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags}>
+target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags} "-Wno-unused-but-set-variable" "-Wno-parentheses">
                                                  $<$<COMPILE_LANGUAGE:ASM>:${as_flags}> )
 
 target_link_options(${TARGET_NAME}.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"

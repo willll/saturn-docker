@@ -32,7 +32,7 @@ target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_fla
                                                  $<$<COMPILE_LANGUAGE:ASM>:${as_flags}> )
 
 target_link_options(${TARGET_NAME}.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
