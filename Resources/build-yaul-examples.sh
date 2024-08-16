@@ -11,7 +11,7 @@ build () {
 	make -C $1 all $MAKEFLAGS
 }
 
-if [ $INSTALL_YAUL_SAMPLES -eq 1 ]; then
+if [[ $INSTALL_YAUL_SAMPLES -eq 1 ]]; then
 
 	if [ ! -d $SATURN_YAUL ]; then
 		echo "$SATURN_YAUL does not exist !"
