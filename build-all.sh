@@ -8,6 +8,7 @@ declare -a versions=("8.4.0"
                       "12.3.0"
                       "13.2.0"
                       "13.3.0"
+                      "14.1.0"
                       )
 
 for version in "${versions[@]}"

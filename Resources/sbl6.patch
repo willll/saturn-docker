@@ -15095,7 +15095,7 @@ diff -crBN --binary sbl6/segasmp/fld/smpfld01/exit.c sbl6_patch/segasmp/fld/smpf
 --- 254,256 ----
 diff -crBN --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/smpfld01/smpfld01.c
 *** sbl6/segasmp/fld/smpfld01/smpfld01.c	1996-02-08 05:28:36.000000000 -0500
---- sbl6_patch/segasmp/fld/smpfld01/smpfld01.c	2022-12-20 17:50:54.000000000 -0500
+--- sbl6_patch/segasmp/fld/smpfld01/smpfld01.c	2024-08-01 15:45:36.000000000 -0400
 ***************
 *** 1,80 ****
   /*****************************************************************************
@@ -15113,7 +15113,7 @@ diff -crBN --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/
 !  *      ƒQ[ƒ€‚Ì’Pƒ‚È‹N“®B
 !  *
 !  *****************************************************************************/
-! 
+  
 ! /*****************************************************************************
 !  *      ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
 !  *****************************************************************************/
@@ -15179,7 +15179,7 @@ diff -crBN --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/
 ! }
 ! 
 \ No newline at end of file
---- 1,140 ----
+--- 1,142 ----
   /*****************************************************************************
 ! *      ï¿½\ï¿½tï¿½gï¿½Eï¿½Fï¿½Aï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
 ! *
@@ -15199,6 +15199,8 @@ diff -crBN --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/
 ! /*****************************************************************************
 ! *      ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½tï¿½@ï¿½Cï¿½ï¿½
 ! *****************************************************************************/
+! #include <stdio.h>
+  
 ! #include <machine.h>
   #include <sega_gfs.h>
   #include <fld_load.h>
@@ -15236,12 +15238,12 @@ diff -crBN --binary sbl6/segasmp/fld/smpfld01/smpfld01.c sbl6_patch/segasmp/fld/
 ! 	Uint32	maxloop;
 ! 
 ! 	/* Code. */
-  
+! 
 ! 	/* Fascist clear of all VDP2 VRAM */
   
 ! 	loop = 0;
 ! 	maxloop = 512*1024;
-! 
+  
 ! 	while (loop < maxloop)
 ! 	{
 ! 		*((Uint32 *) (SCL_VDP2_VRAM_A0 + loop)) = 0;
@@ -16126,6 +16128,308 @@ diff -crBN --binary sbl6/segasmp/game/sequence.c sbl6_patch/segasmp/game/sequenc
 + 	return 0;
   }
 ! 
+diff -crBN --binary sbl6/segasmp/game_cd/act.c sbl6_patch/segasmp/game_cd/act.c
+*** sbl6/segasmp/game_cd/act.c	1996-02-08 05:28:46.000000000 -0500
+--- sbl6_patch/segasmp/game_cd/act.c	2024-07-31 18:10:14.000000000 -0400
+***************
+*** 1,6 ****
+  /*----------------------------------------------------------------------*/
+! /*	‚r‚a‚k‚UƒTƒ“ƒvƒ‹ƒQ[ƒ€‚¾‚æ[‚ñ										*/
+  /*----------------------------------------------------------------------*/
+  
+  #include	"act.h"
+  #include	"sega_scl.h"
+--- 1,8 ----
+  /*----------------------------------------------------------------------*/
+! /*	ï¿½rï¿½aï¿½kï¿½Uï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½										*/
+  /*----------------------------------------------------------------------*/
++ #include <math.h>
++ #include <stdlib.h>
+  
+  #include	"act.h"
+  #include	"sega_scl.h"
+***************
+*** 47,53 ****
+  				{DEGtoANG(-10.0 ),DEGtoANG(  0.0 ),DEGtoANG(-10.0 )}
+  			};
+  
+! unsigned short	flash_color[] = {	/* Flash‚ÌF	*/
+  			C_RGB(25,28,30),
+  			C_RGB(25,25,30),
+  			C_RGB(25,28,30),
+--- 49,55 ----
+  				{DEGtoANG(-10.0 ),DEGtoANG(  0.0 ),DEGtoANG(-10.0 )}
+  			};
+  
+! unsigned short	flash_color[] = {	/* Flashï¿½ÌF	*/
+  			C_RGB(25,28,30),
+  			C_RGB(25,25,30),
+  			C_RGB(25,28,30),
+***************
+*** 55,61 ****
+  			C_RGB(30,30,25),
+  			C_RGB(30,30,25)
+  			};
+! unsigned short	org_color[] = {	/* Œ³‚ÌF	*/
+  			C_RGB( 6,16,25),
+  			C_RGB( 6, 6,25),
+  			C_RGB( 6,16,25),
+--- 57,63 ----
+  			C_RGB(30,30,25),
+  			C_RGB(30,30,25)
+  			};
+! unsigned short	org_color[] = {	/* ï¿½ï¿½ï¿½ÌF	*/
+  			C_RGB( 6,16,25),
+  			C_RGB( 6, 6,25),
+  			C_RGB( 6,16,25),
+***************
+*** 86,93 ****
+  		resetplayer( sts );
+  	}
+  
+! 	if( sts->hitpoint != 0 ){					/* ¶‚«‚Ä‚¢‚é */
+! 		if( sts->shotwait == 0 ){				/* UŒ‚ */
+  			if( ( myswitch & TRG_FIRE ) != 0 ){
+  				for( i = 0 ; i < _BULLETS ; i++ ){
+  					if( sts->myb[i]->busy == 0 ){
+--- 88,95 ----
+  		resetplayer( sts );
+  	}
+  
+! 	if( sts->hitpoint != 0 ){					/* ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ */
+! 		if( sts->shotwait == 0 ){				/* ï¿½Uï¿½ï¿½ */
+  			if( ( myswitch & TRG_FIRE ) != 0 ){
+  				for( i = 0 ; i < _BULLETS ; i++ ){
+  					if( sts->myb[i]->busy == 0 ){
+***************
+*** 115,128 ****
+  				sts->shotwait = 0;
+  		}
+  
+! 		if( sts->collision == 0 ){				/* ”í’e */
+  			if( sts->hit != 0){
+  				sts->collision = _NODAMAGE;
+  				if( --sts->hitpoint == 0 )
+  					break_init( sts->ang,sts->pos );
+  			}
+  		}
+! 		else{	/*–³“G*/
+  			if( --sts->collision < 0 )
+  				sts->collision = 0;
+  			else{
+--- 117,130 ----
+  				sts->shotwait = 0;
+  		}
+  
+! 		if( sts->collision == 0 ){				/* ï¿½ï¿½ï¿½e */
+  			if( sts->hit != 0){
+  				sts->collision = _NODAMAGE;
+  				if( --sts->hitpoint == 0 )
+  					break_init( sts->ang,sts->pos );
+  			}
+  		}
+! 		else{	/*ï¿½ï¿½ï¿½G*/
+  			if( --sts->collision < 0 )
+  				sts->collision = 0;
+  			else{
+***************
+*** 137,151 ****
+  		}
+  		sts->hit = 0;
+  
+! 		slPushMatrix();							/* •\¦ */
+  		spr_move( myswitch,sts->pos,sts->ang);
+  		set_poly(sts->ang , sts->pos);
+  		slPutPolygon( sts->pd );
+  		slPopMatrix();
+  
+  	}
+! 	else{	/* €‚ñ‚Å‚é */
+! 		spr_break();	/* ”š”­ */
+  	}
+  }
+  
+--- 139,153 ----
+  		}
+  		sts->hit = 0;
+  
+! 		slPushMatrix();							/* ï¿½\ï¿½ï¿½ */
+  		spr_move( myswitch,sts->pos,sts->ang);
+  		set_poly(sts->ang , sts->pos);
+  		slPutPolygon( sts->pd );
+  		slPopMatrix();
+  
+  	}
+! 	else{	/* ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ */
+! 		spr_break();	/* ï¿½ï¿½ï¿½ï¿½ */
+  	}
+  }
+  
+***************
+*** 207,213 ****
+  }
+  
+  void	rot_player( int	idnum ){
+! 	/* ©“]	*/
+  	f[idnum].ang[Y] += DEGtoANG( 12.0 );
+  	f[idnum].ang[Z] += DEGtoANG(  2.0 );
+  	slPushMatrix();
+--- 209,215 ----
+  }
+  
+  void	rot_player( int	idnum ){
+! 	/* ï¿½ï¿½ï¿½]	*/
+  	f[idnum].ang[Y] += DEGtoANG( 12.0 );
+  	f[idnum].ang[Z] += DEGtoANG(  2.0 );
+  	slPushMatrix();
+***************
+*** 231,237 ****
+  	endtimer = 0;
+  	endflg = 0;
+  
+! 	/* ©‹@ƒIƒuƒWƒF‚Ì‰Šúƒ|ƒWƒVƒ‡ƒ“	*/
+  	f[0].ang[X] = f[1].ang[X] = DEGtoANG( 0.0 );
+  	f[0].ang[Y] = f[1].ang[Y] = DEGtoANG( 0.0 );
+  	f[0].ang[Z] = f[1].ang[Z] = DEGtoANG( 0.0 );
+--- 233,239 ----
+  	endtimer = 0;
+  	endflg = 0;
+  
+! 	/* ï¿½ï¿½ï¿½@ï¿½Iï¿½uï¿½Wï¿½Fï¿½Ìï¿½ï¿½ï¿½ï¿½|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½	*/
+  	f[0].ang[X] = f[1].ang[X] = DEGtoANG( 0.0 );
+  	f[0].ang[Y] = f[1].ang[Y] = DEGtoANG( 0.0 );
+  	f[0].ang[Z] = f[1].ang[Z] = DEGtoANG( 0.0 );
+***************
+*** 263,269 ****
+  	}
+  
+  
+! 	/* ƒVƒ‡ƒbƒg’e‚Ì‰Šúƒ|ƒWƒVƒ‡ƒ“	*/
+  	for( i = 0 ; i < 2 ; i++ ){
+  		for( j = 0 ; j < _BULLETS ; j++ ){
+  			b[i][j].ang[X] = b[i][j].ang[Y] = b[i][j].ang[Z] = DEGtoANG( 0.0 );
+--- 265,271 ----
+  	}
+  
+  
+! 	/* ï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½eï¿½Ìï¿½ï¿½ï¿½ï¿½|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½	*/
+  	for( i = 0 ; i < 2 ; i++ ){
+  		for( j = 0 ; j < _BULLETS ; j++ ){
+  			b[i][j].ang[X] = b[i][j].ang[Y] = b[i][j].ang[Z] = DEGtoANG( 0.0 );
+***************
+*** 274,280 ****
+  		}
+  	}
+  
+! 	/* ”ò‚ÑU‚éƒ|ƒŠƒSƒ“‚Ì‰Šúƒ|ƒWƒVƒ‡ƒ“	*/
+  	for( i = 0 ; i < 6 ; i++ ){
+  		p[i].ang[X] = p[i].ang[Y] = p[i].ang[Z] = DEGtoANG( 0.0);
+  		p[i].pos[X] = p[i].pos[Y] = p[i].pos[Z] = toFIXED( 0.0);
+--- 276,282 ----
+  		}
+  	}
+  
+! 	/* ï¿½ï¿½ï¿½ÑUï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½	*/
+  	for( i = 0 ; i < 6 ; i++ ){
+  		p[i].ang[X] = p[i].ang[Y] = p[i].ang[Z] = DEGtoANG( 0.0);
+  		p[i].pos[X] = p[i].pos[Y] = p[i].pos[Z] = toFIXED( 0.0);
+***************
+*** 288,294 ****
+  
+  
+  
+! /* ”j‰óŒã‚Ì‰Šú‰»	*/
+  void break_init(ANGLE ang[XYZ],FIXED pos[XYZ]){
+  	int	i,j;
+  	for( i = 0 ; i < 6 ; i++ ){
+--- 290,296 ----
+  
+  
+  
+! /* ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½	*/
+  void break_init(ANGLE ang[XYZ],FIXED pos[XYZ]){
+  	int	i,j;
+  	for( i = 0 ; i < 6 ; i++ ){
+***************
+*** 299,305 ****
+  	}
+  }
+  
+! /* ƒ|ƒŠƒSƒ“‚ª”ò‚ÑU‚é	*/
+  void spr_break(void){
+  	static Uint16 c1,c2,c3,c4,c5;
+  	FIXED	x = toFIXED( fadetimer )/6;
+--- 301,307 ----
+  	}
+  }
+  
+! /* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÑUï¿½ï¿½	*/
+  void spr_break(void){
+  	static Uint16 c1,c2,c3,c4,c5;
+  	FIXED	x = toFIXED( fadetimer )/6;
+***************
+*** 328,334 ****
+  	}
+  
+  	if( ++endtimer == 90 )
+! 		endflg=1;					/* ƒQ[ƒ€I—¹	*/
+  
+  	if(fadetimer >0)
+  		fadetimer--;
+--- 330,336 ----
+  	}
+  
+  	if( ++endtimer == 90 )
+! 		endflg=1;					/* ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½ï¿½	*/
+  
+  	if(fadetimer >0)
+  		fadetimer--;
+***************
+*** 346,352 ****
+  void	_pause_act( void ){
+  	int	i,j;
+  	for( i = 0 ; i < 2 ; i++){
+! 		slPushMatrix();							/* •\¦ */
+  		set_poly( f[i].ang , f[i].pos );
+  		slPutPolygon( f[i].pd );
+  		slPopMatrix();
+--- 348,354 ----
+  void	_pause_act( void ){
+  	int	i,j;
+  	for( i = 0 ; i < 2 ; i++){
+! 		slPushMatrix();							/* ï¿½\ï¿½ï¿½ */
+  		set_poly( f[i].ang , f[i].pos );
+  		slPutPolygon( f[i].pd );
+  		slPopMatrix();
+***************
+*** 354,360 ****
+  	for( i = 0 ; i < 2 ; i++){
+  		for( j = 0 ; j < _BULLETS ; j++ ){
+  			if( b[i][j].busy != 0 ){
+! 				slPushMatrix();							/* •\¦ */
+  				set_poly( b[i][j].ang , b[i][j].pos );
+  				slPutPolygon( &PD_PLANE1 );
+  				slPopMatrix();
+--- 356,362 ----
+  	for( i = 0 ; i < 2 ; i++){
+  		for( j = 0 ; j < _BULLETS ; j++ ){
+  			if( b[i][j].busy != 0 ){
+! 				slPushMatrix();							/* ï¿½\ï¿½ï¿½ */
+  				set_poly( b[i][j].ang , b[i][j].pos );
+  				slPutPolygon( &PD_PLANE1 );
+  				slPopMatrix();
+***************
+*** 362,365 ****
+  		}
+  	}
+  }
+! 
+\ No newline at end of file
+--- 364,367 ----
+  		}
+  	}
+  }
+! 
 diff -crBN --binary sbl6/segasmp/game_cd/sequence.c sbl6_patch/segasmp/game_cd/sequence.c
 *** sbl6/segasmp/game_cd/sequence.c	1996-02-08 05:29:16.000000000 -0500
 --- sbl6_patch/segasmp/game_cd/sequence.c	2023-01-07 14:30:04.000000000 -0500
@@ -16505,9 +16809,302 @@ diff -crBN --binary sbl6/segasmp/pcm/smppcm2/smppcm2.c sbl6_patch/segasmp/pcm/sm
 ! 
 diff -crBN --binary sbl6/segasmp/pcm/smppcm3/smppcm3.c sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c
 *** sbl6/segasmp/pcm/smppcm3/smppcm3.c	1996-02-08 05:30:18.000000000 -0500
---- sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c	2023-01-08 13:53:32.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm3/smppcm3.c	2024-08-01 16:16:10.000000000 -0400
 ***************
-*** 214,220 ****
+*** 1,9 ****
+  /******************************************************************************
+!  *	ƒ\ƒtƒgƒEƒFƒAƒ‰ƒCƒuƒ‰ƒŠ
+   *
+   *	Copyright (c) 1994,1995 SEGA
+   *
+!  * Library	:‚o‚b‚lE‚`‚c‚o‚b‚lÄ¶ƒ‰ƒCƒuƒ‰ƒŠ
+   * Module 	:sample program of MEMORY PLAY MODE
+   * File		:smppcm3.c
+   * Date		:1995-03-31
+--- 1,9 ----
+  /******************************************************************************
+!  *	ï¿½\ï¿½tï¿½gï¿½Eï¿½Fï¿½Aï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
+   *
+   *	Copyright (c) 1994,1995 SEGA
+   *
+!  * Library	:ï¿½oï¿½bï¿½lï¿½Eï¿½`ï¿½cï¿½oï¿½bï¿½lï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
+   * Module 	:sample program of MEMORY PLAY MODE
+   * File		:smppcm3.c
+   * Date		:1995-03-31
+***************
+*** 11,31 ****
+   * Auther	:Y.T
+   *
+   * Comment	:
+!  *	ƒƒ‚ƒŠã‚É‚ ‚éƒtƒ@ƒCƒ‹‚ğÄ¶‚·‚éƒTƒ“ƒvƒ‹B
+!  *	ƒtƒ@ƒCƒ‹‚Í 0x4000000 ”Ô’n‚Éƒ[ƒh‚µ‚Ä‚¨‚­‚±‚ÆB
+!  *	Ä¶‚Å‚«‚éƒtƒ@ƒCƒ‹ƒTƒCƒY‚Í‚P‚U‚l‚a‚Ü‚ÅB
+   *
+   ****************************************************************************/
+  
+! /*------------------------- sƒvƒƒOƒ‰ƒ€‘I‘ğt -------------------------*/
+  
+! /* VTV, MON ‚ğg—p‚µ‚½ƒfƒoƒbƒO‚Ì‚É’è‹`‚·‚éB */
+  /* #define SMPPCM_DEBUG */
+  
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@‹@”\‚ÌƒeƒXƒg */
+  /* #define RING_BUF_TEST */
+  
+! /*------------------------- sƒCƒ“ƒNƒ‹[ƒht -------------------------*/
+  #include <machine.h>
+  #define _SH
+  #include "sega_xpt.h"
+--- 11,31 ----
+   * Auther	:Y.T
+   *
+   * Comment	:
+!  *	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½B
+!  *	ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ 0x4000000 ï¿½Ô’nï¿½Éƒï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆB
+!  *	ï¿½Äï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½Í‚Pï¿½Uï¿½lï¿½aï¿½Ü‚ÅB
+   *
+   ****************************************************************************/
+  
+! /*------------------------- ï¿½sï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½t -------------------------*/
+  
+! /* VTV, MON ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½bï¿½Oï¿½Ìï¿½ï¿½É’ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½B */
+  /* #define SMPPCM_DEBUG */
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ï¿½@ï¿½\ï¿½Ìƒeï¿½Xï¿½g */
+  /* #define RING_BUF_TEST */
+  
+! /*------------------------- ï¿½sï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½t -------------------------*/
+  #include <machine.h>
+  #define _SH
+  #include "sega_xpt.h"
+***************
+*** 40,47 ****
+  
+  #if	1
+  	/*
+! 	**¡1995-07-28	‚‹´’q‰„
+! 	**	SCL_VblankStart(), SCL_VBlankEnd() ‚ğg‚Á‚Ä‚¢‚é‚Ì‚Å’Ç‰Á
+  	*/
+  	#include	"sega_scl.h"
+  #endif
+--- 40,47 ----
+  
+  #if	1
+  	/*
+! 	**ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! 	**	SCL_VblankStart(), SCL_VBlankEnd() ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚Å’Ç‰ï¿½
+  	*/
+  	#include	"sega_scl.h"
+  #endif
+***************
+*** 53,91 ****
+  	#define SMPPCMD_MON_Reset			smppcmd_MON_Reset
+  	#define SMPPCMD_PCM_Task			smppcmd_PCM_Task
+  #else
+! 	#define SMPPCMD_VblIn()				
+! 	#define SMPPCMD_Init(a)				
+! 	#define SMPPCMD_MON_Reset()			
+  	#define SMPPCMD_PCM_Task			PCM_Task
+! 	#define VTV_Printf(a)				
+! 	#define VTV_PRINTF(a)				
+! 	#define _VTV_Printf(a)				
+! 	#define _VTV_PRINTF(a)				
+  #endif
+  
+  
+! /*--------------------------- sŠÖ”éŒ¾t ---------------------------*/
+  
+  static void smpVblIn(void);
+  static void smpVblOut(void);
+  
+  
+! /*---------------------------- s’è”t ----------------------------*/
+  
+! /* ƒEƒF[ƒu‚q‚`‚l‚Ì“]‘—ƒAƒhƒŒƒX‚ÆƒTƒ“ƒvƒ‹” */
+  #define	PCM_ADDR	((void*)0x25a20000)
+  #define	PCM_SIZE	(4096L*2)				/* 2.. */
+  
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@‚ÌƒTƒCƒY */
+  #define	RING_BUF_SIZE	(1024L*1024L*16)
+  
+  
+! /*----------------------- sƒOƒ[ƒoƒ‹•Ï”t -----------------------*/
+  
+! /* ƒ[ƒN */
+  static PcmWork g_movie_work;
+  
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@ */
+  static Sint8 *g_movie_buf = (Sint8 *)0x04000000;
+  
+  
+--- 53,91 ----
+  	#define SMPPCMD_MON_Reset			smppcmd_MON_Reset
+  	#define SMPPCMD_PCM_Task			smppcmd_PCM_Task
+  #else
+! 	#define SMPPCMD_VblIn()
+! 	#define SMPPCMD_Init(a)
+! 	#define SMPPCMD_MON_Reset()
+  	#define SMPPCMD_PCM_Task			PCM_Task
+! 	#define VTV_Printf(a)
+! 	#define VTV_PRINTF(a)
+! 	#define _VTV_Printf(a)
+! 	#define _VTV_PRINTF(a)
+  #endif
+  
+  
+! /*--------------------------- ï¿½sï¿½Öï¿½ï¿½éŒ¾ï¿½t ---------------------------*/
+  
+  static void smpVblIn(void);
+  static void smpVblOut(void);
+  
+  
+! /*---------------------------- ï¿½sï¿½è”ï¿½t ----------------------------*/
+  
+! /* ï¿½Eï¿½Fï¿½[ï¿½uï¿½qï¿½`ï¿½lï¿½Ì“]ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ÆƒTï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ */
+  #define	PCM_ADDR	((void*)0x25a20000)
+  #define	PCM_SIZE	(4096L*2)				/* 2.. */
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒTï¿½Cï¿½Y */
+  #define	RING_BUF_SIZE	(1024L*1024L*16)
+  
+  
+! /*----------------------- ï¿½sï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½ï¿½t -----------------------*/
+  
+! /* ï¿½ï¿½ï¿½[ï¿½N */
+  static PcmWork g_movie_work;
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ */
+  static Sint8 *g_movie_buf = (Sint8 *)0x04000000;
+  
+  
+***************
+*** 97,103 ****
+  	Uint32 ring_buf[SIZE_RING_BUF / 4];
+  #endif
+  
+! /*---------------------------- sŠÖ”t ----------------------------*/
+  
+  void errGfsFunc(void *obj, Sint32 ec)
+  {
+--- 97,103 ----
+  	Uint32 ring_buf[SIZE_RING_BUF / 4];
+  #endif
+  
+! /*---------------------------- ï¿½sï¿½Öï¿½ï¿½t ----------------------------*/
+  
+  void errGfsFunc(void *obj, Sint32 ec)
+  {
+***************
+*** 110,122 ****
+  }
+  
+  
+! /*====================== ‚uƒuƒ‰ƒ“ƒN‚Ìˆ— ===========================*/
+  
+  static void vblInit(void)
+  {
+      set_imask(0);
+  
+! 	/* ‚uƒuƒ‰ƒ“ƒN‚Ìİ’è */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  	INT_SetScuFunc(INT_SCU_VBLK_IN, smpVblIn);
+  	INT_SetScuFunc(INT_SCU_VBLK_OUT, smpVblOut);
+--- 110,122 ----
+  }
+  
+  
+! /*====================== ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  
+  static void vblInit(void)
+  {
+      set_imask(0);
+  
+! 	/* ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìİ’ï¿½ */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  	INT_SetScuFunc(INT_SCU_VBLK_IN, smpVblIn);
+  	INT_SetScuFunc(INT_SCU_VBLK_OUT, smpVblOut);
+***************
+*** 125,145 ****
+  
+  static void smpVblIn(void)
+  {
+! 	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚Ì VblIn ƒ‹[ƒ`ƒ“‚ğƒR[ƒ‹ */
+  	PCM_VblIn();
+  
+! 	/* ƒOƒ‰ƒtƒBƒbƒNƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚·‚éˆ×‚É‚ÍÀs‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ */
+  	SCL_VblankStart();
+  }
+  
+  static void smpVblOut(void)
+  {
+! 	/* ƒOƒ‰ƒtƒBƒbƒNƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚·‚éˆ×‚É‚ÍÀs‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ */
+  	SCL_VblankEnd();
+  }
+  
+  
+! /*====================== ƒTƒEƒ“ƒh‚Ìˆ— ===========================*/
+  #define SDDRVS_TSK_SIZE			(0x6000)
+  #define BOOTSND_MAP_SIZE		(0x0100)
+  Sint32 sddrvs_tsk[SDDRVS_TSK_SIZE / 4];
+--- 125,145 ----
+  
+  static void smpVblIn(void)
+  {
+! 	/* ï¿½oï¿½bï¿½lï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ VblIn ï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ */
+  	PCM_VblIn();
+  
+! 	/* ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½×‚É‚Íï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½ */
+  	SCL_VblankStart();
+  }
+  
+  static void smpVblOut(void)
+  {
+! 	/* ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½×‚É‚Íï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½ */
+  	SCL_VblankEnd();
+  }
+  
+  
+! /*====================== ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  #define SDDRVS_TSK_SIZE			(0x6000)
+  #define BOOTSND_MAP_SIZE		(0x0100)
+  Sint32 sddrvs_tsk[SDDRVS_TSK_SIZE / 4];
+***************
+*** 178,220 ****
+  }
+  
+  
+! /*====================== ƒtƒ@ƒCƒ‹‚Ìˆ— ===========================*/
+! /* ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚éƒtƒ@ƒCƒ‹‚ÌÅ‘å” */
+  #define MAX_DIR		100
+  
+! /* “¯‚ÉŠJ‚­ƒtƒ@ƒCƒ‹‚ÌÅ‘å” */
+  #define OPEN_MAX	5
+  
+! /* ƒfƒBƒŒƒNƒgƒŠî•ñŠÇ——Ìˆæ */
+  static GfsDirTbl	dir_tbl;
+  
+! /* ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ñ‚¾î•ñ */
+  static GfsDirName dir_name[MAX_DIR];
+  
+! /* ‚f‚e‚r‚Ìì‹Æ—Ìˆæ */
+  static Uint8 gfs_work[GFS_WORK_SIZE(OPEN_MAX)];
+  
+  static void fileInit(void)
+  {
+  	Sint32 file_num;
+  
+! 	/* GFS‚Ì‰Šú‰» */
+  	GFS_DIRTBL_TYPE(&dir_tbl) = GFS_DIR_NAME;
+  	GFS_DIRTBL_DIRNAME(&dir_tbl) = dir_name;
+  	GFS_DIRTBL_NDIR(&dir_tbl) = MAX_DIR;
+  
+!     /* ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+      file_num = GFS_Init(OPEN_MAX, gfs_work, &dir_tbl);
+  	if (file_num < 0) {
+  		return;
+  	}
+  
+! 	/* ƒGƒ‰[ŠÖ”‚Ìİ’è */
+  	GFS_SetErrFunc(errGfsFunc, NULL);
   }
   
   
@@ -16515,7 +17112,43 @@ diff -crBN --binary sbl6/segasmp/pcm/smppcm3/smppcm3.c sbl6_patch/segasmp/pcm/sm
   {
   	PcmHn 			pcm;
   	Uint32			restart;
---- 214,220 ----
+--- 178,220 ----
+  }
+  
+  
+! /*====================== ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+! /* ï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å” */
+  #define MAX_DIR		100
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠJï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å” */
+  #define OPEN_MAX	5
+  
+! /* ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½Ìˆï¿½ */
+  static GfsDirTbl	dir_tbl;
+  
+! /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ñ‚¾ï¿½ï¿½ï¿½ */
+  static GfsDirName dir_name[MAX_DIR];
+  
+! /* ï¿½fï¿½eï¿½rï¿½Ìï¿½ï¿½Æ—Ìˆï¿½ */
+  static Uint8 gfs_work[GFS_WORK_SIZE(OPEN_MAX)];
+  
+  static void fileInit(void)
+  {
+  	Sint32 file_num;
+  
+! 	/* GFSï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	GFS_DIRTBL_TYPE(&dir_tbl) = GFS_DIR_NAME;
+  	GFS_DIRTBL_DIRNAME(&dir_tbl) = dir_name;
+  	GFS_DIRTBL_NDIR(&dir_tbl) = MAX_DIR;
+  
+!     /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+      file_num = GFS_Init(OPEN_MAX, gfs_work, &dir_tbl);
+  	if (file_num < 0) {
+  		return;
+  	}
+  
+! 	/* ï¿½Gï¿½ï¿½ï¿½[ï¿½Öï¿½ï¿½Ìİ’ï¿½ */
+  	GFS_SetErrFunc(errGfsFunc, NULL);
   }
   
   
@@ -16524,31 +17157,147 @@ diff -crBN --binary sbl6/segasmp/pcm/smppcm3/smppcm3.c sbl6_patch/segasmp/pcm/sm
   	PcmHn 			pcm;
   	Uint32			restart;
 ***************
-*** 238,244 ****
+*** 225,246 ****
+  #endif
+  
+  
+! 	/* ‚uƒuƒ‰ƒ“ƒN‚Ìİ’è */
+  	vblInit();
+  
+! 	/* ƒtƒ@ƒCƒ‹‰Šú‰» */
+  	fileInit();
+  
+! 	/* ƒTƒEƒ“ƒh‚Ìİ’è */
+  	sndInit();
+  
+! 	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰» */
   	PCM_Init();
   
-  	/* ‚`‚c‚o‚b‚lg—péŒ¾ (ADPCML’£×²ÌŞ×Ø‚ªØİ¸‚³‚ê‚Ü‚·) */
+! 	/* ‚`‚c‚o‚b‚lg—péŒ¾ (ADPCML’£×²ÌŞ×Ø‚ªØİ¸‚³‚ê‚Ü‚·) */
 ! 	PCM_DeclareUseAdpcm();
   
-  	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
+! 	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
   	PCM_SetErrFunc(errPcmFunc, NULL);
---- 238,244 ----
+  
+  	restart = 1;
+--- 225,246 ----
+  #endif
+  
+  
+! 	/* ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìİ’ï¿½ */
+  	vblInit();
+  
+! 	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	fileInit();
+  
+! 	/* ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìİ’ï¿½ */
+  	sndInit();
+  
+! 	/* ï¿½oï¿½bï¿½lï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
   	PCM_Init();
   
-  	/* ‚`‚c‚o‚b‚lg—péŒ¾ (ADPCML’£×²ÌŞ×Ø‚ªØİ¸‚³‚ê‚Ü‚·) */
+! 	/* ï¿½`ï¿½cï¿½oï¿½bï¿½lï¿½gï¿½pï¿½éŒ¾ (ADPCMï¿½Lï¿½ï¿½×²ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½) */
 ! 	//PCM_DeclareUseAdpcm();
   
-  	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
+! 	/* ï¿½oï¿½bï¿½lï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìİ’ï¿½ */
   	PCM_SetErrFunc(errPcmFunc, NULL);
+  
+  	restart = 1;
 ***************
-*** 311,315 ****
+*** 248,254 ****
+  	for (;;) {
+  		if (restart) {
+  
+! 			/* ƒnƒ“ƒhƒ‹‚Ìì¬ */
+  			PCM_PARA_WORK(&para) = (struct PcmWork *)&g_movie_work;
+  			PCM_PARA_RING_ADDR(&para) = g_movie_buf;
+  			PCM_PARA_RING_SIZE(&para) = RING_BUF_SIZE;
+--- 248,254 ----
+  	for (;;) {
+  		if (restart) {
+  
+! 			/* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬ */
+  			PCM_PARA_WORK(&para) = (struct PcmWork *)&g_movie_work;
+  			PCM_PARA_RING_ADDR(&para) = g_movie_buf;
+  			PCM_PARA_RING_SIZE(&para) = RING_BUF_SIZE;
+***************
+*** 261,275 ****
+  #endif
+  			pcm = PCM_CreateMemHandle(&para);
+  			if (pcm == NULL) {
+! 				return;
+  			}
+  
+  #ifndef RING_BUF_TEST
+! 			/* ƒƒ‚ƒŠã‚Ìƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY‚ğİ’è */
+  			PCM_NotifyWriteSize(pcm, RING_BUF_SIZE);
+  #endif
+  
+! 			/* ŠJn */
+  			PCM_Start(pcm);
+  
+  			restart = 0;
+--- 261,275 ----
+  #endif
+  			pcm = PCM_CreateMemHandle(&para);
+  			if (pcm == NULL) {
+! 				return 1;
+  			}
+  
+  #ifndef RING_BUF_TEST
+! 			/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½İ’ï¿½ */
+  			PCM_NotifyWriteSize(pcm, RING_BUF_SIZE);
+  #endif
+  
+! 			/* ï¿½Jï¿½n */
+  			PCM_Start(pcm);
+  
+  			restart = 0;
+***************
+*** 293,315 ****
+  				debug_write_data((Uint32)addr_data1);
+  				debug_write_data((Uint32)size_copy);
+  			#endif
+! 			
+  			PCM_NotifyWriteSize(pcm, size_copy);
+  			addr_data1 += size_copy;
+  		}
+  #endif
+  
+! 		/* Ä¶ƒ^ƒXƒN */
+  		PCM_Task(pcm);
+  
+! 		/* I—¹”»’è */
+  		if (PCM_GetPlayStatus(pcm) == PCM_STAT_PLAY_END) {
+  
+! 			/* ƒnƒ“ƒhƒ‹‚ÌÁ‹ */
+  			PCM_DestroyMemHandle(pcm);
+  
   			restart = 1;
   		}
   	}
   }
 ! 
 \ No newline at end of file
---- 311,316 ----
+--- 293,316 ----
+  				debug_write_data((Uint32)addr_data1);
+  				debug_write_data((Uint32)size_copy);
+  			#endif
+! 
+  			PCM_NotifyWriteSize(pcm, size_copy);
+  			addr_data1 += size_copy;
+  		}
+  #endif
+  
+! 		/* ï¿½Äï¿½ï¿½^ï¿½Xï¿½N */
+  		PCM_Task(pcm);
+  
+! 		/* ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  		if (PCM_GetPlayStatus(pcm) == PCM_STAT_PLAY_END) {
+  
+! 			/* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ */
+  			PCM_DestroyMemHandle(pcm);
+  
   			restart = 1;
   		}
   	}
@@ -16609,26 +17358,1503 @@ diff -crBN --binary sbl6/segasmp/pcm/smppcm4/smppcm4.c sbl6_patch/segasmp/pcm/sm
 ! 
 diff -crBN --binary sbl6/segasmp/pcm/smppcm5/smppcm5.c sbl6_patch/segasmp/pcm/smppcm5/smppcm5.c
 *** sbl6/segasmp/pcm/smppcm5/smppcm5.c	1996-02-08 05:30:26.000000000 -0500
---- sbl6_patch/segasmp/pcm/smppcm5/smppcm5.c	2023-01-08 13:54:38.000000000 -0500
+--- sbl6_patch/segasmp/pcm/smppcm5/smppcm5.c	2024-08-01 16:19:34.000000000 -0400
 ***************
-*** 763,769 ****
+*** 1,9 ****
+  /******************************************************************************
+!  *	ƒ\ƒtƒgƒEƒFƒAƒ‰ƒCƒuƒ‰ƒŠ
+   *
+   *	Copyright (c) 1994,1995 SEGA
+   *
+!  * Library	:‚o‚b‚lE‚`‚c‚o‚b‚lÄ¶ƒ‰ƒCƒuƒ‰ƒŠ
+   * Module 	:sample program of STREAM PLAY MODE & SEAMLESS BRANCH
+   * File		:smppcm5.c
+   * Date		:1995-03-31
+--- 1,9 ----
+  /******************************************************************************
+!  *	ï¿½\ï¿½tï¿½gï¿½Eï¿½Fï¿½Aï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
+   *
+   *	Copyright (c) 1994,1995 SEGA
+   *
+!  * Library	:ï¿½oï¿½bï¿½lï¿½Eï¿½`ï¿½cï¿½oï¿½bï¿½lï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
+   * Module 	:sample program of STREAM PLAY MODE & SEAMLESS BRANCH
+   * File		:smppcm5.c
+   * Date		:1995-03-31
+***************
+*** 11,54 ****
+   * Auther	:Y.T
+   *
+   * Comment	:
+!  *		ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚ğg‚Á‚Ä‚b‚cã‚Ìƒtƒ@ƒCƒ‹‚ğƒXƒ€[ƒY‚É˜A‘±Ä¶‚·‚éB
+!  *		‚b‚cã‚ÅAŒã”¼‚Ìƒtƒ@ƒCƒ‹‚ÍA‘O”¼‚Ìƒtƒ@ƒCƒ‹‚ÌI—¹ˆÊ’u‚æ‚èŒã‚ë‚É”z’u
+!  *		‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B
+!  *		‚±‚ÌƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€‚ÍACD-ROM XA Audio ‚ÌÄ¶‚à‚Å‚«‚Ü‚·BƒvƒƒO
+!  *		ƒ‰ƒ€’†‚ÌAŸ‚ÌéŒ¾‚ğ—LŒø‚É‚µ‚ÄƒRƒ“ƒpƒCƒ‹‚µ‚Ä‰º‚³‚¢B
+   *			#define CD_ROM_XA_AUDIO
+-  *		
+-  * ƒtƒ@ƒCƒ‹–¼F
+-  *		 				’Êí‚ÌÌ§²Ù‚ÌÄ¶	CD-ROM XA Audio Ä¶
+-  *		 ‘O”¼‚Ìƒtƒ@ƒCƒ‹@\SAMPLE1.AIF		\PHOTO_CD\ADPCM\SEQ00002.PCD
+-  *		 Œã”¼‚Ìƒtƒ@ƒCƒ‹@\SAMPLE2.AIF		\PHOTO_CD\ADPCM\SEQ00030.PCD
+   *
+!  * ƒpƒbƒh‘€ì•û–@F
+!  *@[‚`]
+!  *		‘O”¼‚Ìƒtƒ@ƒCƒ‹‚ğÄ¶’†‚É‚`ƒ{ƒ^ƒ“‚ğ‰Ÿ‚·‚ÆA‹­§“I‚ÉŒã”¼‚Ìƒtƒ@ƒCƒ‹‚É
+!  *		Ø‚è‘Ö‚¦‚ÄÄ¶‚ğŠJn‚µ‚Ü‚·B
+!  *		‚`ƒ{ƒ^ƒ“‚ğ‰Ÿ‚³‚È‚¯‚ê‚ÎA‘O”¼‚Ìƒtƒ@ƒCƒ‹‚ÌI—¹ŒãƒXƒ€[ƒY‚ÉŒã”¼‚Ìƒtƒ@
+!  *		ƒCƒ‹‚ÌÄ¶‚ğŠJn‚µ‚Ü‚·B
+!  *		Œã”¼‚Ìƒtƒ@ƒCƒ‹‚ğÄ¶’†‚É‚`ƒ{ƒ^ƒ“‚ğ‰Ÿ‚·‚ÆA‚»‚Ìƒtƒ@ƒCƒ‹‚ÌÄ¶‚ğ’†’f
+!  * 		‚µAÅ‰‚É–ß‚è‚Ü‚·B
+   *	[START]
+!  *		 ˆê“x–Ú‚Íƒ|[ƒYA‚à‚¤ˆê“x‰Ÿ‚·‚Æƒ|[ƒY‰ğœB
+   *	[UP], [DOWN]
+!  *		ƒ{ƒŠƒ…[ƒ€‚Ìİ’èB‚O`‚VB‰Šú’l‚Í‚VB
+   *	[LEFT], [RIGHT]
+!  *		ƒpƒ“‚Ìİ’èB‰Šú’l‚ÍA¶‚àA‰E‚àÅ‘åB
+!  *		ƒpƒ“‚Ìİ’è‚ÍAƒ‚ƒmƒ‰ƒ‹‚ÌÄ¶‚Ìê‡‚¾‚¯—LŒø‚Å‚·B
+   ****************************************************************************/
+  
+! /*------------------------- sƒvƒƒOƒ‰ƒ€‘I‘ğt -------------------------*/
+  
+! /* VTV, MON ‚ğg—p‚µ‚½ƒfƒoƒbƒO‚Ì‚É’è‹`‚·‚éB */
+  /* #define SMPPCM_DEBUG */
+  
+  /* DISC type */
+  /* #define CD_ROM_XA_AUDIO */
+  
+! /* ‰æ–Ê•\¦‚ğs‚¤ */
+  /*	#define USE_VDP	*/
+  
+  /* DISC */
+--- 11,54 ----
+   * Auther	:Y.T
+   *
+   * Comment	:
+!  *		ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ä‚bï¿½cï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½[ï¿½Yï¿½É˜Aï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+!  *		ï¿½bï¿½cï¿½ï¿½ï¿½ÅAï¿½ã”¼ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ÍAï¿½Oï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ÌIï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É”zï¿½u
+!  *		ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+!  *		ï¿½ï¿½ï¿½ÌƒTï¿½ï¿½ï¿½vï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÍACD-ROM XA Audio ï¿½ÌÄï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½vï¿½ï¿½ï¿½O
+!  *		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌAï¿½ï¿½ï¿½ÌéŒ¾ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ÄƒRï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ä‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+   *			#define CD_ROM_XA_AUDIO
+   *
+!  * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½F
+!  *		 				ï¿½Êï¿½ï¿½ï¿½Ì§ï¿½Ù‚ÌÄï¿½	CD-ROM XA Audio ï¿½Äï¿½
+!  *		 ï¿½Oï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½@\SAMPLE1.AIF		\PHOTO_CD\ADPCM\SEQ00002.PCD
+!  *		 ï¿½ã”¼ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½@\SAMPLE2.AIF		\PHOTO_CD\ADPCM\SEQ00030.PCD
+!  *
+!  * ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½F
+!  *ï¿½@[ï¿½`]
+!  *		ï¿½Oï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½É‚`ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆAï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ÉŒã”¼ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
+!  *		ï¿½Ø‚ï¿½ï¿½Ö‚ï¿½ï¿½ÄÄï¿½ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+!  *		ï¿½`ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÎAï¿½Oï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½[ï¿½Yï¿½ÉŒã”¼ï¿½Ìƒtï¿½@
+!  *		ï¿½Cï¿½ï¿½ï¿½ÌÄï¿½ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+!  *		ï¿½ã”¼ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½É‚`ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆAï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÄï¿½ï¿½ğ’†’f
+!  * 		ï¿½ï¿½ï¿½Aï¿½Åï¿½ï¿½É–ß‚ï¿½ï¿½Ü‚ï¿½ï¿½B
+   *	[START]
+!  *		 ï¿½ï¿½ï¿½xï¿½Ú‚Íƒ|ï¿½[ï¿½Yï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Æƒ|ï¿½[ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½B
+   *	[UP], [DOWN]
+!  *		ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìİ’ï¿½ï¿½Bï¿½Oï¿½`ï¿½Vï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Í‚Vï¿½B
+   *	[LEFT], [RIGHT]
+!  *		ï¿½pï¿½ï¿½ï¿½Ìİ’ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Eï¿½ï¿½ï¿½Å‘ï¿½ï¿½B
+!  *		ï¿½pï¿½ï¿½ï¿½Ìİ’ï¿½ï¿½ÍAï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½ÌÄï¿½ï¿½Ìê‡ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Å‚ï¿½ï¿½B
+   ****************************************************************************/
+  
+! /*------------------------- ï¿½sï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½t -------------------------*/
+  
+! /* VTV, MON ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½fï¿½oï¿½bï¿½Oï¿½Ìï¿½ï¿½É’ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½B */
+  /* #define SMPPCM_DEBUG */
+  
+  /* DISC type */
+  /* #define CD_ROM_XA_AUDIO */
+  
+! /* ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ */
+  /*	#define USE_VDP	*/
+  
+  /* DISC */
+***************
+*** 57,67 ****
+  /*	#define DISC_SEIMEI_HANDAN */
+  #endif
+  
+! /* ‚¢‚Â‚à STM_ExecServer ‚ğg—p‚·‚é */
+  #define ALLWAYS_STM_EXECSERVER
+  
+  
+! /*------------------------- sƒCƒ“ƒNƒ‹[ƒht -------------------------*/
+  #include <stdio.h>
+  #include <machine.h>
+  #include <string.h>
+--- 57,67 ----
+  /*	#define DISC_SEIMEI_HANDAN */
+  #endif
+  
+! /* ï¿½ï¿½ï¿½Â‚ï¿½ STM_ExecServer ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ */
+  #define ALLWAYS_STM_EXECSERVER
+  
+  
+! /*------------------------- ï¿½sï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½t -------------------------*/
+  #include <stdio.h>
+  #include <machine.h>
+  #include <string.h>
+***************
+*** 70,76 ****
+  #include "sega_sys.h"
+  #include "sega_def.h"
+  #include "sega_mth.h"
+! #include "sega_scl.h" 
+  #include "sega_int.h"
+  #define  _SPR2_
+  #include "sega_spr.h"
+--- 70,76 ----
+  #include "sega_sys.h"
+  #include "sega_def.h"
+  #include "sega_mth.h"
+! #include "sega_scl.h"
+  #include "sega_int.h"
+  #define  _SPR2_
+  #include "sega_spr.h"
+***************
+*** 84,91 ****
+  
+  #if	1
+  /*
+! **¡1995-10-02	‚‹´’q‰„
+! **	ƒyƒŠƒtƒFƒ‰ƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ÌŒÃ‚¢‚h^‚eŠÖ”‚ğíœ‚µ‚½‚Ì‚ÅB
+  */
+  	#include	"per_x.h"
+  #endif
+--- 84,91 ----
+  
+  #if	1
+  /*
+! **ï¿½ï¿½1995-10-02	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌŒÃ‚ï¿½ï¿½hï¿½^ï¿½eï¿½Öï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅB
+  */
+  	#include	"per_x.h"
+  #endif
+***************
+*** 97,200 ****
+  	#define SMPPCMD_MON_Reset			smppcmd_MON_Reset
+  	#define SMPPCMD_PCM_Task			smppcmd_PCM_Task
+  #else
+! 	#define SMPPCMD_VblIn()				
+! 	#define SMPPCMD_Init(a)				
+! 	#define SMPPCMD_MON_Reset()			
+  	#define SMPPCMD_PCM_Task			PCM_Task
+! 	#define VTV_Printf(a)				
+! 	#define VTV_PRINTF(a)				
+! 	#define _VTV_Printf(a)				
+! 	#define _VTV_PRINTF(a)				
+  #endif
+  
+  
+! /*--------------------------- sŠÖ”éŒ¾t ---------------------------*/
+  
+  static void smpVblIn(void);
+  static void smpVblOut(void);
+  #ifdef	USE_VDP
+  /*
+! **¡1995-07-28	‚‹´’q‰„
+! **	¡‚Íg‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  */
+  static void smpSprEnd(void);
+  #endif
+  
+  
+! /*------------------------- sƒ}ƒNƒ’è”t -------------------------*/
+  
+! /* ƒXƒvƒ‰ƒCƒg–Ê‚Ì‚u‚q‚`‚l‚ÌƒAƒhƒŒƒX */
+  #define ADDR_VDP1 				(0x25C00000)
+  
+! /* ‚u‚q‚`‚l‚Ì“]‘—æ‚ÌƒAƒhƒŒƒX */
+  #define ADDR_VRAM_PCM 			(0x25C08000)
+  
+! /* ƒEƒF[ƒu‚q‚`‚l‚Ì“]‘—ƒAƒhƒŒƒX‚ÆƒTƒ“ƒvƒ‹” */
+  #define	PCM_ADDR	((void*)0x25a20000)
+  #define	PCM_SIZE	(4096L*2)				/* 2.. */
+  
+! /* ƒTƒCƒY */
+  #ifdef CD_ROM_XA_AUDIO
+  	#define	SECTOR_SIZE		(2324L)
+  #else
+  	#define	SECTOR_SIZE		(2048L)
+  #endif
+  
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@‚ÌƒTƒCƒY */
+  #define	RING_BUF_SIZE	(SECTOR_SIZE * 100)		/* 10.. */
+  
+! /* ƒ|[ƒYˆ——pƒ[ƒN‚ÌƒTƒCƒY */
+  #define PWORK_SIZE		(2 * 4096)
+  
+! /* ‚s‚u‰æ–Ê‚ÌƒTƒCƒY */
+  #define DISP_XSIZE		(320)
+  #define DISP_YSIZE		(224)
+  
+! /* Ä¶‚·‚éƒtƒ@ƒCƒ‹‚Ì” */
+  #define	FILE_NUM		2
+  
+! /* ƒ{ƒŠƒ…[ƒ€‚ÌÅ¬’lCÅ‘å’l */
+  #define LEVEL_MIN	(0)
+  #define LEVEL_MAX	(7)
+  
+! /* ƒpƒ“‚ÌÅ¬’lCÅ‘å’lC’†‰›’l */
+! #define PAN_MIN		(0)					/* ¶’[F¶‚ÍÅ‘åA‰E‚Íƒ[ƒ */
+! #define PAN_MAX		(31)				/* ‰E’[F‰E‚ÍÅ‘åA¶‚Íƒ[ƒ */
+! #define PAN_CENTER	((PAN_MAX + 1) / 2)	/* ’†‰›F¶‚àA‰E‚àÅ‘å 	*/
+  
+! /* STM_ExecServer ‚ğƒR[ƒ‹‚·‚é‚uƒuƒ‰ƒ“ƒNüŠú */
+  #define VBL_RATE_STM_EXEC_SERVER		(1)
+  
+! /* Å‘å“]‘—ƒZƒNƒ^” */
+  #define SMP_LOAD_NUM			(10)
+  
+! /* ‚P‰ñ‚Ìƒ^ƒXƒN‚Åˆ—‚·‚é—Ê‚ÌãŒÀ‚Ìİ’è [sample/1ch] */
+  /* #define SMP_1TASK_SAMPLE		(512) */
+! /* #define SMP_1TASK_SAMPLE		(600) */	/* CD-ROM XA Bmode ‚ÌŒÀŠE */
+! #define SMP_1TASK_SAMPLE		(1024) 
+  /* #define SMP_1TASK_SAMPLE		(2048) */
+  
+! /* ƒf[ƒ^‚Ì“]‘—•û® (‚b‚cƒuƒƒbƒN¨ƒŠƒ“ƒOƒoƒbƒtƒ@)				*/
+  /*		PCM_TRMODE_CPU or PCM_TRMODE_SDMA or PCM_TRMODE_SCU		*/
+  #define SMP_TR_MODE_CD			(PCM_TRMODE_SDMA)
+  
+! /*----------------------- sƒOƒ[ƒoƒ‹•Ï”t -----------------------*/
+  
+! /* ƒ[ƒNƒoƒbƒtƒ@ */
+  static PcmWork g_movie_work[FILE_NUM];
+  
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@ */
+  static Uint32 g_movie_buf[FILE_NUM][RING_BUF_SIZE / sizeof(Uint32)];
+  
+! /* ƒ|[ƒYˆ——pƒ[ƒN */
+  static Sint32 pwork_addr[PWORK_SIZE / 4];
+  
+! /* Ä¶‚·‚éƒtƒ@ƒCƒ‹–¼ */
+  #ifdef DISC_PHOTO_CD
+  	static char *filename[] = {"SEQ00002.PCD", "SEQ00030.PCD"};
+  /*	static char *filename[] = {"SEQ00002.PCD", "SEQ00005.PCD"}; */
+  #else
+! 	 static char *filename[] = {"SAMPLE1.AIF", "SAMPLE2.AIF"}; 
+  	/* static char *filename[] = {"SAMPLE1M.AIF", "SAMPLE2M.AIF"}; */
+  	/* static char *filename[] = {"F44K16S.ADP", "F44K16S2.ADP"}; */
+  	/* static char *filename[] = {"F44K16M.ADP", "F44K16M2.ADP"}; */
+--- 97,200 ----
+  	#define SMPPCMD_MON_Reset			smppcmd_MON_Reset
+  	#define SMPPCMD_PCM_Task			smppcmd_PCM_Task
+  #else
+! 	#define SMPPCMD_VblIn()
+! 	#define SMPPCMD_Init(a)
+! 	#define SMPPCMD_MON_Reset()
+  	#define SMPPCMD_PCM_Task			PCM_Task
+! 	#define VTV_Printf(a)
+! 	#define VTV_PRINTF(a)
+! 	#define _VTV_Printf(a)
+! 	#define _VTV_PRINTF(a)
+  #endif
+  
+  
+! /*--------------------------- ï¿½sï¿½Öï¿½ï¿½éŒ¾ï¿½t ---------------------------*/
+  
+  static void smpVblIn(void);
+  static void smpVblOut(void);
+  #ifdef	USE_VDP
+  /*
+! **ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½ï¿½ï¿½Ígï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  */
+  static void smpSprEnd(void);
+  #endif
+  
+  
+! /*------------------------- ï¿½sï¿½}ï¿½Nï¿½ï¿½ï¿½è”ï¿½t -------------------------*/
+  
+! /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ê‚Ì‚uï¿½qï¿½`ï¿½lï¿½ÌƒAï¿½hï¿½ï¿½ï¿½X */
+  #define ADDR_VDP1 				(0x25C00000)
+  
+! /* ï¿½uï¿½qï¿½`ï¿½lï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½X */
+  #define ADDR_VRAM_PCM 			(0x25C08000)
+  
+! /* ï¿½Eï¿½Fï¿½[ï¿½uï¿½qï¿½`ï¿½lï¿½Ì“]ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ÆƒTï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ */
+  #define	PCM_ADDR	((void*)0x25a20000)
+  #define	PCM_SIZE	(4096L*2)				/* 2.. */
+  
+! /* ï¿½Tï¿½Cï¿½Y */
+  #ifdef CD_ROM_XA_AUDIO
+  	#define	SECTOR_SIZE		(2324L)
+  #else
+  	#define	SECTOR_SIZE		(2048L)
+  #endif
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒTï¿½Cï¿½Y */
+  #define	RING_BUF_SIZE	(SECTOR_SIZE * 100)		/* 10.. */
+  
+! /* ï¿½|ï¿½[ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½[ï¿½Nï¿½ÌƒTï¿½Cï¿½Y */
+  #define PWORK_SIZE		(2 * 4096)
+  
+! /* ï¿½sï¿½uï¿½ï¿½ï¿½Ê‚ÌƒTï¿½Cï¿½Y */
+  #define DISP_XSIZE		(320)
+  #define DISP_YSIZE		(224)
+  
+! /* ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½ */
+  #define	FILE_NUM		2
+  
+! /* ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌÅï¿½ï¿½lï¿½Cï¿½Å‘ï¿½ï¿½l */
+  #define LEVEL_MIN	(0)
+  #define LEVEL_MAX	(7)
+  
+! /* ï¿½pï¿½ï¿½ï¿½ÌÅï¿½ï¿½lï¿½Cï¿½Å‘ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½l */
+! #define PAN_MIN		(0)					/* ï¿½ï¿½ï¿½[ï¿½Fï¿½ï¿½ï¿½ÍÅ‘ï¿½ï¿½Aï¿½Eï¿½Íƒ[ï¿½ï¿½ */
+! #define PAN_MAX		(31)				/* ï¿½Eï¿½[ï¿½Fï¿½Eï¿½ÍÅ‘ï¿½ï¿½Aï¿½ï¿½ï¿½Íƒ[ï¿½ï¿½ */
+! #define PAN_CENTER	((PAN_MAX + 1) / 2)	/* ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Eï¿½ï¿½ï¿½Å‘ï¿½ 	*/
+  
+! /* STM_ExecServer ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ */
+  #define VBL_RATE_STM_EXEC_SERVER		(1)
+  
+! /* ï¿½Å‘ï¿½ï¿½]ï¿½ï¿½ï¿½Zï¿½Nï¿½^ï¿½ï¿½ */
+  #define SMP_LOAD_NUM			(10)
+  
+! /* ï¿½Pï¿½ï¿½ï¿½Ìƒ^ï¿½Xï¿½Nï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Ìï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½ [sample/1ch] */
+  /* #define SMP_1TASK_SAMPLE		(512) */
+! /* #define SMP_1TASK_SAMPLE		(600) */	/* CD-ROM XA Bmode ï¿½ÌŒï¿½ï¿½E */
+! #define SMP_1TASK_SAMPLE		(1024)
+  /* #define SMP_1TASK_SAMPLE		(2048) */
+  
+! /* ï¿½fï¿½[ï¿½^ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½bï¿½cï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@)				*/
+  /*		PCM_TRMODE_CPU or PCM_TRMODE_SDMA or PCM_TRMODE_SCU		*/
+  #define SMP_TR_MODE_CD			(PCM_TRMODE_SDMA)
+  
+! /*----------------------- ï¿½sï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½ï¿½t -----------------------*/
+  
+! /* ï¿½ï¿½ï¿½[ï¿½Nï¿½oï¿½bï¿½tï¿½@ */
+  static PcmWork g_movie_work[FILE_NUM];
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ */
+  static Uint32 g_movie_buf[FILE_NUM][RING_BUF_SIZE / sizeof(Uint32)];
+  
+! /* ï¿½|ï¿½[ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½[ï¿½N */
+  static Sint32 pwork_addr[PWORK_SIZE / 4];
+  
+! /* ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ */
+  #ifdef DISC_PHOTO_CD
+  	static char *filename[] = {"SEQ00002.PCD", "SEQ00030.PCD"};
+  /*	static char *filename[] = {"SEQ00002.PCD", "SEQ00005.PCD"}; */
+  #else
+! 	 static char *filename[] = {"SAMPLE1.AIF", "SAMPLE2.AIF"};
+  	/* static char *filename[] = {"SAMPLE1M.AIF", "SAMPLE2M.AIF"}; */
+  	/* static char *filename[] = {"F44K16S.ADP", "F44K16S2.ADP"}; */
+  	/* static char *filename[] = {"F44K16M.ADP", "F44K16M2.ADP"}; */
+***************
+*** 204,214 ****
+  #endif
+  
+  
+! /* ƒpƒbƒhî•ñ */
+  #if	0
+  /*
+! **¡1995-10-02	‚‹´’q‰„
+! **	ƒyƒŠƒtƒFƒ‰ƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ÌŒÃ‚¢‚h^‚eŠÖ”‚ğíœ‚µ‚½‚Ì‚ÅB
+  */
+  static Uint32	PadWorkArea[7];
+  static	Uint16	PadData1  = 0x0000;
+--- 204,214 ----
+  #endif
+  
+  
+! /* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ */
+  #if	0
+  /*
+! **ï¿½ï¿½1995-10-02	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌŒÃ‚ï¿½ï¿½hï¿½^ï¿½eï¿½Öï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅB
+  */
+  static Uint32	PadWorkArea[7];
+  static	Uint16	PadData1  = 0x0000;
+***************
+*** 223,259 ****
+  static volatile trigger_t	PadData2E = 0x0000;
+  #endif
+  
+! /* ƒnƒ“ƒhƒ‹‚Ì‹­§Ø‚è‘Ö‚¦ƒtƒ‰ƒO */
+  static Bool		g_change_flag;
+  
+! /* ƒ|[ƒY‚Ìó‘Ô */
+  static Bool		g_pause_at_once;
+  
+! /* ƒ{ƒŠƒ…[ƒ€‚Ì’l */
+  Sint32 g_level = LEVEL_MAX;
+  
+! /* ƒpƒ“‚Ì’lF¶‰E‚ğ 0..31 ‚Å•\Œ»‚·‚é’l */
+  Sint32 g_pan = PAN_CENTER;
+  
+! /* ƒpƒ“‚Ì’lFˆø”‚Éw’è‚·‚é’l */
+  Sint32 g_pan_tbl[PAN_MAX + 1] = {
+! 	0x1f, 0x1e, 0x1d, 0x1c, 0x1b, 0x1a, 0x19, 0x18, 
+! 	0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x11, 0x10, 
+! 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
+  	0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
+  };
+  
+! /* ƒXƒvƒ‰ƒCƒg•`‰æI—¹”»’èƒtƒ‰ƒO   TRUE : •`‰æI—¹ */
+  static Bool g_spr_end;
+  
+! /* VblInƒJƒEƒ“ƒ^ */
+  Sint32 cnt_vbl_in = 0;
+  
+! /* STM_ExecServer ‚ğƒR[ƒ‹‚µ‚½[vbl/vbl_rate]‚ğ•Û */
+  Sint32 call_stm_exec_server;
+  
+  
+! /*---------------------------- sŠÖ”t ----------------------------*/
+  
+  void errGfsFunc(void *obj, Sint32 ec)
+  {
+--- 223,259 ----
+  static volatile trigger_t	PadData2E = 0x0000;
+  #endif
+  
+! /* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ö‚ï¿½ï¿½tï¿½ï¿½ï¿½O */
+  static Bool		g_change_flag;
+  
+! /* ï¿½|ï¿½[ï¿½Yï¿½Ìï¿½ï¿½ï¿½ */
+  static Bool		g_pause_at_once;
+  
+! /* ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì’l */
+  Sint32 g_level = LEVEL_MAX;
+  
+! /* ï¿½pï¿½ï¿½ï¿½Ì’lï¿½Fï¿½ï¿½ï¿½Eï¿½ï¿½ 0..31 ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l */
+  Sint32 g_pan = PAN_CENTER;
+  
+! /* ï¿½pï¿½ï¿½ï¿½Ì’lï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½Éwï¿½è‚·ï¿½ï¿½ï¿½l */
+  Sint32 g_pan_tbl[PAN_MAX + 1] = {
+! 	0x1f, 0x1e, 0x1d, 0x1c, 0x1b, 0x1a, 0x19, 0x18,
+! 	0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x11, 0x10,
+! 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+  	0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
+  };
+  
+! /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O   TRUE : ï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ */
+  static Bool g_spr_end;
+  
+! /* VblInï¿½Jï¿½Eï¿½ï¿½ï¿½^ */
+  Sint32 cnt_vbl_in = 0;
+  
+! /* STM_ExecServer ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[vbl/vbl_rate]ï¿½ï¿½ï¿½Ûï¿½ */
+  Sint32 call_stm_exec_server;
+  
+  
+! /*---------------------------- ï¿½sï¿½Öï¿½ï¿½t ----------------------------*/
+  
+  void errGfsFunc(void *obj, Sint32 ec)
+  {
+***************
+*** 272,296 ****
+  
+  
+  
+! /*====================== ‰æ–Ê•\¦‚Ìˆ— ===========================*/
+  
+! /* ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ÌØ‚è‘Ö‚¦‚ÆA•`‰æI—¹‘Ò‚¿B‰½‚¹‚¸’Pƒ‚ÉƒEƒGƒCƒgB */
+  void displayFrameWait(void)
+  {
+! 	/* ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ÌØ‚è‘Ö‚¦ */
+  	SCL_DisplayFrame();
+  
+! 	/* ‚u‚q‚`‚l‚©‚çƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚Ö‚Ì•`‰æI—¹‘Ò‚¿ */
+  	g_spr_end = FALSE;
+  	while (g_spr_end == FALSE) ;
+  }
+! /* ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ÌØ‚è‘Ö‚¦‚ÆA•`‰æI—¹‘Ò‚¿BØ‚è‘Ö‚¦’†‚ÉCPU‚Í“­‚­B */
+  void waitDisplayFrame(void)
+  {
+! 	/* ‚u‚q‚`‚l‚©‚çƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚Ö‚Ì(‘O‰ñ‚Ì)•`‰æI—¹‘Ò‚¿ */
+  	while (g_spr_end == FALSE) ;
+  
+! 	/* ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ÌØ‚è‘Ö‚¦ */
+  	SCL_DisplayFrame();
+  
+  	g_spr_end = FALSE;
+--- 272,296 ----
+  
+  
+  
+! /*====================== ï¿½ï¿½ï¿½Ê•\ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  
+! /* ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌØ‚ï¿½ï¿½Ö‚ï¿½ï¿½ÆAï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ò‚ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ÉƒEï¿½Gï¿½Cï¿½gï¿½B */
+  void displayFrameWait(void)
+  {
+! 	/* ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌØ‚ï¿½ï¿½Ö‚ï¿½ */
+  	SCL_DisplayFrame();
+  
+! 	/* ï¿½uï¿½qï¿½`ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Ö‚Ì•`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ò‚ï¿½ */
+  	g_spr_end = FALSE;
+  	while (g_spr_end == FALSE) ;
+  }
+! /* ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌØ‚ï¿½ï¿½Ö‚ï¿½ï¿½ÆAï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ò‚ï¿½ï¿½Bï¿½Ø‚ï¿½ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½ï¿½CPUï¿½Í“ï¿½ï¿½ï¿½ï¿½B */
+  void waitDisplayFrame(void)
+  {
+! 	/* ï¿½uï¿½qï¿½`ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Ö‚ï¿½(ï¿½Oï¿½ï¿½ï¿½ï¿½)ï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ò‚ï¿½ */
+  	while (g_spr_end == FALSE) ;
+  
+! 	/* ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌØ‚ï¿½ï¿½Ö‚ï¿½ */
+  	SCL_DisplayFrame();
+  
+  	g_spr_end = FALSE;
+***************
+*** 298,312 ****
+  
+  #ifdef	USE_VDP
+  /*
+! **¡1995-07-28	‚‹´’q‰„
+! **	¡‚Íg‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  */
+  static void dispInit(void)
+  {
+  #if	0
+  /*
+! **¡1995-07-28	‚‹´’q‰„
+! **	g‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  */
+      Uint8  			*VRAM;
+      Uint8  			val;
+--- 298,312 ----
+  
+  #ifdef	USE_VDP
+  /*
+! **ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½ï¿½ï¿½Ígï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  */
+  static void dispInit(void)
+  {
+  #if	0
+  /*
+! **ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½gï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  */
+      Uint8  			*VRAM;
+      Uint8  			val;
+***************
+*** 323,333 ****
+                      SCL_SP4|SCL_SP5|SCL_SP6|SCL_SP7,7);
+      SCL_SetSpriteMode(SCL_TYPE1,SCL_MIX,SCL_SP_WINDOW);
+  
+! 	/* ‚uƒuƒ‰ƒ“ƒN‚Ìİ’è */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  
+! 	/* V_Blank Out Š„‚è‚İ‚ğ‘Ò‚Â */
+! 	(*((volatile Uint32 *)0x25fe00a4)) &= 0xfffffffc;	/* ‚Ü‚¸ƒNƒŠƒA */
+  	while( !((*((volatile Uint32 *)0x25fe00a4)) & 2) );
+  	PER_Init(PER_KD_PERTIM,2,PER_ID_DGT,PER_SIZE_DGT,PadWorkArea,0);
+  
+--- 323,333 ----
+                      SCL_SP4|SCL_SP5|SCL_SP6|SCL_SP7,7);
+      SCL_SetSpriteMode(SCL_TYPE1,SCL_MIX,SCL_SP_WINDOW);
+  
+! 	/* ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìİ’ï¿½ */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  
+! 	/* V_Blank Out ï¿½ï¿½ï¿½èï¿½İ‚ï¿½ï¿½Ò‚ï¿½ */
+! 	(*((volatile Uint32 *)0x25fe00a4)) &= 0xfffffffc;	/* ï¿½Ü‚ï¿½ï¿½Nï¿½ï¿½ï¿½A */
+  	while( !((*((volatile Uint32 *)0x25fe00a4)) & 2) );
+  	PER_Init(PER_KD_PERTIM,2,PER_ID_DGT,PER_SIZE_DGT,PadWorkArea,0);
+  
+***************
+*** 335,341 ****
+  	INT_SetScuFunc(INT_SCU_VBLK_OUT, smpVblOut);
+  	INT_ChgMsk(INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT,INT_MSK_NULL);
+  
+! 	/* ƒXƒvƒ‰ƒCƒg•`‰æI—¹Š„‚è‚İ‚Ìİ’è */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_SPR);
+  	INT_SetScuFunc(INT_SCU_SPR, smpSprEnd);
+  	INT_ChgMsk(INT_MSK_SPR, INT_MSK_NULL);
+--- 335,341 ----
+  	INT_SetScuFunc(INT_SCU_VBLK_OUT, smpVblOut);
+  	INT_ChgMsk(INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT,INT_MSK_NULL);
+  
+! 	/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½èï¿½İ‚Ìİ’ï¿½ */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_SPR);
+  	INT_SetScuFunc(INT_SCU_SPR, smpSprEnd);
+  	INT_ChgMsk(INT_MSK_SPR, INT_MSK_NULL);
+***************
+*** 353,374 ****
+  #endif
+  
+  
+! /*====================== ‚uƒuƒ‰ƒ“ƒN‚Ìˆ— ===========================*/
+  
+  #if	0
+  /*
+! **¡1995-10-02	‚‹´’q‰„
+! **	ƒyƒŠƒtƒFƒ‰ƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ÌŒÃ‚¢‚h^‚eŠÖ”‚ğíœ‚µ‚½‚Ì‚ÅB
+  */
+  static void vblInit(void)
+  {
+      set_imask(0);
+  
+! 	/* ‚uƒuƒ‰ƒ“ƒN‚Ìİ’è */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  
+! 	/* V_Blank Out Š„‚è‚İ‚ğ‘Ò‚Â */
+! 	(*((volatile Uint32 *)0x25fe00a4)) &= 0xfffffffc;	/* ‚Ü‚¸ƒNƒŠƒA */
+  	while( !((*((volatile Uint32 *)0x25fe00a4)) & 2) );
+  	PER_Init(PER_KD_PERTIM,2,PER_ID_DGT,PER_SIZE_DGT,PadWorkArea,0);
+  
+--- 353,374 ----
+  #endif
+  
+  
+! /*====================== ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  
+  #if	0
+  /*
+! **ï¿½ï¿½1995-10-02	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌŒÃ‚ï¿½ï¿½hï¿½^ï¿½eï¿½Öï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅB
+  */
+  static void vblInit(void)
+  {
+      set_imask(0);
+  
+! 	/* ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìİ’ï¿½ */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  
+! 	/* V_Blank Out ï¿½ï¿½ï¿½èï¿½İ‚ï¿½ï¿½Ò‚ï¿½ */
+! 	(*((volatile Uint32 *)0x25fe00a4)) &= 0xfffffffc;	/* ï¿½Ü‚ï¿½ï¿½Nï¿½ï¿½ï¿½A */
+  	while( !((*((volatile Uint32 *)0x25fe00a4)) & 2) );
+  	PER_Init(PER_KD_PERTIM,2,PER_ID_DGT,PER_SIZE_DGT,PadWorkArea,0);
+  
+***************
+*** 381,391 ****
+  {
+  	cnt_vbl_in++;
+  
+! 	/* ‚o‚b‚l‚Ì VblIn Š„‚è‚İˆ— */
+  	PCM_VblIn();
+  
+  #ifdef USE_VDP
+! 	/* ƒOƒ‰ƒtƒBƒbƒNƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚·‚éˆ×‚É‚ÍÀs‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ */
+  	SCL_VblankStart();
+  #endif
+  
+--- 381,391 ----
+  {
+  	cnt_vbl_in++;
+  
+! 	/* ï¿½oï¿½bï¿½lï¿½ï¿½ VblIn ï¿½ï¿½ï¿½èï¿½İï¿½ï¿½ï¿½ */
+  	PCM_VblIn();
+  
+  #ifdef USE_VDP
+! 	/* ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½×‚É‚Íï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½ */
+  	SCL_VblankStart();
+  #endif
+  
+***************
+*** 403,419 ****
+  	PadData2E |= pad[1].push ^ 0xffff;
+  
+  #ifdef USE_VDP
+! 	/* ƒOƒ‰ƒtƒBƒbƒNƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚·‚éˆ×‚É‚ÍÀs‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ */
+  	SCL_VblankEnd();
+  #endif
+  
+  }
+  #else
+  static void	vblInit( void ){
+! 	
+  	__port = PER_OpenPort();
+! 	
+! 	/* V-BlankŠ„‚è‚İƒ‹[ƒ`ƒ“‚Ì“o˜^ */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  	INT_SetScuFunc(INT_SCU_VBLK_IN,smpVblIn);
+  	INT_SetScuFunc(INT_SCU_VBLK_OUT,smpVblOut);
+--- 403,419 ----
+  	PadData2E |= pad[1].push ^ 0xffff;
+  
+  #ifdef USE_VDP
+! 	/* ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½×‚É‚Íï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½ */
+  	SCL_VblankEnd();
+  #endif
+  
+  }
+  #else
+  static void	vblInit( void ){
+! 
+  	__port = PER_OpenPort();
+! 
+! 	/* V-Blankï¿½ï¿½ï¿½èï¿½İƒï¿½ï¿½[ï¿½`ï¿½ï¿½ï¿½Ì“oï¿½^ */
+  	INT_ChgMsk(INT_MSK_NULL,INT_MSK_VBLK_IN | INT_MSK_VBLK_OUT);
+  	INT_SetScuFunc(INT_SCU_VBLK_IN,smpVblIn);
+  	INT_SetScuFunc(INT_SCU_VBLK_OUT,smpVblOut);
+***************
+*** 421,468 ****
+  }
+  static void	smpVblIn( void ){
+  	cnt_vbl_in++;
+! 	
+! 	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚Ì VblIn ƒ‹[ƒ`ƒ“‚ğƒR[ƒ‹ */
+  	PCM_VblIn();
+! 	
+  #if	defined( USE_VDP )
+! 	/* ƒOƒ‰ƒtƒBƒbƒNƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚·‚éˆ×‚É‚ÍÀs‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ */
+  	SCL_VblankStart();
+  #endif
+! 	
+  	SMPPCMD_VblIn();
+  }
+  static void	smpVblOut( void ){
+  #if	defined( USE_VDP )
+  	SCL_VblankEnd();
+  #endif
+! 	
+  	if( __port != NULL ){
+  		SysDevice	*device;
+! 		
+  		if(( device = PER_GetDeviceR( &__port[0], 0 )) != NULL ){
+  			trigger_t	prev = PadData1;
+  			trigger_t	current = PER_GetTrigger( device );
+! 			
+  			PadData1  = current;
+  			PadData1E = PER_GetPressEdge( prev, current );
+  		}
+  		if(( device = PER_GetDeviceR( &__port[1], 0 )) != NULL ){
+  			trigger_t	prev = PadData2;
+  			trigger_t	current = PER_GetTrigger( device );
+! 			
+  			PadData2  = current;
+  			PadData2E = PER_GetPressEdge( prev, current );
+  		}
+! 		
+  		PER_GetPort( __port );
+  	}
+  }
+  #endif
+  #ifdef	USE_VDP
+  /*
+! **¡1995-07-28	‚‹´’q‰„
+! **	¡‚Íg‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  */
+  static void smpSprEnd(void)
+  {
+--- 421,468 ----
+  }
+  static void	smpVblIn( void ){
+  	cnt_vbl_in++;
+! 
+! 	/* ï¿½oï¿½bï¿½lï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ VblIn ï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ */
+  	PCM_VblIn();
+! 
+  #if	defined( USE_VDP )
+! 	/* ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½×‚É‚Íï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½ */
+  	SCL_VblankStart();
+  #endif
+! 
+  	SMPPCMD_VblIn();
+  }
+  static void	smpVblOut( void ){
+  #if	defined( USE_VDP )
+  	SCL_VblankEnd();
+  #endif
+! 
+  	if( __port != NULL ){
+  		SysDevice	*device;
+! 
+  		if(( device = PER_GetDeviceR( &__port[0], 0 )) != NULL ){
+  			trigger_t	prev = PadData1;
+  			trigger_t	current = PER_GetTrigger( device );
+! 
+  			PadData1  = current;
+  			PadData1E = PER_GetPressEdge( prev, current );
+  		}
+  		if(( device = PER_GetDeviceR( &__port[1], 0 )) != NULL ){
+  			trigger_t	prev = PadData2;
+  			trigger_t	current = PER_GetTrigger( device );
+! 
+  			PadData2  = current;
+  			PadData2E = PER_GetPressEdge( prev, current );
+  		}
+! 
+  		PER_GetPort( __port );
+  	}
+  }
+  #endif
+  #ifdef	USE_VDP
+  /*
+! **ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½ï¿½ï¿½Ígï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  */
+  static void smpSprEnd(void)
+  {
+***************
+*** 470,476 ****
+  }
+  #endif
+  
+! /*====================== ƒTƒEƒ“ƒh‚Ìˆ— ===========================*/
+  #define SDDRVS_TSK_SIZE			(0x6000)
+  #define BOOTSND_MAP_SIZE		(0x0100)
+  Sint32 sddrvs_tsk[SDDRVS_TSK_SIZE / 4];
+--- 470,476 ----
+  }
+  #endif
+  
+! /*====================== ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  #define SDDRVS_TSK_SIZE			(0x6000)
+  #define BOOTSND_MAP_SIZE		(0x0100)
+  Sint32 sddrvs_tsk[SDDRVS_TSK_SIZE / 4];
+***************
+*** 509,534 ****
+  }
+  
+  
+! /*====================== ƒtƒ@ƒCƒ‹‚Ìˆ— ===========================*/
+  
+! /* ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚éƒtƒ@ƒCƒ‹‚ÌÅ‘å” */
+  #define MAX_DIR		100
+  
+! /* “¯‚ÉŠJ‚­ƒtƒ@ƒCƒ‹‚ÌÅ‘å” */
+  #define OPEN_MAX	FILE_NUM
+  
+! /* ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚Ì‚h‚c */
+  static StmGrpHn grp_hd;
+  
+  #ifdef	DISC_PHOTO_CD
+  /*
+! **¡1995-07-28	‚‹´’q‰„
+! **	¡‚Íg‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  */
+! /* ƒfƒBƒŒƒNƒgƒŠî•ñŠÇ——Ìˆæ */
+  static GfsDirTbl	dir_tbl, dir_tbl_1, dir_tbl_2;
+  
+! /* ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ñ‚¾î•ñ */
+  static GfsDirName dir_name[MAX_DIR];
+  static GfsDirName dir_name_1[MAX_DIR];
+  static GfsDirName dir_name_2[MAX_DIR];
+--- 509,534 ----
+  }
+  
+  
+! /*====================== ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  
+! /* ï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å” */
+  #define MAX_DIR		100
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠJï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å” */
+  #define OPEN_MAX	FILE_NUM
+  
+! /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½Ì‚hï¿½c */
+  static StmGrpHn grp_hd;
+  
+  #ifdef	DISC_PHOTO_CD
+  /*
+! **ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½ï¿½ï¿½Ígï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  */
+! /* ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½Ìˆï¿½ */
+  static GfsDirTbl	dir_tbl, dir_tbl_1, dir_tbl_2;
+  
+! /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ñ‚¾ï¿½ï¿½ï¿½ */
+  static GfsDirName dir_name[MAX_DIR];
+  static GfsDirName dir_name_1[MAX_DIR];
+  static GfsDirName dir_name_2[MAX_DIR];
+***************
+*** 537,551 ****
+  static GfsDirName	dir_name[MAX_DIR];
+  #endif
+  
+! /* ‚f‚e‚r‚Ìì‹Æ—Ìˆæ */
+  static Uint8 g_gfs_work[GFS_WORK_SIZE(OPEN_MAX)];
+  
+  static Uint8 g_stm_work[STM_WORK_SIZE(12, 24)];
+  
+  #ifdef	DISC_PHOTO_CD
+  /*
+! **¡1995-07-28	‚‹´’q‰„
+! **	¡‚Íg‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  */
+  static void changeDir(char *fname, GfsDirTbl *dir_tbl, GfsDirName *dir_name)
+  {
+--- 537,551 ----
+  static GfsDirName	dir_name[MAX_DIR];
+  #endif
+  
+! /* ï¿½fï¿½eï¿½rï¿½Ìï¿½ï¿½Æ—Ìˆï¿½ */
+  static Uint8 g_gfs_work[GFS_WORK_SIZE(OPEN_MAX)];
+  
+  static Uint8 g_stm_work[STM_WORK_SIZE(12, 24)];
+  
+  #ifdef	DISC_PHOTO_CD
+  /*
+! **ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! **	ï¿½ï¿½ï¿½Ígï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  */
+  static void changeDir(char *fname, GfsDirTbl *dir_tbl, GfsDirName *dir_name)
+  {
+***************
+*** 574,608 ****
+  {
+  	Sint32 file_num;
+  
+! 	/* GFS‚Ì‰Šú‰» */
+  	GFS_DIRTBL_TYPE(&dir_tbl) = GFS_DIR_NAME;
+  	GFS_DIRTBL_DIRNAME(&dir_tbl) = dir_name;
+  	GFS_DIRTBL_NDIR(&dir_tbl) = MAX_DIR;
+  
+!     /* ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+      file_num = GFS_Init(OPEN_MAX, g_gfs_work, &dir_tbl);
+  	if (file_num < 0) {
+  		return;
+  	}
+  
+! 	/* ƒGƒ‰[ŠÖ”‚Ìİ’è */
+  	GFS_SetErrFunc(errGfsFunc, NULL);
+  }
+  
+  static void stmInit(void)
+  {
+  #ifdef DISC_PHOTO_CD
+! 	changeDir("PHOTO_CD", &dir_tbl_1, dir_name_1); 
+  	changeDir("ADPCM", &dir_tbl_2, dir_name_2);
+  #endif
+  
+! 	/* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+  	STM_Init(12, 24, g_stm_work);
+  
+! 	/* ƒGƒ‰[ŠÖ”‚Ìİ’è */
+  	STM_SetErrFunc(errStmFunc, NULL);
+  
+! 	/* ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌƒI[ƒvƒ“ */
+  	grp_hd = STM_OpenGrp();
+  	if (grp_hd == NULL) {
+  		return;
+--- 574,608 ----
+  {
+  	Sint32 file_num;
+  
+! 	/* GFSï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	GFS_DIRTBL_TYPE(&dir_tbl) = GFS_DIR_NAME;
+  	GFS_DIRTBL_DIRNAME(&dir_tbl) = dir_name;
+  	GFS_DIRTBL_NDIR(&dir_tbl) = MAX_DIR;
+  
+!     /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+      file_num = GFS_Init(OPEN_MAX, g_gfs_work, &dir_tbl);
+  	if (file_num < 0) {
+  		return;
+  	}
+  
+! 	/* ï¿½Gï¿½ï¿½ï¿½[ï¿½Öï¿½ï¿½Ìİ’ï¿½ */
+  	GFS_SetErrFunc(errGfsFunc, NULL);
+  }
+  
+  static void stmInit(void)
+  {
+  #ifdef DISC_PHOTO_CD
+! 	changeDir("PHOTO_CD", &dir_tbl_1, dir_name_1);
+  	changeDir("ADPCM", &dir_tbl_2, dir_name_2);
+  #endif
+  
+! 	/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	STM_Init(12, 24, g_stm_work);
+  
+! 	/* ï¿½Gï¿½ï¿½ï¿½[ï¿½Öï¿½ï¿½Ìİ’ï¿½ */
+  	STM_SetErrFunc(errStmFunc, NULL);
+  
+! 	/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ÌƒIï¿½[ï¿½vï¿½ï¿½ */
+  	grp_hd = STM_OpenGrp();
+  	if (grp_hd == NULL) {
+  		return;
+***************
+*** 617,632 ****
+  	StmKey key;
+  #if	0
+  	/*
+! 	**¡1995-07-28	‚‹´’q‰„
+! 	**	g‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  	*/
+  	Sint32 fad;
+  	Sint32 i;
+  #endif
+  
+!     /* ƒtƒ@ƒCƒ‹–¼‚©‚çƒtƒ@ƒCƒ‹¯•Êq‚ğ‹‚ß‚é */
+      fid = GFS_NameToId((Sint8 *)fname);
+! 	STM_KEY_FN(&key) = STM_KEY_CN(&key) = STM_KEY_SMMSK(&key) = 
+  		STM_KEY_SMVAL(&key) = STM_KEY_CIMSK(&key) = STM_KEY_CIVAL(&key) =
+  		STM_KEY_NONE;
+  
+--- 617,632 ----
+  	StmKey key;
+  #if	0
+  	/*
+! 	**ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! 	**	ï¿½gï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  	*/
+  	Sint32 fad;
+  	Sint32 i;
+  #endif
+  
+!     /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Êqï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ */
+      fid = GFS_NameToId((Sint8 *)fname);
+! 	STM_KEY_FN(&key) = STM_KEY_CN(&key) = STM_KEY_SMMSK(&key) =
+  		STM_KEY_SMVAL(&key) = STM_KEY_CIMSK(&key) = STM_KEY_CIVAL(&key) =
+  		STM_KEY_NONE;
+  
+***************
+*** 636,646 ****
+  #endif
+  
+  #ifdef DISC_PHOTO_CD
+! 	/* Stream system (Ver1.13) can't get correct file size, that file was 
+! 	 * intreleaveed in Photo CD disc. 
+  	 */
+  
+! 	/* fid‚ÆƒIƒtƒZƒbƒg(==0)‚©‚çƒtƒŒ[ƒ€ƒAƒhƒŒƒX‚ğæ“¾‚·‚é */
+  	fad = GFS_GetFad(fid, 0);
+  
+  	/* search dir_name table */
+--- 636,646 ----
+  #endif
+  
+  #ifdef DISC_PHOTO_CD
+! 	/* Stream system (Ver1.13) can't get correct file size, that file was
+! 	 * intreleaveed in Photo CD disc.
+  	 */
+  
+! 	/* fidï¿½ÆƒIï¿½tï¿½Zï¿½bï¿½g(==0)ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ */
+  	fad = GFS_GetFad(fid, 0);
+  
+  	/* search dir_name table */
+***************
+*** 671,684 ****
+  	Sint32		bn;
+  	StmKey		stmkey;
+  
+! 	/* ƒXƒgƒŠ[ƒ€‚ÌÄ¶”ÍˆÍ‚ğæ“¾‚·‚é */
+  	STM_GetInfo(stm, &fid, &frange, &bn, &stmkey);
+  
+! 	/* Ä¶’†‚Ì‚e‚`‚c‚ÌˆÊ’u‚ğæ“¾‚·‚é */
+  	STM_GetExecStat(grp_hd, &fad);
+! 	
+  	if (fad < STM_FRANGE_SFAD(&frange)) {
+! 		/* ƒsƒbƒNƒAƒbƒv‚ÌˆÚ“® */
+  		STM_MovePickup(stm, 0);
+  		return TRUE;
+  	} else {
+--- 671,684 ----
+  	Sint32		bn;
+  	StmKey		stmkey;
+  
+! 	/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌÄï¿½ï¿½ÍˆÍ‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ */
+  	STM_GetInfo(stm, &fid, &frange, &bn, &stmkey);
+  
+! 	/* ï¿½Äï¿½ï¿½ï¿½ï¿½Ì‚eï¿½`ï¿½cï¿½ÌˆÊ’uï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ */
+  	STM_GetExecStat(grp_hd, &fad);
+! 
+  	if (fad < STM_FRANGE_SFAD(&frange)) {
+! 		/* ï¿½sï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ÌˆÚ“ï¿½ */
+  		STM_MovePickup(stm, 0);
+  		return TRUE;
+  	} else {
+***************
+*** 693,699 ****
+  	Sint32		bn;
+  	StmKey		stmkey;
+  
+! 	/* ƒXƒgƒŠ[ƒ€î•ñ‚Ìæ“¾			*/
+  	STM_GetInfo(stm, &fid, &frange, &bn, &stmkey);
+  
+  	if (fad >= STM_FRANGE_SFAD(&frange) &&
+--- 693,699 ----
+  	Sint32		bn;
+  	StmKey		stmkey;
+  
+! 	/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾			*/
+  	STM_GetInfo(stm, &fid, &frange, &bn, &stmkey);
+  
+  	if (fad >= STM_FRANGE_SFAD(&frange) &&
+***************
+*** 704,716 ****
+  	}
+  }
+  
+! /* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€ƒT[ƒo‚ÌÀs */
+  static void smpStmTask(StmHn stm[])
+  {
+  #if	0
+  	/*
+! 	**¡1995-07-28	‚‹´’q‰„
+! 	**	g‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  	*/
+  	Sint32 		stat, fad, flag_stm_exec_trans;
+  #endif
+--- 704,716 ----
+  	}
+  }
+  
+! /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Tï¿½[ï¿½oï¿½Ìï¿½ï¿½s */
+  static void smpStmTask(StmHn stm[])
+  {
+  #if	0
+  	/*
+! 	**ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! 	**	ï¿½gï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  	*/
+  	Sint32 		stat, fad, flag_stm_exec_trans;
+  #endif
+***************
+*** 728,734 ****
+  			STM_ExecServer();
+  		} else {
+  
+! 			/* •K—v‚Èê‡‚¾‚¯ STM_ExecServer ‚ğƒR[ƒ‹‚·‚é */
+  			flag_stm_exec_trans = 0;
+  			if (STM_GetNumCdbuf(stm[0]) > 0) {
+  				STM_ExecTrans(stm[0]);
+--- 728,734 ----
+  			STM_ExecServer();
+  		} else {
+  
+! 			/* ï¿½Kï¿½vï¿½Èê‡ï¿½ï¿½ï¿½ï¿½ STM_ExecServer ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  			flag_stm_exec_trans = 0;
+  			if (STM_GetNumCdbuf(stm[0]) > 0) {
+  				STM_ExecTrans(stm[0]);
+***************
+*** 756,771 ****
+  	}
+  }
+  
+! /* ‚o‚b‚lE‚`‚c‚o‚b‚lÄ¶ƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰» */
+  void smpPcmInit(void)
+  {
+! 	/* ‚o‚b‚lE‚`‚c‚o‚b‚lÄ¶ƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰» */
   	PCM_Init();
   
-  	/* ‚`‚c‚o‚b‚lg—péŒ¾ (ADPCML’£×²ÌŞ×Ø‚ªØİ¸‚³‚ê‚Ü‚·) */
+! 	/* ‚`‚c‚o‚b‚lg—péŒ¾ (ADPCML’£×²ÌŞ×Ø‚ªØİ¸‚³‚ê‚Ü‚·) */
 ! 	PCM_DeclareUseAdpcm();
   
-  	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
+! 	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
   	PCM_SetErrFunc(errPcmFunc, NULL);
---- 763,769 ----
+  }
+  
+--- 756,771 ----
+  	}
+  }
+  
+! /* ï¿½oï¿½bï¿½lï¿½Eï¿½`ï¿½cï¿½oï¿½bï¿½lï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+  void smpPcmInit(void)
+  {
+! 	/* ï¿½oï¿½bï¿½lï¿½Eï¿½`ï¿½cï¿½oï¿½bï¿½lï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
   	PCM_Init();
   
-  	/* ‚`‚c‚o‚b‚lg—péŒ¾ (ADPCML’£×²ÌŞ×Ø‚ªØİ¸‚³‚ê‚Ü‚·) */
+! 	/* ï¿½`ï¿½cï¿½oï¿½bï¿½lï¿½gï¿½pï¿½éŒ¾ (ADPCMï¿½Lï¿½ï¿½×²ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½) */
 ! 	//PCM_DeclareUseAdpcm();
   
-  	/* ‚o‚b‚lƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
+! 	/* ï¿½oï¿½bï¿½lï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìİ’ï¿½ */
   	PCM_SetErrFunc(errPcmFunc, NULL);
+  }
+  
 ***************
-*** 958,964 ****
+*** 774,788 ****
+  {
+  #if	0
+  	/*
+! 	**¡1995-07-28	‚‹´’q‰„
+! 	**	g‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  	*/
+  	static Uint32 movie_x, movie_y;
+  #endif
+  	PcmCreatePara	para;
+  	PcmHn			pcm;
+  
+! 	/* ƒnƒ“ƒhƒ‹‚Ìì¬ */
+  	PCM_PARA_WORK(&para) = (struct PcmWork *)&g_movie_work[file_no];
+  	PCM_PARA_RING_ADDR(&para) = (Sint8 *)g_movie_buf[file_no];
+  	PCM_PARA_RING_SIZE(&para) = RING_BUF_SIZE;
+--- 774,788 ----
+  {
+  #if	0
+  	/*
+! 	**ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! 	**	ï¿½gï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  	*/
+  	static Uint32 movie_x, movie_y;
+  #endif
+  	PcmCreatePara	para;
+  	PcmHn			pcm;
+  
+! 	/* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬ */
+  	PCM_PARA_WORK(&para) = (struct PcmWork *)&g_movie_work[file_no];
+  	PCM_PARA_RING_ADDR(&para) = (Sint8 *)g_movie_buf[file_no];
+  	PCM_PARA_RING_SIZE(&para) = RING_BUF_SIZE;
+***************
+*** 794,800 ****
+  	}
+  
+  	if (file_no == 0) {
+! 		/* ƒsƒbƒNƒAƒbƒv‚ÌˆÚ“® */
+  		STM_MovePickup(stm, 0);
+  	}
+  
+--- 794,800 ----
+  	}
+  
+  	if (file_no == 0) {
+! 		/* ï¿½sï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ÌˆÚ“ï¿½ */
+  		STM_MovePickup(stm, 0);
+  	}
+  
+***************
+*** 807,846 ****
+  {
+  	int		i;
+  
+! 	/* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€ƒT[ƒo‚ÌÀs */
+  	smpStmTask(stm);
+  
+! 	/* Ä¶ƒ^ƒXƒN */
+  	SMPPCMD_PCM_Task(pcm[0]);
+  
+  	for (i = 1; i < FILE_NUM; i++) {
+! 		/* Ä¶ƒ^ƒXƒN */
+  		PCM_Task(pcm[i]);
+  	}
+  }
+  
+  
+  /********************************************************************/
+! /* ƒpƒbƒh§Œä														*/
+  /********************************************************************/
+  
+! /* ƒpƒbƒh§ŒäFÄ¶ƒ‰ƒCƒuƒ‰ƒŠ */
+  void smp_PadCtrlPcm(PcmHn pcm[], StmHn stm[], Uint16 PadData1EW, Uint16 PadData1W)
+  {
+  	int		i;
+  
+! 	/* ƒ|[ƒY */
+  	if (PadData1EW & PER_DGT_S) {
+  		PadData1EW = 0;
+  		if (g_pause_at_once == FALSE) {
+! 			/* ŠJn */
+  			g_pause_at_once = TRUE;
+  			for (i = 0; i < FILE_NUM; i++) {
+  				PCM_SetPauseWork(pwork_addr, PWORK_SIZE);
+  				PCM_Pause(pcm[i], PCM_PAUSE_ON_AT_ONCE);
+  			}
+  		} else {
+! 			/* ‰ğœ */
+  			g_pause_at_once = FALSE;
+  			for (i = 0; i < FILE_NUM; i++) {
+  				PCM_Pause(pcm[i], PCM_PAUSE_OFF);
+--- 807,846 ----
+  {
+  	int		i;
+  
+! 	/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Tï¿½[ï¿½oï¿½Ìï¿½ï¿½s */
+  	smpStmTask(stm);
+  
+! 	/* ï¿½Äï¿½ï¿½^ï¿½Xï¿½N */
+  	SMPPCMD_PCM_Task(pcm[0]);
+  
+  	for (i = 1; i < FILE_NUM; i++) {
+! 		/* ï¿½Äï¿½ï¿½^ï¿½Xï¿½N */
+  		PCM_Task(pcm[i]);
+  	}
+  }
+  
+  
+  /********************************************************************/
+! /* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½														*/
+  /********************************************************************/
+  
+! /* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ */
+  void smp_PadCtrlPcm(PcmHn pcm[], StmHn stm[], Uint16 PadData1EW, Uint16 PadData1W)
+  {
+  	int		i;
+  
+! 	/* ï¿½|ï¿½[ï¿½Y */
+  	if (PadData1EW & PER_DGT_S) {
+  		PadData1EW = 0;
+  		if (g_pause_at_once == FALSE) {
+! 			/* ï¿½Jï¿½n */
+  			g_pause_at_once = TRUE;
+  			for (i = 0; i < FILE_NUM; i++) {
+  				PCM_SetPauseWork(pwork_addr, PWORK_SIZE);
+  				PCM_Pause(pcm[i], PCM_PAUSE_ON_AT_ONCE);
+  			}
+  		} else {
+! 			/* ï¿½ï¿½ï¿½ï¿½ */
+  			g_pause_at_once = FALSE;
+  			for (i = 0; i < FILE_NUM; i++) {
+  				PCM_Pause(pcm[i], PCM_PAUSE_OFF);
+***************
+*** 848,854 ****
+  		}
+  	}
+  
+! 	/* ƒXƒgƒbƒv */
+  	if (PCM_GetPlayStatus(pcm[FILE_NUM - 2]) == PCM_STAT_PLAY_END) {
+  		if (PadData1EW & PER_DGT_A) {
+  			PadData1EW = 0;
+--- 848,854 ----
+  		}
+  	}
+  
+! 	/* ï¿½Xï¿½gï¿½bï¿½v */
+  	if (PCM_GetPlayStatus(pcm[FILE_NUM - 2]) == PCM_STAT_PLAY_END) {
+  		if (PadData1EW & PER_DGT_A) {
+  			PadData1EW = 0;
+***************
+*** 856,869 ****
+  		}
+  	}
+  
+! 	/* ƒ`ƒFƒ“ƒW */
+  	if ((g_change_flag == FALSE) && (PadData1EW & PER_DGT_A)) {
+  		PadData1EW = 0;
+  		if (goNextStm(stm[1])) {
+  			g_change_flag = TRUE;
+  		}
+  	}
+! 	/* ƒnƒ“ƒhƒ‹‚Ì‹­§Ø‚è‘Ö‚¦ */
+  	if (g_change_flag == TRUE) {
+  		if (PCM_CheckChange() == PCM_CHANGE_OK_AT_ONCE) {
+  			PCM_Change();
+--- 856,869 ----
+  		}
+  	}
+  
+! 	/* ï¿½`ï¿½Fï¿½ï¿½ï¿½W */
+  	if ((g_change_flag == FALSE) && (PadData1EW & PER_DGT_A)) {
+  		PadData1EW = 0;
+  		if (goNextStm(stm[1])) {
+  			g_change_flag = TRUE;
+  		}
+  	}
+! 	/* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ö‚ï¿½ */
+  	if (g_change_flag == TRUE) {
+  		if (PCM_CheckChange() == PCM_CHANGE_OK_AT_ONCE) {
+  			PCM_Change();
+***************
+*** 871,877 ****
+  		}
+  	}
+  
+! 	/* ƒ{ƒŠƒ…[ƒ€EƒAƒbƒv */
+  	if (PadData1EW & PER_DGT_U) {
+  		PadData1EW = 0;
+  		g_level = MIN(g_level + 1, LEVEL_MAX);
+--- 871,877 ----
+  		}
+  	}
+  
+! 	/* ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Eï¿½Aï¿½bï¿½v */
+  	if (PadData1EW & PER_DGT_U) {
+  		PadData1EW = 0;
+  		g_level = MIN(g_level + 1, LEVEL_MAX);
+***************
+*** 880,886 ****
+  			PCM_ChangePcmPara(pcm[i]);
+  		}
+  	}
+! 	/* ƒ{ƒŠƒ…[ƒ€Eƒ_ƒEƒ“ */
+  	if (PadData1EW & PER_DGT_D) {
+  		PadData1EW = 0;
+  		g_level = MAX(g_level - 1, LEVEL_MIN);
+--- 880,886 ----
+  			PCM_ChangePcmPara(pcm[i]);
+  		}
+  	}
+! 	/* ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Eï¿½_ï¿½Eï¿½ï¿½ */
+  	if (PadData1EW & PER_DGT_D) {
+  		PadData1EW = 0;
+  		g_level = MAX(g_level - 1, LEVEL_MIN);
+***************
+*** 890,896 ****
+  		}
+  	}
+  
+! 	/* ƒpƒ“E‰E‚æ‚èi‰EÅ‘åA¶‚ğ™X‚Éã‚­j */
+  	if (PadData1EW & PER_DGT_R) {
+  		PadData1EW = 0;
+  		g_pan = MIN(g_pan + 1, PAN_MAX);
+--- 890,896 ----
+  		}
+  	}
+  
+! 	/* ï¿½pï¿½ï¿½ï¿½Eï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Eï¿½Å‘ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Éã‚­ï¿½j */
+  	if (PadData1EW & PER_DGT_R) {
+  		PadData1EW = 0;
+  		g_pan = MIN(g_pan + 1, PAN_MAX);
+***************
+*** 899,905 ****
+  			PCM_ChangePcmPara(pcm[i]);
+  		}
+  	}
+! 	/* ƒpƒ“E¶‚æ‚èi¶Å‘åA‰E‚ğ™X‚Éã‚­j */
+  	if (PadData1EW & PER_DGT_L) {
+  		PadData1EW = 0;
+  		g_pan = MAX(g_pan - 1, PAN_MIN);
+--- 899,905 ----
+  			PCM_ChangePcmPara(pcm[i]);
+  		}
+  	}
+! 	/* ï¿½pï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Å‘ï¿½ï¿½Aï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Éã‚­ï¿½j */
+  	if (PadData1EW & PER_DGT_L) {
+  		PadData1EW = 0;
+  		g_pan = MAX(g_pan - 1, PAN_MIN);
+***************
+*** 917,923 ****
+  #endif
+  Sint32 smp_pad_mode = 0;
+  
+! /* ƒpƒbƒh§Œä */
+  void smp_PadCtrl(PcmHn pcm[], StmHn stm[])
+  {
+  	Uint16   PadData1EW;
+--- 917,923 ----
+  #endif
+  Sint32 smp_pad_mode = 0;
+  
+! /* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ */
+  void smp_PadCtrl(PcmHn pcm[], StmHn stm[])
+  {
+  	Uint16   PadData1EW;
+***************
+*** 928,934 ****
+  	PadData1W = PadData1;
+  	PadData1 = 0;
+  
+! 	/* ƒpƒbƒhˆ—‘ÎÛ‚ÌØ‚è‘Ö‚¦ */
+  	if (PadData1EW & PER_DGT_TL) {
+  		PadData1EW = 0;
+  		smp_pad_mode++;
+--- 928,934 ----
+  	PadData1W = PadData1;
+  	PadData1 = 0;
+  
+! 	/* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚ÌØ‚ï¿½ï¿½Ö‚ï¿½ */
+  	if (PadData1EW & PER_DGT_TL) {
+  		PadData1EW = 0;
+  		smp_pad_mode++;
+***************
+*** 936,969 ****
+  
+  	switch (smp_pad_mode % SMP_PAD_MODE_NUM) {
+  	case 0:
+! 		/* ƒpƒbƒh§ŒäFÄ¶ƒ‰ƒCƒuƒ‰ƒŠ */
+  		smp_PadCtrlPcm(pcm, stm, PadData1EW, PadData1W);
+  		break;
+  #ifdef VTV
+  	case 1:
+! 		/* ƒpƒbƒh§ŒäFˆê”Êo—Í—p‚Ì VTV */
+  		smp_PadCtrlVtv0(PadData1EW, PadData1W);
+  		break;
+  #endif
+  #ifdef MONITOR_TASK
+  	case 2:
+! 		/* ƒpƒbƒh§ŒäFƒ‚ƒjƒ^—p‚Ì VTV */
+  		smp_PadCtrlVtv1(PadData1EW, PadData1W);
+  		break;
+  	case 3:
+! 		/* ƒpƒbƒh§ŒäFƒ‚ƒjƒ^—p */
+  		smp_PadCtrlMon(PadData1EW, PadData1W);
+  		break;
+  #endif
   	}
   }
   
@@ -16636,7 +18862,34 @@ diff -crBN --binary sbl6/segasmp/pcm/smppcm5/smppcm5.c sbl6_patch/segasmp/pcm/sm
   {
   #if	0
   	/*
---- 958,964 ----
+! 	**¡1995-07-28	‚‹´’q‰„
+! 	**	g‚Á‚Ä‚È‚¢‚Ì‚Åíœ
+  	*/
+  	PcmHn 			pcm[FILE_NUM];
+  	StmHn			stm[FILE_NUM];
+--- 936,969 ----
+  
+  	switch (smp_pad_mode % SMP_PAD_MODE_NUM) {
+  	case 0:
+! 		/* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ */
+  		smp_PadCtrlPcm(pcm, stm, PadData1EW, PadData1W);
+  		break;
+  #ifdef VTV
+  	case 1:
+! 		/* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½Êoï¿½Í—pï¿½ï¿½ VTV */
+  		smp_PadCtrlVtv0(PadData1EW, PadData1W);
+  		break;
+  #endif
+  #ifdef MONITOR_TASK
+  	case 2:
+! 		/* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½jï¿½^ï¿½pï¿½ï¿½ VTV */
+  		smp_PadCtrlVtv1(PadData1EW, PadData1W);
+  		break;
+  	case 3:
+! 		/* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½jï¿½^ï¿½p */
+  		smp_PadCtrlMon(PadData1EW, PadData1W);
+  		break;
+  #endif
   	}
   }
   
@@ -16644,6 +18897,227 @@ diff -crBN --binary sbl6/segasmp/pcm/smppcm5/smppcm5.c sbl6_patch/segasmp/pcm/sm
   {
   #if	0
   	/*
+! 	**ï¿½ï¿½1995-07-28	ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½
+! 	**	ï¿½gï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½Ì‚Åíœ
+  	*/
+  	PcmHn 			pcm[FILE_NUM];
+  	StmHn			stm[FILE_NUM];
+***************
+*** 977,1008 ****
+  	int		i;
+  #endif
+  
+! 	/* •Ï”‚Ì‰Šú‰» */
+  /*	g_spr_end = FALSE; */
+  	g_spr_end = TRUE;
+  	g_change_flag = FALSE;
+  	g_pause_at_once = FALSE;
+  
+! 	/* ‚o‚b‚lE‚`‚c‚o‚b‚lÄ¶ƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰» */
+  	smpPcmInit();
+  
+  #ifdef USE_VDP
+! 	/* ƒXƒvƒ‰ƒCƒg‚Ìİ’è */
+  	dispInit();
+  #else
+! 	/* ‚uƒuƒ‰ƒ“ƒN‚Ìİ’è */
+  	vblInit();
+  #endif
+  
+  	SMPPCMD_Init(0);
+  
+! 	/* ƒtƒ@ƒCƒ‹‰Šú‰» */
+  	fileInit();
+  
+! 	/* ƒTƒEƒ“ƒh‚Ìİ’è */
+  	sndInit();
+  
+! 	/* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+  	stmInit();
+  
+  	restart = 1;
+--- 977,1008 ----
+  	int		i;
+  #endif
+  
+! 	/* ï¿½Ïï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+  /*	g_spr_end = FALSE; */
+  	g_spr_end = TRUE;
+  	g_change_flag = FALSE;
+  	g_pause_at_once = FALSE;
+  
+! 	/* ï¿½oï¿½bï¿½lï¿½Eï¿½`ï¿½cï¿½oï¿½bï¿½lï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	smpPcmInit();
+  
+  #ifdef USE_VDP
+! 	/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ìİ’ï¿½ */
+  	dispInit();
+  #else
+! 	/* ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìİ’ï¿½ */
+  	vblInit();
+  #endif
+  
+  	SMPPCMD_Init(0);
+  
+! 	/* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	fileInit();
+  
+! 	/* ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìİ’ï¿½ */
+  	sndInit();
+  
+! 	/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+  	stmInit();
+  
+  	restart = 1;
+***************
+*** 1010,1032 ****
+  	for (;;) {
+  		if (restart) {
+  
+! 			/* ƒXƒgƒŠ[ƒ€ƒI[ƒvƒ“ */
+  			for (i = 0; i < FILE_NUM; i++) {
+  				if ((stm[i] = stmOpen(filename[i])) == NULL) {
+! 					return;
+  				}
+! 				/* æ‚èo‚µ—Ìˆæ‚ÌƒŠƒZƒbƒg
+! 				 *	ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ìd—l‚ª...
+! 				 *	Å‰‚Ì“]‘—‚ğ STM_ExecServer ‚Ås‚¤‚È‚çA‚±‚ê‚Í•s—vB
+  				*/
+  				STM_ResetTrBuf(stm[i]);
+  
+! 				/* ƒnƒ“ƒhƒ‹‚Ìì¬ */
+  				if ((pcm[i] = createHandle(stm[i], i)) == NULL) {
+! 					return;
+  				}
+  #ifdef CD_ROM_XA_AUDIO
+! 				/* Ä¶î•ñ‚Ìİ’è(CD-ROM XA Audio sector ‚Ìê‡) */
+  				PCM_INFO_FILE_TYPE(&info) = PCM_FILE_TYPE_NO_HEADER;
+  				PCM_INFO_DATA_TYPE(&info) = PCM_DATA_TYPE_ADPCM_SCT;
+  				PCM_SetInfo(pcm[i], &info);
+--- 1010,1032 ----
+  	for (;;) {
+  		if (restart) {
+  
+! 			/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ */
+  			for (i = 0; i < FILE_NUM; i++) {
+  				if ((stm[i] = stmOpen(filename[i])) == NULL) {
+! 					return 1;
+  				}
+! 				/* ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Ìˆï¿½ï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g
+! 				 *	ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìdï¿½lï¿½ï¿½...
+! 				 *	ï¿½Åï¿½ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ STM_ExecServer ï¿½Åsï¿½ï¿½ï¿½È‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Í•sï¿½vï¿½B
+  				*/
+  				STM_ResetTrBuf(stm[i]);
+  
+! 				/* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬ */
+  				if ((pcm[i] = createHandle(stm[i], i)) == NULL) {
+! 					return 1;
+  				}
+  #ifdef CD_ROM_XA_AUDIO
+! 				/* ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½(CD-ROM XA Audio sector ï¿½Ìê‡) */
+  				PCM_INFO_FILE_TYPE(&info) = PCM_FILE_TYPE_NO_HEADER;
+  				PCM_INFO_DATA_TYPE(&info) = PCM_DATA_TYPE_ADPCM_SCT;
+  				PCM_SetInfo(pcm[i], &info);
+***************
+*** 1036,1048 ****
+  				PCM_Set1TaskSample(pcm[i], SMP_1TASK_SAMPLE);
+  			}
+  
+! 			/* ŠJn */
+  			PCM_Start(pcm[0]);
+  
+! 			/* Ÿ‚ÉÄ¶‚·‚éƒnƒ“ƒhƒ‹‚Ì“o˜^ */
+  			PCM_EntryNext(pcm[1]);
+  
+! 			/* Å‰‚É STM_ExecServer ‚ğƒR[ƒ‹‚³‚¹‚é */
+  			call_stm_exec_server = -1;
+  
+  			restart = 0;
+--- 1036,1048 ----
+  				PCM_Set1TaskSample(pcm[i], SMP_1TASK_SAMPLE);
+  			}
+  
+! 			/* ï¿½Jï¿½n */
+  			PCM_Start(pcm[0]);
+  
+! 			/* ï¿½ï¿½ï¿½ÉÄï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì“oï¿½^ */
+  			PCM_EntryNext(pcm[1]);
+  
+! 			/* ï¿½Åï¿½ï¿½ï¿½ STM_ExecServer ï¿½ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  			call_stm_exec_server = -1;
+  
+  			restart = 0;
+***************
+*** 1050,1059 ****
+  			VTV_PRINTF((VTV_s, "S:Restart %X\n", pcm[0]));
+  		}
+  
+! 		/* Ä¶ƒ^ƒXƒN */
+  		pcmTask(pcm, stm);
+  
+! 		/* ƒpƒbƒh§Œä */
+  		smp_PadCtrl(pcm, stm);
+  
+  #ifdef USE_VDP
+--- 1050,1059 ----
+  			VTV_PRINTF((VTV_s, "S:Restart %X\n", pcm[0]));
+  		}
+  
+! 		/* ï¿½Äï¿½ï¿½^ï¿½Xï¿½N */
+  		pcmTask(pcm, stm);
+  
+! 		/* ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ */
+  		smp_PadCtrl(pcm, stm);
+  
+  #ifdef USE_VDP
+***************
+*** 1061,1067 ****
+  			MON_UnitStart(smpmon_hn, smpmon_uhn[3]);
+  		#endif
+  
+! 		/* ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ÌØ‚è‘Ö‚¦‚ÆA•`‰æI—¹‘Ò‚¿ */
+  		waitDisplayFrame();
+  
+  		#ifdef MONITOR_TASK
+--- 1061,1067 ----
+  			MON_UnitStart(smpmon_hn, smpmon_uhn[3]);
+  		#endif
+  
+! 		/* ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌØ‚ï¿½ï¿½Ö‚ï¿½ï¿½ÆAï¿½`ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ò‚ï¿½ */
+  		waitDisplayFrame();
+  
+  		#ifdef MONITOR_TASK
+***************
+*** 1069,1082 ****
+  		#endif
+  #endif
+  
+! 		/* I—¹”»’è */
+  		if (PCM_GetPlayStatus(pcm[FILE_NUM-1]) == PCM_STAT_PLAY_END) {
+  
+  			for (i = 0; i < FILE_NUM; i++) {
+! 				/* ƒnƒ“ƒhƒ‹‚ÌÁ‹ */
+  				PCM_DestroyStmHandle(pcm[i]);
+  
+! 				/* ƒXƒgƒŠ[ƒ€‚ÌƒNƒ[ƒY*/
+  				stmClose(stm[i]);
+  			}
+  
+--- 1069,1082 ----
+  		#endif
+  #endif
+  
+! 		/* ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+  		if (PCM_GetPlayStatus(pcm[FILE_NUM-1]) == PCM_STAT_PLAY_END) {
+  
+  			for (i = 0; i < FILE_NUM; i++) {
+! 				/* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ */
+  				PCM_DestroyStmHandle(pcm[i]);
+  
+! 				/* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y*/
+  				stmClose(stm[i]);
+  			}
+  
 ***************
 *** 1085,1089 ****
   			restart = 1;
@@ -16953,16 +19427,21 @@ diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl00/work.c sbl6_patch/segasmp/sblsg
 ! 
 diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/sblsgl/sblsgl01/sblsgl01.c
 *** sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c	1996-02-08 05:31:26.000000000 -0500
---- sbl6_patch/segasmp/sblsgl/sblsgl01/sblsgl01.c	2022-02-08 18:24:22.000000000 -0500
+--- sbl6_patch/segasmp/sblsgl/sblsgl01/sblsgl01.c	2024-08-02 20:45:16.000000000 -0400
 ***************
-*** 7,22 ****
+*** 2,22 ****
+   *  FILE:	sblsgl01.c
+   *
+   *  PURPOSE:
+!  *		‚r‚f‚kƒ‚[ƒh‚ÌƒeƒXƒgƒTƒ“ƒvƒ‹
+!  * 
    *------------------------------------------------------------------------
    */
   #include    <sgl.h> 				/* use SGL  */
 ! extern PDATA PD_PLANE1, PD_PLANE2, PD_PLANE3;
   
   #include	<machine.h>
-  #include	<sega_scl.h> 
+! #include	<sega_scl.h> 
   
 ! #include	"..\..\v_blank\v_blank.h"
   
@@ -16972,14 +19451,22 @@ diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/s
   
   /*----------------------------
   SCROLL NBG0 Cycle Table
---- 7,22 ----
+--- 2,25 ----
+   *  FILE:	sblsgl01.c
+   *
+   *  PURPOSE:
+!  *		ï¿½rï¿½fï¿½kï¿½ï¿½ï¿½[ï¿½hï¿½Ìƒeï¿½Xï¿½gï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½
+!  *
    *------------------------------------------------------------------------
    */
++ 
++ #include <string.h>
++ 
   #include    <sgl.h> 				/* use SGL  */
 ! extern PDATA PD_PLANE1, PD_PLANE2, PD_PLANE3;
   
   #include	<machine.h>
-  #include	<sega_scl.h> 
+! #include	<sega_scl.h>
   
 ! #include	"../../v_blank/v_blank.h"
   
@@ -16990,32 +19477,122 @@ diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/s
   /*----------------------------
   SCROLL NBG0 Cycle Table
 ***************
-*** 49,59 ****
-  	Uint16  	BackCol,i,PadData1EW;
-  	Uint8   	*VramWorkP;
+*** 41,47 ****
+  }
   
-! 	static ANGLE ang1[XYZ], ang2[XYZ], ang3[XYZ];
-! 	static FIXED pos1[XYZ], pos2[XYZ], pos3[XYZ];
-! 	static ANGLE tang, aang;
-! 
-! 	slInitSystem(TV_320x224,NULL,1);
   
-  	/* ‚uƒuƒ‰ƒ“ƒNƒ‹[ƒ`ƒ“‚ğƒ†[ƒU[“o˜^‚·‚éê‡	*/
-      SetVblank();
---- 49,59 ----
-  	Uint16  	BackCol,i,PadData1EW;
-  	Uint8   	*VramWorkP;
+! /* ƒƒCƒ“ƒ‹[ƒ`ƒ“ */
+  void main()
+  {
+  	SclConfig	scfg;
+--- 44,50 ----
+  }
   
-! 	static ANGLE ang1[XYZ], ang2[XYZ], ang3[XYZ];
-! 	static FIXED pos1[XYZ], pos2[XYZ], pos3[XYZ];
-! 	static ANGLE tang, aang;
-! 
-! 	slInitSystem(TV_320x224,NULL,1);
   
-  	/* ‚uƒuƒ‰ƒ“ƒNƒ‹[ƒ`ƒ“‚ğƒ†[ƒU[“o˜^‚·‚éê‡	*/
-      SetVblank();
+! /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½ */
+  void main()
+  {
+  	SclConfig	scfg;
 ***************
-*** 112,135 ****
+*** 49,61 ****
+  	Uint16  	BackCol,i,PadData1EW;
+  	Uint8   	*VramWorkP;
+  
+! 	static ANGLE ang1[XYZ], ang2[XYZ], ang3[XYZ];
+! 	static FIXED pos1[XYZ], pos2[XYZ], pos3[XYZ];
+! 	static ANGLE tang, aang;
+! 
+! 	slInitSystem(TV_320x224,NULL,1);
+  
+! 	/* ‚uƒuƒ‰ƒ“ƒNƒ‹[ƒ`ƒ“‚ğƒ†[ƒU[“o˜^‚·‚éê‡	*/
+      SetVblank();
+  
+  	SCL_SetColRamMode(SCL_CRM24_1024);
+--- 52,64 ----
+  	Uint16  	BackCol,i,PadData1EW;
+  	Uint8   	*VramWorkP;
+  
+! 	static ANGLE ang1[XYZ], ang2[XYZ], ang3[XYZ];
+! 	static FIXED pos1[XYZ], pos2[XYZ], pos3[XYZ];
+! 	static ANGLE tang, aang;
+  
+! 	slInitSystem(TV_320x224,NULL,1);
+! 
+! 	/* ï¿½uï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ê‡	*/
+      SetVblank();
+  
+  	SCL_SetColRamMode(SCL_CRM24_1024);
+***************
+*** 64,76 ****
+  	SCL_SetBack(SCL_VDP2_VRAM+0x80000-2,1,&BackCol);
+  
+  	/******************************************************
+! 	*	ƒXƒNƒ[ƒ‹‚Ì·¬×¸ÀÊßÀ°İ‚Ìİ’è(VRAM B1‚É’u‚­)   *
+  	******************************************************/
+  	VramWorkP = (Uint8 *)SCL_VDP2_VRAM_B1;
+  	memcpy(VramWorkP, cosmo2u_char, sizeof(cosmo2u_char));
+  
+  	/*******************************************
+! 	*	ƒXƒNƒ[ƒ‹‚ÌÊßÀ°İÈ°ÑÃ°ÌŞÙ‚Ìİ’è        *
+  	*******************************************/
+  	VramWorkP = (Uint8 *)SCL_VDP2_VRAM_B0;
+  	for(i=0;i<28;i++) {
+--- 67,79 ----
+  	SCL_SetBack(SCL_VDP2_VRAM+0x80000-2,1,&BackCol);
+  
+  	/******************************************************
+! 	*	ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì·ï¿½×¸ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ìİ’ï¿½(VRAM B1ï¿½É’uï¿½ï¿½)   *
+  	******************************************************/
+  	VramWorkP = (Uint8 *)SCL_VDP2_VRAM_B1;
+  	memcpy(VramWorkP, cosmo2u_char, sizeof(cosmo2u_char));
+  
+  	/*******************************************
+! 	*	ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È°ï¿½Ã°ï¿½ï¿½Ù‚Ìİ’ï¿½        *
+  	*******************************************/
+  	VramWorkP = (Uint8 *)SCL_VDP2_VRAM_B0;
+  	for(i=0;i<28;i++) {
+***************
+*** 79,85 ****
+  	}
+  
+  	/*******************************************
+! 	*	ƒpƒŒƒbƒgƒf[ƒ^‚Ìİ’è                   *
+  	*******************************************/
+  	SCL_AllocColRam(SCL_NBG0,256,OFF);
+  	SCL_SetColRam(SCL_NBG0,0,sizeof(cosmo2u_col),(void*)cosmo2u_col);
+--- 82,88 ----
+  	}
+  
+  	/*******************************************
+! 	*	ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½fï¿½[ï¿½^ï¿½Ìİ’ï¿½                   *
+  	*******************************************/
+  	SCL_AllocColRam(SCL_NBG0,256,OFF);
+  	SCL_SetColRam(SCL_NBG0,0,sizeof(cosmo2u_col),(void*)cosmo2u_col);
+***************
+*** 95,101 ****
+  		scfg.platesize     = SCL_PL_SIZE_2X2;
+  		scfg.coltype       = SCL_COL_TYPE_256;
+  		scfg.datatype      = SCL_CELL;
+! 		scfg.patnamecontrl = 0x000c;	/* VRAM B1 ‚ÌƒIƒtƒZƒbƒg */
+  		for(i=0;i<4;i++)   scfg.plate_addr[i] = SCL_VDP2_VRAM_B0;
+  	SCL_SetConfig(SCL_NBG0, &scfg);
+  
+--- 98,104 ----
+  		scfg.platesize     = SCL_PL_SIZE_2X2;
+  		scfg.coltype       = SCL_COL_TYPE_256;
+  		scfg.datatype      = SCL_CELL;
+! 		scfg.patnamecontrl = 0x000c;	/* VRAM B1 ï¿½ÌƒIï¿½tï¿½Zï¿½bï¿½g */
+  		for(i=0;i<4;i++)   scfg.plate_addr[i] = SCL_VDP2_VRAM_B0;
+  	SCL_SetConfig(SCL_NBG0, &scfg);
+  
+***************
+*** 106,135 ****
+  
+  	SCL_SetCycleTable(CycleTb);
+  
+! 	/* ƒvƒ‰ƒCƒIƒŠƒeƒB‚ÌƒZƒbƒg */
+  	SCL_SetPriority(SCL_NBG0,7);
+  
   	start.red = start.green = start.blue = 0;
   	end.red = end.green = end.blue = - 255;
   
@@ -17035,12 +19612,18 @@ diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/s
 ! 	aang = DEGtoANG(2.0);
 ! 
   
-  	/******** ƒƒCƒ“ƒ‹[ƒv ********/
+! 	/******** ƒƒCƒ“ƒ‹[ƒv ********/
 ! 	while(-1) {
   		PadData1EW = PadData1E;
   		PadData1E = 0;
   		if(PadData1EW & PAD_U){
---- 112,135 ----
+--- 109,138 ----
+  
+  	SCL_SetCycleTable(CycleTb);
+  
+! 	/* ï¿½vï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½ÌƒZï¿½bï¿½g */
+  	SCL_SetPriority(SCL_NBG0,7);
+  
   	start.red = start.green = start.blue = 0;
   	end.red = end.green = end.blue = - 255;
   
@@ -17060,7 +19643,7 @@ diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/s
 ! 	aang = DEGtoANG(2.0);
 ! 
   
-  	/******** ƒƒCƒ“ƒ‹[ƒv ********/
+! 	/******** ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v ********/
 ! 	while(-1) {
   		PadData1EW = PadData1E;
   		PadData1E = 0;
@@ -17109,7 +19692,7 @@ diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/s
   
 ! 
 \ No newline at end of file
---- 150,190 ----
+--- 153,193 ----
   		if((PadData1 & PAD_B)) 	SCL_SetMosaic(SCL_NBG0,14,14);
   		if((PadData1 & PAD_C)) 	SCL_SetMosaic(SCL_NBG0,16,16);
   
@@ -17139,7 +19722,7 @@ diff -crBN --binary sbl6/segasmp/sblsgl/sblsgl01/sblsgl01.c sbl6_patch/segasmp/s
 ! 					slPutPolygon(&PD_PLANE3);
 ! 				}
 ! 				slPopMatrix();
-! 			}	
+! 			}
 ! 			slPopMatrix();
 ! 		}
 ! 		slPopMatrix();
@@ -17262,18 +19845,87 @@ diff -crBN --binary sbl6/segasmp/scl/smpscl3/scldata.c sbl6_patch/segasmp/scl/sm
 ! 
 diff -crBN --binary sbl6/segasmp/scl/smpscl3/smpscl3.c sbl6_patch/segasmp/scl/smpscl3/smpscl3.c
 *** sbl6/segasmp/scl/smpscl3/smpscl3.c	1996-02-08 05:31:52.000000000 -0500
---- sbl6_patch/segasmp/scl/smpscl3/smpscl3.c	2023-01-08 13:48:08.000000000 -0500
+--- sbl6_patch/segasmp/scl/smpscl3/smpscl3.c	2024-08-01 16:36:10.000000000 -0400
 ***************
-*** 40,46 ****
-  	0xffff,0xffff   /*        (VRAM B1)   –³Œøi•ªŠ„‚µ‚Ä‚¢‚È‚¢j   */
+*** 1,7 ****
+  /*------------------------------------------------------------------------
+   *  FILE:	SmpScl3.c
+   *
+!  *      Copyright (c) by SEGA Enterprises Ltd. 1994. All rights reserved. 
+   *
+   *  PURPOSE:
+   *		VDPII Test Program
+--- 1,7 ----
+  /*------------------------------------------------------------------------
+   *  FILE:	SmpScl3.c
+   *
+!  *      Copyright (c) by SEGA Enterprises Ltd. 1994. All rights reserved.
+   *
+   *  PURPOSE:
+   *		VDPII Test Program
+***************
+*** 14,46 ****
+   */
+  #include	<machine.h>
+  #include	<sega_xpt.h>
+! #include	<sega_def.h> 
+! #include	<sega_mth.h> 
+! #include	<sega_scl.h> 
+  #include	"botan.h"
+  
+  void SetAutoLinePara(Uint16 SclNum);
+  void ClrLinePara(Uint16 SclNum);
+  
+! extern SetVblank(void);				/*	’Ç‰Á 95.7.11 Chikahiro Yoshida	*/
+! extern FirstData(Uint32 sclnum);	/*	’Ç‰Á 95.7.11 Chikahiro Yoshida	*/
+! extern SecondData(Uint32 sclnum);	/*	’Ç‰Á 95.7.11 Chikahiro Yoshida	*/
+  
+  /********************************
+!  * »²¸ÙÊßÀ°İÃ°ÌŞÙ               *
+   ********************************/
+  Uint16	CycleTb[]={
+! 	0x01ff,0x4455,	/* VRAM A (VRAM A0)   1:NBG1ÊßÀ°İÈ°Ñ(Ï¯Ìß)Ø°ÄŞ */
+! 			/*                    0:NBG0ÊßÀ°İÈ°Ñ(Ï¯Ìß)Ø°ÄŞ */
+! 			/*                    5:NBG1·¬×¸ÀÊßÀ°İ(¾Ù)Ø°ÄŞ */
+! 			/*                    4:NBG0·¬×¸ÀÊßÀ°İ(¾Ù)Ø°ÄŞ */
+! 			/*                    f:±¸¾½‚µ‚È‚¢             */
+! 	0xffff,0xffff,  /*        (VRAM A1)   –³Œøi•ªŠ„‚µ‚Ä‚¢‚È‚¢j   */
+! 	0xffff,0xffff,  /* VRAM B (VRAM B0)   –¢g—p                   */
+! 	0xffff,0xffff   /*        (VRAM B1)   –³Œøi•ªŠ„‚µ‚Ä‚¢‚È‚¢j   */
   };
   
 ! void main()
   {
       SclConfig	scfg;
   /*    Uint16	*prnum_addr;	*/
---- 40,46 ----
-  	0xffff,0xffff   /*        (VRAM B1)   –³Œøi•ªŠ„‚µ‚Ä‚¢‚È‚¢j   */
+--- 14,46 ----
+   */
+  #include	<machine.h>
+  #include	<sega_xpt.h>
+! #include	<sega_def.h>
+! #include	<sega_mth.h>
+! #include	<sega_scl.h>
+  #include	"botan.h"
+  
+  void SetAutoLinePara(Uint16 SclNum);
+  void ClrLinePara(Uint16 SclNum);
+  
+! extern void SetVblank(void);				/*	ï¿½Ç‰ï¿½ 95.7.11 Chikahiro Yoshida	*/
+! extern void FirstData(Uint32 sclnum);	/*	ï¿½Ç‰ï¿½ 95.7.11 Chikahiro Yoshida	*/
+! extern Uint32 SecondData(Uint32 sclnum);	/*	ï¿½Ç‰ï¿½ 95.7.11 Chikahiro Yoshida	*/
+  
+  /********************************
+!  * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½               *
+   ********************************/
+  Uint16	CycleTb[]={
+! 	0x01ff,0x4455,	/* VRAM A (VRAM A0)   1:NBG1ï¿½ï¿½ï¿½ï¿½ï¿½È°ï¿½(Ï¯ï¿½ï¿½)Ø°ï¿½ï¿½ */
+! 			/*                    0:NBG0ï¿½ï¿½ï¿½ï¿½ï¿½È°ï¿½(Ï¯ï¿½ï¿½)Ø°ï¿½ï¿½ */
+! 			/*                    5:NBG1ï¿½ï¿½×¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½)Ø°ï¿½ï¿½ */
+! 			/*                    4:NBG0ï¿½ï¿½×¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½)Ø°ï¿½ï¿½ */
+! 			/*                    f:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½             */
+! 	0xffff,0xffff,  /*        (VRAM A1)   ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½j   */
+! 	0xffff,0xffff,  /* VRAM B (VRAM B0)   ï¿½ï¿½ï¿½gï¿½p                   */
+! 	0xffff,0xffff   /*        (VRAM B1)   ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½j   */
   };
   
 ! int main()
@@ -17281,8 +19933,123 @@ diff -crBN --binary sbl6/segasmp/scl/smpscl3/smpscl3.c sbl6_patch/segasmp/scl/sm
       SclConfig	scfg;
   /*    Uint16	*prnum_addr;	*/
 ***************
-*** 203,208 ****
---- 203,209 ----
+*** 57,93 ****
+      sclnum2 = SCL_NBG0;
+  
+     /*******************************************
+!     *	‚u‚c‚o‚Qƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰»            *
+      *******************************************/
+      SCL_Vdp2Init();
+      SCL_SetFrameInterval(1);
+  
+     /*******************************************
+!     *	ƒJƒ‰[‚q‚`‚lƒ‚[ƒh‚ğ1600–œF‚Éİ’è    *
+      *******************************************/
+      SCL_SetColRamMode(SCL_CRM24_1024);
+  
+     /*******************************
+!     *	V_Blankƒ‹[ƒ`ƒ“‚Ì“o˜^     *
+      *******************************/
+      SetVblank();
+     /*******************************************
+!     *	Š„‚è‚İƒ}ƒXƒN‚ğ‰ğœ                  *
+      *******************************************/
+      set_imask(0);
+      /*******************************************
+!     *	ƒJƒ‰[ƒ‚[ƒhİ’è‚Ìˆ×‚u|‚h‚m‚s‘Ò‚¿     *
+      ********************************************/
+      SCL_DisplayFrame();
+  
+     /*******************************************
+!     *	ƒXƒNƒ[ƒ‹ƒf[ƒ^‚ÌƒZƒbƒg              *
+      *******************************************/
+      FirstData(sclnum);
+      StartAddr2 = SecondData(sclnum2);
+  
+     /*******************************************
+!     *	½¸Û°ÙºİÌ¨¸ŞÚ°¼®İ‚Ìİ’è                *
+      *******************************************/
+      SCL_InitConfigTb(&scfg);
+      scfg.dispenbl      = ON;
+--- 57,93 ----
+      sclnum2 = SCL_NBG0;
+  
+     /*******************************************
+!     *	ï¿½uï¿½cï¿½oï¿½Qï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½            *
+      *******************************************/
+      SCL_Vdp2Init();
+      SCL_SetFrameInterval(1);
+  
+     /*******************************************
+!     *	ï¿½Jï¿½ï¿½ï¿½[ï¿½qï¿½`ï¿½lï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½1600ï¿½ï¿½ï¿½Fï¿½Éİ’ï¿½    *
+      *******************************************/
+      SCL_SetColRamMode(SCL_CRM24_1024);
+  
+     /*******************************
+!     *	V_Blankï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½ï¿½Ì“oï¿½^     *
+      *******************************/
+      SetVblank();
+     /*******************************************
+!     *	ï¿½ï¿½ï¿½èï¿½İƒ}ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                  *
+      *******************************************/
+      set_imask(0);
+      /*******************************************
+!     *	ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½İ’ï¿½ï¿½Ìˆ×‚uï¿½|ï¿½hï¿½mï¿½sï¿½Ò‚ï¿½     *
+      ********************************************/
+      SCL_DisplayFrame();
+  
+     /*******************************************
+!     *	ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÌƒZï¿½bï¿½g              *
+      *******************************************/
+      FirstData(sclnum);
+      StartAddr2 = SecondData(sclnum2);
+  
+     /*******************************************
+!     *	ï¿½ï¿½Û°Ùºï¿½Ì¨ï¿½ï¿½Ú°ï¿½ï¿½İ‚Ìİ’ï¿½                *
+      *******************************************/
+      SCL_InitConfigTb(&scfg);
+      scfg.dispenbl      = ON;
+***************
+*** 109,120 ****
+      SCL_SetConfig(sclnum2, &scfg);
+  
+     /*******************************************
+!     *	ƒTƒCƒNƒ‹ƒpƒ^[ƒ“‚Ìİ’è                *
+      *******************************************/
+      SCL_SetCycleTable(CycleTb);
+  
+     /*******************************************
+!     *	Ìß×²µØÃ¨‚ğİ’è(0`7)                  *
+      *******************************************/
+      SCL_SetPriority(sclnum2,7);
+      SCL_SetPriority(sclnum,6);
+--- 109,120 ----
+      SCL_SetConfig(sclnum2, &scfg);
+  
+     /*******************************************
+!     *	ï¿½Tï¿½Cï¿½Nï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½Ìİ’ï¿½                *
+      *******************************************/
+      SCL_SetCycleTable(CycleTb);
+  
+     /*******************************************
+!     *	ï¿½ï¿½×²ï¿½ï¿½Ã¨ï¿½ï¿½ï¿½İ’ï¿½(0ï¿½`7)                  *
+      *******************************************/
+      SCL_SetPriority(sclnum2,7);
+      SCL_SetPriority(sclnum,6);
+***************
+*** 203,213 ****
+  	}
+  	sw++;
+      }
+  }
+  
+  
+  /********************************************************************
+!  * ƒ‰ƒCƒ“ƒpƒ‰ƒ[ƒ^ƒe[ƒuƒ‹‚Ìƒ_ƒ~[‚ğì¬‚·‚é                       *
+   ********************************************************************/
+  #define X_SIZE		320
+  #define Y_SIZE		224
+--- 203,214 ----
   	}
   	sw++;
       }
@@ -17290,6 +20057,28 @@ diff -crBN --binary sbl6/segasmp/scl/smpscl3/smpscl3.c sbl6_patch/segasmp/scl/sm
   }
   
   
+  /********************************************************************
+!  * ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒ_ï¿½~ï¿½[ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½                       *
+   ********************************************************************/
+  #define X_SIZE		320
+  #define Y_SIZE		224
+***************
+*** 241,247 ****
+  }
+  
+  /********************************************************************
+!  * ƒ‰ƒCƒ“ƒpƒ‰ƒ[ƒ^ƒe[ƒuƒ‹‚ğ–³Œø‚É‚·‚é                             *
+   ********************************************************************/
+  void ClrLinePara(Uint16 SclNum)
+  {
+--- 242,248 ----
+  }
+  
+  /********************************************************************
+!  * ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ğ–³Œï¿½ï¿½É‚ï¿½ï¿½ï¿½                             *
+   ********************************************************************/
+  void ClrLinePara(Uint16 SclNum)
+  {
 ***************
 *** 254,257 ****
       SCL_Close();

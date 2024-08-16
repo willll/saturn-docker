@@ -262,7 +262,8 @@ LDFLAGS = -m2
 	LDFLAGS += -L$(SGLLDR)
 #endif
 LDFLAGS +=-Xlinker -T$(LDFILE) -Xlinker -Map \
-          -Xlinker $(MPFILE) -Xlinker -e -Xlinker ___Start -nostartfiles
+          -Xlinker $(MPFILE) -Xlinker -e -Xlinker ___Start -nostartfiles \
+					--specs=nosys.specs
 
 LIBS += -Wl,--relax -lgcc
 

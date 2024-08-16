@@ -16,8 +16,12 @@ add_executable(TexturedSprite.elf ${SOURCES})
 target_include_directories(TexturedSprite.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 
+
+target_compile_options(TexturedSprite.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags} "-Wno-incompatible-pointer-types" >
+                                                  $<$<COMPILE_LANGUAGE:ASM>:${as_flags}> )
+
 target_link_options(TexturedSprite.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${OUTPUT_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Source/Saturn.lnk"

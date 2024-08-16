@@ -1,4 +1,1992 @@
-diff -crB --binary sgl302/sample/common/cinit.c sgl302_patch/sample/common/cinit.c
+diff -crBN --binary sgl302/demos/chrome/main.c sgl302_patch/demos/chrome/main.c
+*** sgl302/demos/chrome/main.c	1996-10-13 09:01:14.000000000 -0400
+--- sgl302_patch/demos/chrome/main.c	2024-08-01 16:48:28.000000000 -0400
+***************
+*** 13,22 ****
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION 
+  //	00/00/00
+  //
+! //	ORIGINAL FILE 
+  //	s:\sgl_3\sgl\sample\chrome\main.c
+  //
+  //------------------------------------------------------------------------
+--- 13,22 ----
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION
+  //	00/00/00
+  //
+! //	ORIGINAL FILE
+  //	s:\sgl_3\sgl\sample\chrome\main.c
+  //
+  //------------------------------------------------------------------------
+***************
+*** 64,70 ****
+  	GRTBL( 13, 16, 16 ),
+  	GRTBL( 14, 16, 16 ),
+  	GRTBL( 15, 16, 16 ),
+! 	GRTBL( 16, 16, 16 ),						  
+  	GRTBL( 17, 16, 16 ),
+  	GRTBL( 18, 16, 16 ),
+  	GRTBL( 19, 16, 16 ),
+--- 64,70 ----
+  	GRTBL( 13, 16, 16 ),
+  	GRTBL( 14, 16, 16 ),
+  	GRTBL( 15, 16, 16 ),
+! 	GRTBL( 16, 16, 16 ),
+  	GRTBL( 17, 16, 16 ),
+  	GRTBL( 18, 16, 16 ),
+  	GRTBL( 19, 16, 16 ),
+***************
+*** 117,122 ****
+--- 117,124 ----
+  	0xC9AE,
+  };
+  
++ void	Texture_Load(void);
++ 
+  void ss_main(void)
+  {
+  
+***************
+*** 130,136 ****
+  		{toFIXED(0.0), toFIXED(0.0), toFIXED(0.0)};
+  	ANGLE cm_ang[XYZ] =
+  		{DEGtoANG(0.0), DEGtoANG(0.0), DEGtoANG(0.0) };
+! 								   
+  
+  
+  
+--- 132,138 ----
+  		{toFIXED(0.0), toFIXED(0.0), toFIXED(0.0)};
+  	ANGLE cm_ang[XYZ] =
+  		{DEGtoANG(0.0), DEGtoANG(0.0), DEGtoANG(0.0) };
+! 
+  
+  
+  
+***************
+*** 179,191 ****
+  
+  		// SPIN OBJECT
+  		slRotZ(t_angZ);
+! 		slRotY(t_angY);			   
+  		slRotX(t_angX);
+! 								 
+  		t_angZ	+=	DEGtoANG(0.25);
+  		t_angY	+=	DEGtoANG(1.0);
+  		t_angX	+=	DEGtoANG(1.1);
+! 	
+  		// DRAW OBJECT
+  		slPutPolygonX((XPDATA*)&xpdata_test,light);
+  
+--- 181,193 ----
+  
+  		// SPIN OBJECT
+  		slRotZ(t_angZ);
+! 		slRotY(t_angY);
+  		slRotX(t_angX);
+! 
+  		t_angZ	+=	DEGtoANG(0.25);
+  		t_angY	+=	DEGtoANG(1.0);
+  		t_angX	+=	DEGtoANG(1.1);
+! 
+  		// DRAW OBJECT
+  		slPutPolygonX((XPDATA*)&xpdata_test,light);
+  
+***************
+*** 197,205 ****
+  
+  		slPrintHex(	slHex2Dec(slGetVCount())	, slLocate(16,2));	// Get vertical count position
+  
+! 		
+  		slSynch();	// SYNC SGL
+  
+  	}
+  }
+- 
+--- 199,206 ----
+  
+  		slPrintHex(	slHex2Dec(slGetVCount())	, slLocate(16,2));	// Get vertical count position
+  
+! 
+  		slSynch();	// SYNC SGL
+  
+  	}
+  }
+diff -crBN --binary sgl302/demos/chrome/texture.c sgl302_patch/demos/chrome/texture.c
+*** sgl302/demos/chrome/texture.c	1996-10-13 08:20:52.000000000 -0400
+--- sgl302_patch/demos/chrome/texture.c	2024-08-11 18:37:46.000000000 -0400
+***************
+*** 13,22 ****
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION 
+  //	00/00/00
+  //
+! //	ORIGINAL FILE 
+  //	s:\sgl_3\sgl\sample\chrome\texture.c
+  //
+  //------------------------------------------------------------------------
+--- 13,22 ----
+  //	TARGET
+  //	SEGA SATURN
+  //
+! //	REVISION
+  //	00/00/00
+  //
+! //	ORIGINAL FILE
+  //	s:\sgl_3\sgl\sample\chrome\texture.c
+  //
+  //------------------------------------------------------------------------
+***************
+*** 152,158 ****
+  void set_texture(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+!  
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_table + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+--- 152,158 ----
+  void set_texture(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+! 
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_table + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+***************
+*** 183,190 ****
+  
+  	// DMA TEXTURE TO VDP1 VRAM
+  	set_texture(pic_table,NUM_TEXTURES);
+! 	// Load custom FX palette that textures reference	
+! 	Pal2CRAM(palette , (void *)TEX_COL_ADR , 256);
+  
+  
+  
+--- 183,190 ----
+  
+  	// DMA TEXTURE TO VDP1 VRAM
+  	set_texture(pic_table,NUM_TEXTURES);
+! 	// Load custom FX palette that textures reference
+! 	Pal2CRAM((short unsigned int *)palette , (void *)TEX_COL_ADR , 256);
+  
+  
+  
+diff -crBN --binary sgl302/demos/flying/actor.c sgl302_patch/demos/flying/actor.c
+*** sgl302/demos/flying/actor.c	1996-08-07 09:05:04.000000000 -0400
+--- sgl302_patch/demos/flying/actor.c	2024-08-02 21:12:58.000000000 -0400
+***************
+*** 25,30 ****
+--- 25,32 ----
+  #include "vector.h"
+  #include "actor.h"
+  
++ void AISparks( void );
++ 
+  static int num_actors_executing;
+  static int actor_tree_extant = FALSE;
+  
+***************
+*** 48,54 ****
+  	PROCESS* p = (PROCESS*)n;
+  	List* l = &(((ACTOR*)v2)->process);
+  
+! 	LstUnlinkNode( l, n );	
+  	ACTOR_MEM_FREE( p );
+  	return( CONTINUE );
+  }
+--- 50,56 ----
+  	PROCESS* p = (PROCESS*)n;
+  	List* l = &(((ACTOR*)v2)->process);
+  
+! 	LstUnlinkNode( l, n );
+  	ACTOR_MEM_FREE( p );
+  	return( CONTINUE );
+  }
+***************
+*** 58,65 ****
+  	EOBJECT* o = (EOBJECT*)n;
+  	List* l = &(((ACTOR*)v2)->object);
+  
+! 	LstUnlinkNode( l, n );	
+! 	
+  	ACTOR_MEM_FREE( o );	// deletes object and graphic
+  	return( CONTINUE );
+  }
+--- 60,67 ----
+  	EOBJECT* o = (EOBJECT*)n;
+  	List* l = &(((ACTOR*)v2)->object);
+  
+! 	LstUnlinkNode( l, n );
+! 
+  	ACTOR_MEM_FREE( o );	// deletes object and graphic
+  	return( CONTINUE );
+  }
+***************
+*** 77,83 ****
+  		// 'twould be nice if we could get to a Tree** from the node
+  		// we're currently working on without having to search the tree.
+  
+! 		TreeDeleteByKey( &actor_tree, victim->tnode.key );		
+  		actor_tree_count--;
+  		ACTOR_MEM_FREE( victim );
+  }
+--- 79,85 ----
+  		// 'twould be nice if we could get to a Tree** from the node
+  		// we're currently working on without having to search the tree.
+  
+! 		TreeDeleteByKey( &actor_tree, victim->tnode.key );
+  		actor_tree_count--;
+  		ACTOR_MEM_FREE( victim );
+  }
+***************
+*** 101,107 ****
+  
+  	switch ((int)message)
+  	{
+! 		case AMESS_DESTROY		:	
+  		actor_kill = ACTOR_MEM_ALLOC( sizeof (Node) );
+  		if (actor_kill != NULL)
+  		{
+--- 103,109 ----
+  
+  	switch ((int)message)
+  	{
+! 		case AMESS_DESTROY		:
+  		actor_kill = ACTOR_MEM_ALLOC( sizeof (Node) );
+  		if (actor_kill != NULL)
+  		{
+***************
+*** 114,120 ****
+  		}
+  		break;
+  
+! 		case AMESS_RS_RUN		:	
+  		case AMESS_RS_WAIT		:
+  		case AMESS_RS_SLEEP		:
+  		case AMESS_RS_SUSPEND	:
+--- 116,122 ----
+  		}
+  		break;
+  
+! 		case AMESS_RS_RUN		:
+  		case AMESS_RS_WAIT		:
+  		case AMESS_RS_SLEEP		:
+  		case AMESS_RS_SUSPEND	:
+***************
+*** 128,138 ****
+  		case AMESS_COLLIDE_ATT:
+  		AISparks();
+  		break;
+! 	
+  		case AMESS_COLLIDE_DEF:
+  		current->invuln = 15;
+  		break;
+! 		
+  		default:
+  		break;
+  	}
+--- 130,140 ----
+  		case AMESS_COLLIDE_ATT:
+  		AISparks();
+  		break;
+! 
+  		case AMESS_COLLIDE_DEF:
+  		current->invuln = 15;
+  		break;
+! 
+  		default:
+  		break;
+  	}
+***************
+*** 141,147 ****
+  int _ActBroadcastCallback( Tree** node, long v1, long* v2 )
+  {
+  	ACTOR* a = (ACTOR*)(*node);
+! 	
+  	ActSendMessage( a, v1, (long) v2 );
+  	return( CONTINUE );
+  }
+--- 143,149 ----
+  int _ActBroadcastCallback( Tree** node, long v1, long* v2 )
+  {
+  	ACTOR* a = (ACTOR*)(*node);
+! 
+  	ActSendMessage( a, v1, (long) v2 );
+  	return( CONTINUE );
+  }
+***************
+*** 170,181 ****
+  
+  		case AFLAG_RS_SLEEP:
+  		if (mess > AMESS_PRIORITY_2)
+! 		block = TRUE; 
+  		break;
+! 		
+  		case AFLAG_RS_SUSPEND:
+  		if (mess > AMESS_PRIORITY_1)
+! 		block = TRUE; 
+  		break;
+  
+  		default:
+--- 172,183 ----
+  
+  		case AFLAG_RS_SLEEP:
+  		if (mess > AMESS_PRIORITY_2)
+! 		block = TRUE;
+  		break;
+! 
+  		case AFLAG_RS_SUSPEND:
+  		if (mess > AMESS_PRIORITY_1)
+! 		block = TRUE;
+  		break;
+  
+  		default:
+***************
+*** 221,254 ****
+  	actor_tree_extant = FALSE;
+  }
+  
+! // 
+! // ACTOR* ActCreateActor( 
+! // 	char* actor_name, 
+! // 	ACTOR_FLAGS flags, 
+! // 	short priority, 
+  // 	void (*message_handler)(),
+  // 	ACTOR* parent,
+! // 	int scratch  ) 
+! // 
+  // Allocates and initializes an actor with no objects or processes.
+  // priority is shifted left by 16 bits then incremented until a unique
+  // ID is created to serve as the index tag in the actor tree.
+! // scratch is the number of bytes of scratch space to allocate; the 
+  // actor scratch pointer is set to a buffer of this size.
+  // Once the actor is created, an AMESS_CREATE message is sent to that
+! // actor - the message handler should be prepared for this, and will 
+  // probably create the processes and objects for the actor.
+  //
+  // returns pointer to new actor or NULL
+  //
+  
+! ACTOR* ActCreateActor( 
+! 	char* actor_name, 
+! 	ACTOR_FLAGS flags, 
+! 	short priority, 
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+! 	int scratch  ) 
+  {
+  	Tree** scan;
+  	ACTOR* new_actor;
+--- 223,256 ----
+  	actor_tree_extant = FALSE;
+  }
+  
+! //
+! // ACTOR* ActCreateActor(
+! // 	char* actor_name,
+! // 	ACTOR_FLAGS flags,
+! // 	short priority,
+  // 	void (*message_handler)(),
+  // 	ACTOR* parent,
+! // 	int scratch  )
+! //
+  // Allocates and initializes an actor with no objects or processes.
+  // priority is shifted left by 16 bits then incremented until a unique
+  // ID is created to serve as the index tag in the actor tree.
+! // scratch is the number of bytes of scratch space to allocate; the
+  // actor scratch pointer is set to a buffer of this size.
+  // Once the actor is created, an AMESS_CREATE message is sent to that
+! // actor - the message handler should be prepared for this, and will
+  // probably create the processes and objects for the actor.
+  //
+  // returns pointer to new actor or NULL
+  //
+  
+! ACTOR* ActCreateActor(
+! 	char* actor_name,
+! 	ACTOR_FLAGS flags,
+! 	short priority,
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+! 	int scratch  )
+  {
+  	Tree** scan;
+  	ACTOR* new_actor;
+***************
+*** 287,293 ****
+  		new_actor->scratch.v = NULL;
+  
+  	new_actor->invuln = 0;
+! 	
+  	TreeAdd( &actor_tree, &(new_actor->tnode) );
+  	actor_tree_count++;
+  
+--- 289,295 ----
+  		new_actor->scratch.v = NULL;
+  
+  	new_actor->invuln = 0;
+! 
+  	TreeAdd( &actor_tree, &(new_actor->tnode) );
+  	actor_tree_count++;
+  
+***************
+*** 296,325 ****
+  	return( new_actor );
+  }
+  
+! // 
+! // PROCESS* ActAddProcess( 
+! // 	ACTOR* actor, 
+! // 	void (*function)(), 
+! // 	int delay, 
+! // 	int autodelay, 
+! // 	long priority )		
+! // 
+  // adds a process to the actor's process list.
+! // delay is the number of ticks before it will execute (0-1 = ASAP); 
+! // autodelay, if not 0, is the number of ticks to recycle 
+  // the delay with
+  // priority is the execution priority within the actor's processes
+  // only
+! // 
+  // returns pointer to new process or NULL
+  //
+  
+! PROCESS* ActAddProcess( 
+! 	ACTOR* actor, 
+  	PROCESS_FUNC function,
+! 	int delay, 
+! 	int autodelay, 
+! 	long priority )		
+  {
+  	PROCESS* new_process;
+  
+--- 298,327 ----
+  	return( new_actor );
+  }
+  
+! //
+! // PROCESS* ActAddProcess(
+! // 	ACTOR* actor,
+! // 	void (*function)(),
+! // 	int delay,
+! // 	int autodelay,
+! // 	long priority )
+! //
+  // adds a process to the actor's process list.
+! // delay is the number of ticks before it will execute (0-1 = ASAP);
+! // autodelay, if not 0, is the number of ticks to recycle
+  // the delay with
+  // priority is the execution priority within the actor's processes
+  // only
+! //
+  // returns pointer to new process or NULL
+  //
+  
+! PROCESS* ActAddProcess(
+! 	ACTOR* actor,
+  	PROCESS_FUNC function,
+! 	int delay,
+! 	int autodelay,
+! 	long priority )
+  {
+  	PROCESS* new_process;
+  
+***************
+*** 336,348 ****
+  		LstAddNodeByKey( &(actor->process), &(new_process->lnode) );
+  	}
+  	return( new_process );
+! }		
+  
+  //
+! // EOBJECT* ActAddObject( 
+! //	ACTOR* actor, 
+! //	OBJECT_FLAGS flags, 
+! //	int num_verts, 
+  //	int num_patches )
+  //
+  // adds an object with the specified flags
+--- 338,350 ----
+  		LstAddNodeByKey( &(actor->process), &(new_process->lnode) );
+  	}
+  	return( new_process );
+! }
+  
+  //
+! // EOBJECT* ActAddObject(
+! //	ACTOR* actor,
+! //	OBJECT_FLAGS flags,
+! //	int num_verts,
+  //	int num_patches )
+  //
+  // adds an object with the specified flags
+***************
+*** 353,374 ****
+  // returns a pointer to new object or NULL
+  //
+  
+! EOBJECT* ActAddObject( 
+! 	ACTOR* actor, 
+! 	OBJECT_FLAGS flags, 
+! 	int num_verts, 
+  	int num_patches )
+  {
+  	EOBJECT* new_object;
+  	int size;
+! 	
+  	assert( actor != NULL );
+! 	
+  	switch	(flags & OFLAG_MASK_GRAPHIC)
+  	{
+  		case OFLAG_NVGRAPH:
+! 		size =	sizeof( EOBJECT ) + 
+! 				sizeof( NVGRAPH ) + 
+  				(num_verts * sizeof( NVVERTEX )) +
+  				(num_patches * sizeof( NVPATCH ));
+  
+--- 355,376 ----
+  // returns a pointer to new object or NULL
+  //
+  
+! EOBJECT* ActAddObject(
+! 	ACTOR* actor,
+! 	OBJECT_FLAGS flags,
+! 	int num_verts,
+  	int num_patches )
+  {
+  	EOBJECT* new_object;
+  	int size;
+! 
+  	assert( actor != NULL );
+! 
+  	switch	(flags & OFLAG_MASK_GRAPHIC)
+  	{
+  		case OFLAG_NVGRAPH:
+! 		size =	sizeof( EOBJECT ) +
+! 				sizeof( NVGRAPH ) +
+  				(num_verts * sizeof( NVVERTEX )) +
+  				(num_patches * sizeof( NVPATCH ));
+  
+***************
+*** 385,392 ****
+  		break;
+  
+  		case OFLAG_SATPOLY:
+! 		size =	sizeof( EOBJECT ) + 
+! 				sizeof( SATPOLY ) + 
+  				(num_verts * sizeof( POINT )) +
+  				(num_patches * (sizeof( POLYGON )+sizeof( ATTR )));
+  
+--- 387,394 ----
+  		break;
+  
+  		case OFLAG_SATPOLY:
+! 		size =	sizeof( EOBJECT ) +
+! 				sizeof( SATPOLY ) +
+  				(num_verts * sizeof( POINT )) +
+  				(num_patches * (sizeof( POLYGON )+sizeof( ATTR )));
+  
+***************
+*** 403,409 ****
+  		break;
+  
+  		case OFLAG_SATSPRITE:
+! 		size =	sizeof( EOBJECT ) + 
+  				sizeof( SATSPRITE );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+--- 405,411 ----
+  		break;
+  
+  		case OFLAG_SATSPRITE:
+! 		size =	sizeof( EOBJECT ) +
+  				sizeof( SATSPRITE );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+***************
+*** 416,422 ****
+  		break;
+  
+  		case OFLAG_SATBACKGR:
+! 		size =	sizeof( EOBJECT ) + 
+  				sizeof( SATBACKGR );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+--- 418,424 ----
+  		break;
+  
+  		case OFLAG_SATBACKGR:
+! 		size =	sizeof( EOBJECT ) +
+  				sizeof( SATBACKGR );
+  
+  		new_object = ACTOR_MEM_ALLOC( size );
+***************
+*** 444,450 ****
+  int _ActUpdateProcessCallback( Node* n, long v1, long* v2 )
+  {
+  	PROCESS* p = (PROCESS*)n;
+! 	
+  	if (p->delay <= 1)
+  	{
+  		(*p->function)( (ACTOR*)v2, p );
+--- 446,452 ----
+  int _ActUpdateProcessCallback( Node* n, long v1, long* v2 )
+  {
+  	PROCESS* p = (PROCESS*)n;
+! 
+  	if (p->delay <= 1)
+  	{
+  		(*p->function)( (ACTOR*)v2, p );
+***************
+*** 517,523 ****
+  	{
+  	 	LstIterateValue( &(a->process), _ActUpdateProcessCallback, 0, (long*)a );
+  		num_actors_executing++;
+! 	}		
+  
+  	return( CONTINUE );
+  }
+--- 519,525 ----
+  	{
+  	 	LstIterateValue( &(a->process), _ActUpdateProcessCallback, 0, (long*)a );
+  		num_actors_executing++;
+! 	}
+  
+  	return( CONTINUE );
+  }
+diff -crBN --binary sgl302/demos/flying/actor.h sgl302_patch/demos/flying/actor.h
+*** sgl302/demos/flying/actor.h	1996-08-07 13:53:02.000000000 -0400
+--- sgl302_patch/demos/flying/actor.h	2024-08-05 16:23:48.000000000 -0400
+***************
+*** 28,33 ****
+--- 28,35 ----
+  
+  //-------------------------- MACROS & TYPEDEFS ---------------------------
+  
++ extern 	pointer	Memmalloc				(dword size);
++ 
+  #define ACTOR_MEM_ALLOC(size)		Memmalloc(size)
+  #define ACTOR_MEM_FREE(ptr)			Memfree(ptr)
+  
+***************
+*** 50,56 ****
+  #define DELAY_1HZ		60
+  
+  //--------------------------- GLOBAL VARIABLES ---------------------------
+! 	
+  extern char* act_xyz_order;
+  extern char* act_xzy_order;
+  extern char* act_yxz_order;
+--- 52,58 ----
+  #define DELAY_1HZ		60
+  
+  //--------------------------- GLOBAL VARIABLES ---------------------------
+! 
+  extern char* act_xyz_order;
+  extern char* act_xzy_order;
+  extern char* act_yxz_order;
+***************
+*** 63,85 ****
+  extern void ActSendMessage( ACTOR* receive, MESSAGE_FLAGS mess, long data );
+  extern void ActCreateActorTree( void );
+  extern void ActKillActorTree( void );
+! extern ACTOR* ActCreateActor( 
+! 	char* actor_name, 
+! 	ACTOR_FLAGS flags, 
+! 	short priority, 
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+  	int scratch  );
+! extern PROCESS* ActAddProcess( 
+! 	ACTOR* actor, 
+  	PROCESS_FUNC function,
+! 	int delay, 
+! 	int autodelay, 
+! 	long priority );		
+! extern EOBJECT* ActAddObject( 
+! 	ACTOR* actor, 
+! 	OBJECT_FLAGS flags, 
+! 	int num_verts, 
+  	int num_patches );
+  extern int ActUpdate( long clock );
+  extern void ProcSetDelay( PROCESS* proc, int delay, int autodelay );
+--- 65,87 ----
+  extern void ActSendMessage( ACTOR* receive, MESSAGE_FLAGS mess, long data );
+  extern void ActCreateActorTree( void );
+  extern void ActKillActorTree( void );
+! extern ACTOR* ActCreateActor(
+! 	char* actor_name,
+! 	ACTOR_FLAGS flags,
+! 	short priority,
+  	MESSAGE_HAND message_handler,
+  	ACTOR* parent,
+  	int scratch  );
+! extern PROCESS* ActAddProcess(
+! 	ACTOR* actor,
+  	PROCESS_FUNC function,
+! 	int delay,
+! 	int autodelay,
+! 	long priority );
+! extern EOBJECT* ActAddObject(
+! 	ACTOR* actor,
+! 	OBJECT_FLAGS flags,
+! 	int num_verts,
+  	int num_patches );
+  extern int ActUpdate( long clock );
+  extern void ProcSetDelay( PROCESS* proc, int delay, int autodelay );
+***************
+*** 89,92 ****
+  extern EOBJECT* ActGetNextObject( ACTOR* act, EOBJECT* obj );
+  
+  #endif
+- 
+--- 91,93 ----
+diff -crBN --binary sgl302/demos/flying/ai.c sgl302_patch/demos/flying/ai.c
+*** sgl302/demos/flying/ai.c	1996-08-07 09:16:42.000000000 -0400
+--- sgl302_patch/demos/flying/ai.c	2024-08-05 17:14:54.000000000 -0400
+***************
+*** 40,49 ****
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+! ATTR tile_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TILE, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! SPR_ATTR spark_attr = 
+  	SPR_ATTRIBUTE( TEX_SPARK16, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SPARK_AGE ((act->scratch.l)[0])
+--- 40,49 ----
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+! ATTR tile_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TILE, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! SPR_ATTR spark_attr =
+  	SPR_ATTRIBUTE( TEX_SPARK16, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SPARK_AGE ((act->scratch.l)[0])
+***************
+*** 51,57 ****
+  void AISparkProcess1( ACTOR* act, PROCESS* proc )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* dad;
+  	SATSPRITE* ss;
+  
+  	obj = ActGetFirstObject( act );
+--- 51,56 ----
+***************
+*** 67,73 ****
+  void AISparkBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* dad;
+  	SATSPRITE* ss;
+  
+  	obj = ActAddObject( act, OFLAG_SATSPRITE|OFLAG_AUTOMOVE|OFLAG_GRAVITY, 0, 0 );
+--- 66,71 ----
+***************
+*** 127,137 ****
+  	POINT* pt;
+  	ATTR* at;
+  
+- 	int x, y, v;
+- 	FIXED fx, fy;
+- 
+  	obj = ActGetFirstObject( act );
+! 	
+  	obj->pos.x = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.y = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.z = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+--- 125,132 ----
+  	POINT* pt;
+  	ATTR* at;
+  
+  	obj = ActGetFirstObject( act );
+! 
+  	obj->pos.x = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.y = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+  	obj->pos.z = FRANDOM( 1000.0 ) - toFIXED( 500.0 );
+***************
+*** 147,163 ****
+  		}
+  	}
+  
+! 	obj->rot.x = (ANGLE)slRandom(); 
+! 	obj->rot.y = (ANGLE)slRandom(); 
+! 	obj->rot.z = (ANGLE)slRandom(); 
+! 	obj->rotvel.x = ((ANGLE)slRandom()) >> 5; 
+! 	obj->rotvel.y = ((ANGLE)slRandom()) >> 5; 
+! 	obj->rotvel.z = ((ANGLE)slRandom()) >> 5; 
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+  	TILE_AGE = 0;
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 142,158 ----
+  		}
+  	}
+  
+! 	obj->rot.x = (ANGLE)slRandom();
+! 	obj->rot.y = (ANGLE)slRandom();
+! 	obj->rot.z = (ANGLE)slRandom();
+! 	obj->rotvel.x = ((ANGLE)slRandom()) >> 5;
+! 	obj->rotvel.y = ((ANGLE)slRandom()) >> 5;
+! 	obj->rotvel.z = ((ANGLE)slRandom()) >> 5;
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+  	TILE_AGE = 0;
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 178,184 ****
+  
+  	pt[3][X] = toFIXED( -50.0 );
+  	pt[3][Y] = toFIXED(  50.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );			  
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+--- 173,179 ----
+  
+  	pt[3][X] = toFIXED( -50.0 );
+  	pt[3][Y] = toFIXED(  50.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+***************
+*** 188,194 ****
+  	pg[0].Vertices[2] = 2;
+  	pg[0].Vertices[3] = 3;
+  
+! 	at[0] = tile_attr;	 
+  
+  	ProcSetFunction( proc, AITileProcess2 );
+  }
+--- 183,189 ----
+  	pg[0].Vertices[2] = 2;
+  	pg[0].Vertices[3] = 3;
+  
+! 	at[0] = tile_attr;
+  
+  	ProcSetFunction( proc, AITileProcess2 );
+  }
+***************
+*** 331,337 ****
+  	actMaster = AICreateActor( AT_KEY_MASTER, NULL );
+  }
+  
+! ACTOR_TEMPLATE aiTemplates[] = 
+  {
+  	{	AT_KEY_MASTER,  	"Master",	AFLAG_RS_RUN, 10, AIMasterMsgHand,  8	},
+  	{	AT_KEY_SAUCER,  	"Saucer",	AFLAG_RS_RUN, 20, AISaucerMsgHand,  32	},
+--- 326,332 ----
+  	actMaster = AICreateActor( AT_KEY_MASTER, NULL );
+  }
+  
+! ACTOR_TEMPLATE aiTemplates[] =
+  {
+  	{	AT_KEY_MASTER,  	"Master",	AFLAG_RS_RUN, 10, AIMasterMsgHand,  8	},
+  	{	AT_KEY_SAUCER,  	"Saucer",	AFLAG_RS_RUN, 20, AISaucerMsgHand,  32	},
+***************
+*** 355,364 ****
+  	{
+  		if (at->key == key)
+  		{
+! 			return( ActCreateActor( at->name, at->flags, at->pri, at->mh, parent, at->scr ) ); 
+  		}
+  		at++;
+  	}
+! 	return( NULL );		
+  }
+- 
+--- 350,358 ----
+  	{
+  		if (at->key == key)
+  		{
+! 			return( ActCreateActor( at->name, at->flags, at->pri, at->mh, parent, at->scr ) );
+  		}
+  		at++;
+  	}
+! 	return( NULL );
+  }
+diff -crBN --binary sgl302/demos/flying/aictrl.c sgl302_patch/demos/flying/aictrl.c
+*** sgl302/demos/flying/aictrl.c	1996-08-07 09:16:46.000000000 -0400
+--- sgl302_patch/demos/flying/aictrl.c	2024-08-05 10:52:40.000000000 -0400
+***************
+*** 26,37 ****
+  void AISaucerAntiGrav( ACTOR* act, FIXED v );
+  void AISaucerAccelerate( ACTOR* act, FIXED x, FIXED y, FIXED z );
+  void AISaucerShoot( ACTOR* act );
+  
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+  #define PAD_START		PER_DGT_ST
+! #define PAD_S			(PAD_START)	
+  #define PAD_RIGHT		PER_DGT_KR
+  #define PAD_R			(PAD_RIGHT)
+  #define PAD_LEFT		PER_DGT_KL
+--- 26,40 ----
+  void AISaucerAntiGrav( ACTOR* act, FIXED v );
+  void AISaucerAccelerate( ACTOR* act, FIXED x, FIXED y, FIXED z );
+  void AISaucerShoot( ACTOR* act );
++ void AISaucerTurn( ACTOR* act, FIXED thrust );
++ void AISaucerSlip( ACTOR* act, FIXED thrust );
++ void AISaucerForward( ACTOR* act, FIXED thrust );
+  
+  #define CONTROL_SAUCER	((actControl->scratch.l)[0])
+  #define CONTROL_CAMERA	((actControl->scratch.l)[1])
+  
+  #define PAD_START		PER_DGT_ST
+! #define PAD_S			(PAD_START)
+  #define PAD_RIGHT		PER_DGT_KR
+  #define PAD_R			(PAD_RIGHT)
+  #define PAD_LEFT		PER_DGT_KL
+***************
+*** 63,70 ****
+  	if (Per_Connect1)
+  	{
+  		ctrlPadStatusCurrent = ~(Smpc_Peripheral[0].data);
+! 	}	
+! 	
+  	ctrlPadStatusNew = ctrlPadStatusCurrent & (~ctrlPadStatusOld);
+  	ctrlPadStatusDelta = ctrlPadStatusCurrent  ^ ctrlPadStatusOld;
+  }
+--- 66,73 ----
+  	if (Per_Connect1)
+  	{
+  		ctrlPadStatusCurrent = ~(Smpc_Peripheral[0].data);
+! 	}
+! 
+  	ctrlPadStatusNew = ctrlPadStatusCurrent & (~ctrlPadStatusOld);
+  	ctrlPadStatusDelta = ctrlPadStatusCurrent  ^ ctrlPadStatusOld;
+  }
+***************
+*** 105,108 ****
+  		return( FALSE );
+  	}
+  }
+- 
+--- 108,110 ----
+diff -crBN --binary sgl302/demos/flying/ailand.c sgl302_patch/demos/flying/ailand.c
+*** sgl302/demos/flying/ailand.c	1996-08-07 09:16:50.000000000 -0400
+--- sgl302_patch/demos/flying/ailand.c	2024-08-02 21:02:02.000000000 -0400
+***************
+*** 18,24 ****
+  //------------------------------------------------------------------------
+  #include <stdlib.h>
+  
+! // Floating point math package is used *only* to precalculate an 
+  // interestingly curved "ground" surface. Not used during main run loop.
+  
+  #include <math.h>
+--- 18,24 ----
+  //------------------------------------------------------------------------
+  #include <stdlib.h>
+  
+! // Floating point math package is used *only* to precalculate an
+  // interestingly curved "ground" surface. Not used during main run loop.
+  
+  #include <math.h>
+***************
+*** 31,40 ****
+  #include "enigma.h"
+  #include "actor.h"
+  #include "texture.h"
+  
+  #define random(range)		(rand()%(range))
+  
+! ATTR land_attr = 
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_LAND, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  #define LAND_X_PATCHES		6
+--- 31,41 ----
+  #include "enigma.h"
+  #include "actor.h"
+  #include "texture.h"
++ #include "vector.h"
+  
+  #define random(range)		(rand()%(range))
+  
+! ATTR land_attr =
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_LAND, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  #define LAND_X_PATCHES		6
+***************
+*** 67,82 ****
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = LAND_Y_POS;
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = (ANGLE)0; 
+! 	obj->rot.y = (ANGLE)0; 
+! 	obj->rot.z = (ANGLE)0; 
+! 	obj->rotvel.x = (ANGLE)0; 
+! 	obj->rotvel.y = (ANGLE)0; 
+! 	obj->rotvel.z = (ANGLE)0; 
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 68,83 ----
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = LAND_Y_POS;
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = (ANGLE)0;
+! 	obj->rot.y = (ANGLE)0;
+! 	obj->rot.z = (ANGLE)0;
+! 	obj->rotvel.x = (ANGLE)0;
+! 	obj->rotvel.y = (ANGLE)0;
+! 	obj->rotvel.z = (ANGLE)0;
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 89,97 ****
+  		{
+  			pt[v][X] = slMulFX( toFIXED(i-(LAND_X_PATCHES/2)), LAND_PATCH_SIZE );
+  			pt[v][Z] = slMulFX( toFIXED(j-(LAND_Y_PATCHES/2)), LAND_PATCH_SIZE );
+! 			
+  			xx = (double)pt[v][X];
+! 			xx /= 65536.0;				
+  			xx /= 2.0;
+  			zz = (double)pt[v][Z];
+  			zz /= 65536.0;
+--- 90,98 ----
+  		{
+  			pt[v][X] = slMulFX( toFIXED(i-(LAND_X_PATCHES/2)), LAND_PATCH_SIZE );
+  			pt[v][Z] = slMulFX( toFIXED(j-(LAND_Y_PATCHES/2)), LAND_PATCH_SIZE );
+! 
+  			xx = (double)pt[v][X];
+! 			xx /= 65536.0;
+  			xx /= 2.0;
+  			zz = (double)pt[v][Z];
+  			zz /= 65536.0;
+***************
+*** 128,134 ****
+  			pg[p].norm[Y] = norm.y;
+  			pg[p].norm[Z] = norm.z;
+  
+! 			at[p] = land_attr;	 
+  		}
+  	}
+  }
+--- 129,135 ----
+  			pg[p].norm[Y] = norm.y;
+  			pg[p].norm[Z] = norm.z;
+  
+! 			at[p] = land_attr;
+  		}
+  	}
+  }
+***************
+*** 145,148 ****
+  		return( FALSE );
+  	}
+  }
+- 
+--- 146,148 ----
+diff -crBN --binary sgl302/demos/flying/aisaucer.c sgl302_patch/demos/flying/aisaucer.c
+*** sgl302/demos/flying/aisaucer.c	1996-08-07 09:16:54.000000000 -0400
+--- sgl302_patch/demos/flying/aisaucer.c	2024-08-11 18:34:44.000000000 -0400
+***************
+*** 24,35 ****
+  #include "texture.h"
+  #include "assert.h"
+  
+! ATTR nose_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(0, 31, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+! ATTR vect_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(31, 0, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+  
+! VECTOR3F dummy = { toFIXED(0.0), toFIXED(0.0), toFIXED(0.0) }; 
+  
+  void AIPointerProcess1( ACTOR* act, PROCESS* proc )
+  {
+--- 24,38 ----
+  #include "texture.h"
+  #include "assert.h"
+  
+! void VecSetMag( VECTOR3F* dest, FIXED scale );
+! ANGLE VecAzimuth( VECTOR3F* a );
+! 
+! ATTR nose_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(0, 31, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+! ATTR vect_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, No_Texture, C_RGB(31, 0, 0), No_Gouraud, MESHoff, sprPolygon, UseClip );
+  
+! VECTOR3F dummy = { toFIXED(0.0), toFIXED(0.0), toFIXED(0.0) };
+  
+  void AIPointerProcess1( ACTOR* act, PROCESS* proc )
+  {
+***************
+*** 58,64 ****
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pt = pdata->pntbl;
+! 	
+  	pt[1][X] = pt[2][X] = slMulFX( nose->x, toFIXED(200.0) );
+  	pt[1][Y] = pt[2][Y] = slMulFX( nose->y, toFIXED(200.0) );
+  	pt[1][Z] = pt[2][Z] = slMulFX( nose->z, toFIXED(200.0) );
+--- 61,67 ----
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pt = pdata->pntbl;
+! 
+  	pt[1][X] = pt[2][X] = slMulFX( nose->x, toFIXED(200.0) );
+  	pt[1][Y] = pt[2][Y] = slMulFX( nose->y, toFIXED(200.0) );
+  	pt[1][Z] = pt[2][Z] = slMulFX( nose->z, toFIXED(200.0) );
+***************
+*** 71,101 ****
+  void AIPointerBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* sobj;
+  	SATPOLY* sg;
+  	PDATA* pdata;
+  	POLYGON* pg;
+  	POINT* pt;
+  	ATTR* at;
+  
+- 	int x, y, v;
+- 	FIXED fx, fy;
+- 
+  	obj = ActAddObject( act, OFLAG_SATPOLY, 6, 2 );
+! 	
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = toFIXED(0.0);
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = 0; 
+! 	obj->rot.y = 0; 
+! 	obj->rot.z = 0; 
+! 	obj->rotvel.x = (ANGLE)0; 
+! 	obj->rotvel.y = (ANGLE)0; 
+! 	obj->rotvel.z = (ANGLE)0; 
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 74,100 ----
+  void AIPointerBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+  	SATPOLY* sg;
+  	PDATA* pdata;
+  	POLYGON* pg;
+  	POINT* pt;
+  	ATTR* at;
+  
+  	obj = ActAddObject( act, OFLAG_SATPOLY, 6, 2 );
+! 
+  	obj->pos.x = toFIXED(0.0);
+  	obj->pos.y = toFIXED(0.0);
+  	obj->pos.z = toFIXED(0.0);
+! 	obj->rot.x = 0;
+! 	obj->rot.y = 0;
+! 	obj->rot.z = 0;
+! 	obj->rotvel.x = (ANGLE)0;
+! 	obj->rotvel.y = (ANGLE)0;
+! 	obj->rotvel.z = (ANGLE)0;
+  	obj->vel.x = toFIXED( 0.0 );
+  	obj->vel.y = toFIXED( 0.0 );
+  	obj->vel.z = toFIXED( 0.0 );
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 112,118 ****
+  
+  	pt[3][X] = toFIXED(   0.0 );
+  	pt[3][Y] = toFIXED( -20.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );			  
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+--- 111,117 ----
+  
+  	pt[3][X] = toFIXED(   0.0 );
+  	pt[3][Y] = toFIXED( -20.0 );
+! 	pt[3][Z] = toFIXED(   0.0 );
+  
+  	pg[0].norm[X] = toFIXED(  0.0 );
+  	pg[0].norm[Y] = toFIXED(  0.0 );
+***************
+*** 130,137 ****
+  	pg[1].Vertices[2] = 5;
+  	pg[1].Vertices[3] = 3;
+  
+! 	at[0] = nose_attr;	 
+! 	at[1] = vect_attr;	 
+  }
+  
+  int AIPointerMsgHand( ACTOR* act, MESSAGE_FLAGS mess, long data )
+--- 129,136 ----
+  	pg[1].Vertices[2] = 5;
+  	pg[1].Vertices[3] = 3;
+  
+! 	at[0] = nose_attr;
+! 	at[1] = vect_attr;
+  }
+  
+  int AIPointerMsgHand( ACTOR* act, MESSAGE_FLAGS mess, long data )
+***************
+*** 150,163 ****
+  
+  VECTOR3F ai_blip_offset;
+  
+! SPR_ATTR blip_attr = 
+  	SPR_ATTRIBUTE( TEX_BLIP, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  #define BLIP_AGE ((act->scratch.l)[0])
+  
+  void AIBlipProcess1( ACTOR* act, PROCESS* proc )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* dad;
+  	SATSPRITE* ss;
+  
+  	obj = ActGetFirstObject( act );
+--- 149,161 ----
+  
+  VECTOR3F ai_blip_offset;
+  
+! SPR_ATTR blip_attr =
+  	SPR_ATTRIBUTE( TEX_BLIP, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  #define BLIP_AGE ((act->scratch.l)[0])
+  
+  void AIBlipProcess1( ACTOR* act, PROCESS* proc )
+  {
+  	EOBJECT* obj;
+  	SATSPRITE* ss;
+  
+  	obj = ActGetFirstObject( act );
+***************
+*** 191,197 ****
+  	obj->vel.y = FRANDOM(8.0) - toFIXED(4.0);
+  	obj->vel.z = FRANDOM(8.0) - toFIXED(4.0);
+  
+! 	obj->rotvel.z = (ANGLE)((slRandom()-toFIXED(0.5)) >> 3); 
+  
+  	BLIP_AGE = 0;
+  }
+--- 189,195 ----
+  	obj->vel.y = FRANDOM(8.0) - toFIXED(4.0);
+  	obj->vel.z = FRANDOM(8.0) - toFIXED(4.0);
+  
+! 	obj->rotvel.z = (ANGLE)((slRandom()-toFIXED(0.5)) >> 3);
+  
+  	BLIP_AGE = 0;
+  }
+***************
+*** 210,216 ****
+  	}
+  }
+  
+! SPR_ATTR shot_attr = 
+  	SPR_ATTRIBUTE( TEX_BALL, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SHOT_AGE ((act->scratch.l)[0])
+--- 208,214 ----
+  	}
+  }
+  
+! SPR_ATTR shot_attr =
+  	SPR_ATTRIBUTE( TEX_BALL, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip );
+  
+  #define SHOT_AGE ((act->scratch.l)[0])
+***************
+*** 228,234 ****
+  		ActSendMessage( act, AMESS_DESTROY, 0 );
+  
+  	ss->zrot += (ANGLE)20;
+! 	
+  }
+  
+  void AIShotBuild( ACTOR* act )
+--- 226,232 ----
+  		ActSendMessage( act, AMESS_DESTROY, 0 );
+  
+  	ss->zrot += (ANGLE)20;
+! 
+  }
+  
+  void AIShotBuild( ACTOR* act )
+***************
+*** 282,306 ****
+  #define SAUCER_THROTTLE ((act->scratch.f)[1])
+  #define SAUCER_FACING  ((VECTOR3F*)((act->scratch.f)+2))
+  
+! ATTR saucer_attr = 
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! ATTR xsaucer_attr = 
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AISaucerBlips( ACTOR* act )
+  {
+- 	int i;
+- 
+  	if (slRandom() > toFIXED(0.7))
+  		AICreateActor( AT_KEY_BLIP, act );
+  }
+  
+  void AISaucerShoot( ACTOR* act )
+  {
+! 	ACTOR* shot;
+! 
+! 	shot = AICreateActor( AT_KEY_SHOT, act );
+  }
+  
+  void AISaucerRestart( ACTOR* act )
+--- 280,300 ----
+  #define SAUCER_THROTTLE ((act->scratch.f)[1])
+  #define SAUCER_FACING  ((VECTOR3F*)((act->scratch.f)+2))
+  
+! ATTR saucer_attr =
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+! ATTR xsaucer_attr =
+  	ATTRIBUTE(Single_Plane, SORT_CEN, TEX_SAUCER, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AISaucerBlips( ACTOR* act )
+  {
+  	if (slRandom() > toFIXED(0.7))
+  		AICreateActor( AT_KEY_BLIP, act );
+  }
+  
+  void AISaucerShoot( ACTOR* act )
+  {
+! 	ACTOR* shot = AICreateActor( AT_KEY_SHOT, act );
+  }
+  
+  void AISaucerRestart( ACTOR* act )
+***************
+*** 335,343 ****
+  	if (SAUCER_ANTIGRAV > toFIXED(40.0))
+  		SAUCER_ANTIGRAV = toFIXED(40.0);
+  
+! 	ai_blip_offset.x = toFIXED(0.0); 
+! 	ai_blip_offset.y = -slMulFX( v, toFIXED(30.0) ); 
+! 	ai_blip_offset.z = toFIXED(0.0); 
+  
+  //	AISaucerBlips( act );
+  }
+--- 329,337 ----
+  	if (SAUCER_ANTIGRAV > toFIXED(40.0))
+  		SAUCER_ANTIGRAV = toFIXED(40.0);
+  
+! 	ai_blip_offset.x = toFIXED(0.0);
+! 	ai_blip_offset.y = -slMulFX( v, toFIXED(30.0) );
+! 	ai_blip_offset.z = toFIXED(0.0);
+  
+  //	AISaucerBlips( act );
+  }
+***************
+*** 352,364 ****
+  	if (SAUCER_THROTTLE < toFIXED(-3.0))
+  		SAUCER_THROTTLE = toFIXED(-3.0);
+  
+! 	ai_blip_offset.x = -slMulFX( SAUCER_FACING->x, toFIXED(30.0) ); 
+! 	ai_blip_offset.y = -slMulFX( SAUCER_FACING->y, toFIXED(30.0) ); 
+! 	ai_blip_offset.z = -slMulFX( SAUCER_FACING->z, toFIXED(30.0) ); 
+  
+  //	AISaucerBlips( act );
+  }
+! 												  
+  void AISaucerSlip( ACTOR* act, FIXED thrust )
+  {
+  	VECTOR3F up, right;
+--- 346,358 ----
+  	if (SAUCER_THROTTLE < toFIXED(-3.0))
+  		SAUCER_THROTTLE = toFIXED(-3.0);
+  
+! 	ai_blip_offset.x = -slMulFX( SAUCER_FACING->x, toFIXED(30.0) );
+! 	ai_blip_offset.y = -slMulFX( SAUCER_FACING->y, toFIXED(30.0) );
+! 	ai_blip_offset.z = -slMulFX( SAUCER_FACING->z, toFIXED(30.0) );
+  
+  //	AISaucerBlips( act );
+  }
+! 
+  void AISaucerSlip( ACTOR* act, FIXED thrust )
+  {
+  	VECTOR3F up, right;
+***************
+*** 369,385 ****
+  	up.z = toFIXED(0.0);
+  	VecCross( &right, SAUCER_FACING, &up );
+  	VecSetMag( &right, thrust );
+! 	
+! 	ai_blip_offset.x = -slMulFX( right.x, toFIXED(30.0) ); 
+! 	ai_blip_offset.y = -slMulFX( right.y, toFIXED(30.0) ); 
+! 	ai_blip_offset.z = -slMulFX( right.z, toFIXED(30.0) ); 
+  
+  //	AISaucerBlips( act );
+  
+  	obj->vel.x += right.x;
+  	assert( right.y == toFIXED( 0.0 ) );
+  	obj->vel.z += right.z;
+! 	
+  	if (thrust > toFIXED(0.0))
+  	{
+  		if ((obj->rot.x > 0xE000u) || (obj->rot.x < 0x2000u))
+--- 363,379 ----
+  	up.z = toFIXED(0.0);
+  	VecCross( &right, SAUCER_FACING, &up );
+  	VecSetMag( &right, thrust );
+! 
+! 	ai_blip_offset.x = -slMulFX( right.x, toFIXED(30.0) );
+! 	ai_blip_offset.y = -slMulFX( right.y, toFIXED(30.0) );
+! 	ai_blip_offset.z = -slMulFX( right.z, toFIXED(30.0) );
+  
+  //	AISaucerBlips( act );
+  
+  	obj->vel.x += right.x;
+  	assert( right.y == toFIXED( 0.0 ) );
+  	obj->vel.z += right.z;
+! 
+  	if (thrust > toFIXED(0.0))
+  	{
+  		if ((obj->rot.x > 0xE000u) || (obj->rot.x < 0x2000u))
+***************
+*** 437,443 ****
+  	45,  36,  27,   0,  -18,  -36,  -40
+  };
+  
+! int vx_coords[ VERTEX_LAYERS ] = 
+  {
+  	 1,  27,  40, 114,  40,  27,   1
+  };
+--- 431,437 ----
+  	45,  36,  27,   0,  -18,  -36,  -40
+  };
+  
+! int vx_coords[ VERTEX_LAYERS ] =
+  {
+  	 1,  27,  40, 114,  40,  27,   1
+  };
+***************
+*** 507,516 ****
+  			pg[patch].norm[Z] = norm.z;
+  
+  			if (sector == 0)
+! 				at[patch] = xsaucer_attr;	 
+  			else
+! 				at[patch] = saucer_attr;	 
+! 		
+  		}
+  	}
+  
+--- 501,510 ----
+  			pg[patch].norm[Z] = norm.z;
+  
+  			if (sector == 0)
+! 				at[patch] = xsaucer_attr;
+  			else
+! 				at[patch] = saucer_attr;
+! 
+  		}
+  	}
+  
+***************
+*** 522,533 ****
+  
+  void AISaucerCruise( ACTOR* act, FIXED drag, FIXED stat )
+  {
+- 	ANGLE face_az;
+- 	ANGLE move_az;
+  	FIXED v;
+  
+  	EOBJECT* obj = ActGetFirstObject( act );
+! 	
+  	obj->vel.x += slMulFX( SAUCER_FACING->x, SAUCER_THROTTLE );
+  	obj->vel.y += slMulFX( SAUCER_FACING->y, SAUCER_THROTTLE );
+  	obj->vel.z += slMulFX( SAUCER_FACING->z, SAUCER_THROTTLE );
+--- 516,525 ----
+  
+  void AISaucerCruise( ACTOR* act, FIXED drag, FIXED stat )
+  {
+  	FIXED v;
+  
+  	EOBJECT* obj = ActGetFirstObject( act );
+! 
+  	obj->vel.x += slMulFX( SAUCER_FACING->x, SAUCER_THROTTLE );
+  	obj->vel.y += slMulFX( SAUCER_FACING->y, SAUCER_THROTTLE );
+  	obj->vel.z += slMulFX( SAUCER_FACING->z, SAUCER_THROTTLE );
+***************
+*** 542,548 ****
+  		v -= stat;
+  	else
+  		v = toFIXED( 0.0 );
+! 	
+  	VecSetMag( &(obj->vel), v );
+  
+  	slMulFX( SAUCER_THROTTLE, toFIXED( 0.9 ) );
+--- 534,540 ----
+  		v -= stat;
+  	else
+  		v = toFIXED( 0.0 );
+! 
+  	VecSetMag( &(obj->vel), v );
+  
+  	slMulFX( SAUCER_THROTTLE, toFIXED( 0.9 ) );
+***************
+*** 574,582 ****
+  	if (alt < toFIXED(5.0))
+  		alt = toFIXED(5.0);
+  
+! 	AISaucerAccelerate( act, toFIXED(0.0), slDivFX( slSquartFX(alt), SAUCER_ANTIGRAV ), toFIXED(0.0) ); 
+  	AISaucerCruise( act, toFIXED(0.9), toFIXED(0.01) );
+! 	
+  }
+  
+  void AISaucerProcess1( ACTOR* act, PROCESS* proc )
+--- 566,574 ----
+  	if (alt < toFIXED(5.0))
+  		alt = toFIXED(5.0);
+  
+! 	AISaucerAccelerate( act, toFIXED(0.0), slDivFX( slSquartFX(alt), SAUCER_ANTIGRAV ), toFIXED(0.0) );
+  	AISaucerCruise( act, toFIXED(0.9), toFIXED(0.01) );
+! 
+  }
+  
+  void AISaucerProcess1( ACTOR* act, PROCESS* proc )
+***************
+*** 600,603 ****
+  
+  	}
+  }
+- 
+--- 592,594 ----
+diff -crBN --binary sgl302/demos/flying/aitarget.c sgl302_patch/demos/flying/aitarget.c
+*** sgl302/demos/flying/aitarget.c	1996-08-09 06:54:18.000000000 -0400
+--- sgl302_patch/demos/flying/aitarget.c	2024-08-05 16:53:14.000000000 -0400
+***************
+*** 24,30 ****
+  #include "texture.h"
+  #include "assert.h"
+  
+! ATTR target_attr = 
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TARGET, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AITargetProcess1( ACTOR* act, PROCESS* proc )
+--- 24,30 ----
+  #include "texture.h"
+  #include "assert.h"
+  
+! ATTR target_attr =
+  	ATTRIBUTE(Dual_Plane, SORT_CEN, TEX_TARGET, No_Palet, No_Gouraud, CL32KRGB|MESHoff, sprNoflip, UseClip);
+  
+  void AITargetProcess1( ACTOR* act, PROCESS* proc )
+***************
+*** 34,40 ****
+  void AITargetBuild( ACTOR* act )
+  {
+  	EOBJECT* obj;
+- 	EOBJECT* sobj;
+  	SATPOLY* sg;
+  	PDATA* pdata;
+  	POLYGON* pg;
+--- 34,39 ----
+***************
+*** 43,62 ****
+  	int v, f;
+  
+  	obj = ActAddObject( act, OFLAG_AUTOMOVE|OFLAG_AUTOROTATE|OFLAG_SATPOLY, 8, 6 );
+! 	
+  	obj->pos.x = FRANDOM( 4000.0 ) - toFIXED(2000.0);
+  	obj->pos.y = FRANDOM( 300.0 ) + toFIXED( 100.0 );
+  	obj->pos.z = FRANDOM( 4000.0 ) + toFIXED(200.0);
+! 	obj->rot.x = (ANGLE)0; 
+! 	obj->rot.y = (ANGLE)0; 
+! 	obj->rot.z = (ANGLE)0; 
+! 	obj->rotvel.x = (ANGLE)0; 
+! 	obj->rotvel.y = (ANGLE)0; 
+! 	obj->rotvel.z = (ANGLE)0; 
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 	
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+--- 42,61 ----
+  	int v, f;
+  
+  	obj = ActAddObject( act, OFLAG_AUTOMOVE|OFLAG_AUTOROTATE|OFLAG_SATPOLY, 8, 6 );
+! 
+  	obj->pos.x = FRANDOM( 4000.0 ) - toFIXED(2000.0);
+  	obj->pos.y = FRANDOM( 300.0 ) + toFIXED( 100.0 );
+  	obj->pos.z = FRANDOM( 4000.0 ) + toFIXED(200.0);
+! 	obj->rot.x = (ANGLE)0;
+! 	obj->rot.y = (ANGLE)0;
+! 	obj->rot.z = (ANGLE)0;
+! 	obj->rotvel.x = (ANGLE)0;
+! 	obj->rotvel.y = (ANGLE)0;
+! 	obj->rotvel.z = (ANGLE)0;
+  	obj->vel.x = toFIXED(0.0);
+  	obj->vel.y = toFIXED(0.0);
+  	obj->vel.z = toFIXED(0.0);
+! 
+  	sg = (SATPOLY*)(obj->graph);
+  	pdata = &(sg->pdata);
+  	pg = pdata->pltbl;
+***************
+*** 75,81 ****
+  		pg[f].norm[X] = toFIXED(  0.0 );
+  		pg[f].norm[Y] = toFIXED(  0.0 );
+  		pg[f].norm[Z] = toFIXED( -1.0 );
+! 		at[f] = target_attr;	 
+  	}
+  
+  	pg[0].Vertices[0] = 0;
+--- 74,80 ----
+  		pg[f].norm[X] = toFIXED(  0.0 );
+  		pg[f].norm[Y] = toFIXED(  0.0 );
+  		pg[f].norm[Z] = toFIXED( -1.0 );
+! 		at[f] = target_attr;
+  	}
+  
+  	pg[0].Vertices[0] = 0;
+***************
+*** 117,124 ****
+  
+  int AITargetMsgHand( ACTOR* act, MESSAGE_FLAGS mess, long data )
+  {
+- 	EOBJECT* obj;
+- 
+  	switch( mess )
+  	{
+  		case AMESS_CREATE:
+--- 116,121 ----
+***************
+*** 137,140 ****
+  		return( FALSE );
+  	}
+  }
+- 
+--- 134,136 ----
+diff -crBN --binary sgl302/demos/flying/assert.h sgl302_patch/demos/flying/assert.h
+*** sgl302/demos/flying/assert.h	1996-08-07 13:54:04.000000000 -0400
+--- sgl302_patch/demos/flying/assert.h	2024-08-02 20:51:12.000000000 -0400
+***************
+*** 22,27 ****
+--- 22,28 ----
+  #ifdef NDEBUG
+  	#define assert( test )		((void)0)
+  #else
++ 	void _sassert( char* message1, char* message2 );
+  	void _assert( char* message );
+  
+  	#define _STR(x)	_VAL(x)
+diff -crBN --binary sgl302/demos/flying/collide.c sgl302_patch/demos/flying/collide.c
+*** sgl302/demos/flying/collide.c	1996-08-07 09:17:20.000000000 -0400
+--- sgl302_patch/demos/flying/collide.c	2024-08-05 16:54:54.000000000 -0400
+***************
+*** 20,25 ****
+--- 20,26 ----
+  #include "enigma.h"
+  #include "collide.h"
+  #include "assert.h"
++ #include "actor.h"
+  
+  ACTOR** collide_alist;
+  ACTOR** collide_dlist;
+***************
+*** 51,57 ****
+  	if ((a->flags & AFLAG_DEFEND_MASK) && (a->invuln == 0))
+  		collide_dlist[ collide_dlist_count++ ] = a;
+  
+! 	return( CONTINUE );	
+  }
+  
+  void CollideBuildLists( void )
+--- 52,58 ----
+  	if ((a->flags & AFLAG_DEFEND_MASK) && (a->invuln == 0))
+  		collide_dlist[ collide_dlist_count++ ] = a;
+  
+! 	return( CONTINUE );
+  }
+  
+  void CollideBuildLists( void )
+***************
+*** 93,99 ****
+  			if (dz > dx)
+  				SWAP( dx, dz );
+  
+! 			dst = dx + (dy+dz>>2);
+  		}
+  
+  		if (dst < (o->radius+collide_attack_object->radius))
+--- 94,100 ----
+  			if (dz > dx)
+  				SWAP( dx, dz );
+  
+! 			dst = dx + ((dy+dz)>>2);
+  		}
+  
+  		if (dst < (o->radius+collide_attack_object->radius))
+***************
+*** 104,113 ****
+  			collide_loc.y = (o->pos.y + collide_attack_object->pos.y)/2;
+  			collide_loc.z = (o->pos.z + collide_attack_object->pos.z)/2;
+  
+! 			ActSendMessage( d, AMESS_COLLIDE_DEF, a );
+! 			ActSendMessage( a, AMESS_COLLIDE_ATT, d );
+  		}
+  	}
+  }
+  
+  int _CollideAttackCheckCallback( Node* n, long v1, long* v2 )
+--- 105,115 ----
+  			collide_loc.y = (o->pos.y + collide_attack_object->pos.y)/2;
+  			collide_loc.z = (o->pos.z + collide_attack_object->pos.z)/2;
+  
+! 			ActSendMessage( d, AMESS_COLLIDE_DEF, (long)a );
+! 			ActSendMessage( a, AMESS_COLLIDE_ATT, (long)d );
+  		}
+  	}
++ 	return 0;
+  }
+  
+  int _CollideAttackCheckCallback( Node* n, long v1, long* v2 )
+***************
+*** 120,127 ****
+  	{
+  		collide_attack_object = o;
+  		LstIterateValue( &(d->object), _CollideDefendCheckCallback, (long)a, (long*)d );
+! 	}	
+! 	
+  	return( CONTINUE );
+  }
+  
+--- 122,129 ----
+  	{
+  		collide_attack_object = o;
+  		LstIterateValue( &(d->object), _CollideDefendCheckCallback, (long)a, (long*)d );
+! 	}
+! 
+  	return( CONTINUE );
+  }
+  
+diff -crBN --binary sgl302/demos/flying/collide.h sgl302_patch/demos/flying/collide.h
+*** sgl302/demos/flying/collide.h	1996-08-07 09:34:26.000000000 -0400
+--- sgl302_patch/demos/flying/collide.h	2024-08-05 16:29:14.000000000 -0400
+***************
+*** 17,22 ****
+--- 17,26 ----
+  //
+  //------------------------------------------------------------------------
+  
++ #include "mem_mgr.h"
++ 
++ extern 	pointer	Memmalloc				(dword size);
++ 
+  #define COLLIDE_MEM_ALLOC(size)			Memmalloc(size)
+  #define COLLIDE_MEM_FREE(ptr)			Memfree(ptr)
+  
+diff -crBN --binary sgl302/demos/flying/master.h sgl302_patch/demos/flying/master.h
+*** sgl302/demos/flying/master.h	1996-08-07 14:00:34.000000000 -0400
+--- sgl302_patch/demos/flying/master.h	2024-08-05 16:40:30.000000000 -0400
+***************
+*** 55,60 ****
+  #undef NDEBUG
+  //#define NDEBUG			1
+  
+- #pragma warning ( disable : 4245 )
+- 
+  #endif
+--- 55,58 ----
+diff -crBN --binary sgl302/demos/flying/satrend.c sgl302_patch/demos/flying/satrend.c
+*** sgl302/demos/flying/satrend.c	1996-08-07 09:28:34.000000000 -0400
+--- sgl302_patch/demos/flying/satrend.c	2024-08-05 14:02:32.000000000 -0400
+***************
+*** 23,28 ****
+--- 23,29 ----
+  #include "vector.h"
+  #include "texture.h"
+  #include "assert.h"
++ #include "saturn.h"
+  
+  Tree* graphic_tree;
+  EOBJECT* rendCamera = NULL;
+***************
+*** 77,88 ****
+  			case 'z':	slRotZ( obj->rot.z );	break;
+  			default:	assert( TRUE==FALSE );	break;
+  		}
+! 	}	
+  
+  	slPutPolygon( sgp );
+  
+  	slPopMatrix();
+! }	
+  
+  void RendSatSpriteObject( EOBJECT* obj )
+  {
+--- 78,89 ----
+  			case 'z':	slRotZ( obj->rot.z );	break;
+  			default:	assert( TRUE==FALSE );	break;
+  		}
+! 	}
+  
+  	slPutPolygon( sgp );
+  
+  	slPopMatrix();
+! }
+  
+  void RendSatSpriteObject( EOBJECT* obj )
+  {
+***************
+*** 101,112 ****
+  	slPutSprite( pos, ss->attr, ss->zrot );
+  
+  	slPopMatrix();
+! }	
+  
+  void RendSatBackObject( EOBJECT* obj )
+  {
+  
+! }	
+  
+  int RendObjectCallback( Node* n )
+  {
+--- 102,113 ----
+  	slPutSprite( pos, ss->attr, ss->zrot );
+  
+  	slPopMatrix();
+! }
+  
+  void RendSatBackObject( EOBJECT* obj )
+  {
+  
+! }
+  
+  int RendObjectCallback( Node* n )
+  {
+***************
+*** 126,132 ****
+  	dst = dx + (dy+dz>>2);
+  
+  	if (dst > rendGrossDistanceClip)
+! 		return( CONTINUE );	
+  
+  	switch( o->flags & OFLAG_MASK_GRAPHIC )
+  	{
+--- 127,133 ----
+  	dst = dx + (dy+dz>>2);
+  
+  	if (dst > rendGrossDistanceClip)
+! 		return( CONTINUE );
+  
+  	switch( o->flags & OFLAG_MASK_GRAPHIC )
+  	{
+***************
+*** 148,154 ****
+  		break;
+  	}
+  
+! 	return( CONTINUE );	
+  }
+  
+  int RendActorCallback( Tree** node )
+--- 149,155 ----
+  		break;
+  	}
+  
+! 	return( CONTINUE );
+  }
+  
+  int RendActorCallback( Tree** node )
+diff -crBN --binary sgl302/demos/flying/saturn.c sgl302_patch/demos/flying/saturn.c
+*** sgl302/demos/flying/saturn.c	1996-08-07 14:00:32.000000000 -0400
+--- sgl302_patch/demos/flying/saturn.c	2024-08-05 16:55:16.000000000 -0400
+***************
+*** 17,22 ****
+--- 17,24 ----
+  //
+  //------------------------------------------------------------------------
+  
++ #include <sl_def.h>
++ 
+  #include "saturn.h"
+  #include "assert.h"
+  
+***************
+*** 24,32 ****
+  
+  void SatInitTime( void )
+  {
+! 	unsigned char tcsr;
+! 
+! 	*SH2_TCR = SH2_TCR_CKS1;	// í/128 clock - 200KHz?
+  
+  	// clear overflow
+  	*SH2_TCSR = 0;
+--- 26,32 ----
+  
+  void SatInitTime( void )
+  {
+! 	*SH2_TCR = SH2_TCR_CKS1;	// ï¿½/128 clock - 200KHz?
+  
+  	// clear overflow
+  	*SH2_TCSR = 0;
+***************
+*** 58,64 ****
+  /*
+  	assert handler
+  
+! */				  
+  
+  void _sassert( char* message1, char* message2 )
+  {
+--- 58,64 ----
+  /*
+  	assert handler
+  
+! */
+  
+  void _sassert( char* message1, char* message2 )
+  {
+***************
+*** 70,76 ****
+  
+  	asm("trapa	#12");
+  }
+- 
+- 
+- 		 
+- 
+--- 70,72 ----
+diff -crBN --binary sgl302/sample/common/cinit.c sgl302_patch/sample/common/cinit.c
 *** sgl302/sample/common/cinit.c	1996-09-10 23:00:00.000000000 -0400
 --- sgl302_patch/sample/common/cinit.c	2022-09-15 21:12:48.000000000 -0400
 ***************
@@ -34,7 +2022,1289 @@ diff -crB --binary sgl302/sample/common/cinit.c sgl302_patch/sample/common/cinit
 + 	return 0;
   }
 ! 
-diff -crB --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/string.c
+diff -crBN --binary sgl302/sample/demo_d/main.c sgl302_patch/sample/demo_d/main.c
+*** sgl302/sample/demo_d/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/demo_d/main.c	2024-08-02 20:55:14.000000000 -0400
+***************
+*** 1,3 ****
+--- 1,5 ----
++ #include <string.h>
++ 
+  #include	"sgl.h"
+  #include	"ss_scrol.h"
+  
+***************
+*** 207,213 ****
+  		disp_poly();
+  		disp_scroll();
+  		slSynch();
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 209,215 ----
+  		disp_poly();
+  		disp_scroll();
+  		slSynch();
+! 	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/demogun/main.c sgl302_patch/sample/demogun/main.c
+*** sgl302/sample/demogun/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/demogun/main.c	2024-08-02 21:07:24.000000000 -0400
+***************
+*** 11,16 ****
+--- 11,18 ----
+  extern Sint8 SynchCount;
+  extern Uint16 VDP2_EXTEN;
+  
++ Bool slCheckIntBackSet(void);
++ 
+  static Uint8 GunCtrlFlag1P, GunCtrlFlag2P;
+  
+  static Uint8 getMegaDriveId(Uint8 pd1, Uint8 pd0)
+***************
+*** 154,157 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 156,159 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/design1/main.c sgl302_patch/sample/design1/main.c
+*** sgl302/sample/design1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/design1/main.c	2024-08-05 15:59:52.000000000 -0400
+***************
+*** 3,8 ****
+--- 3,9 ----
+  /*----------------------------------------------------------------------*/
+  #include	"sgl.h"
+  #include	"sega_sys.h"
++ #include	<string.h>
+  
+  extern PDATA pdata_sample[];
+  
+***************
+*** 147,150 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 148,151 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/design2/main.c sgl302_patch/sample/design2/main.c
+*** sgl302/sample/design2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/design2/main.c	2024-08-11 11:56:54.000000000 -0400
+***************
+*** 4,9 ****
+--- 4,11 ----
+  #include	"sgl.h"
+  #include	"sega_sys.h"
+  
++ #include	<string.h>
++ 
+  #define		max_texture		2
+  
+  extern PDATA pdata_sample[];
+***************
+*** 163,166 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 165,168 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/design3/main.c sgl302_patch/sample/design3/main.c
+*** sgl302/sample/design3/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/design3/main.c	2024-08-11 12:04:36.000000000 -0400
+***************
+*** 4,9 ****
+--- 4,11 ----
+  #include	"sgl.h"
+  #include	"sega_sys.h"
+  
++ #include	<string.h>
++ 
+  #define		max_texture		2
+  
+  extern OBJECT	object_sample[];
+***************
+*** 193,196 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 195,198 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/driving/main.c sgl302_patch/sample/driving/main.c
+*** sgl302/sample/driving/main.c	1996-09-10 23:00:00.000000000 -0400
+--- sgl302_patch/sample/driving/main.c	2024-08-11 12:30:48.000000000 -0400
+***************
+*** 11,16 ****
+--- 11,19 ----
+  
+  #include	"sglcolli.h"
+  
++ #include <math.h>
++ #include <stdlib.h>
++ 
+  #define FLASH_SATURN_CD
+  
+  
+***************
+*** 153,159 ****
+  	slMakeKtable((void *)RBG0_KTB_ADR);
+  	slCharRbg0(COL_TYPE_256 , CHAR_SIZE_1x1);
+  	slPageRbg0((void *)RBG0RB_CEL_ADR , 0 , PNB_1WORD|CN_12BIT);
+! 	
+  	slPlaneRA(PL_SIZE_1x1);
+  	sl1MapRA((void *)RBG0RA_MAP_ADR);
+  	slOverRA(0);
+--- 156,162 ----
+  	slMakeKtable((void *)RBG0_KTB_ADR);
+  	slCharRbg0(COL_TYPE_256 , CHAR_SIZE_1x1);
+  	slPageRbg0((void *)RBG0RB_CEL_ADR , 0 , PNB_1WORD|CN_12BIT);
+! 
+  	slPlaneRA(PL_SIZE_1x1);
+  	sl1MapRA((void *)RBG0RA_MAP_ADR);
+  	slOverRA(0);
+***************
+*** 161,167 ****
+  	Cel2VRAM(tuti_cel , (void *)RBG0RA_CEL_ADR , 65536);
+  	Map2VRAM(tuti_map , (void *)RBG0RA_MAP_ADR , 64 , 64 , 2 , 884);
+  	Pal2CRAM(tuti_pal , (void *)RBG0RA_COL_ADR , 160);
+! 	
+  	slPlaneRB(PL_SIZE_1x1);
+  	sl1MapRB((void *)RBG0RB_MAP_ADR);
+  	slOverRB(0);
+--- 164,170 ----
+  	Cel2VRAM(tuti_cel , (void *)RBG0RA_CEL_ADR , 65536);
+  	Map2VRAM(tuti_map , (void *)RBG0RA_MAP_ADR , 64 , 64 , 2 , 884);
+  	Pal2CRAM(tuti_pal , (void *)RBG0RA_COL_ADR , 160);
+! 
+  	slPlaneRB(PL_SIZE_1x1);
+  	sl1MapRB((void *)RBG0RB_MAP_ADR);
+  	slOverRB(0);
+***************
+*** 169,178 ****
+  	Cel2VRAM(sora_cel , (void *)RBG0RB_CEL_ADR , 28288);
+  	Map2VRAM(sora_map , (void *)RBG0RB_MAP_ADR , 64 , 20 , 1 , 0);
+  	Pal2CRAM(sora_pal , (void *)RBG0RB_COL_ADR , 256);
+! 	
+  	slRparaMode(K_CHANGE);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+! 	
+  	slScrAutoDisp(NBG0ON | RBG0ON );
+  }
+  /*--------------------------------------------------------------------------*/
+--- 172,181 ----
+  	Cel2VRAM(sora_cel , (void *)RBG0RB_CEL_ADR , 28288);
+  	Map2VRAM(sora_map , (void *)RBG0RB_MAP_ADR , 64 , 20 , 1 , 0);
+  	Pal2CRAM(sora_pal , (void *)RBG0RB_COL_ADR , 256);
+! 
+  	slRparaMode(K_CHANGE);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+! 
+  	slScrAutoDisp(NBG0ON | RBG0ON );
+  }
+  /*--------------------------------------------------------------------------*/
+***************
+*** 190,206 ****
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);	
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  	slWindowClipLevel(50);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ƒCƒxƒ“ƒg‚Ì‰Šú‰»		*/
+! 	slSetEvent((void *)main_pad);			/*  ƒpƒbƒh“ü—ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ƒJƒƒ‰ˆÊ’uw’èŠÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ƒ|ƒŠƒSƒ“ƒ}ƒbƒv•\¦ŠÖŒW	*/
+! 	slSetEvent((void *)main_map);			/*  ‚a‚f•\¦ŠÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	while(1)
+  	{
+--- 193,209 ----
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  	slWindowClipLevel(50);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½		*/
+! 	slSetEvent((void *)main_pad);			/*  ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½wï¿½ï¿½ï¿½ÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+! 	slSetEvent((void *)main_map);			/*  ï¿½aï¿½fï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	while(1)
+  	{
+***************
+*** 209,225 ****
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ƒCƒxƒ“ƒg‚ÌÀs			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+  //		slPrintFX(pos[X],slLocate(3,10));
+  //		slPrintFX(pos[Y],slLocate(3,11));
+! 		slSynch();							/*	ƒVƒ“ƒN					*/
+! 	} 
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ƒJƒƒ‰ŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+--- 212,228 ----
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½s			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+  //		slPrintFX(pos[X],slLocate(3,10));
+  //		slPrintFX(pos[Y],slLocate(3,11));
+! 		slSynch();							/*	ï¿½Vï¿½ï¿½ï¿½N					*/
+! 	}
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+***************
+*** 227,233 ****
+  	slLookAt(sega3D.cpos, sega3D.ctarget, sega3D.cangle[Z]);
+  }
+  /*--------------------------------------*/
+! /*	ƒ|ƒŠƒSƒ“ƒ}ƒbƒvŠÖŒW‚Ì•\¦			*/
+  /*--------------------------------------*/
+  void	main_Pmap(EVENT *evptr)
+  {
+--- 230,236 ----
+  	slLookAt(sega3D.cpos, sega3D.ctarget, sega3D.cangle[Z]);
+  }
+  /*--------------------------------------*/
+! /*	ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½ÖŒWï¿½Ì•\ï¿½ï¿½			*/
+  /*--------------------------------------*/
+  void	main_Pmap(EVENT *evptr)
+  {
+***************
+*** 241,247 ****
+  	Sint32	my_xx,my_yy;
+  	Sint32	X_MAX,X_MIN;
+  	Sint32	Y_MAX,Y_MIN;
+! 	
+  	my_xx	=((Sint16)((pos[X]+256*slSin(ang[Z]))>>16))>>5;
+  	my_yy	=((Sint16)((pos[Y]+256*slCos(ang[Z]))>>16))>>5;
+  	MapAngX	= slCos(ang[Z])*256;
+--- 244,250 ----
+  	Sint32	my_xx,my_yy;
+  	Sint32	X_MAX,X_MIN;
+  	Sint32	Y_MAX,Y_MIN;
+! 
+  	my_xx	=((Sint16)((pos[X]+256*slSin(ang[Z]))>>16))>>5;
+  	my_yy	=((Sint16)((pos[Y]+256*slCos(ang[Z]))>>16))>>5;
+  	MapAngX	= slCos(ang[Z])*256;
+***************
+*** 258,264 ****
+  		Y_MAX	=(my_yy>>2)+15;
+  		if(Y_MIN < 0)Y_MIN=0;
+  		if(Y_MAX > pol_map_y)Y_MAX=pol_map_y;
+! 		
+  		for(ax = X_MIN ; ax < X_MAX ; ax++)
+  		{
+  			for(ay = Y_MIN ; ay < Y_MAX ; ay++)
+--- 261,267 ----
+  		Y_MAX	=(my_yy>>2)+15;
+  		if(Y_MIN < 0)Y_MIN=0;
+  		if(Y_MAX > pol_map_y)Y_MAX=pol_map_y;
+! 
+  		for(ax = X_MIN ; ax < X_MAX ; ax++)
+  		{
+  			for(ay = Y_MIN ; ay < Y_MAX ; ay++)
+***************
+*** 286,292 ****
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	‚a‚f•\¦ŠÖŒW						*/
+  /*--------------------------------------*/
+  void	main_map(EVENT *evptr)
+  {
+--- 289,295 ----
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½aï¿½fï¿½\ï¿½ï¿½ï¿½ÖŒW						*/
+  /*--------------------------------------*/
+  void	main_map(EVENT *evptr)
+  {
+***************
+*** 309,315 ****
+  	pos_move();
+  }
+  /*--------------------------------------*/
+! /*	ˆÊ’u•Û‘¶							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+--- 312,318 ----
+  	pos_move();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Ê’uï¿½Û‘ï¿½							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+***************
+*** 321,327 ****
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ƒpƒbƒhŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+--- 324,330 ----
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ï¿½pï¿½bï¿½hï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+***************
+*** 331,337 ****
+  	Sint16		aa;
+  	Uint16		data;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[15].data;					//ƒpƒbƒh‚Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+--- 334,340 ----
+  	Sint16		aa;
+  	Uint16		data;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[15].data;					//ï¿½pï¿½bï¿½hï¿½Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+***************
+*** 340,346 ****
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	ang[X]	=ang_z;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ƒpƒbƒh‚P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+--- 343,349 ----
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	ang[X]	=ang_z;
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ï¿½pï¿½bï¿½hï¿½P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+***************
+*** 348,356 ****
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*Ô‚Ì‹““®‚ÍƒAƒoƒEƒg‚Éì‚Á‚Ä‚¢‚é‚Ì‚ÅQl‚É‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B*/
+  /*---------------------------------------------*/
+! 	/*‰Á‘¬Œ¸‘¬*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+--- 351,359 ----
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*ï¿½Ô‚Ì‹ï¿½ï¿½ï¿½ï¿½ÍƒAï¿½oï¿½Eï¿½gï¿½Éï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅQï¿½lï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B*/
+  /*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+***************
+*** 372,378 ****
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10+col_x;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10+col_y;
+  	/*---------------------------------------------*/
+! 	/*ƒTƒCƒhˆÚ“®*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+--- 375,381 ----
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10+col_x;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10+col_y;
+  	/*---------------------------------------------*/
+! 	/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+***************
+*** 383,389 ****
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+--- 386,392 ----
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+***************
+*** 432,438 ****
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 	
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+--- 435,441 ----
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+***************
+*** 489,495 ****
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ƒRƒŠƒWƒ‡ƒ“	‚‚³’Šo							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+--- 492,498 ----
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+***************
+*** 511,517 ****
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 	
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+--- 514,520 ----
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+***************
+*** 593,596 ****
+  		}
+  	}
+  }
+! 
+\ No newline at end of file
+--- 596,599 ----
+  		}
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/driving2/main.c sgl302_patch/sample/driving2/main.c
+*** sgl302/sample/driving2/main.c	1996-09-10 23:00:00.000000000 -0400
+--- sgl302_patch/sample/driving2/main.c	2024-08-11 12:23:22.000000000 -0400
+***************
+*** 11,16 ****
+--- 11,19 ----
+  
+  #include	"sglcolli.h"
+  
++ #include <math.h>
++ #include <stdlib.h>
++ 
+  #define FLASH_SATURN_CD
+  
+  #define	pol_map_x	64
+***************
+*** 185,199 ****
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);	
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ƒCƒxƒ“ƒg‚Ì‰Šú‰»		*/
+! 	slSetEvent((void *)main_pad);			/*  ƒpƒbƒh“ü—ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ƒJƒƒ‰ˆÊ’uw’èŠÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ƒ|ƒŠƒSƒ“ƒ}ƒbƒv•\¦ŠÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,11,5);
+--- 188,202 ----
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);
+  	init_main();
+  	pos_move();
+  	slZdspLevel(5);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½		*/
+! 	slSetEvent((void *)main_pad);			/*  ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½wï¿½ï¿½ï¿½ÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,11,5);
+***************
+*** 211,225 ****
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ƒCƒxƒ“ƒg‚ÌÀs			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ƒVƒ“ƒN					*/
+! 	} 
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ƒJƒƒ‰ŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+--- 214,228 ----
+  			SYS_Exit(1);
+  		}
+  #endif
+! 		slExecuteEvent();					/*	ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½s			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ï¿½Vï¿½ï¿½ï¿½N					*/
+! 	}
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+***************
+*** 285,291 ****
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ˆÊ’u•Û‘¶							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+--- 288,294 ----
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Ê’uï¿½Û‘ï¿½							*/
+  /*--------------------------------------*/
+  void	pos_move()
+  {
+***************
+*** 297,303 ****
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ƒpƒbƒhŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+--- 300,306 ----
+  	ang2[Z]	=ang[Z];
+  }
+  /*--------------------------------------*/
+! /*	ï¿½pï¿½bï¿½hï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+***************
+*** 307,313 ****
+  	Sint16		aa;
+  	Uint16		data;
+  
+! 	data = Smpc_Peripheral[15].data;					//ƒpƒbƒh‚Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+--- 310,316 ----
+  	Sint16		aa;
+  	Uint16		data;
+  
+! 	data = Smpc_Peripheral[15].data;					//ï¿½pï¿½bï¿½hï¿½Q
+  	if((data & PER_DGT_TC) == 0)tak_data+=10;
+  	if((data & PER_DGT_TZ) == 0)tak_data-=10;
+  	if((data & PER_DGT_KL) == 0)ang[Z]+=DEGtoANG(4.0);
+***************
+*** 315,321 ****
+  	if((data & PER_DGT_KU) == 0)ang[X]+=DEGtoANG(4.0);
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ƒpƒbƒh‚P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+--- 318,324 ----
+  	if((data & PER_DGT_KU) == 0)ang[X]+=DEGtoANG(4.0);
+  	if((data & PER_DGT_KD) == 0)ang[X]-=DEGtoANG(4.0);
+  	/*---------------------------------------------*/
+! 	data = Smpc_Peripheral[0].data;						//ï¿½pï¿½bï¿½hï¿½P
+  #ifdef FLASH_SATURN_CD
+  	if((data & (PER_DGT_ST | PER_DGT_TA | PER_DGT_TB | PER_DGT_TC)) == 0){
+  		SYS_Exit(0);
+***************
+*** 323,331 ****
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*Ô‚Ì‹““®‚ÍƒAƒoƒEƒg‚Éì‚Á‚Ä‚¢‚é‚Ì‚ÅQl‚É‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B*/
+  /*---------------------------------------------*/
+! 	/*‰Á‘¬Œ¸‘¬*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+--- 326,334 ----
+  #endif
+  	if((data & PER_DGT_ST) == 0)init_main();
+  /*---------------------------------------------*/
+! /*ï¿½Ô‚Ì‹ï¿½ï¿½ï¿½ï¿½ÍƒAï¿½oï¿½Eï¿½gï¿½Éï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅQï¿½lï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B*/
+  /*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+  	aa	=0;
+  	if((data & PER_DGT_TB) == 0)
+  	{
+***************
+*** 359,365 ****
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10;
+  	/*---------------------------------------------*/
+! 	/*ƒTƒCƒhˆÚ“®*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+--- 362,368 ----
+  	pos_add[X]	-=eg_speed*slSin(ang[Z])/10;
+  	pos_add[Y]	-=eg_speed*slCos(ang[Z])/10;
+  	/*---------------------------------------------*/
+! 	/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  	if((data & PER_DGT_TL) == 0)
+  	{
+  		pos[X]	+=3*slCos(ang[Z]);
+***************
+*** 370,376 ****
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+--- 373,379 ----
+  		pos[Y]	+=3*slSin(ang[Z]);
+  	}
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  	aa	=0;
+  	if((data & PER_DGT_KR) == 0)
+  	{
+***************
+*** 418,424 ****
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 	
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+--- 421,427 ----
+  	by	=ay-30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+  	point_l	=col_att;
+! 
+  	bx	=ax-30*slCos(ang[Z]);
+  	by	=ay+30*slSin(ang[Z]);
+  	Collison_put((bx),(by),pos[Z]);
+***************
+*** 475,481 ****
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ƒRƒŠƒWƒ‡ƒ“	‚‚³’Šo							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+--- 478,484 ----
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+***************
+*** 495,501 ****
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 	
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+--- 498,504 ----
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 
+  	ax_min	=ux-1;
+  	ax_max	=ux+2;
+  	if(ax_min<0)ax_min=0;
+***************
+*** 559,562 ****
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
+\ No newline at end of file
+--- 562,565 ----
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/s_10/main.c sgl302_patch/sample/s_10/main.c
+*** sgl302/sample/s_10/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_10/main.c	2024-08-11 12:44:00.000000000 -0400
+***************
+*** 3,8 ****
+--- 3,10 ----
+  /*----------------------------------------------------------------------*/
+  #include	"sgl.h"
+  
++ void set_event();
++ 
+  void ss_main(void)
+  {
+  	slInitSystem(TV_320x224,NULL,1) ;
+***************
+*** 14,17 ****
+  		slSynch() ;
+  	}
+  }
+! 
+\ No newline at end of file
+--- 16,19 ----
+  		slSynch() ;
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/s_4_2/main.c sgl302_patch/sample/s_4_2/main.c
+*** sgl302/sample/s_4_2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_4_2/main.c	2024-08-11 12:39:04.000000000 -0400
+***************
+*** 7,13 ****
+  
+  void ss_main(void){
+  	static ANGLE	ang[XYZ];
+- 	static ANGLE	angper[XYZ];
+  	static FIXED	pos[XYZ];
+  	static ANGLE	tmp = DEGtoANG(90.0);
+  	static ANGLE	adang = DEGtoANG(0.5);
+--- 7,12 ----
+***************
+*** 28,34 ****
+  		slPrintHex(slAng2Dec(tmp) , slLocate(18,5));
+  
+  		tmp += adang;
+! 		if (tmp > DEGtoANG(160.0)) 
+  			adang = DEGtoANG(-0.5);
+  		if (tmp < DEGtoANG(20.0))
+  			adang = DEGtoANG(0.5);
+--- 27,33 ----
+  		slPrintHex(slAng2Dec(tmp) , slLocate(18,5));
+  
+  		tmp += adang;
+! 		if (tmp > DEGtoANG(160.0))
+  			adang = DEGtoANG(-0.5);
+  		if (tmp < DEGtoANG(20.0))
+  			adang = DEGtoANG(0.5);
+***************
+*** 49,52 ****
+  		slSynch();
+  	}
+  }
+! 
+\ No newline at end of file
+--- 48,51 ----
+  		slSynch();
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample/s_6_3/main.c sgl302_patch/sample/s_6_3/main.c
+*** sgl302/sample/s_6_3/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_6_3/main.c	2024-08-11 12:38:34.000000000 -0400
+***************
+*** 32,38 ****
+  
+  void ss_main(void)
+  {
+- 	static ANGLE	ang[XYZ];
+  	static CAMERA	cmbuf;
+  	static ANGLE	tmp = DEGtoANG(0.0);
+  
+--- 32,37 ----
+***************
+*** 62,65 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 61,64 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/s_8_9_1/main.c sgl302_patch/sample/s_8_9_1/main.c
+*** sgl302/sample/s_8_9_1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_8_9_1/main.c	2024-08-11 12:37:36.000000000 -0400
+***************
+*** 13,19 ****
+  void ss_main(void)
+  {
+  	ANGLE yama_angz = DEGtoANG(0.0);
+- 	FIXED posx = toFIXED(128.0) , posy = toFIXED(64.0);
+  	
+  	slInitSystem(TV_320x224,NULL,1);
+  	slTVOff();
+--- 13,18 ----
+***************
+*** 42,48 ****
+  		slZrotR(yama_angz);
+  		yama_angz += DEGtoANG(1.0);
+  		slSynch();
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 41,47 ----
+  		slZrotR(yama_angz);
+  		yama_angz += DEGtoANG(1.0);
+  		slSynch();
+! 	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/s_9_1/main.c sgl302_patch/sample/s_9_1/main.c
+*** sgl302/sample/s_9_1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_9_1/main.c	2024-08-11 12:36:20.000000000 -0400
+***************
+*** 3,8 ****
+--- 3,9 ----
+  /*----------------------------------------------------------------------*/
+  #include	"sgl.h"
+  #include	"sega_sys.h"
++ #include	"ss_scrol.h"
+  
+  #define		NBG1_CEL_ADR		( VDP2_VRAM_B1 + 0x02000 )
+  #define		NBG1_MAP_ADR		( VDP2_VRAM_B1 + 0x12000 )
+***************
+*** 26,34 ****
+  	PER_DGT_TL,
+  };
+  
+! extern pad_cel[];
+! extern pad_map[];
+! extern pad_pal[];
+  extern TEXTURE tex_spr[];
+  extern PICTURE pic_spr[];
+  extern FIXED stat[][XYZS];
+--- 27,35 ----
+  	PER_DGT_TL,
+  };
+  
+! extern Uint8 pad_cel[];
+! extern Uint16 pad_map[];
+! extern Uint16 pad_pal[];
+  extern TEXTURE tex_spr[];
+  extern PICTURE pic_spr[];
+  extern FIXED stat[][XYZS];
+***************
+*** 38,44 ****
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+!  
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_spr + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+--- 39,45 ----
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+  	TEXTURE *txptr;
+! 
+  	for(; NbPicture-- > 0; pcptr++){
+  		txptr = tex_spr + pcptr->texno;
+  		slDMACopy((void *)pcptr->pcsrc,
+***************
+*** 69,75 ****
+  	slTVOff();
+  	set_sprite(pic_spr,1);
+  	slPrint("Sample program 9.1" , slLocate(9,2));
+! 	
+  	slColRAMMode(CRM16_1024);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+  
+--- 70,76 ----
+  	slTVOff();
+  	set_sprite(pic_spr,1);
+  	slPrint("Sample program 9.1" , slLocate(9,2));
+! 
+  	slColRAMMode(CRM16_1024);
+  	slBack1ColSet((void *)BACK_COL_ADR , 0);
+  
+***************
+*** 84,94 ****
+  	slScrPosNbg1(toFIXED(-32.0) , toFIXED(-36.0));
+  	slScrAutoDisp(NBG0ON | NBG1ON);
+  	slTVOn();
+! 	
+  	while(1) {
+  		disp_sprite();
+  		slSynch();
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 85,95 ----
+  	slScrPosNbg1(toFIXED(-32.0) , toFIXED(-36.0));
+  	slScrAutoDisp(NBG0ON | NBG1ON);
+  	slTVOn();
+! 
+  	while(1) {
+  		disp_sprite();
+  		slSynch();
+! 	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/sampsnd1/main.c sgl302_patch/sample/sampsnd1/main.c
+*** sgl302/sample/sampsnd1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/sampsnd1/main.c	2024-08-11 14:09:26.000000000 -0400
+***************
+*** 37,43 ****
+  /*------------------------------------------------------------------------*/
+  
+  void init_sound(){
+!     slInitSound(sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , mapsize) ;
+      slDMACopy(sound_dat , (void *)(SoundSeqBuf) , datsize) ;
+  }
+  
+--- 37,43 ----
+  /*------------------------------------------------------------------------*/
+  
+  void init_sound(){
+!     slInitSound((unsigned char *)sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , mapsize) ;
+      slDMACopy(sound_dat , (void *)(SoundSeqBuf) , datsize) ;
+  }
+  
+***************
+*** 47,68 ****
+      slPrintHex(vol , slLocate(11,6)) ;
+  }
+  
+! sound_test(EVENT *evptr){
+      SOUND_MAN	*smptr ;
+      PerDigital	*pptr ;
+      Sint16	padd ;
+      Sint16	padp ;
+  
+      int i ;
+!     
+      const Uint8 bank = 3 ;
+      const Uint8 song[] = {1 , 7 , 0 , 1} ;
+!     
+      smptr = (SOUND_MAN *)evptr->user ;
+      pptr = Smpc_Peripheral;
+      padd = ~pptr->data;
+      padp = ~pptr->push;
+!     
+      for (i = 7; i >= 0; i--){
+  	if(smptr->seq[i].stat && !(slSequenceStat(i))){
+  	    smptr->seq[i].stat = 0 ;
+--- 47,68 ----
+      slPrintHex(vol , slLocate(11,6)) ;
+  }
+  
+! void sound_test(EVENT *evptr){
+      SOUND_MAN	*smptr ;
+      PerDigital	*pptr ;
+      Sint16	padd ;
+      Sint16	padp ;
+  
+      int i ;
+! 
+      const Uint8 bank = 3 ;
+      const Uint8 song[] = {1 , 7 , 0 , 1} ;
+! 
+      smptr = (SOUND_MAN *)evptr->user ;
+      pptr = Smpc_Peripheral;
+      padd = ~pptr->data;
+      padp = ~pptr->push;
+! 
+      for (i = 7; i >= 0; i--){
+  	if(smptr->seq[i].stat && !(slSequenceStat(i))){
+  	    smptr->seq[i].stat = 0 ;
+***************
+*** 105,111 ****
+  	    if(--smptr->sequence < 1) smptr->sequence = 7;
+  	}
+      }
+!  
+      slPrintHex(slHex2Dec(smptr->banknum) , slLocate(7,10)) ;
+      slPrint("Bank     : " , slLocate(2,10)) ;
+      slPrintHex(slHex2Dec(smptr->songnum) , slLocate(7,11)) ;
+--- 105,111 ----
+  	    if(--smptr->sequence < 1) smptr->sequence = 7;
+  	}
+      }
+! 
+      slPrintHex(slHex2Dec(smptr->banknum) , slLocate(7,10)) ;
+      slPrint("Bank     : " , slLocate(2,10)) ;
+      slPrintHex(slHex2Dec(smptr->songnum) , slLocate(7,11)) ;
+***************
+*** 190,196 ****
+      for(i = 7; i >= 0; i--){
+  	smptr->seq[i].stat = 0 ;
+  	slPrintHex(i , slLocate(24,3+i)) ;
+!     }		
+      disp_vol(smptr->vol) ;
+  }
+  
+--- 190,196 ----
+      for(i = 7; i >= 0; i--){
+  	smptr->seq[i].stat = 0 ;
+  	slPrintHex(i , slLocate(24,3+i)) ;
+!     }
+      disp_vol(smptr->vol) ;
+  }
+  
+***************
+*** 216,222 ****
+  
+  /*------------------------------------------------------------------------*/
+  
+! sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)init_sound_test) ;
+--- 216,222 ----
+  
+  /*------------------------------------------------------------------------*/
+  
+! void sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)init_sound_test) ;
+***************
+*** 237,240 ****
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+\ No newline at end of file
+--- 237,240 ----
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+diff -crBN --binary sgl302/sample/sampsnd2/main.c sgl302_patch/sample/sampsnd2/main.c
+*** sgl302/sample/sampsnd2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/sampsnd2/main.c	2024-08-11 14:04:08.000000000 -0400
+***************
+*** 24,33 ****
+  
+  void init_sound(){
+      char sound_map[] = {0xff , 0xff} ;
+!     slInitSound(sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , sizeof(sound_map)) ;
+  }
+  
+! sound_test(EVENT *evptr){
+      PerDigital* pptr ;
+      Sint16	 pad ;
+  
+--- 24,33 ----
+  
+  void init_sound(){
+      char sound_map[] = {0xff , 0xff} ;
+!     slInitSound((unsigned char *)sddrvstsk , sizeof(sddrvstsk) , (Uint8 *)sound_map , sizeof(sound_map)) ;
+  }
+  
+! void sound_test(EVENT *evptr){
+      PerDigital* pptr ;
+      Sint16	 pad ;
+  
+***************
+*** 67,73 ****
+  
+  /*------------------------------------------------------------------------*/
+  
+! sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)sound_test) ;
+--- 67,73 ----
+  
+  /*------------------------------------------------------------------------*/
+  
+! void sample(){
+      init_sound() ;
+      slInitEvent() ;
+      slSetEvent((void *)sound_test) ;
+***************
+*** 88,91 ****
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+\ No newline at end of file
+--- 88,91 ----
+  }
+  
+  /*-----------------------------------------------------------------------*/
+! 
+diff -crBN --binary sgl302/sample/sbklib/sample2.c sgl302_patch/sample/sbklib/sample2.c
+*** sgl302/sample/sbklib/sample2.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/sbklib/sample2.c	2024-08-11 14:10:36.000000000 -0400
+***************
+*** 2,8 ****
+  #define		BUP_START_ADDR	0x6070000
+  #include	"sega_bup.h"
+  
+! 
+  
+  #define	FILE_NAME	"FILE_NAME01"
+  #define	BACKUP_DEVICE	(Uint32)0
+--- 2,8 ----
+  #define		BUP_START_ADDR	0x6070000
+  #include	"sega_bup.h"
+  
+! #include <string.h>
+  
+  #define	FILE_NAME	"FILE_NAME01"
+  #define	BACKUP_DEVICE	(Uint32)0
+***************
+*** 32,38 ****
+  	Sint32		ret;
+  	SmpcDateTime	*time;
+  	BupDate		date;
+! 	
+  	if(!dir->date){
+  		time = &(Smpc_Status->rtc);
+  		date.year  = (Uint8 )( slDec2Hex((Uint32)time->year)-1980 ); /* Modify K.T */
+--- 32,38 ----
+  	Sint32		ret;
+  	SmpcDateTime	*time;
+  	BupDate		date;
+! 
+  	if(!dir->date){
+  		time = &(Smpc_Status->rtc);
+  		date.year  = (Uint8 )( slDec2Hex((Uint32)time->year)-1980 ); /* Modify K.T */
+***************
+*** 89,102 ****
+  
+      slPrint("Sample program Backup Library" , slLocate(9,2));
+  
+!     slGetStatus(); 
+      for(i=0;i<100;i++)
+        {
+  	  slSynch() ;
+        }
+  
+      BackUpInit( conf );
+!                                                 
+      if( ( status = BUP_Stat( BACKUP_DEVICE, 10, &sttb ) ) == BUP_UNFORMAT  )
+        {
+  	  status = BackUpFormat(BACKUP_DEVICE);
+--- 89,102 ----
+  
+      slPrint("Sample program Backup Library" , slLocate(9,2));
+  
+!     slGetStatus();
+      for(i=0;i<100;i++)
+        {
+  	  slSynch() ;
+        }
+  
+      BackUpInit( conf );
+! 
+      if( ( status = BUP_Stat( BACKUP_DEVICE, 10, &sttb ) ) == BUP_UNFORMAT  )
+        {
+  	  status = BackUpFormat(BACKUP_DEVICE);
+***************
+*** 154,157 ****
+  	  slSynch() ;
+        }
+  }
+! 
+\ No newline at end of file
+--- 154,157 ----
+  	  slSynch() ;
+        }
+  }
+! 
+diff -crBN --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/string.c
 *** sgl302/sample/sbklib/string.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample/sbklib/string.c	2022-09-15 21:12:04.000000000 -0400
 ***************
@@ -113,7 +3383,316 @@ diff -crB --binary sgl302/sample/sbklib/string.c sgl302_patch/sample/sbklib/stri
         }
   
       return s;
-diff -crB --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cinit.c
+diff -crBN --binary sgl302/sample/s_cd4/main.c sgl302_patch/sample/s_cd4/main.c
+*** sgl302/sample/s_cd4/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample/s_cd4/main.c	2024-08-11 14:04:46.000000000 -0400
+***************
+*** 13,22 ****
+  #include	"sddrvs.dat"
+  
+  /****************************************************************************/
+! #define	WIN_ORG_X	0		
+! #define	WIN_ORG_Y	0		
+! #define	WIN_SIZE_X	320		
+! #define	WIN_SIZE_Y	240	
+  #define	MAX_FILE	128
+  Sint32	dirwork[SLCD_WORK_SIZE(MAX_FILE)];
+  
+--- 13,22 ----
+  #include	"sddrvs.dat"
+  
+  /****************************************************************************/
+! #define	WIN_ORG_X	0
+! #define	WIN_ORG_Y	0
+! #define	WIN_SIZE_X	320
+! #define	WIN_SIZE_Y	240
+  #define	MAX_FILE	128
+  Sint32	dirwork[SLCD_WORK_SIZE(MAX_FILE)];
+  
+***************
+*** 33,39 ****
+  	0x30, 0x05, 0xA0, 0x00, 0x00, 0x02, 0x00, 0x00,
+  	0xFF, 0xFF
+      };
+!     
+  /****************************************************************************/
+  
+  void	ss_main(void)
+--- 33,39 ----
+  	0x30, 0x05, 0xA0, 0x00, 0x00, 0x02, 0x00, 0x00,
+  	0xFF, 0xFF
+      };
+! 
+  /****************************************************************************/
+  
+  void	ss_main(void)
+***************
+*** 45,53 ****
+      Sint32	stat;
+  
+      slInitSystem(TV_320x224, NULL, 1);
+!     slInitSound(sddrvstsk, sizeof(sddrvstsk), sdmap, sizeof(sdmap));
+      slCDDAOn(127, 127, 0, 0);
+      ndir = slCdInit(MAX_FILE, dirwork);
+  
+      key[0].cn = CDKEY_NONE;
+      key[0].sm = CDKEY_NONE;
+--- 45,55 ----
+      Sint32	stat;
+  
+      slInitSystem(TV_320x224, NULL, 1);
+!     slInitSound((unsigned char *)sddrvstsk, sizeof(sddrvstsk), sdmap, sizeof(sdmap));
+      slCDDAOn(127, 127, 0, 0);
+      ndir = slCdInit(MAX_FILE, dirwork);
++ 		ndir;
++ 
+  
+      key[0].cn = CDKEY_NONE;
+      key[0].sm = CDKEY_NONE;
+***************
+*** 71,74 ****
+  	;
+  }
+  
+! 
+\ No newline at end of file
+--- 73,76 ----
+  	;
+  }
+  
+! 
+diff -crBN --binary sgl302/sample/shooting/main.c sgl302_patch/sample/shooting/main.c
+*** sgl302/sample/shooting/main.c	1996-09-11 23:00:00.000000000 -0400
+--- sgl302_patch/sample/shooting/main.c	2024-08-11 14:16:06.000000000 -0400
+***************
+*** 8,13 ****
+--- 8,16 ----
+  #include	"sglcolli.h"
+  #include	"sega_sys.h"
+  
++ #include <math.h>
++ #include <stdlib.h>
++ 
+  #define	pol_map_x	32
+  #define	pol_map_y	32
+  
+***************
+*** 184,197 ****
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);	
+  	init_main();
+  	slZdspLevel(7);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ƒCƒxƒ“ƒg‚Ì‰Šú‰»		*/
+! 	slSetEvent((void *)main_pad);			/*  ƒpƒbƒh“ü—ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ƒJƒƒ‰ˆÊ’uw’èŠÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ƒ|ƒŠƒSƒ“ƒ}ƒbƒv•\¦ŠÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,10,5);
+--- 187,200 ----
+  /*--------------------------------------------------------------------------*/
+  	init_camera((void*)&sega3D);
+  	init_object((void*)&sega3D);
+! 	init_matrix(pos, ang, scl);
+  	init_main();
+  	slZdspLevel(7);
+  /*--------------------------------------------------------------------------*/
+! 	slInitEvent();							/*  ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½		*/
+! 	slSetEvent((void *)main_pad);			/*  ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½ÍŠÖŒW			*/
+! 	slSetEvent((void *)main_came);			/*  ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½wï¿½ï¿½ï¿½ÖŒW		*/
+! 	slSetEvent((void *)main_Pmap);			/*  ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½\ï¿½ï¿½ï¿½ÖŒW	*/
+  /*--------------------------------------------------------------------------*/
+  	slPerspective(DEGtoANG(80));
+  	slSetDepthLimit(0,10,5);
+***************
+*** 201,215 ****
+  	slNearClipFlag(1);
+  	while(1)
+  	{
+! 		slExecuteEvent();					/*	ƒCƒxƒ“ƒg‚ÌÀs			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ƒVƒ“ƒN					*/
+! 	} 
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ƒJƒƒ‰ŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+--- 204,218 ----
+  	slNearClipFlag(1);
+  	while(1)
+  	{
+! 		slExecuteEvent();					/*	ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½s			*/
+  		slPrintFX(TotalPolygons<<16, slLocate(30,4));
+  		slPrintFX(DispPolygons<<16, slLocate(30,6));
+! 		slSynch();							/*	ï¿½Vï¿½ï¿½ï¿½N					*/
+! 	}
+  /*--------------------------------------------------------------------------*/
+  }
+  /*--------------------------------------*/
+! /*	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_came(EVENT *evptr)
+  {
+***************
+*** 275,281 ****
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ƒpƒbƒhŠÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+--- 278,284 ----
+  	slPopMatrix();
+  }
+  /*--------------------------------------*/
+! /*	ï¿½pï¿½bï¿½hï¿½ÖŒW							*/
+  /*--------------------------------------*/
+  void	main_pad(EVENT *evptr)
+  {
+***************
+*** 288,294 ****
+  	/*---------------------------------------------*/
+  	if(Smpc_Peripheral[0].id == 2)
+  	{
+! 		data = Smpc_Peripheral[0].data;						//ƒm[ƒ}ƒ‹ƒpƒbƒg
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		aa	=0;
+  		if((data & PER_DGT_TC) == 0)
+--- 291,297 ----
+  	/*---------------------------------------------*/
+  	if(Smpc_Peripheral[0].id == 2)
+  	{
+! 		data = Smpc_Peripheral[0].data;						//ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½pï¿½bï¿½g
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		aa	=0;
+  		if((data & PER_DGT_TC) == 0)
+***************
+*** 334,340 ****
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ƒTƒCƒhˆÚ“®*/
+  			if((data & PER_DGT_TL) == 0)
+  			{
+  				pos[X]	+=15*slCos(ang[Z]);
+--- 337,343 ----
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  			if((data & PER_DGT_TL) == 0)
+  			{
+  				pos[X]	+=15*slCos(ang[Z]);
+***************
+*** 345,351 ****
+  				pos[Y]	+=15*slSin(ang[Z]);
+  			}
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  			aa	=0;
+  			if((data & PER_DGT_KR) == 0)
+  			{
+--- 348,354 ----
+  				pos[Y]	+=15*slSin(ang[Z]);
+  			}
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  			aa	=0;
+  			if((data & PER_DGT_KR) == 0)
+  			{
+***************
+*** 383,389 ****
+  	if(Smpc_Peripheral[0].id == 0x16)
+  	{
+  		ana_pre	=(PerAnalog *)Smpc_Peripheral;
+! 		data = Smpc_Peripheral[0].data;						//ƒ}ƒ‹ƒRƒ“
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		if((data & PER_DGT_TC) == 0)
+  		{
+--- 386,392 ----
+  	if(Smpc_Peripheral[0].id == 0x16)
+  	{
+  		ana_pre	=(PerAnalog *)Smpc_Peripheral;
+! 		data = Smpc_Peripheral[0].data;						//ï¿½}ï¿½ï¿½ï¿½Rï¿½ï¿½
+  		if((data & PER_DGT_ST) == 0)init_main();
+  		if((data & PER_DGT_TC) == 0)
+  		{
+***************
+*** 398,406 ****
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ƒTƒCƒhˆÚ“®*/
+  	/*---------------------------------------------*/
+! 	/*¶‰E‚Ì‰ñ“]*/
+  			ang_add	+=((int)ana_pre[0].x-0x80)*3;
+  		}
+  	}
+--- 401,409 ----
+  			pos_add[Y]	-=eg_speed*slCos(ang[Z])/16+col_y;
+  			w_ang	+=DEGtoANG(eg_speed);
+  			/*---------------------------------------------*/
+! 			/*ï¿½Tï¿½Cï¿½hï¿½Ú“ï¿½*/
+  	/*---------------------------------------------*/
+! 	/*ï¿½ï¿½ï¿½Eï¿½Ì‰ï¿½ï¿½]*/
+  			ang_add	+=((int)ana_pre[0].x-0x80)*3;
+  		}
+  	}
+***************
+*** 465,471 ****
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ƒRƒŠƒWƒ‡ƒ“	‚‚³’Šo							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+--- 468,474 ----
+  	/*---------------------------------------------*/
+  }
+  /*-------------------------------------------------*/
+! /*	ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½o							*/
+  /*-------------------------------------------------*/
+  void	Collison_put(FIXED x,FIXED y,FIXED z)
+  {
+***************
+*** 487,493 ****
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 	
+  	if(ux < 0)ux=0;
+  	if(ux >= pol_map_x)ux=pol_map_x-1;
+  	if(uy < 0)uy =0;
+--- 490,496 ----
+  
+  	ux	=x>>(23);
+  	uy	=y>>(23);
+! 
+  	if(ux < 0)ux=0;
+  	if(ux >= pol_map_x)ux=pol_map_x-1;
+  	if(uy < 0)uy =0;
+***************
+*** 573,576 ****
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
+\ No newline at end of file
+--- 576,579 ----
+  		col_grp		=GetCol[GetColNo].gru;
+  	}
+  }
+! 
+diff -crBN --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cinit.c
 *** sgl302/sample2/common/cinit.c	1996-09-10 23:00:00.000000000 -0400
 --- sgl302_patch/sample2/common/cinit.c	2022-09-15 21:13:10.000000000 -0400
 ***************
@@ -149,7 +3728,7 @@ diff -crB --binary sgl302/sample2/common/cinit.c sgl302_patch/sample2/common/cin
 + 	return 0;
   }
 ! 
-diff -crB --binary sgl302/sample2/sega2d_1/scroll.c sgl302_patch/sample2/sega2d_1/scroll.c
+diff -crBN --binary sgl302/sample2/sega2d_1/scroll.c sgl302_patch/sample2/sega2d_1/scroll.c
 *** sgl302/sample2/sega2d_1/scroll.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega2d_1/scroll.c	2022-09-15 19:13:48.000000000 -0400
 ***************
@@ -177,7 +3756,7 @@ diff -crB --binary sgl302/sample2/sega2d_1/scroll.c sgl302_patch/sample2/sega2d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega2d_1/sega2d.h sgl302_patch/sample2/sega2d_1/sega2d.h
+diff -crBN --binary sgl302/sample2/sega2d_1/sega2d.h sgl302_patch/sample2/sega2d_1/sega2d.h
 *** sgl302/sample2/sega2d_1/sega2d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega2d_1/sega2d.h	2022-09-15 18:56:10.000000000 -0400
 ***************
@@ -202,7 +3781,7 @@ diff -crB --binary sgl302/sample2/sega2d_1/sega2d.h sgl302_patch/sample2/sega2d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_1/3d/dolphin.c sgl302_patch/sample2/sega3d_1/3d/dolphin.c
+diff -crBN --binary sgl302/sample2/sega3d_1/3d/dolphin.c sgl302_patch/sample2/sega3d_1/3d/dolphin.c
 *** sgl302/sample2/sega3d_1/3d/dolphin.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_1/3d/dolphin.c	2022-09-15 19:22:56.000000000 -0400
 ***************
@@ -216,7 +3795,32 @@ diff -crB --binary sgl302/sample2/sega3d_1/3d/dolphin.c sgl302_patch/sample2/seg
 ! #include	"./3d/model_2.c"
 ! #include	"./3d/model_4.c"
   
-diff -crB --binary sgl302/sample2/sega3d_1/sega3d.h sgl302_patch/sample2/sega3d_1/sega3d.h
+diff -crBN --binary sgl302/sample2/sega3d_1/main.c sgl302_patch/sample2/sega3d_1/main.c
+*** sgl302/sample2/sega3d_1/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample2/sega3d_1/main.c	2024-08-02 20:54:20.000000000 -0400
+***************
+*** 17,22 ****
+--- 17,23 ----
+  	FIXED	scl[XYZ];
+  }Sega3D, *Sega3DPtr;
+  
++ void	chg_view(void *ptr);
+  
+  static void set_texture(void)
+  {
+***************
+*** 130,133 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 131,134 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample2/sega3d_1/sega3d.h sgl302_patch/sample2/sega3d_1/sega3d.h
 *** sgl302/sample2/sega3d_1/sega3d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_1/sega3d.h	2022-09-15 18:57:10.000000000 -0400
 ***************
@@ -260,7 +3864,7 @@ diff -crB --binary sgl302/sample2/sega3d_1/sega3d.h sgl302_patch/sample2/sega3d_
   #endif
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_2/3d/cube.c sgl302_patch/sample2/sega3d_2/3d/cube.c
+diff -crBN --binary sgl302/sample2/sega3d_2/3d/cube.c sgl302_patch/sample2/sega3d_2/3d/cube.c
 *** sgl302/sample2/sega3d_2/3d/cube.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_2/3d/cube.c	2022-09-15 19:38:04.000000000 -0400
 ***************
@@ -272,7 +3876,32 @@ diff -crB --binary sgl302/sample2/sega3d_2/3d/cube.c sgl302_patch/sample2/sega3d
   
 ! #include	"./3d/new_1.c"
   
-diff -crB --binary sgl302/sample2/sega3d_2/sega3d.h sgl302_patch/sample2/sega3d_2/sega3d.h
+diff -crBN --binary sgl302/sample2/sega3d_2/main.c sgl302_patch/sample2/sega3d_2/main.c
+*** sgl302/sample2/sega3d_2/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample2/sega3d_2/main.c	2024-08-02 21:04:38.000000000 -0400
+***************
+*** 19,24 ****
+--- 19,25 ----
+  	FIXED	scl[XYZ];
+  }Sega3D, *Sega3DPtr;
+  
++ void	chg_view(void *ptr);
+  
+  static void set_texture(void)
+  {
+***************
+*** 136,139 ****
+  	}
+  }
+  
+! 
+\ No newline at end of file
+--- 137,140 ----
+  	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample2/sega3d_2/sega3d.h sgl302_patch/sample2/sega3d_2/sega3d.h
 *** sgl302/sample2/sega3d_2/sega3d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_2/sega3d.h	2022-09-15 19:28:20.000000000 -0400
 ***************
@@ -314,7 +3943,7 @@ diff -crB --binary sgl302/sample2/sega3d_2/sega3d.h sgl302_patch/sample2/sega3d_
   #endif
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_2/texture/cube.c sgl302_patch/sample2/sega3d_2/texture/cube.c
+diff -crBN --binary sgl302/sample2/sega3d_2/texture/cube.c sgl302_patch/sample2/sega3d_2/texture/cube.c
 *** sgl302/sample2/sega3d_2/texture/cube.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_2/texture/cube.c	2022-09-15 19:28:52.000000000 -0400
 ***************
@@ -332,7 +3961,7 @@ diff -crB --binary sgl302/sample2/sega3d_2/texture/cube.c sgl302_patch/sample2/s
   
   TEXTURE	tex_cube[] = {
   	{320, 82, 0x2000, 0x2852},
-diff -crB --binary sgl302/sample2/sega3d_3/3d/opa.c sgl302_patch/sample2/sega3d_3/3d/opa.c
+diff -crBN --binary sgl302/sample2/sega3d_3/3d/opa.c sgl302_patch/sample2/sega3d_3/3d/opa.c
 *** sgl302/sample2/sega3d_3/3d/opa.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/3d/opa.c	2022-09-15 20:18:12.000000000 -0400
 ***************
@@ -354,9 +3983,9 @@ diff -crB --binary sgl302/sample2/sega3d_3/3d/opa.c sgl302_patch/sample2/sega3d_
 ! #include	"./3d/model_11.c"
 ! #include	"./3d/model_13.c"
   
-diff -crB --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d_3/action.c
+diff -crBN --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d_3/action.c
 *** sgl302/sample2/sega3d_3/action.c	1996-04-20 22:10:00.000000000 -0400
---- sgl302_patch/sample2/sega3d_3/action.c	2022-09-15 19:33:12.000000000 -0400
+--- sgl302_patch/sample2/sega3d_3/action.c	2024-08-11 14:30:14.000000000 -0400
 ***************
 *** 1,7 ****
   #include	"sgl.h"
@@ -375,18 +4004,111 @@ diff -crB --binary sgl302/sample2/sega3d_3/action.c sgl302_patch/sample2/sega3d_
   
   
 ***************
+*** 77,83 ****
+  
+  void	whichAction(void *ptr)
+  {
+- 	Sega3DPtr		segaPtr = (Sega3DPtr)ptr;
+  	short			h, v, button;
+  
+  slPrint("Y angle", slLocate(6,4));
+--- 77,82 ----
+***************
+*** 143,149 ****
+  {
+  	static FIXED	spd = toFIXED(JUMPSPD),
+  					acc = toFIXED(JUMPACC);
+! 	short	stat;
+  
+  	if(pos_model_0[Y] < toFIXED(0.0)){
+  		pos_model_0[Y] = toFIXED(0.0);
+--- 142,148 ----
+  {
+  	static FIXED	spd = toFIXED(JUMPSPD),
+  					acc = toFIXED(JUMPACC);
+! 	short	stat = 0;
+  
+  	if(pos_model_0[Y] < toFIXED(0.0)){
+  		pos_model_0[Y] = toFIXED(0.0);
+***************
+*** 151,157 ****
+  		ang_model_9[X] = DEGtoANG(0.0);
+  		spd = toFIXED(JUMPSPD);
+  		acc = toFIXED(JUMPACC);
+! 		return(0);
+  	}
+  	spd += acc;
+  	pos_model_0[Y] += spd;
+--- 150,156 ----
+  		ang_model_9[X] = DEGtoANG(0.0);
+  		spd = toFIXED(JUMPSPD);
+  		acc = toFIXED(JUMPACC);
+! 		return(stat);
+  	}
+  	spd += acc;
+  	pos_model_0[Y] += spd;
+***************
 *** 217,220 ****
   
   
   
 ! 
 \ No newline at end of file
---- 217,220 ----
+--- 216,219 ----
   
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_3/scroll.c sgl302_patch/sample2/sega3d_3/scroll.c
+diff -crBN --binary sgl302/sample2/sega3d_3/main.c sgl302_patch/sample2/sega3d_3/main.c
+*** sgl302/sample2/sega3d_3/main.c	1996-04-20 22:10:00.000000000 -0400
+--- sgl302_patch/sample2/sega3d_3/main.c	2024-08-05 15:57:20.000000000 -0400
+***************
+*** 27,32 ****
+--- 27,34 ----
+  static void set_matrix(FIXED *, ANGLE *, FIXED *);
+  static void init_matrix(FIXED *, ANGLE *, FIXED *);
+  
++ void			whichAction(void *);
++ 
+  void	init_camera(void *ptr)
+  {
+  	Sega3DPtr	segaPtr = (Sega3DPtr)ptr;
+***************
+*** 110,116 ****
+  #endif
+  }
+  
+! static setAngLimit(ANGLE *ang, float min, float max)
+  {
+  	if(*ang > DEGtoANG(max))
+  		*ang = DEGtoANG(max);
+--- 112,118 ----
+  #endif
+  }
+  
+! static void setAngLimit(ANGLE *ang, float min, float max)
+  {
+  	if(*ang > DEGtoANG(max))
+  		*ang = DEGtoANG(max);
+***************
+*** 226,232 ****
+  		reset_vbar(39);
+  		slSynch();
+  		set_vbar(39);
+! 	} 
+  }
+  
+! 
+\ No newline at end of file
+--- 228,234 ----
+  		reset_vbar(39);
+  		slSynch();
+  		set_vbar(39);
+! 	}
+  }
+  
+! 
+diff -crBN --binary sgl302/sample2/sega3d_3/scroll.c sgl302_patch/sample2/sega3d_3/scroll.c
 *** sgl302/sample2/sega3d_3/scroll.c	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/scroll.c	2022-09-15 20:24:12.000000000 -0400
 ***************
@@ -414,7 +4136,7 @@ diff -crB --binary sgl302/sample2/sega3d_3/scroll.c sgl302_patch/sample2/sega3d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_3/sega2d.h sgl302_patch/sample2/sega3d_3/sega2d.h
+diff -crBN --binary sgl302/sample2/sega3d_3/sega2d.h sgl302_patch/sample2/sega3d_3/sega2d.h
 *** sgl302/sample2/sega3d_3/sega2d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/sega2d.h	2022-09-15 20:19:00.000000000 -0400
 ***************
@@ -439,7 +4161,7 @@ diff -crB --binary sgl302/sample2/sega3d_3/sega2d.h sgl302_patch/sample2/sega3d_
   
   
 ! 
-diff -crB --binary sgl302/sample2/sega3d_3/sega3d.h sgl302_patch/sample2/sega3d_3/sega3d.h
+diff -crBN --binary sgl302/sample2/sega3d_3/sega3d.h sgl302_patch/sample2/sega3d_3/sega3d.h
 *** sgl302/sample2/sega3d_3/sega3d.h	1996-04-20 22:10:00.000000000 -0400
 --- sgl302_patch/sample2/sega3d_3/sega3d.h	2022-09-15 20:19:28.000000000 -0400
 ***************
@@ -483,3 +4205,1748 @@ diff -crB --binary sgl302/sample2/sega3d_3/sega3d.h sgl302_patch/sample2/sega3d_
   
   
 ! 
+diff -crBN --binary sgl302/sample4/bitmap/main.c sgl302_patch/sample4/bitmap/main.c
+*** sgl302/sample4/bitmap/main.c	2024-01-03 06:49:22.000000000 -0500
+--- sgl302_patch/sample4/bitmap/main.c	2024-08-11 14:38:32.000000000 -0400
+***************
+*** 1,6 ****
+--- 1,8 ----
+  #include "sgl.h"
+  #include "../scroll/flower.pal"
+  
++ #include <stdlib.h>
++ 
+  #define UNIT toFIXED( 2.0 );
+  
+  enum BMP_STATUS {
+***************
+*** 18,24 ****
+    Sint16 rand[ 5 ];
+    Uint16 pad;
+    FIXED  x, y;
+!   
+    x = y = toFIXED( 0.0 );
+  
+    slInitSystem(TV_320x224, NULL, 1);
+--- 20,26 ----
+    Sint16 rand[ 5 ];
+    Uint16 pad;
+    FIXED  x, y;
+! 
+    x = y = toFIXED( 0.0 );
+  
+    slInitSystem(TV_320x224, NULL, 1);
+***************
+*** 29,105 ****
+    /* Initialize bitmap functions. */
+    if ( slInitBitMap( bmNBG1, BM_512x256, ( void * )0x25e20000 ) == FALSE ) {
+      slPrint( "FALSE", slLocate( 10, 3 ) );
+!     exit( 0 );
+!   }
+! 
+!   /* Display NBG */
+!   slScrAutoDisp( NBG0ON | NBG1ON );
+  
+!   slPrint( "Bitmap Sample", slLocate( 9, 2 ) );
+  
+!   /* Select random value */
+!   slPrint( "Press Start button", slLocate( 10, 13 ) );
+!   while ( ( Smpc_Peripheral[ 0 ].data & PER_DGT_ST ) != 0 ) slSynch();
+!   slPrint( "                 ", slLocate( 10, 13 ) );
+! 
+!   /* Main looooop! */
+!   while( -1 ) {
+!     pad = Smpc_Peripheral[ 0 ].data;
+! 
+!     /* Set random value */
+!     rand[ 0 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!     rand[ 1 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!     rand[ 2 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!     rand[ 3 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!     rand[ 4 ] = ( Sint16 )( slRandom() & 0x000000ff );
+! 
+!     /* Pad control */
+!     if ( !( pad & PER_DGT_KU ) ) {
+!       y += UNIT;
+!     }
+!     if ( !( pad & PER_DGT_KD ) ) {
+!       y -= UNIT;
+!     }
+!     if ( !( pad & PER_DGT_KL ) ) {
+!       x += UNIT;
+!     }
+!     if ( !( pad & PER_DGT_KR ) ) {
+!       x -= UNIT;
+!     }
+!     if ( !( pad & PER_DGT_ST ) ) {
+!       x = y = toFIXED ( 0.0 );
+!     }
+  
+!     /* Switch any bitmap functions. */
+!     switch (  slRandom() & 0x00000007 ) {
+!     case BMP_PSET:
+!       slBMPset( rand[ 0 ], rand[ 1 ], rand[ 4 ] );
+!       break;
+!     case BMP_CIRCLE:
+!       slBMCircle( rand[ 0 ], rand[ 1 ],  rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_LINE:
+!       slBMLine( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_BOX:
+!       slBMBox( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_BOXFILL:
+!       slBMBoxFill( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!       break;
+!     case BMP_PUT:
+!       break;
+!     case BMP_SPRPUT:
+!       break;
+      }
+-     slScrPosNbg1( x, y );
+-     slSynch();
+    }
+  }
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+--- 31,100 ----
+    /* Initialize bitmap functions. */
+    if ( slInitBitMap( bmNBG1, BM_512x256, ( void * )0x25e20000 ) == FALSE ) {
+      slPrint( "FALSE", slLocate( 10, 3 ) );
+!   } else {
+  
+!     /* Display NBG */
+!     slScrAutoDisp( NBG0ON | NBG1ON );
+  
+!     slPrint( "Bitmap Sample", slLocate( 9, 2 ) );
+  
+!     /* Select random value */
+!     slPrint( "Press Start button", slLocate( 10, 13 ) );
+!     while ( ( Smpc_Peripheral[ 0 ].data & PER_DGT_ST ) != 0 ) slSynch();
+!     slPrint( "                 ", slLocate( 10, 13 ) );
+! 
+!     /* Main looooop! */
+!     while( -1 ) {
+!       pad = Smpc_Peripheral[ 0 ].data;
+! 
+!       /* Set random value */
+!       rand[ 0 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!       rand[ 1 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!       rand[ 2 ] = ( Sint16 )( slRandom() & 0x000001ff ) - 256;
+!       rand[ 3 ] = ( Sint16 )( slRandom() & 0x000000ff ) - 128;
+!       rand[ 4 ] = ( Sint16 )( slRandom() & 0x000000ff );
+! 
+!       /* Pad control */
+!       if ( !( pad & PER_DGT_KU ) ) {
+!         y += UNIT;
+!       }
+!       if ( !( pad & PER_DGT_KD ) ) {
+!         y -= UNIT;
+!       }
+!       if ( !( pad & PER_DGT_KL ) ) {
+!         x += UNIT;
+!       }
+!       if ( !( pad & PER_DGT_KR ) ) {
+!         x -= UNIT;
+!       }
+!       if ( !( pad & PER_DGT_ST ) ) {
+!         x = y = toFIXED ( 0.0 );
+!       }
+! 
+!       /* Switch any bitmap functions. */
+!       switch (  slRandom() & 0x00000007 ) {
+!       case BMP_PSET:
+!         slBMPset( rand[ 0 ], rand[ 1 ], rand[ 4 ] );
+!         break;
+!       case BMP_CIRCLE:
+!         slBMCircle( rand[ 0 ], rand[ 1 ],  rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_LINE:
+!         slBMLine( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_BOX:
+!         slBMBox( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_BOXFILL:
+!         slBMBoxFill( rand[ 0 ], rand[ 1 ],  rand[ 2 ], rand[ 3 ], rand[ 4 ] );
+!         break;
+!       case BMP_PUT:
+!         break;
+!       case BMP_SPRPUT:
+!         break;
+!       }
+!       slScrPosNbg1( x, y );
+!       slSynch();
+      }
+    }
+  }
+diff -crBN --binary sgl302/sample4/cdda/main.c sgl302_patch/sample4/cdda/main.c
+*** sgl302/sample4/cdda/main.c	2024-01-03 06:49:28.000000000 -0500
+--- sgl302_patch/sample4/cdda/main.c	2024-08-12 07:49:24.000000000 -0400
+***************
+*** 15,21 ****
+       Not use MODE2 Track, CDDA Truck starts 2.
+       Use MODE2 Track, CDDA Tauck starts after 3.
+  */
+! #define TRACK_NO 2 
+  /* Use SGL sound functions (slCDDAOn) */
+  #define SGL_SND
+  
+--- 15,21 ----
+       Not use MODE2 Track, CDDA Truck starts 2.
+       Use MODE2 Track, CDDA Tauck starts after 3.
+  */
+! #define TRACK_NO 2
+  /* Use SGL sound functions (slCDDAOn) */
+  #define SGL_SND
+  
+***************
+*** 86,92 ****
+      slPrintHex( fid, slLocate( 15, 3 ) );
+      while( 1 ) slSynch();
+    }
+!   
+    if ( GFS_GetDirInfo( fid, &tbl ) < 0 ) {
+      slPrint( "Error! Can't get directory information.", slLocate( 2, 2 ) );
+      while( 1 ) slSynch();
+--- 86,92 ----
+      slPrintHex( fid, slLocate( 15, 3 ) );
+      while( 1 ) slSynch();
+    }
+! 
+    if ( GFS_GetDirInfo( fid, &tbl ) < 0 ) {
+      slPrint( "Error! Can't get directory information.", slLocate( 2, 2 ) );
+      while( 1 ) slSynch();
+***************
+*** 162,168 ****
+    case CDC_ST_ERROR:
+      slPrint( "READ ERROR!! ", slLocate( 10, 10 ) );
+    default:
+!     
+    }
+  }
+  
+--- 162,168 ----
+    case CDC_ST_ERROR:
+      slPrint( "READ ERROR!! ", slLocate( 10, 10 ) );
+    default:
+!     break;
+    }
+  }
+  
+***************
+*** 179,185 ****
+  #endif
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+!   
+    /* Initialize event */
+    slInitEvent();
+    slSetEvent( event );
+--- 179,185 ----
+  #endif
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+! 
+    /* Initialize event */
+    slInitEvent();
+    slSetEvent( event );
+***************
+*** 202,208 ****
+    } while( ( ret = ( CDC_STAT_STATUS( st ) & 0x0f ) ) != CDC_ST_PAUSE );
+  
+  #ifdef FAD
+!   /* Move pick to start of Track. */ 
+    CDC_POS_PTYPE( pos ) = CDC_PTYPE_TNO;
+    CDC_POS_TNO( pos )   = TRACK_NO;
+    ret = CDC_CdSeek( pos );
+--- 202,208 ----
+    } while( ( ret = ( CDC_STAT_STATUS( st ) & 0x0f ) ) != CDC_ST_PAUSE );
+  
+  #ifdef FAD
+!   /* Move pick to start of Track. */
+    CDC_POS_PTYPE( pos ) = CDC_PTYPE_TNO;
+    CDC_POS_TNO( pos )   = TRACK_NO;
+    ret = CDC_CdSeek( pos );
+***************
+*** 245,250 ****
+      slSynch();
+    }
+  }
+- 
+- 
+- 
+--- 245,247 ----
+diff -crBN --binary sgl302/sample4/coloff/main.c sgl302_patch/sample4/coloff/main.c
+*** sgl302/sample4/coloff/main.c	2024-01-03 06:49:34.000000000 -0500
+--- sgl302_patch/sample4/coloff/main.c	2024-08-11 14:44:20.000000000 -0400
+***************
+*** 22,32 ****
+    slInitSystem( TV_320x224, NULL, 1 );
+    slTVOff();
+    slPrint( "Color Offset Sample", slLocate( 9, 2 ) );
+!   
+    slColRAMMode( CRM16_1024 );
+  
+    slBack1ColSet( ( void * )BACK_COL_ADR, 0 );
+!   
+    slCharNbg1(COL_TYPE_256 , CHAR_SIZE_1x1);
+    slPageNbg1( (void *)0x24e40000, (void *)0x600 , PNB_1WORD|CN_10BIT);
+    slPlaneNbg1(PL_SIZE_1x1);
+--- 22,32 ----
+    slInitSystem( TV_320x224, NULL, 1 );
+    slTVOff();
+    slPrint( "Color Offset Sample", slLocate( 9, 2 ) );
+! 
+    slColRAMMode( CRM16_1024 );
+  
+    slBack1ColSet( ( void * )BACK_COL_ADR, 0 );
+! 
+    slCharNbg1(COL_TYPE_256 , CHAR_SIZE_1x1);
+    slPageNbg1( (void *)0x24e40000, (void *)0x600 , PNB_1WORD|CN_10BIT);
+    slPlaneNbg1(PL_SIZE_1x1);
+***************
+*** 40,49 ****
+  
+    slColOffsetAUse( NBG1ON );
+  
+!   slTVOn();  
+  
+    while( 1 ){
+      pad = Smpc_Peripheral[ 0 ].data;
+  
+      if ( j == ACCELERANDO ) {
+        if ( ++i > 254 ) j = RITARDANDO;
+--- 40,50 ----
+  
+    slColOffsetAUse( NBG1ON );
+  
+!   slTVOn();
+  
+    while( 1 ){
+      pad = Smpc_Peripheral[ 0 ].data;
++     pad;
+  
+      if ( j == ACCELERANDO ) {
+        if ( ++i > 254 ) j = RITARDANDO;
+***************
+*** 52,56 ****
+      }
+      slColOffsetA( i, - i, i / 2 );
+      slSynch();
+!   } 
+  }
+--- 53,57 ----
+      }
+      slColOffsetA( i, - i, i / 2 );
+      slSynch();
+!   }
+  }
+diff -crBN --binary sgl302/sample4/expccalc/main.c sgl302_patch/sample4/expccalc/main.c
+*** sgl302/sample4/expccalc/main.c	2024-01-03 06:49:42.000000000 -0500
+--- sgl302_patch/sample4/expccalc/main.c	2024-08-11 14:43:54.000000000 -0400
+***************
+*** 72,78 ****
+  };
+  
+  /* Main function */
+! ss_main() {
+    FIXED  x[ 3 ], y[ 3 ]; /* Scroll positions.      */
+    Uint16 pad;            /* Pad Data               */
+    Sint8  rate_a = 12;    /* Color rate about NBG 1 */
+--- 72,78 ----
+  };
+  
+  /* Main function */
+! void ss_main() {
+    FIXED  x[ 3 ], y[ 3 ]; /* Scroll positions.      */
+    Uint16 pad;            /* Pad Data               */
+    Sint8  rate_a = 12;    /* Color rate about NBG 1 */
+***************
+*** 84,92 ****
+    slTVOff();
+    {
+      slColRAMMode( CRM16_1024 );
+!     
+      /* Clear VDP2 VRAM */
+!     slDMAXCopy( &i, ( void * )VDP2_VRAM_A0, 0x20000, Sfix_Dinc_Long ); 
+  
+      /* Set NBG1 Parameter */
+      slCharNbg1( COL_TYPE_256, CHAR_SIZE_1x1 );
+--- 84,92 ----
+    slTVOff();
+    {
+      slColRAMMode( CRM16_1024 );
+! 
+      /* Clear VDP2 VRAM */
+!     slDMAXCopy( &i, ( void * )VDP2_VRAM_A0, 0x20000, Sfix_Dinc_Long );
+  
+      /* Set NBG1 Parameter */
+      slCharNbg1( COL_TYPE_256, CHAR_SIZE_1x1 );
+***************
+*** 140,146 ****
+      /* Set parameters about color colculation. */
+      slColorCalc( CC_RATE | CC_TOP | NBG1ON | NBG3ON | CC_EXT );
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] ); 
+  
+      slPrint( "Expanded color calc Sample Program", slLocate( 2, 2 ) );
+    }
+--- 140,146 ----
+      /* Set parameters about color colculation. */
+      slColorCalc( CC_RATE | CC_TOP | NBG1ON | NBG3ON | CC_EXT );
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] );
+  
+      slPrint( "Expanded color calc Sample Program", slLocate( 2, 2 ) );
+    }
+***************
+*** 163,177 ****
+        if ( pad & PER_DGT_KL ) {
+  	x[ 0 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {	
+  	x[ 0 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {	
+  	if ( ++rate_a > 31 ) rate_a = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {	
+  	if ( --rate_a < 0 ) rate_a = 0;
+!       }      
+      }
+      /* Normal scroll 2 (2D Map) */
+      if ( !( pad & PER_DGT_TB ) ) {
+--- 163,177 ----
+        if ( pad & PER_DGT_KL ) {
+  	x[ 0 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {
+  	x[ 0 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {
+  	if ( ++rate_a > 31 ) rate_a = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {
+  	if ( --rate_a < 0 ) rate_a = 0;
+!       }
+      }
+      /* Normal scroll 2 (2D Map) */
+      if ( !( pad & PER_DGT_TB ) ) {
+***************
+*** 184,190 ****
+        if ( pad & PER_DGT_KL ) {
+  	x[ 1 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {	
+  	x[ 1 ] += UNIT;
+        }
+      }
+--- 184,190 ----
+        if ( pad & PER_DGT_KL ) {
+  	x[ 1 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {
+  	x[ 1 ] += UNIT;
+        }
+      }
+***************
+*** 199,211 ****
+        if ( pad & PER_DGT_KL ) {
+  	x[ 2 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {	
+  	x[ 2 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {	
+  	if ( ++rate_b > 31 ) rate_b = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {	
+  	if ( --rate_b < 0 ) rate_b = 0;
+        }
+      }
+--- 199,211 ----
+        if ( pad & PER_DGT_KL ) {
+  	x[ 2 ] -= UNIT;
+        }
+!       if ( pad & PER_DGT_KR ) {
+  	x[ 2 ] += UNIT;
+        }
+!       if ( pad & PER_DGT_TL ) {
+  	if ( ++rate_b > 31 ) rate_b = 31;
+        }
+!       if ( pad & PER_DGT_TR ) {
+  	if ( --rate_b < 0 ) rate_b = 0;
+        }
+      }
+***************
+*** 228,234 ****
+      }
+      /* Set Color Rate */
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] ); 
+  
+      /* Set scroll position */
+      slScrPosNbg1( x[ 0 ], y[ 0 ] );
+--- 228,234 ----
+      }
+      /* Set Color Rate */
+      slColRateNbg1( rate_tbl[ rate_a ] );
+!     slColRateNbg3( rate_tbl[ rate_b ] );
+  
+      /* Set scroll position */
+      slScrPosNbg1( x[ 0 ], y[ 0 ] );
+***************
+*** 238,243 ****
+      slSynch();
+    }
+  }
+- 
+- 
+- 
+--- 238,240 ----
+diff -crBN --binary sgl302/sample4/pcm/simple/stm/main.c sgl302_patch/sample4/pcm/simple/stm/main.c
+*** sgl302/sample4/pcm/simple/stm/main.c	2024-01-03 06:51:10.000000000 -0500
+--- sgl302_patch/sample4/pcm/simple/stm/main.c	2024-08-11 17:34:00.000000000 -0400
+***************
+*** 2,8 ****
+   *
+   *	Copyright (c) 1994,1995,1997 SEGA
+   *
+!  * Library	:PCMEADPCMÄ¶ƒ‰ƒCƒuƒ‰ƒŠ
+   * Module 	:sample program of STREAM PLAY MODE
+   * File		:main.c
+   * Date		:1995-03-31
+--- 2,8 ----
+   *
+   *	Copyright (c) 1994,1995,1997 SEGA
+   *
+!  * Library	:PCMï¿½EADPCMï¿½Äï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½
+   * Module 	:sample program of STREAM PLAY MODE
+   * File		:main.c
+   * Date		:1995-03-31
+***************
+*** 12,77 ****
+   * Modifier     :N.T
+   *
+   * Comment	:
+!  *      PCMƒXƒgƒŠ[ƒ€Ä¶ƒTƒ“ƒvƒ‹(AIFF)
+!  *        ¦smppcm2.c‚ğŒ³‚É‰ü—ÇB
+!  *          SGL‚ÅÄ¶‚³‚¹‚é‚½‚ß‚Éˆê•”ƒR[ƒh‚ğ•ÏXB
+   *
+!  *        ‚±‚ÌƒTƒ“ƒvƒ‹‚Å‚ÍAƒTƒEƒ“ƒhƒhƒ‰ƒCƒo‚ğƒvƒƒOƒ‰ƒ€‚É‘g‚İ‚Şƒ^ƒCƒv‚Ì
+!  *        ‚à‚Ì‚Å‚·B
+   ****************************************************************************/
+  
+! /*------------------------- sƒCƒ“ƒNƒ‹[ƒht -------------------------*/
+  #include "sgl.h"
+  #include "sgl_cd.h"
+  #include "sega_snd.h"
+  #include "sega_pcm.h"
+! /*--------------------------- sŠÖ”éŒ¾t ---------------------------*/
+  extern char *sddrvstsk;
+  extern long sddrvsize;
+! /*---------------------------- s’è”t ----------------------------*/
+  static char filename[] = "SAMPLE.AIF";
+  
+! /* ƒEƒF[ƒuRAM‚Ì“]‘—ƒAƒhƒŒƒX‚ÆƒTƒ“ƒvƒ‹” */
+  /*
+!    y’ˆÓz
+!    PCM_SIZE‚Ìƒf[ƒ^ƒTƒCƒY‚ğŒ³‚ÉA
+!     8Bit Mono   :~1
+!    16Bit Mono   :~2
+!     8Bit Stereo :~2
+!    16Bit Stereo :~4
+!    ‚Ìƒoƒbƒtƒ@‚ğ•K—v‚Æ‚µ‚Ü‚·B
+!    ¦PCM_SIZE‚Ìƒf[ƒ^ƒTƒCƒY‚ª‚»‚Ì‚Ü‚Üg‚í‚ê‚é–ó‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
+!    ]‚Á‚ÄAPCM_ADDR‚É—^‚¦‚éPCMƒoƒbƒtƒ@‚ÌƒXƒ^[ƒgƒAƒhƒŒƒX‚ÍA‚»‚Ì–‚ğl—¶‚µ‚½
+!    ã‚Åİ’è‚µ‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
+!    —á‚¦‚ÎA16Bit Stereo‚ÌAIFFƒf[ƒ^‚ğÄ¶‚·‚é‚Ì‚É
+     PCM_SIZE = 4096L * 2
+!    ‚ğİ’è‚µ‚½ê‡A( 4096 * 2 ) * 4 = 32768 = 8000H
+!    ‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğ•K—v‚Æ‚·‚é‚Ì‚ÅAPCM_ADDR‚ÌƒAƒhƒŒƒX‚ÍA
+!    25A78000HˆÈ‘O‚Éİ’è‚µ‚È‚¢‚ÆA‰¹‚ÌŒã”¼‚ÉƒmƒCƒY‚ª“ü‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
+!    –”APCM‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ª¬‚³‚¢ê‡AÄ¶’†‚ÉCD‚ÌƒŠ[ƒhƒGƒ‰[‚È‚Ç‚ÅA
+!    PCMƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ì‹Ÿ‹‹‚ª~‚Ü‚Á‚½ê‡A“¯‚¶‰¹‚ªŒJ‚è•Ô‚µÄ¶‚³‚ê‚é
+!    “™‚ÌÇó‚ª‹N‚±‚é–‚ª‚ ‚è‚Ü‚·B
+!    ‚»‚Ìê‡APCM_SIZE‚É­‚µ‘å‚«‚ß‚Ì’l‚ğ“ü‚ê‚é–‚Å‰ğŒˆ‚Å‚«‚Ü‚·B
+  */
+  #define	PCM_ADDR	( ( void * )0x25a20000 )
+  #define	PCM_SIZE	( 4096L * 8 )	           /* 8 */
+  
+  #define	SECTOR_SIZE	(STM_UNIT_FORM1)
+  
+! #define TR_MODE_CD      PCM_TRMODE_SCU	  /* SCU DMA‚É‚æ‚éƒf[ƒ^“]‘— */
+  
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@‚ÌƒTƒCƒY */
+  #define	RING_BUF_SIZE	(SECTOR_SIZE*10)	/* 10.. */
+! /*----------------------- sƒOƒ[ƒoƒ‹•Ï”t -----------------------*/
+  
+! /* ƒ[ƒNƒoƒbƒtƒ@ */
+  static PcmWork g_movie_work;
+  
+! /* ƒoƒbƒtƒ@‚ÌŠm•Û */
+! /* ƒŠƒ“ƒOƒoƒbƒtƒ@ */
+  Uint8 g_movie_buf[RING_BUF_SIZE];
+  
+! /*---------------------------- sŠÖ”t ----------------------------*/
+  
+  void errGfsFunc( void *obj, Sint32 ec )
+  {
+--- 12,77 ----
+   * Modifier     :N.T
+   *
+   * Comment	:
+!  *      PCMï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Äï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½(AIFF)
+!  *        ï¿½ï¿½smppcm2.cï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½ï¿½ÇB
+!  *          SGLï¿½ÅÄï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Éˆê•”ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ÏXï¿½B
+   *
+!  *        ï¿½ï¿½ï¿½ÌƒTï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Å‚ÍAï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½hï¿½ï¿½ï¿½Cï¿½oï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½É‘gï¿½İï¿½ï¿½Şƒ^ï¿½Cï¿½vï¿½ï¿½
+!  *        ï¿½ï¿½ï¿½Ì‚Å‚ï¿½ï¿½B
+   ****************************************************************************/
+  
+! /*------------------------- ï¿½sï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½t -------------------------*/
+  #include "sgl.h"
+  #include "sgl_cd.h"
+  #include "sega_snd.h"
+  #include "sega_pcm.h"
+! /*--------------------------- ï¿½sï¿½Öï¿½ï¿½éŒ¾ï¿½t ---------------------------*/
+  extern char *sddrvstsk;
+  extern long sddrvsize;
+! /*---------------------------- ï¿½sï¿½è”ï¿½t ----------------------------*/
+  static char filename[] = "SAMPLE.AIF";
+  
+! /* ï¿½Eï¿½Fï¿½[ï¿½uRAMï¿½Ì“]ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ÆƒTï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ */
+  /*
+!    ï¿½yï¿½ï¿½ï¿½Óz
+!    PCM_SIZEï¿½Ìƒfï¿½[ï¿½^ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ÉA
+!     8Bit Mono   :ï¿½~1
+!    16Bit Mono   :ï¿½~2
+!     8Bit Stereo :ï¿½~2
+!    16Bit Stereo :ï¿½~4
+!    ï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½Kï¿½vï¿½Æ‚ï¿½ï¿½Ü‚ï¿½ï¿½B
+!    ï¿½ï¿½PCM_SIZEï¿½Ìƒfï¿½[ï¿½^ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ü‚Ügï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚Í‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B
+!    ï¿½]ï¿½ï¿½ï¿½ÄAPCM_ADDRï¿½É—^ï¿½ï¿½ï¿½ï¿½PCMï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒXï¿½^ï¿½[ï¿½gï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ÍAï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!    ï¿½ï¿½ï¿½Åİ’è‚µï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B
+!    ï¿½á‚¦ï¿½ÎA16Bit Stereoï¿½ï¿½AIFFï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
+     PCM_SIZE = 4096L * 2
+!    ï¿½ï¿½ï¿½İ’è‚µï¿½ï¿½ï¿½ê‡ï¿½A( 4096 * 2 ) * 4 = 32768 = 8000H
+!    ï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Kï¿½vï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅAPCM_ADDRï¿½ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ÍA
+!    25A78000Hï¿½È‘Oï¿½Éİ’è‚µï¿½È‚ï¿½ï¿½ÆAï¿½ï¿½ï¿½ÌŒã”¼ï¿½Éƒmï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+!    ï¿½ï¿½ï¿½APCMï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½CDï¿½Ìƒï¿½ï¿½[ï¿½hï¿½Gï¿½ï¿½ï¿½[ï¿½È‚Ç‚ÅA
+!    PCMï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+!    ï¿½ï¿½ï¿½ÌÇó‚ª‹Nï¿½ï¿½ï¿½é–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+!    ï¿½ï¿½ï¿½Ìê‡ï¿½APCM_SIZEï¿½Éï¿½ï¿½ï¿½ï¿½å‚«ï¿½ß‚Ì’lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é–ï¿½Å‰ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½B
+  */
+  #define	PCM_ADDR	( ( void * )0x25a20000 )
+  #define	PCM_SIZE	( 4096L * 8 )	           /* 8 */
+  
+  #define	SECTOR_SIZE	(STM_UNIT_FORM1)
+  
+! #define TR_MODE_CD      PCM_TRMODE_SCU	  /* SCU DMAï¿½É‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½]ï¿½ï¿½ */
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒTï¿½Cï¿½Y */
+  #define	RING_BUF_SIZE	(SECTOR_SIZE*10)	/* 10.. */
+! /*----------------------- ï¿½sï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½ï¿½t -----------------------*/
+  
+! /* ï¿½ï¿½ï¿½[ï¿½Nï¿½oï¿½bï¿½tï¿½@ */
+  static PcmWork g_movie_work;
+  
+! /* ï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½ */
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½oï¿½bï¿½tï¿½@ */
+  Uint8 g_movie_buf[RING_BUF_SIZE];
+  
+! /*---------------------------- ï¿½sï¿½Öï¿½ï¿½t ----------------------------*/
+  
+  void errGfsFunc( void *obj, Sint32 ec )
+  {
+***************
+*** 91,97 ****
+    slPrintHex( ec, slLocate( 20, 2 ) );
+  }
+  
+! /*====================== ƒTƒEƒ“ƒh‚Ìˆ— ===========================*/
+  static void sndInit(void)
+  {
+    SndIniDt 	snd_init;
+--- 91,97 ----
+    slPrintHex( ec, slLocate( 20, 2 ) );
+  }
+  
+! /*====================== ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  static void sndInit(void)
+  {
+    SndIniDt 	snd_init;
+***************
+*** 108,143 ****
+    SND_ChgMap( 0 );
+  }
+  
+! /*====================== ƒtƒ@ƒCƒ‹‚Ìˆ— ===========================*/
+  
+  /*
+!   ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚éƒtƒ@ƒCƒ‹‚ÌÅ‘å”
+!   ‚±‚Ì”‚ğ‰z‚¦‚½CD‚Ìê‡Aƒtƒ@ƒCƒ‹‚ÌŒŸõ‚É¸”s‚·‚é‹°‚ê‚ª‚ ‚è‚Ü‚·B
+  */
+  #define MAX_DIR		100
+  
+! /* “¯‚ÉŠJ‚­ƒtƒ@ƒCƒ‹‚ÌÅ‘å” */
+  #define OPEN_MAX	5
+  
+! /* ƒfƒBƒŒƒNƒgƒŠî•ñŠÇ——Ìˆæ */
+  static GfsDirTbl	dir_tbl;
+  
+! /* ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ñ‚¾î•ñ */
+  static GfsDirName dir_name[ MAX_DIR ];
+  
+! /* GFS‚Ìì‹Æ—Ìˆæ */
+  Uint32 g_gfs_work[ ( GFS_WORK_SIZE( OPEN_MAX ) + 3 ) / 4 ];
+  
+  static void fileInit( void )
+  {
+    Sint32 file_num;
+  
+!   /* GFS‚Ì‰Šú‰» */
+    GFS_DIRTBL_TYPE( &dir_tbl )    = GFS_DIR_NAME;
+    GFS_DIRTBL_DIRNAME( &dir_tbl ) = dir_name;
+    GFS_DIRTBL_NDIR( &dir_tbl )    = MAX_DIR;
+  
+!   /* ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+    file_num = GFS_Init( OPEN_MAX, g_gfs_work, &dir_tbl );
+    if ( file_num < 0 ) {
+      slPrint( "Error! GFS Init.", slLocate( 5, 2 ) );
+--- 108,143 ----
+    SND_ChgMap( 0 );
+  }
+  
+! /*====================== ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ ===========================*/
+  
+  /*
+!   ï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å”
+!   ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½CDï¿½Ìê‡ï¿½Aï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½é‹°ï¿½ê‚ªï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+  */
+  #define MAX_DIR		100
+  
+! /* ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠJï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌÅ‘å” */
+  #define OPEN_MAX	5
+  
+! /* ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½Ìˆï¿½ */
+  static GfsDirTbl	dir_tbl;
+  
+! /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ñ‚¾ï¿½ï¿½ï¿½ */
+  static GfsDirName dir_name[ MAX_DIR ];
+  
+! /* GFSï¿½Ìï¿½ï¿½Æ—Ìˆï¿½ */
+  Uint32 g_gfs_work[ ( GFS_WORK_SIZE( OPEN_MAX ) + 3 ) / 4 ];
+  
+  static void fileInit( void )
+  {
+    Sint32 file_num;
+  
+!   /* GFSï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    GFS_DIRTBL_TYPE( &dir_tbl )    = GFS_DIR_NAME;
+    GFS_DIRTBL_DIRNAME( &dir_tbl ) = dir_name;
+    GFS_DIRTBL_NDIR( &dir_tbl )    = MAX_DIR;
+  
+!   /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    file_num = GFS_Init( OPEN_MAX, g_gfs_work, &dir_tbl );
+    if ( file_num < 0 ) {
+      slPrint( "Error! GFS Init.", slLocate( 5, 2 ) );
+***************
+*** 145,171 ****
+      while( 1 );
+    }
+  
+!   /* ƒGƒ‰[ŠÖ”‚Ìİ’è */
+    GFS_SetErrFunc( errGfsFunc, NULL );
+  }
+  
+  /*
+!    ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚ÉŠÖ‚·‚éİ’èB
+  */
+  #define MAX_GRP   1
+! /* ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌID */
+  static StmGrpHn grp_hd;
+  static Uint8    stm_work[ STM_WORK_SIZE( MAX_GRP, OPEN_MAX ) ];
+  
+  static void stmInit( void )
+  {
+!   /* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+    STM_Init( 12, 24, stm_work );
+!   
+!   /* ƒGƒ‰[ŠÖ”‚Ìİ’è */
+    STM_SetErrFunc( errStmFunc, NULL );
+!   
+!   /* ƒXƒgƒŠ[ƒ€ƒOƒ‹[ƒv‚ÌƒI[ƒvƒ“ */
+    grp_hd = STM_OpenGrp();
+    if ( grp_hd == NULL ) {
+      while( 1 );
+--- 145,171 ----
+      while( 1 );
+    }
+  
+!   /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Öï¿½ï¿½Ìİ’ï¿½ */
+    GFS_SetErrFunc( errGfsFunc, NULL );
+  }
+  
+  /*
+!    ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½B
+  */
+  #define MAX_GRP   1
+! /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ID */
+  static StmGrpHn grp_hd;
+  static Uint8    stm_work[ STM_WORK_SIZE( MAX_GRP, OPEN_MAX ) ];
+  
+  static void stmInit( void )
+  {
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    STM_Init( 12, 24, stm_work );
+! 
+!   /* ï¿½Gï¿½ï¿½ï¿½[ï¿½Öï¿½ï¿½Ìİ’ï¿½ */
+    STM_SetErrFunc( errStmFunc, NULL );
+! 
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ÌƒIï¿½[ï¿½vï¿½ï¿½ */
+    grp_hd = STM_OpenGrp();
+    if ( grp_hd == NULL ) {
+      while( 1 );
+***************
+*** 178,187 ****
+  {
+    Sint32 fid;
+    StmKey key;
+!   /* ƒtƒ@ƒCƒ‹–¼‚©‚çƒtƒ@ƒCƒ‹¯•Êq‚ğ‹‚ß‚é */
+    fid = GFS_NameToId( ( Sint8 * )fname );
+!   
+!   /* ƒXƒgƒŠ[ƒ€ƒL[‚Ìİ’è */
+    STM_KEY_FN( &key ) = STM_KEY_NONE;
+    STM_KEY_CIMSK( &key ) = STM_KEY_CIVAL( &key ) = STM_KEY_NONE;
+    STM_KEY_CN( &key ) = STM_KEY_NONE;
+--- 178,187 ----
+  {
+    Sint32 fid;
+    StmKey key;
+!   /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Êqï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ */
+    fid = GFS_NameToId( ( Sint8 * )fname );
+! 
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Lï¿½[ï¿½Ìİ’ï¿½ */
+    STM_KEY_FN( &key ) = STM_KEY_NONE;
+    STM_KEY_CIMSK( &key ) = STM_KEY_CIVAL( &key ) = STM_KEY_NONE;
+    STM_KEY_CN( &key ) = STM_KEY_NONE;
+***************
+*** 204,225 ****
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+  
+!   /* Vƒuƒ‰ƒ“ƒN‚Ìİ’è */
+    slIntFunction( PCM_VblIn );
+  
+!   /* ƒtƒ@ƒCƒ‹‰Šú‰» */
+    fileInit();
+  
+!   /* ƒTƒEƒ“ƒh‚Ìİ’è */
+    sndInit();
+  
+!   /* PCMƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰» */
+    PCM_Init();
+  
+!   /* PCMƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒGƒ‰[ƒnƒ“ƒhƒ‹‚Ìİ’è */
+    PCM_SetErrFunc( errPcmFunc, NULL );
+  
+!   /* ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ì‰Šú‰» */
+    stmInit();
+  
+    restart = 1;
+--- 204,225 ----
+  
+    slInitSystem( TV_320x240, NULL, 1 );
+  
+!   /* Vï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Ìİ’ï¿½ */
+    slIntFunction( PCM_VblIn );
+  
+!   /* ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+    fileInit();
+  
+!   /* ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Ìİ’ï¿½ */
+    sndInit();
+  
+!   /* PCMï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    PCM_Init();
+  
+!   /* PCMï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìİ’ï¿½ */
+    PCM_SetErrFunc( errPcmFunc, NULL );
+  
+!   /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ */
+    stmInit();
+  
+    restart = 1;
+***************
+*** 227,248 ****
+    while( -1 ) {
+      if ( restart ) {
+  
+!       /* ƒXƒgƒŠ[ƒ€ƒI[ƒvƒ“ */
+        if ( ( stm = stmOpen( filename ) ) == NULL ) {
+  	slPrint( "Error! Stream open.", slLocate( 5, 2 ) );
+  	slSynch();
+  	while( 1 );
+        }
+  
+!       /* æ‚èo‚µ—Ìˆæ‚ÌƒŠƒZƒbƒg
+!        *	ƒXƒgƒŠ[ƒ€ƒVƒXƒeƒ€‚Ìd—l‚ª...
+!        *	Å‰‚Ì“]‘—‚ğ STM_ExecServer ‚Ås‚¤‚È‚çA‚±‚ê‚Í•s—vB
+         */
+        STM_ResetTrBuf(stm);
+  
+!       /* ƒnƒ“ƒhƒ‹‚Ìì¬ */
+        PCM_PARA_WORK( &para ) = ( struct PcmWork * )&g_movie_work;
+!       PCM_PARA_RING_ADDR( &para ) = g_movie_buf;
+        PCM_PARA_RING_SIZE( &para ) = RING_BUF_SIZE;
+        PCM_PARA_PCM_ADDR( &para ) = PCM_ADDR;
+        PCM_PARA_PCM_SIZE( &para ) = PCM_SIZE;
+--- 227,248 ----
+    while( -1 ) {
+      if ( restart ) {
+  
+!       /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½vï¿½ï¿½ */
+        if ( ( stm = stmOpen( filename ) ) == NULL ) {
+  	slPrint( "Error! Stream open.", slLocate( 5, 2 ) );
+  	slSynch();
+  	while( 1 );
+        }
+  
+!       /* ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Ìˆï¿½ï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g
+!        *	ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìdï¿½lï¿½ï¿½...
+!        *	ï¿½Åï¿½ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ STM_ExecServer ï¿½Åsï¿½ï¿½ï¿½È‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Í•sï¿½vï¿½B
+         */
+        STM_ResetTrBuf(stm);
+  
+!       /* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬ */
+        PCM_PARA_WORK( &para ) = ( struct PcmWork * )&g_movie_work;
+!       PCM_PARA_RING_ADDR( &para ) = (unsigned char *)g_movie_buf;
+        PCM_PARA_RING_SIZE( &para ) = RING_BUF_SIZE;
+        PCM_PARA_PCM_ADDR( &para ) = PCM_ADDR;
+        PCM_PARA_PCM_SIZE( &para ) = PCM_SIZE;
+***************
+*** 250,281 ****
+        pcm = PCM_CreateStmHandle( &para, stm );
+  
+        if ( pcm == NULL ) {
+! 	slPrint( "Error! Open Handle.", slLocate( 5, 2 ) );
+! 	slSynch();
+! 	while( 1 );
+        }
+  
+!       /* ƒf[ƒ^‚Ì“]‘—•û®‚Ìİ’è(CDƒuƒƒbƒN¨) */
+        PCM_SetTrModeCd( pcm, TR_MODE_CD );
+  
+!       /* ŠJn */
+        PCM_Start( pcm );
+        restart = 0;
+      }
+  
+!     /* ƒT[ƒo‚ÌÀs */
+      STM_ExecServer();
+  
+!     /* Ä¶ƒ^ƒXƒN */
+      PCM_Task( pcm );
+  
+!     /* ƒ€[ƒr‚ÌI—¹”»’è */
+      if ( PCM_GetPlayStatus( pcm ) == PCM_STAT_PLAY_END ) {
+  
+!       /* ƒnƒ“ƒhƒ‹‚ÌÁ‹ */
+        PCM_DestroyStmHandle( pcm );
+  
+!       /* ƒXƒgƒŠ[ƒ€‚ÌƒNƒ[ƒY*/
+        stmClose( stm );
+  
+        restart = 1;
+--- 250,281 ----
+        pcm = PCM_CreateStmHandle( &para, stm );
+  
+        if ( pcm == NULL ) {
+!       	slPrint( "Error! Open Handle.", slLocate( 5, 2 ) );
+!       	slSynch();
+!       	while( 1 );
+        }
+  
+!       /* ï¿½fï¿½[ï¿½^ï¿½Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½(CDï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½) */
+        PCM_SetTrModeCd( pcm, TR_MODE_CD );
+  
+!       /* ï¿½Jï¿½n */
+        PCM_Start( pcm );
+        restart = 0;
+      }
+  
+!     /* ï¿½Tï¿½[ï¿½oï¿½Ìï¿½ï¿½s */
+      STM_ExecServer();
+  
+!     /* ï¿½Äï¿½ï¿½^ï¿½Xï¿½N */
+      PCM_Task( pcm );
+  
+!     /* ï¿½ï¿½ï¿½[ï¿½rï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+      if ( PCM_GetPlayStatus( pcm ) == PCM_STAT_PLAY_END ) {
+  
+!       /* ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ */
+        PCM_DestroyStmHandle( pcm );
+  
+!       /* ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½[ï¿½Y*/
+        stmClose( stm );
+  
+        restart = 1;
+***************
+*** 285,288 ****
+      reset_vbar( 3 );
+    }
+  }
+- 
+--- 285,287 ----
+diff -crBN --binary sgl302/sample4/shadow/msb/scldata.c sgl302_patch/sample4/shadow/msb/scldata.c
+*** sgl302/sample4/shadow/msb/scldata.c	2024-01-03 06:52:54.000000000 -0500
+--- sgl302_patch/sample4/shadow/msb/scldata.c	2024-08-11 14:50:40.000000000 -0400
+***************
+*** 5,10 ****
+--- 5,12 ----
+  
+  #include "scroll.h"
+  
++ void ScrollDataSet( SCROLL );
++ 
+  void VDP2DataSet( void ) {
+    SCROLL scr;
+  
+diff -crBN --binary sgl302/sample4/shadow/sprite/main.c sgl302_patch/sample4/shadow/sprite/main.c
+*** sgl302/sample4/shadow/sprite/main.c	2024-01-03 06:53:04.000000000 -0500
+--- sgl302_patch/sample4/shadow/sprite/main.c	2024-08-11 17:30:08.000000000 -0400
+***************
+*** 21,66 ****
+  
+  
+  SPRITE sonic_atr = {
+!   FUNC_Sprite,                           
+!   0,                                     
+!   ECdis | SPenb | CL16Look | CL_Trans,   
+!   ( 0x1b000 >> 3 ),                      
+!   ( 0x10000 >> 3 ),                      
+!   ( ( 64 / 8 ) << 8 | 96 ),              
+!   0 - 32,                                
+!   0 - 48,                                
+!   64 - 32,                               
+!   0 - 48,                                
+!   64 - 32,                               
+!   96 - 48,                               
+!   0 - 32,                                
+!   96 - 48,                               
+!   0,                                     
+!   0                                      
+  };
+  
+  SPRITE shadow_atr = {
+!   FUNC_Sprite,                           
+!   0,                                     
+!   ECdis | SPenb | CL16Bnk | CL_Trans,    
+!   0x7ff0,                                
+!   ( 0x10c00 >> 3 ),                      
+!   ( ( 64 / 8 ) << 8 | 96 ),              
+!   0 - 32,                                
+!   0 - 48,                                
+!   64 - 32,                               
+!   0 - 48,                                
+!   64 - 32,                               
+!   96 - 48,                               
+!   0 - 32,                                
+!   96 - 48,                               
+!   0,                                     
+!   0                                      
+  };
+  
+! ss_main() {
+    Uint16 pad;
+-   Sint8  rate = 0;
+  
+    slInitSystem( TV_320x224, NULL, 2 );
+    slSpriteType( 5 );
+--- 21,65 ----
+  
+  
+  SPRITE sonic_atr = {
+!   FUNC_Sprite,
+!   0,
+!   ECdis | SPenb | CL16Look | CL_Trans,
+!   ( 0x1b000 >> 3 ),
+!   ( 0x10000 >> 3 ),
+!   ( ( 64 / 8 ) << 8 | 96 ),
+!   0 - 32,
+!   0 - 48,
+!   64 - 32,
+!   0 - 48,
+!   64 - 32,
+!   96 - 48,
+!   0 - 32,
+!   96 - 48,
+!   0,
+!   0
+  };
+  
+  SPRITE shadow_atr = {
+!   FUNC_Sprite,
+!   0,
+!   ECdis | SPenb | CL16Bnk | CL_Trans,
+!   0x7ff0,
+!   ( 0x10c00 >> 3 ),
+!   ( ( 64 / 8 ) << 8 | 96 ),
+!   0 - 32,
+!   0 - 48,
+!   64 - 32,
+!   0 - 48,
+!   64 - 32,
+!   96 - 48,
+!   0 - 32,
+!   96 - 48,
+!   0,
+!   0
+  };
+  
+! void ss_main() {
+    Uint16 pad;
+  
+    slInitSystem( TV_320x224, NULL, 2 );
+    slSpriteType( 5 );
+***************
+*** 82,88 ****
+    slColRAMOffsetNbg2( 1 );
+    /* Set cycle pattern and debug display. */
+    slScrAutoDisp( NBG2ON );
+!  
+    slTVOn();
+  
+    slShadowOn( NBG2ON );
+--- 81,87 ----
+    slColRAMOffsetNbg2( 1 );
+    /* Set cycle pattern and debug display. */
+    slScrAutoDisp( NBG2ON );
+! 
+    slTVOn();
+  
+    slShadowOn( NBG2ON );
+***************
+*** 142,150 ****
+      slSynch();
+    }
+  }
+- 
+- 
+- 
+- 
+- 
+- 
+--- 141,143 ----
+diff -crBN --binary sgl302/sample4/shadow/sprite/scldata.c sgl302_patch/sample4/shadow/sprite/scldata.c
+*** sgl302/sample4/shadow/sprite/scldata.c	2024-01-03 06:53:10.000000000 -0500
+--- sgl302_patch/sample4/shadow/sprite/scldata.c	2024-08-11 17:29:38.000000000 -0400
+***************
+*** 5,10 ****
+--- 5,12 ----
+  
+  #include "../../../share/scroll.h"
+  
++ void ScrollDataSet( SCROLL );
++ 
+  void VDP2DataSet( void ) __attribute__ ((section(".text")));
+  void VDP2DataSet( void ) {
+    SCROLL scr;
+diff -crBN --binary sgl302/sample4/sound/sndtest/main.c sgl302_patch/sample4/sound/sndtest/main.c
+*** sgl302/sample4/sound/sndtest/main.c	2024-01-03 06:54:08.000000000 -0500
+--- sgl302_patch/sample4/sound/sndtest/main.c	2024-08-11 17:40:14.000000000 -0400
+***************
+*** 235,241 ****
+    }
+    if ( !( pad & PER_DGT_TC ) ) {
+      unit = 0x100;
+!   }  
+    if ( !( pad & PER_DGT_TX ) ) {
+      unit = 0x8;
+    }
+--- 235,241 ----
+    }
+    if ( !( pad & PER_DGT_TC ) ) {
+      unit = 0x100;
+!   }
+    if ( !( pad & PER_DGT_TX ) ) {
+      unit = 0x8;
+    }
+***************
+*** 244,250 ****
+    }
+    if ( !( pad & PER_DGT_TZ ) ) {
+      unit = 0x800;
+!   }  
+    if ( !( pad & PER_DGT_KL ) ) {
+      if ( seq->Tempo > -32767 + unit ) seq->Tempo -= unit;
+      else seq->Tempo = -32768;
+--- 244,250 ----
+    }
+    if ( !( pad & PER_DGT_TZ ) ) {
+      unit = 0x800;
+!   }
+    if ( !( pad & PER_DGT_KL ) ) {
+      if ( seq->Tempo > -32767 + unit ) seq->Tempo -= unit;
+      else seq->Tempo = -32768;
+***************
+*** 286,292 ****
+        slSequencePan( num, seq->Pan );
+      } else {
+        /* Equal slBGMPan( Sint8 pan ) */
+!       slSoundRequest( "bb", SND_SEQ_PAN, num, ( seq->Pan / 2 ) + 0x40 ); 
+      }
+    }
+    if ( !( pad & PER_DGT_TA ) ) {
+--- 286,292 ----
+        slSequencePan( num, seq->Pan );
+      } else {
+        /* Equal slBGMPan( Sint8 pan ) */
+!       slSoundRequest( "bb", SND_SEQ_PAN, num, ( seq->Pan / 2 ) + 0x40 );
+      }
+    }
+    if ( !( pad & PER_DGT_TA ) ) {
+***************
+*** 344,350 ****
+      slSndVolume( stat->TotalVolume << 3 );
+    }
+  }
+!   
+  void ss_main() {
+    Uint16  pad;
+    SeqStat stat[ 8 ];
+--- 344,350 ----
+      slSndVolume( stat->TotalVolume << 3 );
+    }
+  }
+! 
+  void ss_main() {
+    Uint16  pad;
+    SeqStat stat[ 8 ];
+***************
+*** 368,374 ****
+    slPrint( ">", slLocate( 2, cur[ pos ] ) );
+  
+    /* Initialize Sound */
+!   slInitSound( sddrvstsk, sddrvsize, map, map_size );
+    Reset( stat, 8 );
+  
+    while( -1 ) {
+--- 368,374 ----
+    slPrint( ">", slLocate( 2, cur[ pos ] ) );
+  
+    /* Initialize Sound */
+!   slInitSound( sddrvstsk, sddrvsize, (Uint8 *)map, map_size );
+    Reset( stat, 8 );
+  
+    while( -1 ) {
+***************
+*** 421,424 ****
+      slSynch();
+    }
+  }
+- 
+--- 421,423 ----
+diff -crBN --binary sgl302/sample4/sprcc2bg/apply/main.c sgl302_patch/sample4/sprcc2bg/apply/main.c
+*** sgl302/sample4/sprcc2bg/apply/main.c	2024-01-03 06:55:20.000000000 -0500
+--- sgl302_patch/sample4/sprcc2bg/apply/main.c	2024-08-11 17:38:36.000000000 -0400
+***************
+*** 1,65 ****
+  /*----------------------------------------------------------------------*/
+! /*  Pad Control + ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰Z + ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê               */
+! /*  Œ³ƒTƒ“ƒvƒ‹Fsample_9_1                                              */
+  /*                                                                      */
+! /*  C³ÒFA.H                                                         */
+! /*  C³“úF97/04/07                                                    */
+  /*                                                                      */
+! /*  ’Ç‰Á“à—eFƒXƒvƒ‰ƒCƒg–ˆ‚ÉˆÙ‚È‚Á‚½Š„‡‚É‚ÄAƒJƒ‰[‰‰Z‚ğs‚¤ƒTƒ“ƒvƒ‹  */
+  /*                                                                      */
+  /*                                                                      */
+! /*  “à—eF•¶š•\¦ƒGƒŠƒA‚Ìü•Ó‚Ì‚İ‚ğAƒJƒ‰[‰‰Z‚ğg—p‚µ‚Ä              */
+! /*        ‹P“x‚ğ—‚Æ‚µA•¶š‚ğŒ©‚â‚·‚­‚·‚éƒTƒ“ƒvƒ‹ ‚¨‚æ‚ÑA             */
+! /*        ƒXƒvƒ‰ƒCƒg–ˆ‚É‰‰ZŠ„‡‚ğİ’è‚·‚éƒTƒ“ƒvƒ‹B                    */
+  /*                                                                      */
+! /*  ‹@”\‚PF                                                            */
+! /*         NBG1 ‚É‘Î‚µAƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚Æ‚ÌƒJƒ‰[‰‰Z‚ğw’è‚µ‚Ü‚·D    */
+! /*         ƒJƒ‰[‰‰Z‚Ì”ÍˆÍ‚ğ TV‰æ–Ê’†‰›•”•ª‚ÉŒÀ’è‚·‚éˆ×A              */
+! /*         ƒm[ƒ}ƒ‹‹éŒ`ƒEƒBƒ“ƒhƒE‚ğ•¹—p‚µ‚Ä‚¢‚Ü‚·D                     */
+! /*         ‰‰ZŠ„‡‚ÍAã‰ºƒL[‚É‚æ‚Á‚Ä•ÏX‰Â”\‚Å‚·B                   */
+  /*                                                                      */
+! /*  ‹@”\‚QF                                                            */
+! /*         ƒXƒvƒ‰ƒCƒg‚Æ NBG1‚Æ‚ğAƒJƒ‰[‰‰Z‚µ‚Ü‚·B                    */
+! /*         ƒXƒvƒ‰ƒCƒg–ˆ‚ÉƒAƒgƒŠƒrƒ…[ƒg‚Ì’l‚ğŒÂ•Ê‚Éİ’è‚µA             */
+! /*         ‰‰ZŠ„‡‚ğŒÂ•Ê‚Éİ’è‚µ‚Ä‚¢‚Ü‚·B                             */
+! /*         ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰Z‚ÌğŒ‚Æ‚µ‚ÄA“Á’è‚Ìƒvƒ‰ƒCƒIƒŠƒeƒB’l     */
+! /*         ‚ÌƒXƒvƒ‰ƒCƒg‚Ì‚İ‚Éİ’è‚µ‚Ä‚¢‚Ü‚·B                           */
+  /*                                                                      */
+  /*                                                                      */
+! /*  •\¦‰æ–ÊF  •¶š•\¦:NBG0                                           */
+! /*              wƒJ[ƒ\ƒ‹:ƒXƒvƒ‰ƒCƒg(ƒpƒŒƒbƒgƒR[ƒh)                   */
+! /*              ‚o‚`‚c‚Ì”wŒi:NBG1                                       */
+! /*              ƒoƒbƒNƒJƒ‰[–Ê‚ğƒIƒŒƒ“ƒWF‚Éİ’è                        */
+  /*                                                                      */
+! /*  “Áê‰æ–ÊF  •F‡¬—p–Ê:ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê                           */
+! /*              ƒJƒ‰[‰‰Z”ÍˆÍw’èF‹éŒ`ƒEƒBƒ“ƒhƒE                      */
+  /*                                                                      */
+! /*  •â‘«FƒJƒ‰[‰‰Z‚Ìİ’è‚ÍAŸ‚Ì‚æ‚¤‚Éİ’è‚µ‚Ä‚¢‚Ü‚·D                */
+! /*        E‰‰ZŠ„‡‚É‚æ‚é‡¬                                          */
+! /*            ƒZƒJƒ“ƒh‰æ‘œ‘¤‚Åw’è(ƒ‰ƒCƒ“ƒJƒ‰[g—p)                  */
+! /*            ƒgƒbƒv‰æ‘œ‘¤‚Åw’è(ƒXƒvƒ‰ƒCƒg‚É‘Î‚µ‚ÄƒJƒ‰[‰‰Zg—p)    */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ‘€ì•û–@F‘S‚Ä‚Ìƒ{ƒ^ƒ“¨‘Î‰‚·‚éƒXƒvƒ‰ƒCƒg(wƒJ[ƒ\ƒ‹)‚ğ•\¦        */
+! /*            ‚`ƒ{ƒ^ƒ“  ‰‰ZŠ„‡   CLRate22_10   –ñ‚V‚O“               */
+! /*            ‚aƒ{ƒ^ƒ“  ‰‰ZŠ„‡   CLRate15_17     ‚T‚O“               */
+! /*            ‚bƒ{ƒ^ƒ“  ‰‰ZŠ„‡   CLRate6_26    –ñ‚Q‚O“ã             */
+! /*            ‚»‚Ì‘¼‚Ìƒ{ƒ^ƒ“  ’Êí‚ÌƒXƒvƒ‰ƒCƒg•\¦iƒJƒ‰[‰‰Z‚È‚µj    */
+  /*                                                                      */
+! /*            ƒXƒ^[ƒgƒ{ƒ^ƒ“FÄ‰Šú‰»                                  */
+  /*                                                                      */
+! /*            ã‰ºƒL[Fƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÌƒJƒ‰[‰‰Z‚ÌŠ„‡‚ğ•ÏX        */
+! /*            ‚wƒ{ƒ^ƒ“F‹@”\ØŠ·                                        */
+! /*                          ƒ‰ƒCƒ“ƒJƒ‰[,ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE‚Ì—LŒø     */
+! /*                          ƒXƒvƒ‰ƒCƒg‚Æ BG ‚Æ‚ÌƒJƒ‰[‰‰Z              */
+! /*            ‚xƒ{ƒ^ƒ“F‘S‚Ä‚ÌƒJƒ‰[‰‰Z‚ğ–³Œø                          */
+! /*            ‚yƒ{ƒ^ƒ“F‚xƒ{ƒ^ƒ“‚É‚æ‚é–³Œø‚ğ‰ğœ                        */
+  /*                                                                      */
+  /*                                                                      */
+! /*  •â‘«–€Fƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÍA•¡”‚Ì‰æ–Ê‚É“¯‚Éİ’è‰Â”\‚Å‚·B      */
+! /*            ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÍAƒoƒbƒN‰æ–Ê‚É‘Î‚µ‚Ä‚Ìw’è‚Ío—ˆ‚Ü‚¹‚ñB*/
+! /*            RGBƒR[ƒh‚ÌƒXƒvƒ‰ƒCƒg‚ÍAŒÂ•Ê‚É‰‰ZŠ„‡‚ğİ’èo—ˆ‚Ü‚¹‚ñB */
+  /*                                                                      */
+  /*----------------------------------------------------------------------*/
+  #include    "sgl.h"
+--- 1,65 ----
+  /*----------------------------------------------------------------------*/
+! /*  Pad Control + ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Z + ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½               */
+! /*  ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Fsample_9_1                                              */
+  /*                                                                      */
+! /*  ï¿½Cï¿½ï¿½ï¿½ÒFA.H                                                         */
+! /*  ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½F97/04/07                                                    */
+  /*                                                                      */
+! /*  ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½eï¿½Fï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ÉˆÙ‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ÄAï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½  */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½ï¿½ï¿½eï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Ìï¿½ï¿½Ó‚Ì‚İ‚ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½              */
+! /*        ï¿½Pï¿½xï¿½ğ—‚Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â‚·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ÑA             */
+! /*        ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½É‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½B                    */
+  /*                                                                      */
+! /*  ï¿½@ï¿½\ï¿½Pï¿½F                                                            */
+! /*         NBG1 ï¿½É‘Î‚ï¿½ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚Æ‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½wï¿½è‚µï¿½Ü‚ï¿½ï¿½D    */
+! /*         ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ì”ÍˆÍ‚ï¿½ TVï¿½ï¿½ï¿½Ê’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉŒï¿½ï¿½è‚·ï¿½ï¿½ï¿½×A              */
+! /*         ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ğ•¹—pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½D                     */
+! /*         ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ÍAï¿½ã‰ºï¿½Lï¿½[ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ä•ÏXï¿½Â”\ï¿½Å‚ï¿½ï¿½B                   */
+  /*                                                                      */
+! /*  ï¿½@ï¿½\ï¿½Qï¿½F                                                            */
+! /*         ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ NBG1ï¿½Æ‚ï¿½ï¿½Aï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B                    */
+! /*         ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ÉƒAï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½Ì’lï¿½ï¿½ï¿½Â•Ê‚Éİ’è‚µï¿½A             */
+! /*         ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â•Ê‚Éİ’è‚µï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½B                             */
+! /*         ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½l     */
+! /*         ï¿½ÌƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ì‚İ‚Éİ’è‚µï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½B                           */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ÊF  ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½:NBG0                                           */
+! /*              ï¿½wï¿½Jï¿½[ï¿½\ï¿½ï¿½:ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g(ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Rï¿½[ï¿½h)                   */
+! /*              ï¿½oï¿½`ï¿½cï¿½Ì”wï¿½i:NBG1                                       */
+! /*              ï¿½oï¿½bï¿½Nï¿½Jï¿½ï¿½ï¿½[ï¿½Ê‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Fï¿½Éİ’ï¿½                        */
+  /*                                                                      */
+! /*  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊF  ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½:ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½                           */
+! /*              ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ÍˆÍwï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½`ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½E                      */
+  /*                                                                      */
+! /*  ï¿½â‘«ï¿½Fï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìİ’ï¿½ï¿½ÍAï¿½ï¿½ï¿½Ì‚æ‚¤ï¿½Éİ’è‚µï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½D                */
+! /*        ï¿½Eï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½é‡ï¿½ï¿½                                          */
+! /*            ï¿½Zï¿½Jï¿½ï¿½ï¿½hï¿½æ‘œï¿½ï¿½ï¿½Åwï¿½ï¿½(ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½gï¿½pï¿½ï¿½)                  */
+! /*            ï¿½gï¿½bï¿½vï¿½æ‘œï¿½ï¿½ï¿½Åwï¿½ï¿½(ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½É‘Î‚ï¿½ï¿½ÄƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½gï¿½pï¿½ï¿½)    */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Fï¿½Sï¿½Ä‚Ìƒ{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g(ï¿½wï¿½Jï¿½[ï¿½\ï¿½ï¿½)ï¿½ï¿½ï¿½\ï¿½ï¿½        */
+! /*            ï¿½`ï¿½{ï¿½^ï¿½ï¿½  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½   CLRate22_10   ï¿½ï¿½ï¿½Vï¿½Oï¿½ï¿½               */
+! /*            ï¿½aï¿½{ï¿½^ï¿½ï¿½  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½   CLRate15_17     ï¿½Tï¿½Oï¿½ï¿½               */
+! /*            ï¿½bï¿½{ï¿½^ï¿½ï¿½  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½   CLRate6_26    ï¿½ï¿½ï¿½Qï¿½Oï¿½ï¿½ï¿½ï¿½             */
+! /*            ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Ìƒ{ï¿½^ï¿½ï¿½  ï¿½Êï¿½ï¿½ÌƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½\ï¿½ï¿½ï¿½iï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½È‚ï¿½ï¿½j    */
+  /*                                                                      */
+! /*            ï¿½Xï¿½^ï¿½[ï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½                                  */
+  /*                                                                      */
+! /*            ï¿½ã‰ºï¿½Lï¿½[ï¿½Fï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ÌŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏX        */
+! /*            ï¿½wï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½@ï¿½\ï¿½ØŠï¿½                                        */
+! /*                          ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[,ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ì—Lï¿½ï¿½     */
+! /*                          ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ BG ï¿½Æ‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Z              */
+! /*            ï¿½xï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½Sï¿½Ä‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ğ–³Œï¿½                          */
+! /*            ï¿½yï¿½{ï¿½^ï¿½ï¿½ï¿½Fï¿½xï¿½{ï¿½^ï¿½ï¿½ï¿½É‚ï¿½ï¿½é–³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                        */
+  /*                                                                      */
+  /*                                                                      */
+! /*  ï¿½â‘«ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚ÍAï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Ê‚É“ï¿½ï¿½ï¿½ï¿½Éİ’ï¿½ï¿½Â”\ï¿½Å‚ï¿½ï¿½B      */
+! /*            ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚ÍAï¿½oï¿½bï¿½Nï¿½ï¿½ï¿½Ê‚É‘Î‚ï¿½ï¿½Ä‚Ìwï¿½ï¿½ï¿½Íoï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B*/
+! /*            RGBï¿½Rï¿½[ï¿½hï¿½ÌƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ÍAï¿½Â•Ê‚É‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½oï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B */
+  /*                                                                      */
+  /*----------------------------------------------------------------------*/
+  #include    "sgl.h"
+***************
+*** 68,91 ****
+  #define     NBG1_MAP_ADR        ( VDP2_VRAM_B1 + 0x12000 )
+  #define     NBG1_COL_ADR        ( VDP2_COLRAM + 0x00200 )
+  #define     BACK_COL_ADR        ( VDP2_VRAM_A1 + 0x1fffe )
+! #define     PAD_NUM         13   /*  ƒfƒWƒ^ƒ‹PAD ‚Ìƒ{ƒ^ƒ“” */
+  
+! /*  Add 96/07/18   ƒXƒvƒ‰ƒCƒg‚ğƒpƒŒƒbƒgŒ`®‚Å•\¦‚·‚éˆ×‚É’Ç‰Á  */
+  #define     SPR_COL_ADR     ( VDP2_COLRAM + 0x00400 )
+  /*  Add 96/07/18 */
+  
+! /*  Add 97/03/25   ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE‚Ìİ’è’Ç‰Á  */
+! #define    WIN0_LEFT   50    /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ¶ŒÀ */
+! #define    WIN0_TOP    70    /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ãŒÀ */
+! #define    WIN0_RIGHT  270   /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ‰EŒÀ */
+! #define    WIN0_BOTTOM 140   /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE—Ìˆæ   ‰ºŒÀ */
+  
+  #define    LINE_COR_TABLE_ADR  0x25E7FFFE
+!         /* ƒ‰ƒCƒ“ƒJƒ‰[ƒe[ƒuƒ‹Ši”[ƒAƒhƒŒƒX */
+  #define    LINE_COR_TABLE_COR_CODE    00
+!         /* ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Ê‚ÌƒpƒŒƒbƒgƒR[ƒh */
+  
+! #define    DEFAULT_ccRATE  0x0f   /* ƒ‰ƒCƒ“ƒJƒ‰[‰‰ZŠ„‡‰Šú’l  50%  */
+  /*  Add 97/03/25  */
+  
+  
+--- 68,91 ----
+  #define     NBG1_MAP_ADR        ( VDP2_VRAM_B1 + 0x12000 )
+  #define     NBG1_COL_ADR        ( VDP2_COLRAM + 0x00200 )
+  #define     BACK_COL_ADR        ( VDP2_VRAM_A1 + 0x1fffe )
+! #define     PAD_NUM         13   /*  ï¿½fï¿½Wï¿½^ï¿½ï¿½PAD ï¿½Ìƒ{ï¿½^ï¿½ï¿½ï¿½ï¿½ */
+  
+! /*  Add 96/07/18   ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½`ï¿½ï¿½ï¿½Å•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚É’Ç‰ï¿½  */
+  #define     SPR_COL_ADR     ( VDP2_COLRAM + 0x00400 )
+  /*  Add 96/07/18 */
+  
+! /*  Add 97/03/25   ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìİ’ï¿½ï¿½Ç‰ï¿½  */
+! #define    WIN0_LEFT   50    /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½ï¿½ï¿½ï¿½ */
+! #define    WIN0_TOP    70    /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½ï¿½ï¿½ï¿½ */
+! #define    WIN0_RIGHT  270   /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½Eï¿½ï¿½ */
+! #define    WIN0_BOTTOM 140   /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìˆï¿½   ï¿½ï¿½ï¿½ï¿½ */
+  
+  #define    LINE_COR_TABLE_ADR  0x25E7FFFE
+!         /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½iï¿½[ï¿½Aï¿½hï¿½ï¿½ï¿½X */
+  #define    LINE_COR_TABLE_COR_CODE    00
+!         /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê‚Ìƒpï¿½ï¿½ï¿½bï¿½gï¿½Rï¿½[ï¿½h */
+  
+! #define    DEFAULT_ccRATE  0x0f   /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l  50%  */
+  /*  Add 97/03/25  */
+  
+  
+***************
+*** 119,131 ****
+  extern void Pal2CRAM(Uint16 * , void * , Uint32 ) ;
+  
+  /*********  Add 96/07/18 **************/
+! extern spr_pal[];
+  /** End **  Add 96/07/18 **************/
+  
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+      TEXTURE *txptr;
+!  
+      for(; NbPicture-- > 0; pcptr++){
+          txptr = tex_spr + pcptr->texno;
+          slDMACopy((void *)pcptr->pcsrc,
+--- 119,131 ----
+  extern void Pal2CRAM(Uint16 * , void * , Uint32 ) ;
+  
+  /*********  Add 96/07/18 **************/
+! extern Uint16 spr_pal[];
+  /** End **  Add 96/07/18 **************/
+  
+  static void set_sprite(PICTURE *pcptr , Uint32 NbPicture)
+  {
+      TEXTURE *txptr;
+! 
+      for(; NbPicture-- > 0; pcptr++){
+          txptr = tex_spr + pcptr->texno;
+          slDMACopy((void *)pcptr->pcsrc,
+***************
+*** 154,185 ****
+  
+  void init_moji_window(void)
+  {
+!   extern  Uint16*    VDP2_LCTA;  /* ƒ‰ƒCƒ“ƒJƒ‰[‰æ–Êƒe[ƒuƒ‹ƒAƒhƒŒƒX */
+!                                   /* ƒVƒXƒeƒ€•Ï”‚ğg—p */
+    VDP2_LCTA = (Uint16 *)((LINE_COR_TABLE_ADR - VDP2_VRAM_A0) / 2);
+!     /*  ƒ‰ƒCƒ“ƒJƒ‰[ƒe[ƒuƒ‹ƒAƒhƒŒƒX‚Ìİ’è(’PFİ’è) */
+  
+    *(Uint16 *)LINE_COR_TABLE_ADR = LINE_COR_TABLE_COR_CODE;
+!     /*  ƒ‰ƒCƒ“ƒJƒ‰[‚ÌƒJƒ‰[ƒR[ƒh‚Ìİ’è */
+  
+    slScrWindow0(WIN0_LEFT, WIN0_TOP, WIN0_RIGHT, WIN0_BOTTOM);
+    slScrWindowMode(scnCCAL , win0_IN);
+  
+! #if 0 /* ‚±‚±‚ğ•œŠˆ‚³‚¹‚é‚ÆAƒXƒvƒ‰ƒCƒg‚àƒ‰ƒCƒ“ƒJƒ‰[‚Å‰‰Z‚³‚ê‚Ü‚·B */
+!     slSpriteCCalcCond(CC_pr_CN );  /*  ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰ZğŒ */
+  /*     CC_Condition
+!             CC_pr_CN : ( Priority <= ‰‰ZğŒƒiƒ“ƒo[ )
+!             CC_PR_CN : ( Priority == ‰‰ZğŒƒiƒ“ƒo[ )
+!             CC_PR_cn : ( Priority >= ‰‰ZğŒƒiƒ“ƒo[ )
+              CC_MSB   : ( MSB of ColorData == 1)
+  */
+  
+!     slSpriteCCalcNum(7);  /*  ƒXƒvƒ‰ƒCƒgƒJƒ‰[‰‰ZğŒƒiƒ“ƒo[  */
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+!         /*            ª      ª   ^^^^^^^^^^^^ª^^^^^^^^^^^^^^^^^^^  */
+!         /*          Š„‡‚ğAƒZƒJƒ“ƒh‘¤‚Åw’èA ‰‰Z‚·‚é‰æ–Ê ‚Ìw’è    */
+    slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON);
+!     /*  !!’ˆÓ  'LNCLON' ‚ÍAƒXƒvƒ‰ƒCƒg‰æ–Ê‚Ìw’è */
+  #else
+  
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+--- 154,185 ----
+  
+  void init_moji_window(void)
+  {
+!   extern  Uint16*    VDP2_LCTA;  /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Êƒeï¿½[ï¿½uï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½X */
+!                                   /* ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½ï¿½gï¿½p */
+    VDP2_LCTA = (Uint16 *)((LINE_COR_TABLE_ADR - VDP2_VRAM_A0) / 2);
+!     /*  ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Ìİ’ï¿½(ï¿½Pï¿½Fï¿½İ’ï¿½) */
+  
+    *(Uint16 *)LINE_COR_TABLE_ADR = LINE_COR_TABLE_COR_CODE;
+!     /*  ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½Ìİ’ï¿½ */
+  
+    slScrWindow0(WIN0_LEFT, WIN0_TOP, WIN0_RIGHT, WIN0_BOTTOM);
+    slScrWindowMode(scnCCAL , win0_IN);
+  
+! #if 0 /* ï¿½ï¿½ï¿½ï¿½ï¿½ğ•œŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆAï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½Å‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B */
+!     slSpriteCCalcCond(CC_pr_CN );  /*  ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ */
+  /*     CC_Condition
+!             CC_pr_CN : ( Priority <= ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ )
+!             CC_PR_CN : ( Priority == ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ )
+!             CC_PR_cn : ( Priority >= ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ )
+              CC_MSB   : ( MSB of ColorData == 1)
+  */
+  
+!     slSpriteCCalcNum(7);  /*  ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[  */
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+!         /*            ï¿½ï¿½      ï¿½ï¿½   ^^^^^^^^^^^^ï¿½ï¿½^^^^^^^^^^^^^^^^^^^  */
+!         /*          ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Zï¿½Jï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Åwï¿½ï¿½ï¿½A ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìwï¿½ï¿½    */
+    slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON);
+!     /*  !!ï¿½ï¿½ï¿½ï¿½  'LNCLON' ï¿½ÍAï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½Ê‚Ìwï¿½ï¿½ */
+  #else
+  
+    slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+***************
+*** 243,251 ****
+  /* ---- 960718  added ----------------------------------------------------- */
+      Pal2CRAM( (Uint16 *)spr_pal , (void *)SPR_COL_ADR , 256);
+  
+!     slPriority(scnSPR0 , 7); /* ƒJƒ‰[‰‰Z‚ğs‚í‚È‚¢ƒXƒvƒ‰ƒCƒg */
+!     slPriority(scnSPR1 , 4); /* ƒJƒ‰[‰‰Z‚ğs‚¤ƒXƒvƒ‰ƒCƒg */
+!     slPriority(scnNBG1 , 2); /* PAD‚Ì”wŒi */
+  
+      slSpriteCCalcCond(CC_PR_CN );
+  /*
+--- 243,251 ----
+  /* ---- 960718  added ----------------------------------------------------- */
+      Pal2CRAM( (Uint16 *)spr_pal , (void *)SPR_COL_ADR , 256);
+  
+!     slPriority(scnSPR0 , 7); /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g */
+!     slPriority(scnSPR1 , 4); /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g */
+!     slPriority(scnNBG1 , 2); /* PADï¿½Ì”wï¿½i */
+  
+      slSpriteCCalcCond(CC_PR_CN );
+  /*
+***************
+*** 261,272 ****
+    slColRate(scnSPR1  , CLRate22_10 );  /*  BUTTON A */
+    slColRate(scnSPR2  , CLRate15_17 );  /*  BUTTON B */
+    slColRate(scnSPR3  , CLRate6_26 );  /*  BUTTON C */
+! /*  
+     scrn : scnNBG0 , scnNBG1 , scnNBG2 , scnNBG3 , scnRBG0 , scnLNCL , scnBACK
+            scnSPR0 , scnSPR1 , scnSPR2 , scnSPR3 , scnSPR4 , scnSPR5 ,
+            scnSPR6 , scnSPR7
+  
+!    rate : CLRate31_1 ` CLRate0_32
+             rate      Top Screen : Second Screen
+           CLRate31_1         31  :  1
+           CLRate30_2         32  :  2
+--- 261,272 ----
+    slColRate(scnSPR1  , CLRate22_10 );  /*  BUTTON A */
+    slColRate(scnSPR2  , CLRate15_17 );  /*  BUTTON B */
+    slColRate(scnSPR3  , CLRate6_26 );  /*  BUTTON C */
+! /*
+     scrn : scnNBG0 , scnNBG1 , scnNBG2 , scnNBG3 , scnRBG0 , scnLNCL , scnBACK
+            scnSPR0 , scnSPR1 , scnSPR2 , scnSPR3 , scnSPR4 , scnSPR5 ,
+            scnSPR6 , scnSPR7
+  
+!    rate : CLRate31_1 ï¿½` CLRate0_32
+             rate      Top Screen : Second Screen
+           CLRate31_1         31  :  1
+           CLRate30_2         32  :  2
+***************
+*** 275,284 ****
+           CLRate0_32          0  :  32
+  */
+  
+!   slSpriteType(3);  /* ƒXƒvƒ‰ƒCƒgƒ^ƒCƒv‚R‚Éİ’è */
+  #if 0
+!     slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ƒJƒ‰[‰‰Z‚Ìİ’è */
+!        /*  ‰‰ZŠ„‡‚ğg—pAƒgƒbƒv‰æ‘œ‘¤AƒXƒvƒ‰ƒCƒg‰æ–Ê */
+  #endif
+  
+  /* END - 96/07/18  added -------------------------------------------- */
+--- 275,284 ----
+           CLRate0_32          0  :  32
+  */
+  
+!   slSpriteType(3);  /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½^ï¿½Cï¿½vï¿½Rï¿½Éİ’ï¿½ */
+  #if 0
+!     slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìİ’ï¿½ */
+!        /*  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½Aï¿½gï¿½bï¿½vï¿½æ‘œï¿½ï¿½ï¿½Aï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+  #endif
+  
+  /* END - 96/07/18  added -------------------------------------------- */
+***************
+*** 286,306 ****
+      while(1) {
+          disp_sprite();
+  
+!         /* ƒ‰ƒCƒ“ƒJƒ‰[‚ÌON/OFF */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TX)) {
+        if(cc_window_ena == OFF){
+          cc_window_ena = ON;
+!         init_moji_window(); /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE ‚n‚m */
+  /*        slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON); */
+!             /* ƒ‰ƒCƒ“ƒJƒ‰[ ON */
+        }else{
+          cc_window_ena = OFF;
+!           slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ƒJƒ‰[‰‰Z‚Ìİ’è */
+!              /*  ‰‰ZŠ„‡‚ğg—pAƒgƒbƒv‰æ‘œ‘¤AƒXƒvƒ‰ƒCƒg‰æ–Ê */
+          slScrWindowMode(scnCCAL ,(Uint16)NULL);
+!             /* ƒJƒ‰[‰‰ZƒEƒBƒ“ƒhƒE OFF */
+          slLineColDisp((Uint16)NULL);
+!             /* ƒ‰ƒCƒ“ƒJƒ‰[ OFF */
+          slPrint("LINECOLOR OFF           " , slLocate(9,10));
+            slPrint("BUTTON A:CLRate22_10    " , slLocate(9,12));
+            slPrint("BUTTON B:CLRate15_17    " , slLocate(9,13));
+--- 286,306 ----
+      while(1) {
+          disp_sprite();
+  
+!         /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ON/OFF */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TX)) {
+        if(cc_window_ena == OFF){
+          cc_window_ena = ON;
+!         init_moji_window(); /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½E ï¿½nï¿½m */
+  /*        slLineColDisp((Uint16)NBG1ON|NBG2ON|NBG3ON|RBG0ON|LNCLON); */
+!             /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ ON */
+        }else{
+          cc_window_ena = OFF;
+!           slColorCalc( CC_RATE|CC_TOP|SPRON );  /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìİ’ï¿½ */
+!              /*  ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½Aï¿½gï¿½bï¿½vï¿½æ‘œï¿½ï¿½ï¿½Aï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+          slScrWindowMode(scnCCAL ,(Uint16)NULL);
+!             /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½E OFF */
+          slLineColDisp((Uint16)NULL);
+!             /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ OFF */
+          slPrint("LINECOLOR OFF           " , slLocate(9,10));
+            slPrint("BUTTON A:CLRate22_10    " , slLocate(9,12));
+            slPrint("BUTTON B:CLRate15_17    " , slLocate(9,13));
+***************
+*** 309,315 ****
+        }
+      }
+  
+!     /* ƒJƒ‰[‰‰Z ON */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TZ)) {
+        if(cc_window_ena == OFF){
+          slColorCalc(CC_RATE|CC_TOP|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+--- 309,315 ----
+        }
+      }
+  
+!     /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Z ON */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TZ)) {
+        if(cc_window_ena == OFF){
+          slColorCalc(CC_RATE|CC_TOP|NBG1ON|NBG2ON|NBG3ON|RBG0ON|SPRON);
+***************
+*** 317,330 ****
+          slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+      }
+  
+!     /* ‘S‚Ä‚ÌƒJƒ‰[‰‰Z‚ğƒLƒƒƒ“ƒZƒ‹ */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TY)) {
+        slColorCalc((Uint32)NULL);
+      }
+! #if 0    /*Šg’£ƒJƒ‰[‰‰Z‚ÌƒeƒXƒg */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TL)) {
+!       slLineColDisp((Uint16)NULL); /* ƒ‰ƒCƒ“ƒJƒ‰[‚ğƒLƒƒƒ“ƒZƒ‹ */
+!       slColorCalc(CC_RATE|CC_TOP|CC_EXT|NBG0ON|SPRON); /* Šg’£ƒJƒ‰[‰‰Z“o˜^ */
+  /*      slColorCalc(CC_EXT|NBG0ON|SPRON); */
+        slColRateNbg0(ccRate);
+      }
+--- 317,330 ----
+          slColorCalc(CC_RATE|CC_2ND|NBG1ON|NBG2ON|NBG3ON|RBG0ON);
+      }
+  
+!     /* ï¿½Sï¿½Ä‚ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TY)) {
+        slColorCalc((Uint32)NULL);
+      }
+! #if 0    /*ï¿½gï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Ìƒeï¿½Xï¿½g */
+      if(!(Smpc_Peripheral[0].push & PER_DGT_TL)) {
+!       slLineColDisp((Uint16)NULL); /* ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ */
+!       slColorCalc(CC_RATE|CC_TOP|CC_EXT|NBG0ON|SPRON); /* ï¿½gï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½oï¿½^ */
+  /*      slColorCalc(CC_EXT|NBG0ON|SPRON); */
+        slColRateNbg0(ccRate);
+      }
+***************
+*** 334,339 ****
+      if(!(Smpc_Peripheral[0].push & PER_DGT_ST))
+        init_moji_window();
+          slSynch();
+!     } 
+  }
+- 
+--- 334,338 ----
+      if(!(Smpc_Peripheral[0].push & PER_DGT_ST))
+        init_moji_window();
+          slSynch();
+!     }
+  }
+diff -crBN --binary sgl302/sample4/window/sprwin/main.c sgl302_patch/sample4/window/sprwin/main.c
+*** sgl302/sample4/window/sprwin/main.c	2024-01-03 06:55:44.000000000 -0500
+--- sgl302_patch/sample4/window/sprwin/main.c	2024-08-11 18:26:06.000000000 -0400
+***************
+*** 29,35 ****
+  };
+  
+  /* Main loop */
+! ss_main() {
+    Uint16 pad;
+    Sint8  rate = 0;
+    Uint32 dumy = 0;
+--- 29,35 ----
+  };
+  
+  /* Main loop */
+! void ss_main() {
+    Uint16 pad;
+    Sint8  rate = 0;
+    Uint32 dumy = 0;
+diff -crBN --binary sgl302/sample4/window/sprwin/scldata.c sgl302_patch/sample4/window/sprwin/scldata.c
+*** sgl302/sample4/window/sprwin/scldata.c	2024-01-03 06:55:50.000000000 -0500
+--- sgl302_patch/sample4/window/sprwin/scldata.c	2024-08-11 18:08:34.000000000 -0400
+***************
+*** 8,13 ****
+--- 8,15 ----
+  
+  #include "scroll.h"
+  
++ void ScrollDataSet( SCROLL );
++ 
+  void VDP2DataSet( void ) {
+    SCROLL scr;
+  

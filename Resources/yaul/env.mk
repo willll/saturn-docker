@@ -96,6 +96,7 @@ SH_CFLAGS_shared:= \
 	-Wnull-dereference \
 	-Wshadow \
 	-Wunused \
+	-Wno-int-conversion \
 	-fdelete-null-pointer-checks \
 	-ffast-math \
 	-ffreestanding \

@@ -27,11 +27,12 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
                                                      $<$<COMPILE_LANGUAGE:ASM>:${as_flags}> )
 
 target_link_options(${TARGET_NAME}.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${SATURN_COMMON}/Saturn.lnk"
     "SHELL:-Xlinker -z -Xlinker muldefs"
+    "SHELL: --specs=nosys.specs"
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
