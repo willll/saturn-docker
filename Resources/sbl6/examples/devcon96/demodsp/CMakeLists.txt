@@ -27,7 +27,7 @@ set(c_flags -Wall -m2 -MMD)
 target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags}>)
 
 target_link_options(${TARGET_NAME}.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"
@@ -36,16 +36,16 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
 )
 
 
-target_link_libraries(${TARGET_NAME}.elf PUBLIC lib3d )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC libmath )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC libutil )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC libprofl )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC lib3d )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC libmath )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC libutil )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC libprofl )
 
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dsp.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_csh.a )
-target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_per.a )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dsp.a )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_dma.a )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_csh.a )
+target_link_libraries( ${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 

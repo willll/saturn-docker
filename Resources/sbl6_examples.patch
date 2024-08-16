@@ -1,4 +1,67 @@
-diff -crB --binary examples/devcon96/3d/3d.c examples_patch/devcon96/3d/3d.c
+diff -crBN --binary examples/backram/gnu/font/fnt_cod1.c examples_patch/backram/gnu/font/fnt_cod1.c
+*** examples/backram/gnu/font/fnt_cod1.c	1995-01-26 02:42:40.000000000 -0500
+--- examples_patch/backram/gnu/font/fnt_cod1.c	2024-07-31 18:00:40.000000000 -0400
+***************
+*** 1,11 ****
+  #include "sega_xpt.h"
+  #include <stdio.h>
+  
+  #define		FNT_JAPAN	1
+  
+! extern	Uint8	FntAsciiFontData[];/* 8x16 ASCII Font ÉAÉãÉtÉ@ÉxÉbÉgïîï™ */
+! extern	Uint8	FntKanaFontData[]; /* 8x16 ASCII Font Ç©Ç»ïîï™ */
+! extern	Uint8	FntEouFontData[];  /* 8x16 ASCII Font ÉàÅ[ÉçÉbÉpï∂éöÅHïîï™ */
+  
+  extern	Uint16	FntXsize;
+  extern	Uint16	FntYsize;
+--- 1,12 ----
+  #include "sega_xpt.h"
+  #include <stdio.h>
++ #include <string.h>
+  
+  #define		FNT_JAPAN	1
+  
+! extern	Uint8	FntAsciiFontData[];/* 8x16 ASCII Font ÔøΩAÔøΩÔøΩÔøΩtÔøΩ@ÔøΩxÔøΩbÔøΩgÔøΩÔøΩÔøΩÔøΩ */
+! extern	Uint8	FntKanaFontData[]; /* 8x16 ASCII Font ÔøΩÔøΩÔøΩ»ïÔøΩÔøΩÔøΩ */
+! extern	Uint8	FntEouFontData[];  /* 8x16 ASCII Font ÔøΩÔøΩÔøΩ[ÔøΩÔøΩÔøΩbÔøΩpÔøΩÔøΩÔøΩÔøΩÔøΩHÔøΩÔøΩÔøΩÔøΩ */
+  
+  extern	Uint16	FntXsize;
+  extern	Uint16	FntYsize;
+***************
+*** 17,23 ****
+  	if(code >= 0x20 && code < 0x80)
+  	    return((Uint8 *)(FntAsciiFontData+((Uint32 )(code-0x20))*16));
+  	else if(code > 0xa0) {
+! 	    if(FntContry = FNT_JAPAN)
+  		return((Uint8 *)(FntKanaFontData+((Uint32 )(code-0xa1))*16) );
+  	    else
+  		return((Uint8 *)(FntEouFontData+((Uint32 )(code-0xa1))*16) );
+--- 18,24 ----
+  	if(code >= 0x20 && code < 0x80)
+  	    return((Uint8 *)(FntAsciiFontData+((Uint32 )(code-0x20))*16));
+  	else if(code > 0xa0) {
+! 	    if(FntContry == FNT_JAPAN)
+  		return((Uint8 *)(FntKanaFontData+((Uint32 )(code-0xa1))*16) );
+  	    else
+  		return((Uint8 *)(FntEouFontData+((Uint32 )(code-0xa1))*16) );
+***************
+*** 91,97 ****
+  			wx += 8;
+  		}
+  		if(wx+8 >= FntXsize) {
+! 			wx = x;wy += 18;/* â¸çs */
+  			if(wy > FntYsize-15)	return;
+  		}
+  		i++;
+--- 92,98 ----
+  			wx += 8;
+  		}
+  		if(wx+8 >= FntXsize) {
+! 			wx = x;wy += 18;/* ÔøΩÔøΩÔøΩs */
+  			if(wy > FntYsize-15)	return;
+  		}
+  		i++;
+diff -crBN --binary examples/devcon96/3d/3d.c examples_patch/devcon96/3d/3d.c
 *** examples/devcon96/3d/3d.c	1996-03-18 12:30:26.000000000 -0500
 --- examples_patch/devcon96/3d/3d.c	2022-02-12 18:24:08.000000000 -0500
 ***************
@@ -383,9 +446,9 @@ diff -crB --binary examples/devcon96/3d/3d.c examples_patch/devcon96/3d/3d.c
   
   #endif
   }
-diff -crB --binary examples/devcon96/util/int.c examples_patch/devcon96/util/int.c
+diff -crBN --binary examples/devcon96/util/int.c examples_patch/devcon96/util/int.c
 *** examples/devcon96/util/int.c	1996-03-14 09:54:50.000000000 -0500
---- examples_patch/devcon96/util/int.c	2022-02-12 18:07:10.000000000 -0500
+--- examples_patch/devcon96/util/int.c	2024-08-01 14:38:04.000000000 -0400
 ***************
 *** 77,86 ****
   
@@ -472,7 +535,74 @@ diff -crB --binary examples/devcon96/util/int.c examples_patch/devcon96/util/int
   }
   
   /***************************************************************************
-diff -crB --binary examples/devcon96/util/stmem.c examples_patch/devcon96/util/stmem.c
+***************
+*** 207,216 ****
+  
+  	for (i = 0; i < n; ++i)
+  	{
+! 		while ((volatile) inVblank)
+  			;
+  
+! 		while ((volatile) (!inVblank))
+  			;
+  	}
+  }
+--- 201,210 ----
+  
+  	for (i = 0; i < n; ++i)
+  	{
+! 		while ((volatile Uint8) inVblank)
+  			;
+  
+! 		while ((volatile Uint8) (!inVblank))
+  			;
+  	}
+  }
+***************
+*** 223,232 ****
+  
+  void WaitVBlank()
+  {
+! 		while ((volatile) inVblank)
+  			;
+  
+! 		while ((volatile) (!inVblank))
+  			;
+  }
+  
+--- 217,226 ----
+  
+  void WaitVBlank()
+  {
+! 		while ((volatile Uint8) inVblank)
+  			;
+  
+! 		while ((volatile Uint8) (!inVblank))
+  			;
+  }
+  
+***************
+*** 238,246 ****
+  
+  void WaitVBlankEnd()
+  {
+! 		while ((volatile) (!inVblank))
+  			;
+  
+! 		while ((volatile) inVblank)
+  			;
+  }
+--- 232,240 ----
+  
+  void WaitVBlankEnd()
+  {
+! 		while ((volatile Uint8) (!inVblank))
+  			;
+  
+! 		while ((volatile Uint8) inVblank)
+  			;
+  }
+diff -crBN --binary examples/devcon96/util/stmem.c examples_patch/devcon96/util/stmem.c
 *** examples/devcon96/util/stmem.c	1996-03-20 11:02:52.000000000 -0500
 --- examples_patch/devcon96/util/stmem.c	2022-02-12 18:09:38.000000000 -0500
 ***************

@@ -39,9 +39,11 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	cmake -S $SATURN_TMP/sbl6/segalib/ -B $SATURN_TMP/sbl6/segalib/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL \
-			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make $VERBOSE -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ VERBOSE=1 $MAKEFLAGS || exit 1
-	make $VERBOSE -f $SATURN_TMP/sbl6/segalib/bin/Makefile -C $SATURN_TMP/sbl6/segalib/bin/ install $MAKEFLAGS || exit 1
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE -G Ninja || exit 1
+	ninja $VERBOSE -f $SATURN_TMP/sbl6/segalib/bin/build.ninja \
+									-C $SATURN_TMP/sbl6/segalib/bin/ $MAKEFLAGS || exit 1
+	ninja $VERBOSE -f $SATURN_TMP/sbl6/segalib/bin/build.ninja \
+									-C $SATURN_TMP/sbl6/segalib/bin/ install $MAKEFLAGS || exit 1
 
 	#
 	# build sega_sat
@@ -50,9 +52,11 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	cmake -S $SATURN_TMP/sbl6/segalib/sat -B $SATURN_TMP/sbl6/segalib/sat/bin/ \
 			-DCMAKE_TOOLCHAIN_FILE=$SATURN_CMAKE/sega_saturn.cmake \
 			-DCMAKE_INSTALL_PREFIX=$SATURN_SBL \
-			-DCMAKE_BUILD_TYPE=$BUILD_TYPE || exit 1
-	make $VERBOSE $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ || exit 1
-	make $VERBOSE $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/Makefile -C $SATURN_TMP/sbl6/segalib/sat/bin/ install || exit 1
+			-DCMAKE_BUILD_TYPE=$BUILD_TYPE -G Ninja || exit 1
+	ninja $VERBOSE $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/build.ninja \
+									-C $SATURN_TMP/sbl6/segalib/sat/bin/ || exit 1
+	ninja $VERBOSE $MAKEFLAGS -f $SATURN_TMP/sbl6/segalib/sat/bin/build.ninja \
+									-C $SATURN_TMP/sbl6/segalib/sat/bin/ install || exit 1
 
 	#
 	# convert sega_sgl and sega_adp to ELF
@@ -62,7 +66,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		$SATURN_ROOT/toolchain/bin/${PROGRAM_PREFIX}objcopy -v -Icoff-sh -Oelf32-sh \
 				$SATURN_TMP/sbl6/segalib/lib/$filename
 		cp -v $SATURN_TMP/sbl6/segalib/lib/$filename $SATURN_SBL/segalib/lib
-    done
+  done
 
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_adp.a $SATURN_SBL/segalib/lib
 	cp -v $SATURN_TMP/sbl6/segalib/lib/sega_per_vbt.a $SATURN_SBL/segalib/lib

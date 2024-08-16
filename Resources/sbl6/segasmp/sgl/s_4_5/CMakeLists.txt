@@ -30,7 +30,7 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC .
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
 target_link_options(${TARGET_NAME}.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${TARGET_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-Xlinker -fno-lto"
     "SHELL:-m2 -nostartfiles"

@@ -22,21 +22,7 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	chmod -R 644 $SATURN_TMP/sgl302
 
 	# Patch the code
-	dos2unix -f $SATURN_TMP/sgl302/sample/common/cinit.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/common/cinit.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega2d_1/scroll.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega2d_1/sega2d.h
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_1/3d/dolphin.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_1/sega3d.h
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_2/3d/cube.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_2/sega3d.h
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_3/3d/opa.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_3/action.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_2/texture/cube.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_3/scroll.c
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_3/sega2d.h
-	dos2unix -f $SATURN_TMP/sgl302/sample2/sega3d_3/sega3d.h
-	# dos2unix -f $SATURN_TMP/sgl302.patch
+
 	patch -p0 -d $SATURN_TMP < $SATURN_TMP/sgl302.patch --binary
 
 	#

@@ -66,8 +66,8 @@ if [ $INSTALL_JO_ENGINE_SAMPLES -eq 1 ]; then
 	do
 		echo "BUILDING $sample"
 		cd "$SATURN_JOENGINE/Samples/$sample"
-		make $VERBOSE clean
-		make $VERBOSE $MAKEFLAGS
+		make $VERBOSE clean || exit 1
+		make $VERBOSE $MAKEFLAGS || exit 1
 	done
 
 else

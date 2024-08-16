@@ -17,7 +17,7 @@ target_include_directories(CDBrowser.elf PUBLIC
               ${SATURN_SAMPLE_COMMON}/Source/Headers/)
 
 target_link_options(CDBrowser.elf PUBLIC
-    "SHELL:-Xlinker -Map -Xlinker ${OUTPUT_NAME}.map"
+    "SHELL:-Xlinker -Map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${OUTPUT_NAME}.map"
     "SHELL:-Xlinker --strip-debug"
     "SHELL:-m2 -nostartfiles"
     "SHELL:-T${CMAKE_CURRENT_SOURCE_DIR}/Source/Saturn.lnk"
