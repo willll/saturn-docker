@@ -4,13 +4,13 @@ set(SOURCES
   ${SATURN_COMMON}/crt0.s
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
-  slvsamp.c
-  slavesh.c
-  spr_xpt.c
   spr_sinc.src
   spr_fmat.src
   spr_mtx3.src
   slv_mtx3.src
+  slvsamp.c
+  slavesh.c
+  spr_xpt.c
   )
 
 set(CD_FILES

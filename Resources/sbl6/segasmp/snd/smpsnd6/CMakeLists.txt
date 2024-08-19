@@ -19,6 +19,8 @@ add_executable( ${TARGET_NAME}.elf ${SOURCES} )
 
 target_include_directories(${TARGET_NAME}.elf PUBLIC . ${SEGALIB}/include
     ${PROJECT_SOURCE_DIR}
+    ${SEGALIB}/include
+    ${SEGASGL}/include
     ${PROJECT_SOURCE_DIR}/per/smpclib)
 
 target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags}>
@@ -33,6 +35,7 @@ target_link_options(${TARGET_NAME}.elf PUBLIC
 )
 
 target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_sat.a )
+target_link_libraries(${TARGET_NAME}.elf PUBLIC ${SEGALIB}/lib/sega_int.a )
 
 add_custom_target(run_${TARGET_NAME} ALL DEPENDS ${TARGET_NAME}.elf ${TARGET_NAME}.bin IP.BIN)
 

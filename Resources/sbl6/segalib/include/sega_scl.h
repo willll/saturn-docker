@@ -9,11 +9,11 @@
  *
  *  AUTHOR(S):
  *	K.M
- *		
+ *
  *  MOD HISTORY:
  *	Written by K.M on 1994-05-20 Ver.1.00
  *	Updated by K.M on 1994-07-01 Ver.1.00
- * 
+ *
  *------------------------------------------------------------------------
  */
 
@@ -22,7 +22,7 @@
 
 #include <sega_xpt.h>
 #include <sega_def.h>
-#include <sega_mth.h> 
+#include <sega_mth.h>
 
 #define VBR              0x06000000
 #define SCU_BASE         0x25FE0000
@@ -66,7 +66,7 @@ typedef struct SclDataset{
 	Uint16	bmpalnum0;		/* Bitmap Palette Number */
 	Uint16	bmpalnum1;		/* Bitmap Palette Number */
 	Uint16	patnamecontrl[5];	/* Pattern Name Controlx5 */
-	Uint16	platesize;		/* Plate Size */	
+	Uint16	platesize;		/* Plate Size */
 	Uint16	mapoffset0;		/* Map Offset */
 	Uint16	mapoffset1;		/* Map Offset */
 	Uint16	normap[8];		/* Normal Scroll Map x8*/
@@ -127,9 +127,9 @@ typedef struct SclWinscl{
 					/* 1800D0 */
 	Uint16	wincontrl[4];		/* Window Control */
 					/* 1800D8 */
-	Uint32 	linewin0_addr;		/* Line Window #0 Table Address */ 
+	Uint32 	linewin0_addr;		/* Line Window #0 Table Address */
 					/* 1800DC */
-	Uint32 	linewin1_addr;		/* Line Window #1 Table Address */ 
+	Uint32 	linewin1_addr;		/* Line Window #1 Table Address */
 } SclWinscl;
 
 /***********************************************
@@ -183,15 +183,15 @@ typedef struct  SclLineWindowTb {
 } SclLineWindowTb;
 
 typedef struct SclVramConfig{
-	Uint32	ktboffsetA;/* ‰ñ“]Êß×Ò°ÀA—pŒW”Ã°ÌŞÙ‚ğÊŞİ¸’†‚Ì‚Ç‚±‚É”z’u‚·‚é‚© */
-	Uint32	ktboffsetB;/* ‰ñ“]Êß×Ò°ÀB—pŒW”Ã°ÌŞÙ‚ğÊŞİ¸’†‚Ì‚Ç‚±‚É”z’u‚·‚é‚© */
-	Uint8	vramModeA; /* VRAM A ‚ğ‚Q‚Â‚Ìƒoƒ“ƒN‚É‹æØ‚é‚©w’è(0/1)  */
-	Uint8	vramModeB; /* VRAM B ‚ğ‚Q‚Â‚Ìƒoƒ“ƒN‚É‹æØ‚é‚©w’è(0/1)  */
-	Uint8	vramA0;    /* VRAM A or A0 ‚ğ‰ñ“]–Ê‚Ì‰½‚Åg—p‚·‚é‚©w’è */
-	Uint8	vramA1;    /* VRAM A1 ‚ğ‰ñ“]–Ê‚Ì‰½‚Åg—p‚·‚é‚©w’è      */
-	Uint8	vramB0;    /* VRAM B or B0 ‚ğ‰ñ“]–Ê‚Ì‰½‚Åg—p‚·‚é‚©w’è */
-	Uint8	vramB1;    /* VRAM B1 ‚ğ‰ñ“]–Ê‚Ì‰½‚Åg—p‚·‚é‚©w’è      */
-	Uint8	colram;    /* ƒJƒ‰[‚q‚`‚l‚ÉŒW”ƒf[ƒ^‚ğ’u‚­‚©H        */
+	Uint32	ktboffsetA;/* ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Ò°ï¿½Aï¿½pï¿½Wï¿½ï¿½Ã°ï¿½ï¿½Ù‚ï¿½ï¿½ï¿½İ¸ï¿½ï¿½ï¿½Ì‚Ç‚ï¿½ï¿½É”zï¿½uï¿½ï¿½ï¿½é‚© */
+	Uint32	ktboffsetB;/* ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Ò°ï¿½Bï¿½pï¿½Wï¿½ï¿½Ã°ï¿½ï¿½Ù‚ï¿½ï¿½ï¿½İ¸ï¿½ï¿½ï¿½Ì‚Ç‚ï¿½ï¿½É”zï¿½uï¿½ï¿½ï¿½é‚© */
+	Uint8	vramModeA; /* VRAM A ï¿½ï¿½ï¿½Qï¿½Â‚Ìƒoï¿½ï¿½ï¿½Nï¿½É‹ï¿½ï¿½Ø‚é‚©ï¿½wï¿½ï¿½(0/1)  */
+	Uint8	vramModeB; /* VRAM B ï¿½ï¿½ï¿½Qï¿½Â‚Ìƒoï¿½ï¿½ï¿½Nï¿½É‹ï¿½ï¿½Ø‚é‚©ï¿½wï¿½ï¿½(0/1)  */
+	Uint8	vramA0;    /* VRAM A or A0 ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½Ê‚Ì‰ï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½é‚©ï¿½wï¿½ï¿½ */
+	Uint8	vramA1;    /* VRAM A1 ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½Ê‚Ì‰ï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½é‚©ï¿½wï¿½ï¿½      */
+	Uint8	vramB0;    /* VRAM B or B0 ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½Ê‚Ì‰ï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½é‚©ï¿½wï¿½ï¿½ */
+	Uint8	vramB1;    /* VRAM B1 ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½Ê‚Ì‰ï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½é‚©ï¿½wï¿½ï¿½      */
+	Uint8	colram;    /* ï¿½Jï¿½ï¿½ï¿½[ï¿½qï¿½`ï¿½lï¿½ÉŒWï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½H        */
 } SclVramConfig;
 
 typedef struct SclRotreg{
@@ -282,6 +282,9 @@ typedef	struct	SclLineWin{
 	SclXy16		tbl[SCL_MAXLINE];
 }	SclLineWin;
 
+typedef	struct	SclSblSgl{
+ 	Uint16		sgl_flag;
+} SclSblSgl;
 
 #define SCL_VDP2_VRAM		0x25e00000
 #define SCL_VDP2_VRAM_A		0x25e00000
@@ -292,11 +295,11 @@ typedef	struct	SclLineWin{
 #define SCL_VDP2_VRAM_B1	0x25e60000
 #define	SCL_COLRAM_ADDR		0x25F00000	/* Color RAM */
 
-#define SCL_NON			0   /* RBG0‚Å‚Íg—p‚µ‚È‚¢        */
-#define SCL_RBG0_K 		1   /* RBG0‚ÌŒW”Ã°ÌŞÙ‚ğ’u‚­     */
-#define SCL_RBG0_PN 		2   /* RBG0‚ÌÊßÀ°İÈ°ÑÃ°ÌŞÙ‚ğ’u‚­ */
-#define SCL_RBG0_CHAR 		3   /* RBG0‚Ì·¬×¸À‚ğ’u‚­         */
-#define SCL_RBG1_K 		4   /* RBG1‚ÌŒW”Ã°ÌŞÙ‚ğ’u‚­     */
+#define SCL_NON			0   /* RBG0ï¿½Å‚Ígï¿½pï¿½ï¿½ï¿½È‚ï¿½        */
+#define SCL_RBG0_K 		1   /* RBG0ï¿½ÌŒWï¿½ï¿½Ã°ï¿½ï¿½Ù‚ï¿½ï¿½uï¿½ï¿½     */
+#define SCL_RBG0_PN 		2   /* RBG0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È°ï¿½Ã°ï¿½ï¿½Ù‚ï¿½ï¿½uï¿½ï¿½ */
+#define SCL_RBG0_CHAR 		3   /* RBG0ï¿½Ì·ï¿½×¸ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½         */
+#define SCL_RBG1_K 		4   /* RBG1ï¿½ÌŒWï¿½ï¿½Ã°ï¿½ï¿½Ù‚ï¿½ï¿½uï¿½ï¿½     */
 
 #define	SCL_CHAR_SIZE_1X1	0
 #define	SCL_CHAR_SIZE_2X2	1
@@ -365,16 +368,16 @@ typedef	struct	SclLineWin{
 
 
 /*------------------------------------------------------------------------
- *  
+ *
  *
  *  DESCRIPTION:
  *
  *          Header file for Priority library internal use.
  *          Each Macro Set a parameter on Register buffer.
  *          the buffer will copy to REAL regster while V-interval.
- *          ‚±‚±‚É‚ ‚éƒ}ƒNƒ‚ÍAƒŒƒWƒXƒ^ƒoƒbƒtƒ@‚ÉŠeƒRƒ“ƒgƒ[ƒ‹’l‚ğ
- *          ‘‚«‚İA‘‚«‚ñ‚¾ƒŒƒWƒXƒ^ƒoƒbƒtƒ@‚Ìƒ_[ƒeƒB[ƒtƒ‰ƒO‚ğ
- *          1 ‚É‚·‚éB
+ *          ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½}ï¿½Nï¿½ï¿½ï¿½ÍAï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½oï¿½bï¿½tï¿½@ï¿½ÉŠeï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½lï¿½ï¿½
+ *          ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾ƒï¿½ï¿½Wï¿½Xï¿½^ï¿½oï¿½bï¿½tï¿½@ï¿½Ìƒ_ï¿½[ï¿½eï¿½Bï¿½[ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½
+ *          1 ï¿½É‚ï¿½ï¿½ï¿½ï¿½B
 -------------------------------------------------------------------------*/
 
 #ifndef __PRI_GLVAR
@@ -441,7 +444,7 @@ typedef struct {
     volatile Uint16 ColorOffsetB_BLUE;		/* 180120 */
 } SclColOffsetRegister;
 
-/*---- ƒŒƒWƒXƒ^ƒoƒbƒtƒ@‚Ìƒ_[ƒeƒB[Eƒtƒ‰ƒO */
+/*---- ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½oï¿½bï¿½tï¿½@ï¿½Ìƒ_ï¿½[ï¿½eï¿½Bï¿½[ï¿½Eï¿½tï¿½ï¿½ï¿½O */
 typedef struct
 {
     volatile Uint32 SclOtherPri:1;
@@ -466,7 +469,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 /* Following macros never check argument value range.*/
 
 /* VDP-II manual p.129 */
-#define SCL_SET_SPCCCS(/* 2 bits */ spcccs) /* ƒXƒvƒ‰ƒCƒgF‰‰ZğŒ */\
+#define SCL_SET_SPCCCS(/* 2 bits */ spcccs) /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Fï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ */\
   (SclPriBuffDirty.SclOtherPri = 1,\
    SclOtherPri.SpriteControl \
    = (SclOtherPri.SpriteControl & 0x0FFF) | ((spcccs) << 12))
@@ -474,7 +477,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_SPCCCS() \
   ((SclOtherPri.SpriteControl & 0x3000) >> 12)
 
-#define SCL_SET_SPCCN(/* 3 bits */ spccn) /* ƒXƒvƒ‰ƒCƒgF‰‰ZğŒƒiƒ“ƒo */\
+#define SCL_SET_SPCCN(/* 3 bits */ spccn) /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Fï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½o */\
   (SclPriBuffDirty.SclOtherPri = 1,\
    SclOtherPri.SpriteControl \
    = (SclOtherPri.SpriteControl & 0xF0FF) | ((spccn) << 8))
@@ -482,7 +485,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_SPCCN() \
   ((SclOtherPri.SpriteControl & 0x0700) >> 8)
 
-#define SCL_SET_SPCLMD(/* 1 bit */ spclmd) /* ƒXƒvƒ‰ƒCƒg‚ÌFŒ`® */\
+#define SCL_SET_SPCLMD(/* 1 bit */ spclmd) /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ÌFï¿½`ï¿½ï¿½ */\
   (SclPriBuffDirty.SclOtherPri = 1,\
    SclOtherPri.SpriteControl \
    = (SclOtherPri.SpriteControl & 0xFFDF) | ((spclmd) << 5))
@@ -490,7 +493,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_SPCLMD() \
   ((SclOtherPri.SpriteControl & 0x0020) >> 5)
 
-#define SCL_SET_SPWINEN(/* 1 bit */ spwinen) /* ƒXƒvƒ‰ƒCƒgƒEƒBƒ“ƒhƒEƒCƒl[ƒuƒ‹ */\
+#define SCL_SET_SPWINEN(/* 1 bit */ spwinen) /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½ */\
   (SclPriBuffDirty.SclOtherPri = 1,\
    SclOtherPri.SpriteControl \
    = (SclOtherPri.SpriteControl & 0xFFEF) | ((spwinen) << 4))    /* -> p.121 */
@@ -498,7 +501,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_SPWINEN() \
   ((SclOtherPri.SpriteControl & 0x0010) >> 4)
 
-#define SCL_SET_SPTYPE(/* 4bits */ sptype) /* ƒXƒvƒ‰ƒCƒg‚Ìƒ^ƒCƒvw’è */\
+#define SCL_SET_SPTYPE(/* 4bits */ sptype) /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ìƒ^ï¿½Cï¿½vï¿½wï¿½ï¿½ */\
   (SclPriBuffDirty.SclOtherPri = 1,\
    SclOtherPri.SpriteControl \
    = (SclOtherPri.SpriteControl & 0xFFF0) | (sptype))
@@ -507,7 +510,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
   (SclOtherPri.SpriteControl & 0x000F)
 
 /* VDP-II manual p.131 */
-/*-------------------- ƒXƒvƒ‰ƒCƒg—pƒvƒ‰ƒCƒIƒŠƒeƒBƒŒƒWƒXƒ^ No.0-7 */
+/*-------------------- ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½pï¿½vï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½ï¿½ï¿½Wï¿½Xï¿½^ No.0-7 */
 
 #define SCL_SET_S0PRIN(/* 3 bits */ s0prin) \
   (SclPriBuffDirty.SclSpPriNum = 1,\
@@ -574,7 +577,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
   ((SclSpPriNum.PriorityNumberSP67 & 0x0700) >> 8)
 
 /* VDP-II manual p.132 */
-/*------------------- ƒXƒvƒ‰ƒCƒg—pƒJƒ‰[‰‰ZŠ„‡ƒŒƒWƒXƒ^ No.0-7 */
+/*------------------- ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½pï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Xï¿½^ No.0-7 */
 
 #define SCL_SET_S0CCRT(/* 5bits */ s0ccrt) \
   (SclPriBuffDirty.SclSpColMix = 1, \
@@ -641,7 +644,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
   ((SclSpColMix.ColMixRateSP67 & 0x1F00) >> 8)
 
 /* VDP-II manual p.138 */
-/*-- ƒJƒ‰[ RAM ƒAƒhƒŒƒXƒIƒtƒZƒbƒg N0|R1, N1|EXBG, N2, N3, R0, SPRITE */
+/*-- ï¿½Jï¿½ï¿½ï¿½[ RAM ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Iï¿½tï¿½Zï¿½bï¿½g N0|R1, N1|EXBG, N2, N3, R0, SPRITE */
 
 #define SCL_SET_N0CAOS(/* 3bits */ n0caos) \
   (SclPriBuffDirty.SclOtherPri = 1, \
@@ -692,7 +695,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
   ((SclOtherPri.ColorRamOffset1 & 0x0070) >> 4)
 
 
-/*----- ƒ‰ƒCƒ“ƒJƒ‰[‰æ–ÊƒCƒl[ƒuƒ‹ N0|R1, N1|EXBG, N2, N3, R0, SPRITE */
+/*----- ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÊƒCï¿½lï¿½[ï¿½uï¿½ï¿½ N0|R1, N1|EXBG, N2, N3, R0, SPRITE */
 
 #define SCL_SET_N0LCEN(/* 1bit */ n0lcen) \
   (SclPriBuffDirty.SclOtherPri = 1, \
@@ -742,7 +745,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_SPLCEN() \
   ((SclOtherPri.LineColorEnable & 0x0020) >> 5)
 
-/*-------- “Áêƒvƒ‰ƒCƒIƒŠƒeƒBƒ‚[ƒh N0|R1, N1|EXBG, N2, N3, R0 */
+/*-------- ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½ï¿½ï¿½[ï¿½h N0|R1, N1|EXBG, N2, N3, R0 */
 
 #define SCL_SET_N0SPRM(/* 2bits */ n0sprm) \
   (SclPriBuffDirty.SclOtherPri = 1, \
@@ -784,7 +787,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_R0SPRM() \
   ((SclOtherPri.SpecialPriorityMode & 0x0300) >> 8)
 
-/*---------ƒvƒ‰ƒCƒIƒŠƒeƒB[”Ô† N0|R1, N1|EXBG, N2, N3, R0 */
+/*---------ï¿½vï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½[ï¿½Ôï¿½ N0|R1, N1|EXBG, N2, N3, R0 */
 
 #define SCL_SET_N0PRIN(/* 3 bits */ n0prin) \
   (SclPriBuffDirty.SclBgPriNum = 1, \
@@ -826,7 +829,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_R0PRIN() \
    ((SclBgPriNum.PriorityNumberRBG0 & 0x0007))
 
-#define SCL_SET_BOKEN(/* 1 bits */ boken) /* ƒ{ƒJƒV‰‰ZƒCƒl[ƒuƒ‹ */\
+#define SCL_SET_BOKEN(/* 1 bits */ boken) /* ï¿½{ï¿½Jï¿½Vï¿½ï¿½ï¿½Zï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½ */\
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ColorMixControl \
    = (SclOtherPri.ColorMixControl & 0x7FFF) | ((boken) << 15))
@@ -834,7 +837,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_B0KEN() \
   ((SclOtherPri.ColorMixControl & 0x8000) >> 15)
 
-#define SCL_SET_BOKN(/* 3 bits */ bokn) /* ƒ{ƒJƒV‰æ–Ê”Ô† */\
+#define SCL_SET_BOKN(/* 3 bits */ bokn) /* ï¿½{ï¿½Jï¿½Vï¿½ï¿½ï¿½Ê”Ôï¿½ */\
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ColorMixControl \
    = (SclOtherPri.ColorMixControl & 0x8FFF) | ((bokn) << 12))
@@ -842,7 +845,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_BOKN() \
   ((SclOtherPri.ColorMixControl & 0x7000) >> 12)
 
-#define SCL_SET_EXCCEN(/* 1 bit */ exccn) /* Šg’£ƒJƒ‰[‰‰ZƒCƒl[ƒuƒ‹ */\
+#define SCL_SET_EXCCEN(/* 1 bit */ exccn) /* ï¿½gï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½ */\
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ColorMixControl \
    = (SclOtherPri.ColorMixControl & 0xFBFF) | ((exccn) << 10))
@@ -850,7 +853,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_EXCCEN() \
   ((SclOtherPri.ColorMixControl & 0x0400) >> 10)
 
-#define SCL_SET_CCRTMD(/* 1 bit */ ccrtmd) /* ƒJƒ‰[‰‰ZŠ„‡ƒ‚[ƒh */\
+#define SCL_SET_CCRTMD(/* 1 bit */ ccrtmd) /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h */\
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ColorMixControl \
    = (SclOtherPri.ColorMixControl & 0xFDFF) | ((Uint32)(ccrtmd) << 9))
@@ -858,7 +861,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_CCRTMD() \
   ((SclOtherPri.ColorMixControl & 0x0200) >> 9)
 
-#define SCL_SET_CCMD(/* 1 bit */ ccmd) /* ƒJƒ‰[‰‰Zƒ‚[ƒh */\
+#define SCL_SET_CCMD(/* 1 bit */ ccmd) /* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½[ï¿½h */\
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ColorMixControl \
    = (SclOtherPri.ColorMixControl & 0xFEFF) | ((Uint32)(ccmd) << 8))
@@ -866,7 +869,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_CCMD() \
   ((SclOtherPri.ColorMixControl & 0x0100) >> 8)
 
-/*------ ƒJƒ‰[‰‰ZƒCƒl[ƒuƒ‹ N0|R1, N1|EXBG, N2, N3, R0, LC, SPRITE */ 
+/*------ ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½ N0|R1, N1|EXBG, N2, N3, R0, LC, SPRITE */
 #define SCL_SET_SPCCEN(/* 1 bit */ spccen) \
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ColorMixControl \
@@ -911,7 +914,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ColorMixControl \
    = (SclOtherPri.ColorMixControl & 0xFFFD) | ((n1ccen) << 1))
-  
+
 #define SCL_GET_N1CCEN() \
   ((SclOtherPri.ColorMixControl & 0x0002) >> 1)
 
@@ -924,7 +927,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
   ((SclOtherPri.ColorMixControl & 0x0001))
 
 
-/*-------------- “ÁêƒJƒ‰[‰‰Zƒ‚[ƒh N0|R1, N1|EXBG, N2, N3, R0 */
+/*-------------- ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½[ï¿½h N0|R1, N1|EXBG, N2, N3, R0 */
 #define SCL_SET_N0SCCM(/* 2 bits */ n0sccm) \
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.SpecialColorMixMode \
@@ -965,7 +968,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_R0SCCM() \
   ((SclOtherPri.SpecialColorMixMode & 0x0300) >> 8)
 
-/*------ ƒXƒNƒ[ƒ‹–Ê—pƒJƒ‰[‰‰ZŠ„‡ N0|R1, N1|EXBG, N2, N3, R0, LC, BACK */
+/*------ ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ê—pï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ N0|R1, N1|EXBG, N2, N3, R0, LC, BACK */
 #define SCL_SET_N0CCRT(/* 5 bits */ n0ccrt) \
   (SclPriBuffDirty.SclBgColMix = 1, \
    SclBgColMix.ColMixRateNBG01 \
@@ -1022,7 +1025,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_BKCCRT() \
   ((SclBgColMix.ColMixRateLCBAK & 0x1F00) >> 8)
 
-/*-- ƒJƒ‰[ƒIƒtƒZƒbƒgƒCƒl[ƒuƒ‹ N0|R1, N1|EXBG, N2, N3, R0, BACK, SPRITE */
+/*-- ï¿½Jï¿½ï¿½ï¿½[ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½ N0|R1, N1|EXBG, N2, N3, R0, BACK, SPRITE */
 
 #define SCL_SET_N0COEN(/* 1 bit */ n0coen) \
   (SclPriBuffDirty.SclColOffset = 1, \
@@ -1080,7 +1083,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_SPCOEN() \
   ((SclColOffset.ColorOffsetEnable & 0x0040) >> 6)
 
-/*--- ƒJƒ‰[ƒIƒtƒZƒbƒgƒŒƒWƒXƒ^‘I‘ğ N0|R1, N1|EXBG, N2, N3, R0, BACK, SPRITE */
+/*--- ï¿½Jï¿½ï¿½ï¿½[ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½Iï¿½ï¿½ N0|R1, N1|EXBG, N2, N3, R0, BACK, SPRITE */
 
 #define SCL_SET_N0COSL(/* 1 bit */ n0cosl) \
   (SclPriBuffDirty.SclColOffset = 1, \
@@ -1138,7 +1141,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_SPCOSL() \
   ((SclColOffset.ColorOffsetSelect & 0x0040) >> 6)
 
-/* ƒJƒ‰[ƒIƒtƒZƒbƒgƒŒƒWƒXƒ^ A */
+/* ï¿½Jï¿½ï¿½ï¿½[ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½Wï¿½Xï¿½^ A */
 #define SCL_SET_COARD(/* 9 bit */ coard) \
   (SclPriBuffDirty.SclColOffset = 1, \
    SclColOffset.ColorOffsetA_RED \
@@ -1163,7 +1166,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_COABL() \
   (SclColOffset.ColorOffsetA_BLUE & 0x01FF)
 
-/* ƒJƒ‰[ƒIƒtƒZƒbƒgƒŒƒWƒXƒ^ B*/
+/* ï¿½Jï¿½ï¿½ï¿½[ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½Wï¿½Xï¿½^ B*/
 #define SCL_SET_COBRD(/* 9 bit */ cobrd) \
   (SclPriBuffDirty.SclColOffset = 1, \
    SclColOffset.ColorOffsetB_RED \
@@ -1188,7 +1191,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_COBBL() \
   (SclColOffset.ColorOffsetB_BLUE & 0x01FF)
 
-/*----------- ƒVƒƒƒhƒEƒRƒ“ƒgƒ[ƒ‹ N0|R1, N1|EXBG, N2, N3, R0, BACK */
+/*----------- ï¿½Vï¿½ï¿½ï¿½hï¿½Eï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ N0|R1, N1|EXBG, N2, N3, R0, BACK */
 
 #define SCL_SET_N0SDEN(/* 1 bit */ n0sden) \
    (SclPriBuffDirty.SclOtherPri = 1, \
@@ -1238,7 +1241,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_BKSDEN() \
   ((SclOtherPri.ShadowControl & 0x0020) >> 5)
 
-/*--------------------------------------- “§–¾ƒVƒƒƒhƒEƒZƒŒƒNƒg */
+/*--------------------------------------- ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½hï¿½Eï¿½Zï¿½ï¿½ï¿½Nï¿½g */
 #define SCL_SET_TPSDSL(/* 1 bit */ tpsden) \
   (SclPriBuffDirty.SclOtherPri = 1, \
    SclOtherPri.ShadowControl \
@@ -1247,10 +1250,10 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_GET_TPSDSL() \
   ((SclOtherPri.ShadowControl & 0x0100) >> 8)
 
-/*---------------------------ƒJƒ‰[ RAM ƒ‚[ƒh */
-/* 0x1800E ”Ô’n‚É‚ ‚é‚Ì‚Å ƒXƒNƒ[ƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚Åİ’è‚·‚é */
+/*---------------------------ï¿½Jï¿½ï¿½ï¿½[ RAM ï¿½ï¿½ï¿½[ï¿½h */
+/* 0x1800E ï¿½Ô’nï¿½É‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Åİ’è‚·ï¿½ï¿½ */
 
-/* ’l‚Ì’è‹` */
+/* ï¿½lï¿½Ì’ï¿½ï¿½` */
 
 #define SCL_RBG0	0x00000001
 #define SCL_RBG1	0x00000002
@@ -1282,7 +1285,7 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 #define SCL_CRM15_2048 1
 #define SCL_CRM24_1024 2
 
-/* ƒXƒvƒ‰ƒCƒg‚Ìƒ^ƒCƒvw’è */
+/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ìƒ^ï¿½Cï¿½vï¿½wï¿½ï¿½ */
 #define SCL_TYPE0	0
 #define SCL_TYPE1	1
 #define SCL_TYPE2	2
@@ -1316,19 +1319,19 @@ extern SclPriBuffDirtyFlags	SclPriBuffDirty;
 
 #endif /* __PRI_MACRO */
 
-extern SclOtherPriRegister  SclOtherPri;  /* ‚¢‚ë‚¢‚ë */
+extern SclOtherPriRegister  SclOtherPri;  /* ï¿½ï¿½ï¿½ë‚¢ï¿½ï¿½ */
 
-extern SclSpPriNumRegister  SclSpPriNum;  /* ƒXƒvƒ‰ƒCƒg‚Ìƒvƒ‰ƒCƒIƒŠƒeƒB”Ô† */
+extern SclSpPriNumRegister  SclSpPriNum;  /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ìƒvï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½Ôï¿½ */
 
-extern SclBgPriNumRegister  SclBgPriNum;  /* ƒXƒNƒ[ƒ‹‚Ìƒvƒ‰ƒCƒIƒŠƒeƒB”Ô† */
+extern SclBgPriNumRegister  SclBgPriNum;  /* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Cï¿½Iï¿½ï¿½ï¿½eï¿½Bï¿½Ôï¿½ */
 
-extern SclSpColMixRegister  SclSpColMix;  /* ƒXƒvƒ‰ƒCƒg‚ÌF‰‰Z */
+extern SclSpColMixRegister  SclSpColMix;  /* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ÌFï¿½ï¿½ï¿½Z */
 
-extern SclBgColMixRegister  SclBgColMix;  /* ƒXƒNƒ[ƒ‹‚ÌF‰‰Z */
+extern SclBgColMixRegister  SclBgColMix;  /* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌFï¿½ï¿½ï¿½Z */
 
-extern SclColOffsetRegister SclColOffset; /* ƒJƒ‰[ƒIƒtƒZƒbƒg */
+extern SclColOffsetRegister SclColOffset; /* ï¿½Jï¿½ï¿½ï¿½[ï¿½Iï¿½tï¿½Zï¿½bï¿½g */
 
-extern SclPriBuffDirtyFlags SclPriBuffDirty; /* ƒŒƒWƒXƒ^ƒoƒbƒtƒ@‚Ìƒ_[ƒeƒB[Eƒtƒ‰ƒO */
+extern SclPriBuffDirtyFlags SclPriBuffDirty; /* ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½oï¿½bï¿½tï¿½@ï¿½Ìƒ_ï¿½[ï¿½eï¿½Bï¿½[ï¿½Eï¿½tï¿½ï¿½ï¿½O */
 
 /*--- REAL Priority Registers (Pointer) ---*/
 
@@ -1346,7 +1349,7 @@ extern SclColOffsetRegister *SclRealColOffset;
 
 #endif /* __PRI_GLVAR */
 
-/* ‚u‚c‚o‚Qƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒvƒƒgƒ^ƒCƒvéŒ¾ */
+/* ï¿½uï¿½cï¿½oï¿½Qï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½vï¿½éŒ¾ */
 #ifndef	SEGA_SCL_PROTO
 #define SEGA_SCL_PROTO
 
@@ -1410,11 +1413,11 @@ extern	void	SCL_VblankStart(void);
 extern	void	SCL_VblankEnd(void);
 extern	void	SCL_AbortAutoVe(void);
 
-/* ‰æ–ÊƒTƒCƒYƒfƒtƒHƒ‹ƒg */
+/* ï¿½ï¿½ï¿½ÊƒTï¿½Cï¿½Yï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g */
 extern	Uint16	SclDisplayX;
 extern	Uint16	SclDisplayY;
 
-/* ƒŒƒWƒXƒ^ƒoƒbƒtƒ@ */
+/* ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½oï¿½bï¿½tï¿½@ */
 extern	SclSysreg	Scl_s_reg;
 extern	SclDataset	Scl_d_reg;
 extern	SclNorscl	Scl_n_reg;

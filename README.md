@@ -23,6 +23,7 @@ Change GCC version (default 13.2.0) :
  - 13.2.0 : docker build --build-arg GCC_VERSION_ARG=13.2.0 -t saturn-docker . --file ./Dockerfile
  - 13.3.0 : docker build --build-arg GCC_VERSION_ARG=13.3.0 -t saturn-docker . --file ./Dockerfile
  - 14.1.0 : docker build --build-arg GCC_VERSION_ARG=14.1.0 -t saturn-docker . --file ./Dockerfile
+ - 14.2.0 : docker build --build-arg GCC_VERSION_ARG=14.2.0 -t saturn-docker . --file ./Dockerfile
 
 Examples :
  - docker build \
@@ -69,7 +70,7 @@ sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 22
 | GCC build variables | Default Value | Description |
 | --------------------------------------------------- | ---------- | ------- |
 | MAKEFLAGS_ARG | "-j 1" | Extra parameters for make |
-| GCC_VERSION_ARG | 13.2.0 | Version of GCC, possible values : [  8.4.0, 9.5.0, 10.4.0, 11.3.0, 12.2.0, 12.3.0, 13.2.0, 13.3.0, 14.1.0 ] |
+| GCC_VERSION_ARG | 13.2.0 | Version of GCC, possible values : [  8.4.0, 9.5.0, 10.4.0, 11.3.0, 12.2.0, 12.3.0, 13.2.0, 13.3.0, 14.1.0, 14.2.0 ] |
 | NCPU | 1 | Number of CPUs available to build GCC |
 | CREATEINSTALLER | "NO" | To be removed ? |
 | BUILD_TYPE_ARG | Release | Release vs Debug, use CMAKE_BUILD_TYPE [ Release, Debug, RelWithDebInfo,MinSizeRel ] |
@@ -137,7 +138,8 @@ sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 22
 - [x] GCC 12.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.3.0
 - [x] GCC 13.2.0 for SH2 (Default) : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.2.0
 - [x] GCC 13.3.0 for SH2 (Default) : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
-- [ ] GCC 14.1.0 for SH2 **(not stable)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.1.0
+- [X] GCC 14.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.1.0
+- [ ] GCC 14.2.0 for SH2 **(not stable)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
 - [ ] GDB for SH2 **(Not tested yet)**
 - [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K **(To be integrated)**
 - [x] CMake profile
@@ -339,7 +341,7 @@ sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 22
     - [ ] smpsnd1 **(Runtime ???)**
     - [ ] smpsnd4 **(Runtime ???)**
     - [ ] smpsnd5 **(Runtime ???)**
-    - [ ] smpsnd6 **(Missing header file)**
+    - [ ] smpsnd6 **(Runtime ???)**
   - [x] spr
     - [x] spr2
     - [x] spr7

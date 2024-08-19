@@ -20,6 +20,8 @@
 
 #include <sega_scl.h>
 #include <sega_dma.h>
+#include <sgl_work.h>
+
 
 
 #define	DMAOFF
@@ -48,6 +50,7 @@ static	volatile Uint16	*regaddr;
 	SclNorscl	Scl_n_reg;
 	SclRotscl	Scl_r_reg;
 	SclWinscl	Scl_w_reg;
+	SclSblSgl	Scl_flag;
 
 /* ���̃t�@�C�����Q�Ƃ��������ϐ��̐錾 */
 extern	SclPriBuffDirtyFlags	SclPriBuffDirty;
@@ -60,7 +63,8 @@ extern	void	SCL_VblInit(void);
 /*******************************************************
  *  ���]�}�g���b�N�X�p�����[�^�e�[�u���o�b�t�@         *
  *******************************************************/
-	SclRotreg	SclRotregBuff[2];
+ SclRotreg	_SclRotregBuff[2];
+ SclRotreg	*SclRotregBuff = _SclRotregBuff;
 
 
 /*******************************************************
@@ -633,8 +637,6 @@ void  SCL_SetColRamMode(Uint32 ComRamMode)
  ***************************************************************/
 void  SCL_PriIntProc(void)
 {
-    Uint8 i;
-
     SCL_AutoExec();
 
     if(SclPriBuffDirty.SclOtherPri){
@@ -693,4 +695,14 @@ void  SCL_PriIntProc(void)
     }
 
     return;
+}
+
+void SCL_SglOn(void){
+	SclRotregBuff = ( SclRotreg * )RotScrParA;
+	Scl_flag.sgl_flag=0x0001;
+}
+
+void SCL_SglOff(void){
+	Scl_flag.sgl_flag=0x0000;
+	SclRotregBuff = _SclRotregBuff;
 }
