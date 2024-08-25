@@ -8,6 +8,7 @@
 + C/C++ Extension Pack by Microsoft
 + C/C++ Themes by Microsoft
 + Remote - SSH by Microsoft (optional)
++ CMake Tools by Microsoft (optional)
 + ...
 
 ### Container Configuration, the easiest way
@@ -55,9 +56,18 @@ Lets try to build https://github.com/willll/saturn_helloworld
 + If you are using SSH, you need to configure it (https://code.visualstudio.com/docs/remote/ssh) before going any further :
   - Install the Remote-SSH extension (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
   - Install Remote Explorer extention (https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer)
-  - In Remote Explorer add a SSH connection ![Remote Explorer](Images/VSCode-Remote_Server.png)
+  - In Remote Explorer add a SSH connection :
+  ![Remote Explorer](Images/VSCode-Remote_Server.png)
   - Enter the connection string you would normally used to connect to your server, for example : ssh root@192.168.1.161 -p 2222
-  - It should update your configuration file such as : ![SSH Config](Images/VSCode-SSH_Configuration.png)
+  - It should update your configuration file such as :
+  ![SSH Config](Images/VSCode-SSH_Configuration.png)
   - You will be prompted for the SSH user account password (eventually),
-  - Once connected it should look like this : ![SSH Config](Images/VSCode-Remote_Server_Connected.png)
-+ 
+  - Once connected it should look like this :
+  ![SSH Config](Images/VSCode-Remote_Server_Connected.png)
++ Since the project is using CMake, lets install CMake Tools :
+  - https://github.com/microsoft/vscode-cmake-tools/blob/HEAD/docs/cmake-presets.md
+  - Enable presets :
+![CMake Tools Enable presets](Images/CMake_Tools-Enable_presets.png)
+ - CMake tools configuration : https://code.visualstudio.com/docs/cpp/CMake-linux
+ - CMake Tools documentaion : https://github.com/microsoft/vscode-cmake-tools/tree/main/docs#cmake-tools-for-visual-studio-code-documentation
+ 
