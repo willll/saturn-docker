@@ -44,7 +44,7 @@ Build you own image from github :
 
 That does not apply if you are running docker on your computer, but for people using remote servers.
 
-+ Share using sshfs : sudo sshfs -o allow_other root@192.168.1.161:/saturn /tmp/saturn/ -p 2222
++ Share using sshfs (https://code.visualstudio.com/docs/remote/troubleshooting#_using-sshfs-to-access-files-on-your-remote-host) : sudo sshfs -o allow_other root@192.168.1.161:/saturn /tmp/saturn/ -p 2222
 + Note : This command will map the directory /saturn hosted on the SSH server 192.168.1.161, using the port 2222, to the local folder /tmp/saturn/
 + Note2 : Default SSH credentials for SSH are root/root
 
@@ -70,4 +70,3 @@ Lets try to build https://github.com/willll/saturn_helloworld
 ![CMake Tools Enable presets](Images/CMake_Tools-Enable_presets.png)
  - CMake tools configuration : https://code.visualstudio.com/docs/cpp/CMake-linux
  - CMake Tools documentaion : https://github.com/microsoft/vscode-cmake-tools/tree/main/docs#cmake-tools-for-visual-studio-code-documentation
- 
