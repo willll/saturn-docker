@@ -6844,9 +6844,9 @@ diff -crBN --binary sbl6/segalib/include/sega_sys.h sbl6_patch/segalib/include/s
 --- 153,155 ----
 diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_def.h
 *** sbl6/segalib/include/sl_def.h	1996-02-08 05:23:52.000000000 -0500
---- sbl6_patch/segalib/include/sl_def.h	2022-11-25 20:42:24.000000000 -0500
+--- sbl6_patch/segalib/include/sl_def.h	2024-08-26 16:37:14.000000000 -0400
 ***************
-*** 1,10 ****
+*** 1,29 ****
   /*							*/
   /*  SEGA Library defines	*/
   /*							*/
@@ -6855,9 +6855,28 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
   #define SEGA_XPT_H
 ! 
   /*****************************************************************************/
-  /****************************** Šî–{ƒf[ƒ^Œ^éŒ¾ *****************************/
+! /****************************** Šî–{ƒf[ƒ^Œ^éŒ¾ *****************************/
   /*****************************************************************************/
---- 1,25 ----
+  
+! typedef unsigned    char    Uint8;      /* •„†‚È‚µ‚PƒoƒCƒg®” */
+! typedef signed      char    Sint8;      /* •„†‚Â‚«‚PƒoƒCƒg®” */
+! typedef unsigned    short   Uint16;     /* •„†‚È‚µ‚QƒoƒCƒg®” */
+! typedef signed      short   Sint16;     /* •„†‚Â‚«‚QƒoƒCƒg®” */
+! typedef unsigned    long    Uint32;     /* •„†‚È‚µ‚SƒoƒCƒg®” */
+! typedef signed      long    Sint32;     /* •„†‚Â‚«‚SƒoƒCƒg®” */
+! typedef float               Float32;    /* ‚SƒoƒCƒgÀ” */
+! typedef double              Float64;    /* ‚WƒoƒCƒgÀ” */
+  
+! typedef int                 Int;        /* INTŒ^iƒc[ƒ‹—pj            */
+  
+! typedef int                 Bool;       /* ˜_—Œ^i˜_—’è”‚ğ’l‚É‚Æ‚éj */
+  
+  /*****************************************************************************/
+! /********************************* ’è”ƒ}ƒNƒ ********************************/
+  /*****************************************************************************/
+  
+  #ifndef NULL
+--- 1,44 ----
   /*							*/
   /*  SEGA Library defines	*/
   /*							*/
@@ -6881,11 +6900,57 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 ! #endif
 ! 
   /*****************************************************************************/
-  /****************************** Šî–{ƒf[ƒ^Œ^éŒ¾ *****************************/
+! /****************************** ï¿½ï¿½ï¿½{ï¿½fï¿½[ï¿½^ï¿½^ï¿½éŒ¾ *****************************/
   /*****************************************************************************/
+  
+! typedef unsigned    char    Uint8;      /* ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Pï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+! typedef signed      char    Sint8;      /* ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½Pï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+! typedef unsigned    short   Uint16;     /* ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Qï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+! typedef signed      short   Sint16;     /* ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½Qï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+! typedef unsigned    long    Uint32;     /* ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Sï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+! typedef signed      long    Sint32;     /* ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½Sï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+! typedef float               Float32;    /* ï¿½Sï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+! typedef double              Float64;    /* ï¿½Wï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ */
+  
+! typedef int                 Int;        /* INTï¿½^ï¿½iï¿½cï¿½[ï¿½ï¿½ï¿½pï¿½j            */
+  
+! typedef int                 Bool;       /* ï¿½_ï¿½ï¿½ï¿½^ï¿½iï¿½_ï¿½ï¿½ï¿½è”ï¿½ï¿½ï¿½lï¿½É‚Æ‚ï¿½ï¿½j */
+  
+  /*****************************************************************************/
+! /********************************* ï¿½è”ï¿½}ï¿½Nï¿½ï¿½ ********************************/
+  /*****************************************************************************/
+  
+  #ifndef NULL
 ***************
-*** 58,66 ****
-  #define ABS(x)          ((x) < 0 ? -(x) : (x))  /* â‘Î’l */
+*** 31,81 ****
+  #endif  /* NULL */
+  
+  /*****************************************************************************/
+! /********************************** —ñ‹“’è” *********************************/
+  /*****************************************************************************/
+  
+! enum BooleanLogic {                     /* ˜_—’è”‚Pi‹UA^j */
+      FALSE = 0,
+      TRUE  = 1
+  };
+  
+! enum BooleanSwitch {                    /* ˜_—’è”‚QiƒXƒCƒbƒ`j */
+      OFF = 0,
+      ON  = 1
+  };
+  
+! enum Judgement {                        /* Œ‹‰Ê”»’è‚Ì’è”i¬Œ÷A¸”sj */
+!     OK = 0,                             /* ¬Œ÷ */
+!     NG = -1                             /* ¸”s */
+  };
+  
+  /*****************************************************************************/
+! /********************************* ˆ—ƒ}ƒNƒ ********************************/
+  /*****************************************************************************/
+  
+! #define MAX(x, y)       ((x) > (y) ? (x) : (y)) /* Å‘å’l */
+! #define MIN(x, y)       ((x) < (y) ? (x) : (y)) /* Å¬’l */
+! #define ABS(x)          ((x) < 0 ? -(x) : (x))  /* â‘Î’l */
   
   /*---------------------------------------------------------------------------*/
 ! #endif  /* SEGA_XPT_H */
@@ -6894,8 +6959,50 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
   #ifndef SL_DEF_H
   #define SL_DEF_H
   
---- 73,81 ----
-  #define ABS(x)          ((x) < 0 ? -(x) : (x))  /* â‘Î’l */
+! #define	    DI		15		/* Š„‚è‚İ‚Ì‹Ö~ */
+! #define	    EI		 0		/* Š„‚è‚İ‚Ì‹–‰Â */
+  
+! #define	    MAX_EVENT	64		/* g—p‚Å‚«‚éƒCƒxƒ“ƒg‚Ì” */
+! #define	    MAX_WORK	256		/* g—p‚Å‚«‚éƒ[ƒN‚Ì” */
+! #define	    MAX_NEST	20		/* ƒ}ƒgƒŠƒNƒX‚ÌƒlƒXƒg‚Å‚«‚é” */
+  
+! #define	    WORK_SIZE	0x40		/* ƒ[ƒN‚Ì‘å‚«‚³ */
+! #define	    EVENT_SIZE	0x80		/* ƒCƒxƒ“ƒg‚Ì‘å‚«‚³ */
+  
+! typedef	    Sint16	ANGLE ;		/* ˆêü‚R‚U‚O“x‚ğ ‚P‚Uƒrƒbƒg‚Å•\‚·  */
+! typedef	    Sint32	FIXED ;		/* ãˆÊ‚P‚Uƒrƒbƒg‚Å®”•”A‰ºˆÊ‚P‚Uƒrƒbƒg‚Å¬”•”‚ğ•\‚·ŒÅ’è¬”“_Œ^ */
+  
+  enum ps {X , Y , Z , XYZ , XYZS , XY = Z , S = XYZ} ;
+  
+--- 46,96 ----
+  #endif  /* NULL */
+  
+  /*****************************************************************************/
+! /********************************** ï¿½ñ‹“’è” *********************************/
+  /*****************************************************************************/
+  
+! enum BooleanLogic {                     /* ï¿½_ï¿½ï¿½ï¿½è”ï¿½Pï¿½iï¿½Uï¿½Aï¿½^ï¿½j */
+      FALSE = 0,
+      TRUE  = 1
+  };
+  
+! enum BooleanSwitch {                    /* ï¿½_ï¿½ï¿½ï¿½è”ï¿½Qï¿½iï¿½Xï¿½Cï¿½bï¿½`ï¿½j */
+      OFF = 0,
+      ON  = 1
+  };
+  
+! enum Judgement {                        /* ï¿½ï¿½ï¿½Ê”ï¿½ï¿½ï¿½ï¿½Ì’è”ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½sï¿½j */
+!     OK = 0,                             /* ï¿½ï¿½ï¿½ï¿½ */
+!     NG = -1                             /* ï¿½ï¿½ï¿½s */
+  };
+  
+  /*****************************************************************************/
+! /********************************* ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Nï¿½ï¿½ ********************************/
+  /*****************************************************************************/
+  
+! #define MAX(x, y)       ((x) > (y) ? (x) : (y)) /* ï¿½Å‘ï¿½ï¿½l */
+! #define MIN(x, y)       ((x) < (y) ? (x) : (y)) /* ï¿½Åï¿½ï¿½l */
+! #define ABS(x)          ((x) < 0 ? -(x) : (x))  /* ï¿½ï¿½ï¿½Î’l */
   
   /*---------------------------------------------------------------------------*/
 ! #endif  /* SEGA_XPT_H */
@@ -6904,24 +7011,51 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
   #ifndef SL_DEF_H
   #define SL_DEF_H
   
+! #define	    DI		15		/* ï¿½ï¿½ï¿½èï¿½İ‚Ì‹Ö~ */
+! #define	    EI		 0		/* ï¿½ï¿½ï¿½èï¿½İ‚Ì‹ï¿½ï¿½ï¿½ */
+  
+! #define	    MAX_EVENT	64		/* ï¿½gï¿½pï¿½Å‚ï¿½ï¿½ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ìï¿½ */
+! #define	    MAX_WORK	256		/* ï¿½gï¿½pï¿½Å‚ï¿½ï¿½éƒï¿½[ï¿½Nï¿½Ìï¿½ */
+! #define	    MAX_NEST	20		/* ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½Ìƒlï¿½Xï¿½gï¿½Å‚ï¿½ï¿½é” */
+  
+! #define	    WORK_SIZE	0x40		/* ï¿½ï¿½ï¿½[ï¿½Nï¿½Ì‘å‚«ï¿½ï¿½ */
+! #define	    EVENT_SIZE	0x80		/* ï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Ì‘å‚«ï¿½ï¿½ */
+  
+! typedef	    Sint16	ANGLE ;		/* ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½Uï¿½Oï¿½xï¿½ï¿½ ï¿½Pï¿½Uï¿½rï¿½bï¿½gï¿½Å•\ï¿½ï¿½  */
+! typedef	    Sint32	FIXED ;		/* ï¿½ï¿½ï¿½Ê‚Pï¿½Uï¿½rï¿½bï¿½gï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ê‚Pï¿½Uï¿½rï¿½bï¿½gï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Å’è¬ï¿½ï¿½ï¿½_ï¿½^ */
+  
+  enum ps {X , Y , Z , XYZ , XYZS , XY = Z , S = XYZ} ;
+  
 ***************
-*** 97,103 ****
-  typedef     FIXED	VECTOR[XYZ] ;		/* ƒxƒNƒgƒ‹ƒf[ƒ^ */
-  typedef     FIXED	POINT[XYZ] ;		/* ’¸“_‚ÌˆÊ’uƒf[ƒ^ */
+*** 93,105 ****
+  				    + sizeof(void (*)()))] ;
+  } EVENT ;
+  
+! typedef     FIXED	MATRIX[4][3] ;		/* ƒ}ƒgƒŠƒNƒXƒf[ƒ^ */
+! typedef     FIXED	VECTOR[XYZ] ;		/* ƒxƒNƒgƒ‹ƒf[ƒ^ */
+! typedef     FIXED	POINT[XYZ] ;		/* ’¸“_‚ÌˆÊ’uƒf[ƒ^ */
   
 ! #define	    CURRENT		0	/* Current Matrix */
   
-  enum mtrx {M00 , M01 , M02 ,		/* ƒ}ƒgƒŠƒNƒX‚Ì—v‘f”Ô† */
+! enum mtrx {M00 , M01 , M02 ,		/* ƒ}ƒgƒŠƒNƒX‚Ì—v‘f”Ô† */
   	   M10 , M11 , M12 ,
---- 112,119 ----
-  typedef     FIXED	VECTOR[XYZ] ;		/* ƒxƒNƒgƒ‹ƒf[ƒ^ */
-  typedef     FIXED	POINT[XYZ] ;		/* ’¸“_‚ÌˆÊ’uƒf[ƒ^ */
+  	   M20 , M21 , M22 ,
+  	   M30 , M31 , M32 ,
+--- 108,121 ----
+  				    + sizeof(void (*)()))] ;
+  } EVENT ;
+  
+! typedef     FIXED	MATRIX[4][3] ;		/* ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½fï¿½[ï¿½^ */
+! typedef     FIXED	VECTOR[XYZ] ;		/* ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ */
+! typedef     FIXED	POINT[XYZ] ;		/* ï¿½ï¿½ï¿½_ï¿½ÌˆÊ’uï¿½fï¿½[ï¿½^ */
   
 ! #define	    CURRENT		0		/* Current Matrix */
 ! #define	    ORIGINAL		(0.99999)	/* Original Scale */
   
-  enum mtrx {M00 , M01 , M02 ,		/* ƒ}ƒgƒŠƒNƒX‚Ì—v‘f”Ô† */
+! enum mtrx {M00 , M01 , M02 ,		/* ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½Ì—vï¿½fï¿½Ôï¿½ */
   	   M10 , M11 , M12 ,
+  	   M20 , M21 , M22 ,
+  	   M30 , M31 , M32 ,
 ***************
 *** 107,129 ****
   	   } ;
@@ -6986,25 +7120,36 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
   /*  Sprite control function */
   
 ***************
-*** 162,167 ****
---- 176,184 ----
+*** 162,293 ****
   #define	    _ZmRC		(0x0b << 8)	/* Zoom base Right Center */
   #define	    _ZmRB		(0x0f << 8)	/* Zoom base Right Bottom */
   
-+ #define	    MSBon		(1 << 15)	/* ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚É‘‚«‚Ş‚l‚r‚a‚ğ‚P‚É‚·‚é */
-+ #define	    HSSon		(1 << 12)	/* ƒnƒCƒXƒs[ƒhƒVƒ…ƒŠƒ“ƒN—LŒø */
-+ #define	    HSSoff		(0 << 12)	/* ƒnƒCƒXƒs[ƒhƒVƒ…ƒŠƒ“ƒN–³Œø(default) */
-  #define	    No_Window		(0 << 9)	/* ƒEƒBƒ“ƒhƒE‚Ì§ŒÀ‚ğó‚¯‚È‚¢(default)*/
-  #define	    Window_In		(2 << 9)	/* ƒEƒBƒ“ƒhƒE‚Ì“à‘¤‚É•\¦ */
-  #define	    Window_Out		(3 << 9)	/* ƒEƒBƒ“ƒhƒE‚ÌŠO‘¤‚É•\¦ */
-***************
-*** 185,209 ****
-  
-  #define	    UseTexture		(1 << 2)	/* ƒeƒNƒXƒ`ƒƒ‚ğ“\‚éƒ|ƒŠƒSƒ“ */
-  #define	    UseLight		(1 << 3)	/* ŒõŒ¹‚Ì‰e‹¿‚ğó‚¯‚éƒ|ƒŠƒSƒ“ */
+! #define	    No_Window		(0 << 9)	/* ƒEƒBƒ“ƒhƒE‚Ì§ŒÀ‚ğó‚¯‚È‚¢(default)*/
+! #define	    Window_In		(2 << 9)	/* ƒEƒBƒ“ƒhƒE‚Ì“à‘¤‚É•\¦ */
+! #define	    Window_Out		(3 << 9)	/* ƒEƒBƒ“ƒhƒE‚ÌŠO‘¤‚É•\¦ */
+! #define	    MESHoff		(0 << 8)	/* ’Êí•\¦(default) */
+! #define	    MESHon		(1 << 8)	/* ƒƒbƒVƒ…‚Å•\¦ */
+! #define	    ECdis		(1 << 7)	/* ƒGƒ“ƒhƒR[ƒh‚ğƒpƒŒƒbƒg‚Ì‚Ğ‚Æ‚Â‚Æ‚µ‚Äg—p */
+! #define	    ECenb		(0 << 7)	/* ƒGƒ“ƒhƒR[ƒh—LŒø */
+! #define	    SPdis		(1 << 6)	/* ƒXƒy[ƒXƒR[ƒh‚ğƒpƒŒƒbƒg‚Ì‚Ğ‚Æ‚Â‚Æ‚µ‚Äg—p */
+! #define	    SPenb		(0 << 6)	/* ƒXƒy[ƒX‚Í•\¦‚µ‚È‚¢(default) */
+! #define	    CL16Bnk		(0 << 3)	/* ƒJƒ‰[ƒoƒ“ƒN‚P‚UFƒ‚[ƒh (default) */
+! #define	    CL16Look		(1 << 3)	/* ƒJƒ‰[ƒ‹ƒbƒNƒAƒbƒv‚P‚UFƒ‚[ƒh */
+! #define	    CL64Bnk		(2 << 3)	/* ƒJƒ‰[ƒoƒ“ƒN‚U‚SFƒ‚[ƒh */
+! #define	    CL128Bnk		(3 << 3)	/* ƒJƒ‰[ƒoƒ“ƒN‚P‚Q‚WFƒ‚[ƒh */
+! #define	    CL256Bnk		(4 << 3)	/* ƒJƒ‰[ƒoƒ“ƒN‚Q‚T‚UFƒ‚[ƒh */
+! #define	    CL32KRGB		(5 << 3)	/* ‚q‚f‚a‚R‚Q‚jFƒ‚[ƒh */
+! #define	    CL_Replace		0		/* d‚Ë‘‚«(ã‘‚«)ƒ‚[ƒh */
+! #define	    CL_Shadow		1		/* ‰eƒ‚[ƒh */
+! #define	    CL_Half		2		/* ”¼‹P“xƒ‚[ƒh */
+! #define	    CL_Trans		3		/* ”¼“§–¾ƒ‚[ƒh */
+! #define	    CL_Gouraud		4		/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒ‚[ƒh */
+! 
+! #define	    UseTexture		(1 << 2)	/* ƒeƒNƒXƒ`ƒƒ‚ğ“\‚éƒ|ƒŠƒSƒ“ */
+! #define	    UseLight		(1 << 3)	/* ŒõŒ¹‚Ì‰e‹¿‚ğó‚¯‚éƒ|ƒŠƒSƒ“ */
 ! #define	    UseClip		(1 << 4)	/* ‰æ–ÊŠO‚É’¸“_‚ªo‚½‚ç•\¦‚µ‚È‚¢ */
 ! #define	    UsePalette		(1 << 5)	/*  */
-  
+! 
 ! #define	    sprHflip		(1 << 4) | FUNC_Texture | (UseTexture << 16)
 ! #define	    sprVflip		(1 << 5) | FUNC_Texture | (UseTexture << 16)
 ! #define	    sprHVflip		(3 << 4) | FUNC_Texture | (UseTexture << 16)
@@ -7012,34 +7157,144 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 ! #define	    sprPolygon		FUNC_Polygon | ((ECdis | SPdis) << 24)
 ! #define	    sprPolyLine		FUNC_PolyLine | ((ECdis | SPdis) << 24)
 ! #define	    sprLine		FUNC_Line | ((ECdis | SPdis) << 24)
-  
-  #define	    No_Texture		0		/* ƒeƒNƒXƒ`ƒƒ‚ğg—p‚µ‚È‚¢ */
-  #define	    No_Option		0		/* ƒIƒvƒVƒ‡ƒ“‚ğg—p‚µ‚È‚¢ */
-  #define	    No_Gouraud		0		/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒO‚ğg—p‚µ‚È‚¢ */
-  #define	    No_Palet	        0		/* ƒJƒ‰[ƒpƒŒƒbƒg‚Ìw’è‚ª‚¢‚ç‚È‚¢ */
+! 
+! #define	    No_Texture		0		/* ƒeƒNƒXƒ`ƒƒ‚ğg—p‚µ‚È‚¢ */
+! #define	    No_Option		0		/* ƒIƒvƒVƒ‡ƒ“‚ğg—p‚µ‚È‚¢ */
+! #define	    No_Gouraud		0		/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒO‚ğg—p‚µ‚È‚¢ */
+! #define	    No_Palet	        0		/* ƒJƒ‰[ƒpƒŒƒbƒg‚Ìw’è‚ª‚¢‚ç‚È‚¢ */
 ! #define	    GouraudRAM		(0x00080000 - (33*8))	/* ŒõŒ¹‚Ì‰e‹¿—p‚ÌƒO[ƒ[ƒoƒbƒtƒ@ */
   
   typedef struct {
 !     VECTOR	 norm ;				/* –@üƒxƒNƒgƒ‹ */
-      Uint16	 Vertices[4] ;		/* ƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_”Ô† */
+!     Uint16	 Vertices[4] ;		/* ƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_”Ô† */
   } POLYGON ;
   
---- 202,237 ----
+  typedef struct {
+!     Uint8	 flag ;			/* •Ğ–Ê‚©—¼–Ê‚©‚Ìƒtƒ‰ƒO */
+!     Uint8	 sort ;			/* ƒ\[ƒg‚ÌŠî€ˆÊ’u‚ÆƒIƒvƒVƒ‡ƒ“İ’è */
+!     Uint16	 texno ;		/* ƒeƒNƒXƒ`ƒƒ”Ô† */
+!     Uint16	 atrb ;			/* ƒAƒgƒŠƒrƒ…[ƒgƒf[ƒ^(•\¦ƒ‚[ƒh) */
+!     Uint16	 colno ;		/* ƒJƒ‰[ƒiƒ“ƒo[ */
+!     Uint16	 gstb ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
+!     Uint16	 dir ; 			/* ƒeƒNƒXƒ`ƒƒ‚Ì”½“]‚Æƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒiƒ“ƒo[ */
+  } ATTR ;
   
-  #define	    UseTexture		(1 << 2)	/* ƒeƒNƒXƒ`ƒƒ‚ğ“\‚éƒ|ƒŠƒSƒ“ */
-  #define	    UseLight		(1 << 3)	/* ŒõŒ¹‚Ì‰e‹¿‚ğó‚¯‚éƒ|ƒŠƒSƒ“ */
-! #define	    UsePalette		(1 << 5)	/* ƒ|ƒŠƒSƒ“‚ÌƒJƒ‰[ */
+  typedef struct spratr{
+!     Uint16	 texno ;		/* ƒeƒNƒXƒ`ƒƒ”Ô† */
+!     Uint16	 atrb ;			/* ƒAƒgƒŠƒrƒ…[ƒgƒf[ƒ^(•\¦ƒ‚[ƒh) */
+!     Uint16	 colno ;		/* ƒJƒ‰[ƒiƒ“ƒo[ */
+!     Uint16	 gstb ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
+!     Uint16	 dir ;			/* ƒeƒNƒXƒ`ƒƒ‚Ì”½“]‚Æƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒiƒ“ƒo[ */
+  } SPR_ATTR ;
   
+  typedef struct {
+!     POINT	*pntbl ;		/* ’¸“_‚ÌˆÊ’uƒf[ƒ^ƒe[ƒuƒ‹ */
+!     Uint32	 nbPoint ;		/* ’¸“_‚Ì” */
+!     POLYGON	*pltbl ;		/* ƒ|ƒŠƒSƒ“’è‹`ƒe[ƒuƒ‹ */
+!     Uint32	 nbPolygon ;		/* ƒ|ƒŠƒSƒ“‚Ì” */
+!     ATTR	*attbl ;		/* ƒ|ƒŠƒSƒ“‚ÌƒAƒgƒŠƒrƒ…[ƒgƒe[ƒuƒ‹ */
+  } PDATA ;
+  
+  typedef struct {
+!     Uint16	 Hsize ;		/* ƒXƒvƒ‰ƒCƒg‚Ì‚gƒTƒCƒY */
+!     Uint16	 Vsize ;		/* ƒXƒvƒ‰ƒCƒg‚Ì‚uƒTƒCƒY */
+!     Uint16	 CGadr ;		/* ƒXƒvƒ‰ƒCƒg‚b‚fƒAƒhƒŒƒX / ‚W */
+!     Uint16	 HVsize ;		/* ‚gƒTƒCƒY/‚WA‚uƒTƒCƒY(ƒn[ƒh—p) */
+  } TEXTURE ;
+  
+  typedef struct {
+!     Uint16	 texno ;		/* ƒeƒNƒXƒ`ƒƒ”Ô† */
+!     Uint16	 cmode ;		/* ƒJƒ‰[ƒ‚[ƒh */
+!     void	*pcsrc ;		/* Œ³ƒf[ƒ^‚ÌŠİ */
+  } PICTURE ;
+  
+! #define	    COL_16	(2+1)		/* ƒJƒ‰[ƒoƒ“ƒN‚P‚UFƒ‚[ƒh */
+! #define	    COL_64	(2+0)		/* ƒJƒ‰[ƒoƒ“ƒN‚U‚SFƒ‚[ƒh */
+! #define	    COL_128	(2+0)		/* ƒJƒ‰[ƒoƒ“ƒN‚P‚Q‚WFƒ‚[ƒh */
+! #define	    COL_256	(2+0)		/* ƒJƒ‰[ƒoƒ“ƒN‚Q‚T‚UFƒ‚[ƒh */
+! #define	    COL_32K	(2-1)		/* ‚q‚f‚a‚R‚Q‚jFƒ‚[ƒh */
+  
+      enum base {
+! 	SORT_MIN ,			/* ‚S“_‚Ì“àAˆê”Ôè‘O‚Ì“_‚ğg‚¤ */
+! 	SORT_CEN ,			/* ‚S“_‚Ì•½‹ÏˆÊ’u‚ğg‚¤ */
+! 	SORT_MAX ,			/* ‚S“_‚Ì“àˆê”Ô‰“‚¢“_‚ğg‚¤ */
+! 	SORT_BFR			/* ’¼‘O‚É•\¦‚µ‚½ƒ|ƒŠƒSƒ“‚ÌˆÊ’u‚ğg‚¤ */
+      } ;
+  
+      enum pln {
+! 	Single_Plane ,			/* •Ğ–Êƒ|ƒŠƒSƒ“ */
+! 	Dual_Plane			/* —¼–Êƒ|ƒŠƒSƒ“(•\— ”»’è‚ÌŒ‹‰Ê‚ğŒ©‚È‚¢) */
+      } ;
+  
+  typedef struct {
+!     Uint16	CTRL ;			/* ƒRƒ“ƒgƒ[ƒ‹ƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ */
+!     Uint16	LINK ;			/* ƒŠƒ“ƒNƒAƒhƒŒƒX */
+!     Uint16	PMOD ;			/* ƒvƒbƒgƒ‚[ƒh */
+!     Uint16	COLR ;			/* ƒJƒ‰[ƒf[ƒ^ */
+!     Uint16	SRCA ;			/* ‚b‚fƒAƒhƒŒƒX */
+!     Uint16	SIZE ;			/* ƒLƒƒƒ‰ƒNƒ^ƒTƒCƒY */
+!     Uint16	  XA ;			/* •\¦ˆÊ’u ‚` */
+!     Uint16	  YA ;
+!     Uint16	  XB ;			/* •\¦ˆÊ’u ‚a */
+!     Uint16	  YB ;
+!     Uint16	  XC ;			/* •\¦ˆÊ’u ‚b */
+!     Uint16	  YC ;
+!     Uint16	  XD ;			/* •\¦ˆÊ’u ‚c */
+!     Uint16	  YD ;
+!     Uint16	GRDA ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
+!     Uint16	DMMY ;			/* ƒTƒCƒY‡‚í‚¹—p ƒ_ƒ~[ƒf[ƒ^ */
+  } SPRITE ;
+  
+  #define	    SpriteVRAM		0x25c00000
+  
+  /*-----------------------------------------------------------------------*/
+  
+! /* ‚q‚f‚aƒ‚[ƒhƒJƒ‰[ƒTƒ“ƒvƒ‹ƒf[ƒ^ */
+  
+  #define	    RGB_Flag		0x8000
+  
+--- 176,423 ----
+  #define	    _ZmRC		(0x0b << 8)	/* Zoom base Right Center */
+  #define	    _ZmRB		(0x0f << 8)	/* Zoom base Right Bottom */
+  
+! #define	    MSBon		(1 << 15)	/* ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş‚lï¿½rï¿½aï¿½ï¿½ï¿½Pï¿½É‚ï¿½ï¿½ï¿½ */
+! #define	    HSSon		(1 << 12)	/* ï¿½nï¿½Cï¿½Xï¿½sï¿½[ï¿½hï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Lï¿½ï¿½ */
+! #define	    HSSoff		(0 << 12)	/* ï¿½nï¿½Cï¿½Xï¿½sï¿½[ï¿½hï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½(default) */
+! #define	    No_Window		(0 << 9)	/* ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯‚È‚ï¿½(default)*/
+! #define	    Window_In		(2 << 9)	/* ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ì“ï¿½ï¿½ï¿½ï¿½É•\ï¿½ï¿½ */
+! #define	    Window_Out		(3 << 9)	/* ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ÌŠOï¿½ï¿½ï¿½É•\ï¿½ï¿½ */
+! #define	    MESHoff		(0 << 8)	/* ï¿½Êï¿½ï¿½\ï¿½ï¿½(default) */
+! #define	    MESHon		(1 << 8)	/* ï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å•\ï¿½ï¿½ */
+! #define	    ECdis		(1 << 7)	/* ï¿½Gï¿½ï¿½ï¿½hï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ì‚Ğ‚Æ‚Â‚Æ‚ï¿½ï¿½Ägï¿½p */
+! #define	    ECenb		(0 << 7)	/* ï¿½Gï¿½ï¿½ï¿½hï¿½Rï¿½[ï¿½hï¿½Lï¿½ï¿½ */
+! #define	    SPdis		(1 << 6)	/* ï¿½Xï¿½yï¿½[ï¿½Xï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ì‚Ğ‚Æ‚Â‚Æ‚ï¿½ï¿½Ägï¿½p */
+! #define	    SPenb		(0 << 6)	/* ï¿½Xï¿½yï¿½[ï¿½Xï¿½Í•\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½(default) */
+! #define	    CL16Bnk		(0 << 3)	/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Pï¿½Uï¿½Fï¿½ï¿½ï¿½[ï¿½h (default) */
+! #define	    CL16Look		(1 << 3)	/* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½Pï¿½Uï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL64Bnk		(2 << 3)	/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Uï¿½Sï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL128Bnk		(3 << 3)	/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Pï¿½Qï¿½Wï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL256Bnk		(4 << 3)	/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Qï¿½Tï¿½Uï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL32KRGB		(5 << 3)	/* ï¿½qï¿½fï¿½aï¿½Rï¿½Qï¿½jï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL_Replace		0		/* ï¿½dï¿½Ëï¿½ï¿½ï¿½(ï¿½ã‘ï¿½ï¿½)ï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL_Shadow		1		/* ï¿½eï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL_Half		2		/* ï¿½ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL_Trans		3		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h */
+! #define	    CL_Gouraud		4		/* ï¿½Oï¿½[ï¿½ï¿½ï¿½[ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½h */
+! 
+! #define	    UseTexture		(1 << 2)	/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ */
+! #define	    UseLight		(1 << 3)	/* ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰eï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯‚ï¿½ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ */
+! #define	    UsePalette		(1 << 5)	/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ÌƒJï¿½ï¿½ï¿½[ */
+! 
 ! /* SGL Ver3.0 Add */
-! #define	    UseNearClip		(1 << 6)	/* ƒjƒAEƒNƒŠƒbƒsƒ“ƒO‚ğ‚·‚é */
-! #define	    UseGouraud		(1 << 7)	/* ƒŠƒAƒ‹ƒO[ƒ[ */
-! #define	    UseDepth		(1 << 4)	/* ƒfƒvƒXƒLƒ…[ */
+! #define	    UseNearClip		(1 << 6)	/* ï¿½jï¿½Aï¿½Eï¿½Nï¿½ï¿½ï¿½bï¿½sï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+! #define	    UseGouraud		(1 << 7)	/* ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Oï¿½[ï¿½ï¿½ï¿½[ */
+! #define	    UseDepth		(1 << 4)	/* ï¿½fï¿½vï¿½Xï¿½Lï¿½ï¿½ï¿½[ */
 ! /* */
 ! 
 ! #if 0 /* SGL Ver3.0 Delete */
-! #define	    UseClip		(1 << 4)		/* ‰æ–ÊŠO‚É’¸“_‚ªo‚½‚ç•\¦‚µ‚È‚¢ */
+! #define	    UseClip		(1 << 4)		/* ï¿½ï¿½ï¿½ÊŠOï¿½É’ï¿½ï¿½_ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ */
 ! #else
-! #define	    UseClip		UseNearClip		/* ƒjƒAEƒNƒŠƒbƒsƒ“ƒO‚ğ‚·‚é */
+! #define	    UseClip		UseNearClip		/* ï¿½jï¿½Aï¿½Eï¿½Nï¿½ï¿½ï¿½bï¿½sï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 ! #endif
 ! 
 ! #define	    sprHflip		((1 << 4) | FUNC_Texture | (UseTexture << 16))
@@ -7049,48 +7304,51 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 ! #define	    sprPolygon		(FUNC_Polygon | ((ECdis | SPdis) << 24))
 ! #define	    sprPolyLine		(FUNC_PolyLine | ((ECdis | SPdis) << 24))
 ! #define	    sprLine		(FUNC_Line | ((ECdis | SPdis) << 24))
-  
-  #define	    No_Texture		0		/* ƒeƒNƒXƒ`ƒƒ‚ğg—p‚µ‚È‚¢ */
-  #define	    No_Option		0		/* ƒIƒvƒVƒ‡ƒ“‚ğg—p‚µ‚È‚¢ */
-  #define	    No_Gouraud		0		/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒO‚ğg—p‚µ‚È‚¢ */
-  #define	    No_Palet	        0		/* ƒJƒ‰[ƒpƒŒƒbƒg‚Ìw’è‚ª‚¢‚ç‚È‚¢ */
-! #define	    GouraudRAM		(0x00080000 - (32*8))	/* ŒõŒ¹‚Ì‰e‹¿—p‚ÌƒO[ƒ[ƒoƒbƒtƒ@ */
+! 
+! #define	    No_Texture		0		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ */
+! #define	    No_Option		0		/* ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ */
+! #define	    No_Gouraud		0		/* ï¿½Oï¿½[ï¿½ï¿½ï¿½[ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ */
+! #define	    No_Palet	        0		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ìwï¿½è‚ªï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ */
+! #define	    GouraudRAM		(0x00080000 - (32*8))	/* ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰eï¿½ï¿½ï¿½pï¿½ÌƒOï¿½[ï¿½ï¿½ï¿½[ï¿½oï¿½bï¿½tï¿½@ */
   
   typedef struct {
-!     VECTOR	 norm ;			/* –@üƒxƒNƒgƒ‹ */
-      Uint16	 Vertices[4] ;		/* ƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_”Ô† */
+!     VECTOR	 norm ;			/* ï¿½@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ */
+!     Uint16	 Vertices[4] ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½é’¸ï¿½_ï¿½Ôï¿½ */
   } POLYGON ;
   
-***************
-*** 214,220 ****
-      Uint16	 atrb ;			/* ƒAƒgƒŠƒrƒ…[ƒgƒf[ƒ^(•\¦ƒ‚[ƒh) */
-      Uint16	 colno ;		/* ƒJƒ‰[ƒiƒ“ƒo[ */
-      Uint16	 gstb ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
-!     Uint16	 dir ; 			/* ƒeƒNƒXƒ`ƒƒ‚Ì”½“]‚Æƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒiƒ“ƒo[ */
+  typedef struct {
+!     Uint8	 flag ;			/* ï¿½Ğ–Ê‚ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O */
+!     Uint8	 sort ;			/* ï¿½\ï¿½[ï¿½gï¿½ÌŠî€ï¿½Ê’uï¿½ÆƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½ */
+!     Uint16	 texno ;		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ôï¿½ */
+!     Uint16	 atrb ;			/* ï¿½Aï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½[ï¿½^(ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h) */
+!     Uint16	 colno ;		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½iï¿½ï¿½ï¿½oï¿½[ */
+!     Uint16	 gstb ;			/* ï¿½Oï¿½[ï¿½ï¿½ï¿½[ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½eï¿½[ï¿½uï¿½ï¿½ */
+!     Uint16	 dir ;			/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ì”ï¿½ï¿½]ï¿½Æƒtï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ */
   } ATTR ;
   
   typedef struct spratr{
---- 242,248 ----
-      Uint16	 atrb ;			/* ƒAƒgƒŠƒrƒ…[ƒgƒf[ƒ^(•\¦ƒ‚[ƒh) */
-      Uint16	 colno ;		/* ƒJƒ‰[ƒiƒ“ƒo[ */
-      Uint16	 gstb ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
-!     Uint16	 dir ;			/* ƒeƒNƒXƒ`ƒƒ‚Ì”½“]‚Æƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒiƒ“ƒo[ */
-  } ATTR ;
+!     Uint16	 texno ;		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ôï¿½ */
+!     Uint16	 atrb ;			/* ï¿½Aï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½[ï¿½^(ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h) */
+!     Uint16	 colno ;		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½iï¿½ï¿½ï¿½oï¿½[ */
+!     Uint16	 gstb ;			/* ï¿½Oï¿½[ï¿½ï¿½ï¿½[ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½eï¿½[ï¿½uï¿½ï¿½ */
+!     Uint16	 dir ;			/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ì”ï¿½ï¿½]ï¿½Æƒtï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ */
+  } SPR_ATTR ;
   
-  typedef struct spratr{
-***************
-*** 233,238 ****
---- 261,368 ----
-      ATTR	*attbl ;		/* ƒ|ƒŠƒSƒ“‚ÌƒAƒgƒŠƒrƒ…[ƒgƒe[ƒuƒ‹ */
+  typedef struct {
+!     POINT	*pntbl ;		/* ï¿½ï¿½ï¿½_ï¿½ÌˆÊ’uï¿½fï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ */
+!     Uint32	 nbPoint ;		/* ï¿½ï¿½ï¿½_ï¿½Ìï¿½ */
+!     POLYGON	*pltbl ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½eï¿½[ï¿½uï¿½ï¿½ */
+!     Uint32	 nbPolygon ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ìï¿½ */
+!     ATTR	*attbl ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ÌƒAï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½eï¿½[ï¿½uï¿½ï¿½ */
   } PDATA ;
   
 + /* SGL Ver3.0 Add */
 + typedef struct {
-+     POINT	*pntbl ;		/* ’¸“_‚ÌˆÊ’uƒf[ƒ^ƒe[ƒuƒ‹ */
-+     Uint32	 nbPoint ;		/* ’¸“_‚Ì” */
-+     POLYGON	*pltbl ;		/* ƒ|ƒŠƒSƒ“’è‹`ƒe[ƒuƒ‹ */
-+     Uint32	 nbPolygon ;		/* ƒ|ƒŠƒSƒ“‚Ì” */
-+     ATTR	*attbl ;		/* ƒ|ƒŠƒSƒ“‚ÌƒAƒgƒŠƒrƒ…[ƒgƒe[ƒuƒ‹ */
++     POINT	*pntbl ;		/* ï¿½ï¿½ï¿½_ï¿½ÌˆÊ’uï¿½fï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ */
++     Uint32	 nbPoint ;		/* ï¿½ï¿½ï¿½_ï¿½Ìï¿½ */
++     POLYGON	*pltbl ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½eï¿½[ï¿½uï¿½ï¿½ */
++     Uint32	 nbPolygon ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ìï¿½ */
++     ATTR	*attbl ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ÌƒAï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½eï¿½[ï¿½uï¿½ï¿½ */
 +     VECTOR	*vntbl;
 + } XPDATA ;
 + /* */
@@ -7098,146 +7356,271 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 + #ifdef ST_VE
 + 
 + typedef struct {
-+     Uint16	 pmod ;			/* ƒXƒvƒ‰ƒCƒg•\¦ƒ‚[ƒh */
-+     Uint16	 colno ;		/* ƒJƒ‰[ƒiƒ“ƒo[ */
-+     Uint16	 CGadr ;		/* ƒXƒvƒ‰ƒCƒg‚b‚fƒAƒhƒŒƒX / ‚W */
-+     Uint16	 HVsize ;		/* ‚gƒTƒCƒY/‚WA‚uƒTƒCƒY(ƒn[ƒh—p) */
++     Uint16	 pmod ;			/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h */
++     Uint16	 colno ;		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½iï¿½ï¿½ï¿½oï¿½[ */
++     Uint16	 CGadr ;		/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½bï¿½fï¿½Aï¿½hï¿½ï¿½ï¿½X / ï¿½W */
++     Uint16	 HVsize ;		/* ï¿½gï¿½Tï¿½Cï¿½Y/ï¿½Wï¿½Aï¿½uï¿½Tï¿½Cï¿½Y(ï¿½nï¿½[ï¿½hï¿½p) */
 + } gxATTR_VDP1 ;
 + 
 + typedef struct {
-+     Uint32	 texcel ;		/* ƒeƒNƒXƒ`ƒƒƒZƒ‹ƒAƒhƒŒƒX */
-+     Uint16	 dspmode ;		/* ƒfƒBƒXƒvƒŒƒCƒ‚[ƒhƒtƒ‰ƒO */
-+     Uint16	 colno ;		/* ƒJƒ‰[ƒf[ƒ^ */
-+     Uint8	 TXA , TYA ;		/* ƒeƒNƒXƒ`ƒƒƒ|ƒCƒ“ƒg */
++     Uint32	 texcel ;		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½X */
++     Uint16	 dspmode ;		/* ï¿½fï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½hï¿½tï¿½ï¿½ï¿½O */
++     Uint16	 colno ;		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½fï¿½[ï¿½^ */
++     Uint8	 TXA , TYA ;		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½g */
 +     Uint8	 TXB , TYB ;
 +     Uint8	 TXC , TYC ;
 +     Uint8	 TXD , TYD ;
 + } gxATTR_ENHC ;
 + 
 + typedef struct{
-+     Uint16	 texno ;		/* ƒeƒNƒXƒ`ƒƒ”Ô† */
-+     Uint16	 atrb ;			/* ƒAƒgƒŠƒrƒ…[ƒgƒf[ƒ^(•\¦ƒ‚[ƒh) */
-+     Uint16	 colno ;		/* ƒJƒ‰[ƒiƒ“ƒo[ */
-+     Uint16	 gstb ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
-+     Uint16	 dir ;			/* ƒeƒNƒXƒ`ƒƒ‚Ì”½“]‚Æƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒiƒ“ƒo[ */
++     Uint16	 texno ;		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ôï¿½ */
++     Uint16	 atrb ;			/* ï¿½Aï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½[ï¿½^(ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h) */
++     Uint16	 colno ;		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½iï¿½ï¿½ï¿½oï¿½[ */
++     Uint16	 gstb ;			/* ï¿½Oï¿½[ï¿½ï¿½ï¿½[ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½eï¿½[ï¿½uï¿½ï¿½ */
++     Uint16	 dir ;			/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ì”ï¿½ï¿½]ï¿½Æƒtï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ */
 + } gxSPR_ATTR ;
 + 
 + typedef struct {
-+     Uint16	texno ;			/* ƒeƒNƒXƒ`ƒƒƒIƒtƒZƒbƒgƒAƒhƒŒƒX */
-+     Uint8	attr ;			/* ¿Š´ƒR[ƒhAƒ\[ƒeƒBƒ“ƒOƒ‚[ƒh“™ */
-+     Uint8	nvface ;		/* –Ê–@üƒxƒNƒgƒ‹ƒiƒ“ƒo[ */
-+     Uint8	nvnum[4] ;		/* ’¸“_–@üƒxƒNƒgƒ‹ƒiƒ“ƒo[ */
-+     Uint8	Vertices[4] ;		/* ƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_”Ô† */
++     Uint16	texno ;			/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Iï¿½tï¿½Zï¿½bï¿½gï¿½Aï¿½hï¿½ï¿½ï¿½X */
++     Uint8	attr ;			/* ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Aï¿½\ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ */
++     Uint8	nvface ;		/* ï¿½Ê–@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ */
++     Uint8	nvnum[4] ;		/* ï¿½ï¿½ï¿½_ï¿½@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½iï¿½ï¿½ï¿½oï¿½[ */
++     Uint8	Vertices[4] ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½é’¸ï¿½_ï¿½Ôï¿½ */
 + } gxPOLYGON ;
 + 
 + typedef struct {
-+     POINT	*pntbl ;		/* ’¸“_‚ÌˆÊ’uƒf[ƒ^ƒe[ƒuƒ‹ */
-+     Uint16	 nbPoint ;		/* ’¸“_‚Ì” */
-+     Uint16	 nbNVector ;		/* –@üƒxƒNƒgƒ‹‚Ì” */
-+     VECTOR	*nvtbl ;		/* –@üƒxƒNƒgƒ‹ƒf[ƒ^ƒe[ƒuƒ‹ */
-+     gxPOLYGON	*pltbl ;		/* ƒ|ƒŠƒSƒ“’è‹`ƒe[ƒuƒ‹ */
-+     Uint32	 nbPolygon ;		/* ƒ|ƒŠƒSƒ“‚Ì” */
-+     gxATTR_VDP1	*attbl ;		/* ƒ|ƒŠƒSƒ“‚ÌƒAƒgƒŠƒrƒ…[ƒgƒe[ƒuƒ‹ */
++     POINT	*pntbl ;		/* ï¿½ï¿½ï¿½_ï¿½ÌˆÊ’uï¿½fï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ */
++     Uint16	 nbPoint ;		/* ï¿½ï¿½ï¿½_ï¿½Ìï¿½ */
++     Uint16	 nbNVector ;		/* ï¿½@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Ìï¿½ */
++     VECTOR	*nvtbl ;		/* ï¿½@ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ */
++     gxPOLYGON	*pltbl ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½eï¿½[ï¿½uï¿½ï¿½ */
++     Uint32	 nbPolygon ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ìï¿½ */
++     gxATTR_VDP1	*attbl ;		/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ÌƒAï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½eï¿½[ï¿½uï¿½ï¿½ */
 + } gxPDATA ;
 + 
-+ typedef struct {
-+     Uint32	 texadr ;		/* ƒeƒNƒXƒ`ƒƒƒf[ƒ^ƒe[ƒuƒ‹ */
-+     Uint8	 BD ;			/* Še’¸“_‚Ì‹P“x */
-+     Uint8	 BC ;
-+     Uint8	 BB ;
-+     Uint8	 BA ;
-+     Sint16	 XA ;			/* Še’¸“_‚ÌˆÊ’u */
-+     Sint16	 YA ;
-+     Sint16	 XB ;
-+     Sint16	 YB ;
-+     Sint16	 XC ;
-+     Sint16	 YC ;
-+     Sint16	 XD ;
-+     Sint16	 YD ;
-+     Uint16	 ZA ;			/* Še’¸“_‚Ì‚y’l */
-+     Uint16	 ZB ;
-+     Uint16	 ZC ;
-+     Uint16	 ZD ;
-+     Uint16	 winno ;		/* ƒEƒBƒ“ƒhƒEƒiƒ“ƒo[ */
-+     Uint16	 ZF ;			/* ‘ã•\‚y’l */
-+ } gxDIRECT ;
-+ 
-+ #define		winEXn		0	/* ƒGƒ“ƒnƒ“ƒT‘¤ è‘O(near) */
-+ #define		winEXf		1	/* ƒGƒ“ƒnƒ“ƒT‘¤ ‰œ(far) */
-+ #define		winSTn		2	/* ‚r‚s-‚u‘¤ è‘O(near) */
-+ #define		winSTf		3	/* ‚r‚s-‚u‘¤ ‰œ(far) */
-+ 
-+ #define	    gxPOLYTBL(f,s,t,m,n)	{((f)<<16)|((t)<<20)|((s)<<12)|((m)<<8)|(n)
-+ #define	    gxNormal(a,b,c,d)		(a,b,c,d)
-+ #define	    gxVertices(a,b,c,d)		(a,b,c,d)}
-+ #define	    gxATTRVDP1(p,c,a,s)		{p,c,a,s}
-+ #define	    gxATTRENHC(cx,cy,sx,sy,cm,cl,an,hf,ms,sp,te,fm)	{\
-+ 					((cx)<<4)|((cy)<<14)|(sx)|((sy)<<10)|(cm),\
-+ 					((ms)>>5)|(((sp)^SPdis)>>4)|((te)<<1)|\
-+ 					((an)<<8)|((hf)<<6)|(fm),(cl)
-+ #endif
-+ 
-+ typedef struct obj{
-+     PDATA	*pat ;			/* ƒ|ƒŠƒSƒ“ƒ‚ƒfƒ‹ƒf[ƒ^ƒe[ƒuƒ‹ */
-+     FIXED	 pos[XYZ] ;		/* ‘Š‘ÎˆÊ’uƒf[ƒ^ */
-+     ANGLE	 ang[XYZ] ;		/* ‰ñ“]Špƒf[ƒ^ */
-+     FIXED	 scl[XYZ] ;		/* ƒXƒP[ƒŠƒ“ƒOƒf[ƒ^ */
-+     struct obj	*child ;		/* qƒIƒuƒWƒFƒNƒgƒf[ƒ^ */
-+     struct obj	*sibling ;		/* ŒZ’íƒIƒuƒWƒFƒNƒgƒf[ƒ^ */
-+ } OBJECT ;
-+ 
   typedef struct {
-      Uint16	 Hsize ;		/* ƒXƒvƒ‰ƒCƒg‚Ì‚gƒTƒCƒY */
-      Uint16	 Vsize ;		/* ƒXƒvƒ‰ƒCƒg‚Ì‚uƒTƒCƒY */
-***************
-*** 271,284 ****
-      Uint16	COLR ;			/* ƒJƒ‰[ƒf[ƒ^ */
-      Uint16	SRCA ;			/* ‚b‚fƒAƒhƒŒƒX */
-      Uint16	SIZE ;			/* ƒLƒƒƒ‰ƒNƒ^ƒTƒCƒY */
-!     Uint16	  XA ;			/* •\¦ˆÊ’u ‚` */
-!     Uint16	  YA ;
-!     Uint16	  XB ;			/* •\¦ˆÊ’u ‚a */
-!     Uint16	  YB ;
-!     Uint16	  XC ;			/* •\¦ˆÊ’u ‚b */
-!     Uint16	  YC ;
-!     Uint16	  XD ;			/* •\¦ˆÊ’u ‚c */
-!     Uint16	  YD ;
-      Uint16	GRDA ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
-      Uint16	DMMY ;			/* ƒTƒCƒY‡‚í‚¹—p ƒ_ƒ~[ƒf[ƒ^ */
-  } SPRITE ;
---- 401,414 ----
-      Uint16	COLR ;			/* ƒJƒ‰[ƒf[ƒ^ */
-      Uint16	SRCA ;			/* ‚b‚fƒAƒhƒŒƒX */
-      Uint16	SIZE ;			/* ƒLƒƒƒ‰ƒNƒ^ƒTƒCƒY */
-!     Sint16	  XA ;			/* •\¦ˆÊ’u ‚` */
+!     Uint32	 texadr ;		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ */
+!     Uint8	 BD ;			/* ï¿½eï¿½ï¿½ï¿½_ï¿½Ì‹Pï¿½x */
+!     Uint8	 BC ;
+!     Uint8	 BB ;
+!     Uint8	 BA ;
+!     Sint16	 XA ;			/* ï¿½eï¿½ï¿½ï¿½_ï¿½ÌˆÊ’u */
+!     Sint16	 YA ;
+!     Sint16	 XB ;
+!     Sint16	 YB ;
+!     Sint16	 XC ;
+!     Sint16	 YC ;
+!     Sint16	 XD ;
+!     Sint16	 YD ;
+!     Uint16	 ZA ;			/* ï¿½eï¿½ï¿½ï¿½_ï¿½Ì‚yï¿½l */
+!     Uint16	 ZB ;
+!     Uint16	 ZC ;
+!     Uint16	 ZD ;
+!     Uint16	 winno ;		/* ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½iï¿½ï¿½ï¿½oï¿½[ */
+!     Uint16	 ZF ;			/* ï¿½ï¿½ï¿½\ï¿½yï¿½l */
+! } gxDIRECT ;
+! 
+! #define		winEXn		0	/* ï¿½Gï¿½ï¿½ï¿½nï¿½ï¿½ï¿½Tï¿½ï¿½ ï¿½ï¿½ï¿½O(near) */
+! #define		winEXf		1	/* ï¿½Gï¿½ï¿½ï¿½nï¿½ï¿½ï¿½Tï¿½ï¿½ ï¿½ï¿½(far) */
+! #define		winSTn		2	/* ï¿½rï¿½s-ï¿½uï¿½ï¿½ ï¿½ï¿½ï¿½O(near) */
+! #define		winSTf		3	/* ï¿½rï¿½s-ï¿½uï¿½ï¿½ ï¿½ï¿½(far) */
+! 
+! #define	    gxPOLYTBL(f,s,t,m,n)	{((f)<<16)|((t)<<20)|((s)<<12)|((m)<<8)|(n)
+! #define	    gxNormal(a,b,c,d)		(a,b,c,d)
+! #define	    gxVertices(a,b,c,d)		(a,b,c,d)}
+! #define	    gxATTRVDP1(p,c,a,s)		{p,c,a,s}
+! #define	    gxATTRENHC(cx,cy,sx,sy,cm,cl,an,hf,ms,sp,te,fm)	{\
+! 					((cx)<<4)|((cy)<<14)|(sx)|((sy)<<10)|(cm),\
+! 					((ms)>>5)|(((sp)^SPdis)>>4)|((te)<<1)|\
+! 					((an)<<8)|((hf)<<6)|(fm),(cl)
+! #endif
+! 
+! typedef struct obj{
+!     PDATA	*pat ;			/* ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½eï¿½[ï¿½uï¿½ï¿½ */
+!     FIXED	 pos[XYZ] ;		/* ï¿½ï¿½ï¿½ÎˆÊ’uï¿½fï¿½[ï¿½^ */
+!     ANGLE	 ang[XYZ] ;		/* ï¿½ï¿½ï¿½]ï¿½pï¿½fï¿½[ï¿½^ */
+!     FIXED	 scl[XYZ] ;		/* ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½fï¿½[ï¿½^ */
+!     struct obj	*child ;		/* ï¿½qï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½fï¿½[ï¿½^ */
+!     struct obj	*sibling ;		/* ï¿½Zï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½fï¿½[ï¿½^ */
+! } OBJECT ;
+! 
+! typedef struct {
+!     Uint16	 Hsize ;		/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ì‚gï¿½Tï¿½Cï¿½Y */
+!     Uint16	 Vsize ;		/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ì‚uï¿½Tï¿½Cï¿½Y */
+!     Uint16	 CGadr ;		/* ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½bï¿½fï¿½Aï¿½hï¿½ï¿½ï¿½X / ï¿½W */
+!     Uint16	 HVsize ;		/* ï¿½gï¿½Tï¿½Cï¿½Y/ï¿½Wï¿½Aï¿½uï¿½Tï¿½Cï¿½Y(ï¿½nï¿½[ï¿½hï¿½p) */
+  } TEXTURE ;
+  
+  typedef struct {
+!     Uint16	 texno ;		/* ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ôï¿½ */
+!     Uint16	 cmode ;		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½h */
+!     void	*pcsrc ;		/* ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ */
+  } PICTURE ;
+  
+! #define	    COL_16	(2+1)		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Pï¿½Uï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    COL_64	(2+0)		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Uï¿½Sï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    COL_128	(2+0)		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Pï¿½Qï¿½Wï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    COL_256	(2+0)		/* ï¿½Jï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Nï¿½Qï¿½Tï¿½Uï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+! #define	    COL_32K	(2-1)		/* ï¿½qï¿½fï¿½aï¿½Rï¿½Qï¿½jï¿½Fï¿½ï¿½ï¿½[ï¿½h */
+  
+      enum base {
+! 	SORT_MIN ,			/* ï¿½Sï¿½_ï¿½Ì“ï¿½ï¿½Aï¿½ï¿½ï¿½Ôï¿½ï¿½Oï¿½Ì“_ï¿½ï¿½ï¿½gï¿½ï¿½ */
+! 	SORT_CEN ,			/* ï¿½Sï¿½_ï¿½Ì•ï¿½ï¿½ÏˆÊ’uï¿½ï¿½ï¿½gï¿½ï¿½ */
+! 	SORT_MAX ,			/* ï¿½Sï¿½_ï¿½Ì“ï¿½ï¿½ï¿½ï¿½Ô‰ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½gï¿½ï¿½ */
+! 	SORT_BFR			/* ï¿½ï¿½ï¿½Oï¿½É•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ÌˆÊ’uï¿½ï¿½ï¿½gï¿½ï¿½ */
+      } ;
+  
+      enum pln {
+! 	Single_Plane ,			/* ï¿½Ğ–Êƒ|ï¿½ï¿½ï¿½Sï¿½ï¿½ */
+! 	Dual_Plane			/* ï¿½ï¿½ï¿½Êƒ|ï¿½ï¿½ï¿½Sï¿½ï¿½(ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½) */
+      } ;
+  
+  typedef struct {
+!     Uint16	CTRL ;			/* ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ */
+!     Uint16	LINK ;			/* ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½Aï¿½hï¿½ï¿½ï¿½X */
+!     Uint16	PMOD ;			/* ï¿½vï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½h */
+!     Uint16	COLR ;			/* ï¿½Jï¿½ï¿½ï¿½[ï¿½fï¿½[ï¿½^ */
+!     Uint16	SRCA ;			/* ï¿½bï¿½fï¿½Aï¿½hï¿½ï¿½ï¿½X */
+!     Uint16	SIZE ;			/* ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½Tï¿½Cï¿½Y */
+!     Sint16	  XA ;			/* ï¿½\ï¿½ï¿½ï¿½Ê’u ï¿½` */
 !     Sint16	  YA ;
-!     Sint16	  XB ;			/* •\¦ˆÊ’u ‚a */
+!     Sint16	  XB ;			/* ï¿½\ï¿½ï¿½ï¿½Ê’u ï¿½a */
 !     Sint16	  YB ;
-!     Sint16	  XC ;			/* •\¦ˆÊ’u ‚b */
+!     Sint16	  XC ;			/* ï¿½\ï¿½ï¿½ï¿½Ê’u ï¿½b */
 !     Sint16	  YC ;
-!     Sint16	  XD ;			/* •\¦ˆÊ’u ‚c */
+!     Sint16	  XD ;			/* ï¿½\ï¿½ï¿½ï¿½Ê’u ï¿½c */
 !     Sint16	  YD ;
-      Uint16	GRDA ;			/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒOƒe[ƒuƒ‹ */
-      Uint16	DMMY ;			/* ƒTƒCƒY‡‚í‚¹—p ƒ_ƒ~[ƒf[ƒ^ */
+!     Uint16	GRDA ;			/* ï¿½Oï¿½[ï¿½ï¿½ï¿½[ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½eï¿½[ï¿½uï¿½ï¿½ */
+!     Uint16	DMMY ;			/* ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½í‚¹ï¿½p ï¿½_ï¿½~ï¿½[ï¿½fï¿½[ï¿½^ */
   } SPRITE ;
+  
+  #define	    SpriteVRAM		0x25c00000
+  
+  /*-----------------------------------------------------------------------*/
+  
+! /* ï¿½qï¿½fï¿½aï¿½ï¿½ï¿½[ï¿½hï¿½Jï¿½ï¿½ï¿½[ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½fï¿½[ï¿½^ */
+  
+  #define	    RGB_Flag		0x8000
+  
 ***************
-*** 344,349 ****
---- 474,484 ----
+*** 330,387 ****
+  #define	    VDP2_VRAM_B0	0x25e40000
+  #define	    VDP2_VRAM_B1	0x25e60000
+  
+! #define	    CGN01_RAM		VDP2_VRAM_B1		/* ƒXƒNƒ[ƒ‹‚OA‚P—p‚b‚fƒf[ƒ^ */
+! #define	    NBG0_MAP		(CGN01_RAM+0x16000)	/* ƒXƒNƒ[ƒ‹‚O‚Ì‚u‚q‚`‚lƒAƒhƒŒƒX */
+! #define	    NBG1_MAP		(CGN01_RAM+0x18000)	/* ƒXƒNƒ[ƒ‹‚P‚Ì‚u‚q‚`‚lƒAƒhƒŒƒX */
+  
+! #define	    KTBL0_RAM		VDP2_VRAM_A1		/* ‰ñ“]ƒXƒNƒ[ƒ‹—pŒW”ƒe[ƒuƒ‹ */
+  #define	    BACK_CRAM		(KTBL0_RAM + 0x1fffe)	/* Back color */
+  #define     RBG_PARA_ADR	(KTBL0_RAM + 0x1ff00)
+  #define     RBG_PARB_ADR	(RBG_PARA_ADR+ 0x80)
+  
+! #define	    CGR0_RAM		VDP2_VRAM_A0		/* ‰ñ“]ƒXƒNƒ[ƒ‹—p‚b‚fƒf[ƒ^*/
+! #define	    RBG0_MAP		VDP2_VRAM_B0		/* ‰ñ“]ƒXƒNƒ[ƒ‹‚O‚Ì‚u‚q‚`‚lƒAƒhƒŒƒX */
   #define	    VDP2_COLRAM    		0x25f00000
   
-  #define	    CG_Size		(8*8)		/* ‚PƒZƒ‹‚Ì‘å‚«‚³(CG) */
-+ #define     CG16Size            (8*8/2)         /* ‚PƒZƒ‹‚Ì‘å‚«‚³(CG 16Colors) */
-+ #define     CG256Size           (8*8)           /* ‚PƒZƒ‹‚Ì‘å‚«‚³(CG 256Colors) */
-+ #define     CG2048Size          (8*8*2)         /* ‚PƒZƒ‹‚Ì‘å‚«‚³(CG 2048Colors) */
-+ #define     CG32KSize           (8*8*2)         /* ‚PƒZƒ‹‚Ì‘å‚«‚³(CG 32KColors) */
-+ 
-  typedef     Uint16		CELL ;		/* ‚PƒZƒ‹‚Ì‘å‚«‚³(Pattern name) */
-  #define	    Line		64		/* ‚Pƒ‰ƒCƒ“‚Ì‘å‚«‚³ */
-  #define	    Page		(64*Line)	/* ‚Pƒy[ƒW‚Ì‘å‚«‚³ */
-***************
-*** 382,387 ****
---- 517,527 ----
-      Sint32	DKA ;		/* ŒW”ƒe[ƒuƒ‹…•½•ûŒüƒAƒhƒŒƒX‘•ª ‚j‚` */
+! #define	    CG_Size		(8*8)		/* ‚PƒZƒ‹‚Ì‘å‚«‚³(CG) */
+! typedef     Uint16		CELL ;		/* ‚PƒZƒ‹‚Ì‘å‚«‚³(Pattern name) */
+! #define	    Line		64		/* ‚Pƒ‰ƒCƒ“‚Ì‘å‚«‚³ */
+! #define	    Page		(64*Line)	/* ‚Pƒy[ƒW‚Ì‘å‚«‚³ */
+  
+  typedef struct rdat{
+!     FIXED	XST ;		/* ƒXƒNƒŠ[ƒ“‰æ–ÊƒXƒ^[ƒgÀ•W ‚wst */
+!     FIXED	YST ;		/* ƒXƒNƒŠ[ƒ“‰æ–ÊƒXƒ^[ƒgÀ•W ‚xst */
+!     FIXED	ZST ;		/* ƒXƒNƒŠ[ƒ“‰æ–ÊƒXƒ^[ƒgÀ•W ‚yst */
+!     FIXED	DXST ;		/* ƒXƒNƒŠ[ƒ“‰æ–Ê‚’¼•ûŒüÀ•W‘•ª ‚„‚wst */
+!     FIXED	DYST ;		/* ƒXƒNƒŠ[ƒ“‰æ–Ê‚’¼•ûŒüÀ•W‘•ª ‚„‚xst */
+!     FIXED	DX ;		/* ƒXƒNƒŠ[ƒ“‰æ–Ê…•½•ûŒüÀ•W‘•ª ‚„‚w */
+!     FIXED	DY ;		/* ƒXƒNƒŠ[ƒ“‰æ–Ê…•½•ûŒüÀ•W‘•ª ‚„‚x */
+!     FIXED	MATA ;		/* ‰ñ“]ƒ}ƒgƒŠƒNƒXƒpƒ‰ƒ[ƒ^‚` */
+!     FIXED	MATB ;		/* ‰ñ“]ƒ}ƒgƒŠƒNƒXƒpƒ‰ƒ[ƒ^‚a */
+!     FIXED	MATC ;		/* ‰ñ“]ƒ}ƒgƒŠƒNƒXƒpƒ‰ƒ[ƒ^‚b */
+!     FIXED	MATD ;		/* ‰ñ“]ƒ}ƒgƒŠƒNƒXƒpƒ‰ƒ[ƒ^‚c */
+!     FIXED	MATE ;		/* ‰ñ“]ƒ}ƒgƒŠƒNƒXƒpƒ‰ƒ[ƒ^‚d */
+!     FIXED	MATF ;		/* ‰ñ“]ƒ}ƒgƒŠƒNƒXƒpƒ‰ƒ[ƒ^‚e */
+! 
+!     Sint16	PX ;		/* ‹“_À•W ‚ox */
+!     Sint16	PY ;		/* ‹“_À•W ‚oy */
+!     Sint16	PZ ;		/* ‹“_À•W ‚oz */
+      Sint16	dummy0 ;
+!     Sint16	CX ;		/* ’†SÀ•W ‚bx */
+!     Sint16	CY ;		/* ’†SÀ•W ‚by */
+!     Sint16	CZ ;		/* ’†SÀ•W ‚bz */
+      Sint16	dummy1 ;
+  
+!     FIXED	MX ;		/* •½sˆÚ“®—Ê ‚lx */
+!     FIXED	MY ;		/* •½sˆÚ“®—Ê ‚ly */
+!     FIXED	KX ;		/* Šg‘åk¬ŒW” kx */
+!     FIXED	KY ;		/* Šg‘åk¬ŒW” ky */
+! 
+!     Uint32	KAST ;		/* ŒW”ƒe[ƒuƒ‹ƒXƒ^[ƒgƒAƒhƒŒƒX ‚j‚`st */
+!     Sint32	DKAST ;		/* ŒW”ƒe[ƒuƒ‹‚’¼•ûŒüƒAƒhƒŒƒX‘•ª ‚j‚`st */
+!     Sint32	DKA ;		/* ŒW”ƒe[ƒuƒ‹…•½•ûŒüƒAƒhƒŒƒX‘•ª ‚j‚` */
+  } ROTSCROLL ;
+  
+  
+  /* slColRAMMode */
+  #define		CRM16_1024		0
+--- 460,527 ----
+  #define	    VDP2_VRAM_B0	0x25e40000
+  #define	    VDP2_VRAM_B1	0x25e60000
+  
+! #define	    CGN01_RAM		VDP2_VRAM_B1		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½Aï¿½Pï¿½pï¿½bï¿½fï¿½fï¿½[ï¿½^ */
+! #define	    NBG0_MAP		(CGN01_RAM+0x16000)	/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½Ì‚uï¿½qï¿½`ï¿½lï¿½Aï¿½hï¿½ï¿½ï¿½X */
+! #define	    NBG1_MAP		(CGN01_RAM+0x18000)	/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Pï¿½Ì‚uï¿½qï¿½`ï¿½lï¿½Aï¿½hï¿½ï¿½ï¿½X */
+  
+! #define	    KTBL0_RAM		VDP2_VRAM_A1		/* ï¿½ï¿½ï¿½]ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½pï¿½Wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ */
+  #define	    BACK_CRAM		(KTBL0_RAM + 0x1fffe)	/* Back color */
+  #define     RBG_PARA_ADR	(KTBL0_RAM + 0x1ff00)
+  #define     RBG_PARB_ADR	(RBG_PARA_ADR+ 0x80)
+  
+! #define	    CGR0_RAM		VDP2_VRAM_A0		/* ï¿½ï¿½ï¿½]ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½pï¿½bï¿½fï¿½fï¿½[ï¿½^*/
+! #define	    RBG0_MAP		VDP2_VRAM_B0		/* ï¿½ï¿½ï¿½]ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½Ì‚uï¿½qï¿½`ï¿½lï¿½Aï¿½hï¿½ï¿½ï¿½X */
+  #define	    VDP2_COLRAM    		0x25f00000
+  
+! #define	    CG_Size		(8*8)		/* ï¿½Pï¿½Zï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½(CG) */
+! #define     CG16Size            (8*8/2)         /* ï¿½Pï¿½Zï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½(CG 16Colors) */
+! #define     CG256Size           (8*8)           /* ï¿½Pï¿½Zï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½(CG 256Colors) */
+! #define     CG2048Size          (8*8*2)         /* ï¿½Pï¿½Zï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½(CG 2048Colors) */
+! #define     CG32KSize           (8*8*2)         /* ï¿½Pï¿½Zï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½(CG 32KColors) */
+! 
+! typedef     Uint16		CELL ;		/* ï¿½Pï¿½Zï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½(Pattern name) */
+! #define	    Line		64		/* ï¿½Pï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ì‘å‚«ï¿½ï¿½ */
+! #define	    Page		(64*Line)	/* ï¿½Pï¿½yï¿½[ï¿½Wï¿½Ì‘å‚«ï¿½ï¿½ */
+  
+  typedef struct rdat{
+!     FIXED	XST ;		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÊƒXï¿½^ï¿½[ï¿½gï¿½ï¿½ï¿½W ï¿½wst */
+!     FIXED	YST ;		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÊƒXï¿½^ï¿½[ï¿½gï¿½ï¿½ï¿½W ï¿½xst */
+!     FIXED	ZST ;		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ÊƒXï¿½^ï¿½[ï¿½gï¿½ï¿½ï¿½W ï¿½yst */
+!     FIXED	DXST ;		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½wst */
+!     FIXED	DYST ;		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½xst */
+!     FIXED	DX ;		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½w */
+!     FIXED	DY ;		/* ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½x */
+!     FIXED	MATA ;		/* ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½` */
+!     FIXED	MATB ;		/* ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½a */
+!     FIXED	MATC ;		/* ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½b */
+!     FIXED	MATD ;		/* ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½c */
+!     FIXED	MATE ;		/* ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½d */
+!     FIXED	MATF ;		/* ï¿½ï¿½ï¿½]ï¿½}ï¿½gï¿½ï¿½ï¿½Nï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½e */
+! 
+!     Sint16	PX ;		/* ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½W ï¿½ox */
+!     Sint16	PY ;		/* ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½W ï¿½oy */
+!     Sint16	PZ ;		/* ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½W ï¿½oz */
+      Sint16	dummy0 ;
+!     Sint16	CX ;		/* ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½W ï¿½bx */
+!     Sint16	CY ;		/* ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½W ï¿½by */
+!     Sint16	CZ ;		/* ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½W ï¿½bz */
+      Sint16	dummy1 ;
+  
+!     FIXED	MX ;		/* ï¿½ï¿½ï¿½sï¿½Ú“ï¿½ï¿½ï¿½ ï¿½lx */
+!     FIXED	MY ;		/* ï¿½ï¿½ï¿½sï¿½Ú“ï¿½ï¿½ï¿½ ï¿½ly */
+!     FIXED	KX ;		/* ï¿½gï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Wï¿½ï¿½ kx */
+!     FIXED	KY ;		/* ï¿½gï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Wï¿½ï¿½ ky */
+! 
+!     Uint32	KAST ;		/* ï¿½Wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Xï¿½^ï¿½[ï¿½gï¿½Aï¿½hï¿½ï¿½ï¿½X ï¿½jï¿½`st */
+!     Sint32	DKAST ;		/* ï¿½Wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ ï¿½jï¿½`st */
+!     Sint32	DKA ;		/* ï¿½Wï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ ï¿½jï¿½` */
   } ROTSCROLL ;
   
 + /* slExtSignal */
@@ -7516,7 +7899,7 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
       extern  void    slScrMosSize(Uint16 , Uint16) ;
       extern  void    slScrWindow0(Uint16 , Uint16 , Uint16 , Uint16) ;
 ***************
-*** 939,948 ****
+*** 939,988 ****
   #define		slSpecialCCalcBitBMN0(flag)	slSpecialCCalcBitN01(scnNBG0 , flag)
   #define		slSpecialCCalcBitBMN1(flag)	slSpecialCCalcBitN01(scnNBG1 , flag)
   #define		slSpecialCCalcBitBMR0(flag)	slSpecialCCalcBitRbg0(flag)
@@ -7526,8 +7909,48 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
   
   /*  Peripheral control */
   
-  #define	SMPC_MASK_STE		0x80	/* ‚r‚d‚s‚s‚h‚l‚dÀsÏƒ}ƒXƒN		*/
---- 1134,1223 ----
+! #define	SMPC_MASK_STE		0x80	/* ‚r‚d‚s‚s‚h‚l‚dÀsÏƒ}ƒXƒN		*/
+! #define	SMPC_MASK_RESD		0x40	/* ƒŠƒZƒbƒgƒCƒl[ƒuƒ‹ƒ}ƒXƒN		*/
+! #define	SMPC_MASK_WEEK		0xf0	/* ‚q‚s‚b—j“úƒ}ƒXƒN			*/
+! #define	SMPC_MASK_MONTH		0x0f	/* ‚q‚s‚bŒƒ}ƒXƒN			*/
+! #define	SMPC_MASK_CTG1		0x02	/* ƒJ[ƒgƒŠƒbƒWƒR[ƒh‚P			*/
+! #define	SMPC_MASK_CTG0		0x01	/* ƒJ[ƒgƒŠƒbƒWƒR[ƒh‚O			*/
+! #define	SMPC_MASK_DOTSEL	0x4000	/* ‚c‚n‚s‚r‚d‚kM†			*/
+! #define	SMPC_MASK_MSHNMI	0x0800	/* ‚l‚r‚g‚m‚l‚hM†			*/
+! #define	SMPC_MASK_SYSRES	0x0200	/* ‚r‚x‚r‚q‚d‚rM†			*/
+! #define	SMPC_MASK_SNDRES	0x0100	/* ‚r‚m‚c‚q‚d‚rM†			*/
+! #define	SMPC_MASK_CDRES		0x0040	/* ‚b‚c‚q‚d‚rM†			*/
+! 
+! #define	SMPC_SUN	(0 << 4)	/* ‚q‚s‚b—j“ú”Ô†i“ú—j“új		*/
+! #define	SMPC_MON	(1 << 4)	/* ‚q‚s‚b—j“ú”Ô†iŒ—j“új		*/
+! #define	SMPC_TUE	(2 << 4)	/* ‚q‚s‚b—j“ú”Ô†i‰Î—j“új		*/
+! #define	SMPC_WED	(3 << 4)	/* ‚q‚s‚b—j“ú”Ô†i…—j“új		*/
+! #define	SMPC_THU	(4 << 4)	/* ‚q‚s‚b—j“ú”Ô†i–Ø—j“új		*/
+! #define	SMPC_FRI	(5 << 4)	/* ‚q‚s‚b—j“ú”Ô†i‹à—j“új		*/
+! #define	SMPC_SAT	(6 << 4)	/* ‚q‚s‚b—j“ú”Ô†i“y—j“új		*/
+! 
+! #define	PER_RESULT_MAX		30	/* Å‘åƒyƒŠƒtƒFƒ‰ƒ‹”			*/
+! 
+! #define	PER_ID_StnPad		0x02	/* ƒTƒ^[ƒ“•W€ƒpƒbƒh			*/
+! #define	PER_ID_StnLacing	0x13	/* ƒTƒ^[ƒ“ƒŒ[ƒVƒ“ƒOƒRƒ“ƒgƒ[ƒ‰[	*/
+! #define	PER_ID_StnAnalog	0x15	/* ƒTƒ^[ƒ“ƒAƒiƒƒOƒWƒ‡ƒCƒXƒeƒBƒbƒN	*/
+! #define	PER_ID_StnMouse		0x23	/* ƒTƒ^[ƒ“ƒ}ƒEƒX			*/
+! #define	PER_ID_StnKeyBoard	0x34	/* ƒTƒ^[ƒ“ƒL[ƒ{[ƒh			*/
+! #define	PER_ID_MD3BtnPad	0xe1	/* ƒƒKƒhƒ‰ƒCƒu‚Rƒ{ƒ^ƒ“ƒpƒbƒh		*/
+! #define	PER_ID_MD6BtnPad	0xe2	/* ƒƒKƒhƒ‰ƒCƒu‚Uƒ{ƒ^ƒ“ƒpƒbƒh		*/
+! #define	PER_ID_ShuttleMouse	0xe3	/* ƒVƒƒƒgƒ‹ƒ}ƒEƒX			*/
+! #define	PER_ID_ExtDigital	0x00	/* Šg’£ƒTƒCƒYƒfƒWƒ^ƒ‹ƒfƒoƒCƒX		*/
+! #define	PER_ID_ExtAnalog	0x10	/* Šg’£ƒTƒCƒYƒAƒiƒƒOƒfƒoƒCƒX		*/
+! #define	PER_ID_ExtPointing	0x20	/* Šg’£ƒTƒCƒYƒ|ƒCƒ“ƒeƒBƒ“ƒOƒfƒoƒCƒX	*/
+! #define	PER_ID_ExtKeyBoard	0x30	/* Šg’£ƒTƒCƒYƒL[ƒ{[ƒhƒfƒoƒCƒX		*/
+! #define	PER_ID_ExtMegaDrive	0xe0	/* Šg’£ƒTƒCƒYƒƒKƒhƒ‰ƒCƒuƒfƒoƒCƒX	*/
+! #define	PER_ID_NotConnect	0xff	/* –¢Ú‘±				*/
+  
+! 					/* ƒfƒWƒ^ƒ‹ƒfƒoƒCƒX			*/
+  #define	PER_DGT_KR	(1 << 15)	/* Right Key				*/
+  #define	PER_DGT_KL	(1 << 14)	/*  Left Key				*/
+  #define	PER_DGT_KD	(1 << 13)	/*  Down Key				*/
+--- 1134,1264 ----
   #define		slSpecialCCalcBitBMN0(flag)	slSpecialCCalcBitN01(scnNBG0 , flag)
   #define		slSpecialCCalcBitBMN1(flag)	slSpecialCCalcBitN01(scnNBG1 , flag)
   #define		slSpecialCCalcBitBMR0(flag)	slSpecialCCalcBitRbg0(flag)
@@ -7559,23 +7982,23 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 + /*  Graphics enhancer control */
 + 
 +     extern  Bool gxInitEnhancer(Uint16 , Uint16 , Uint16) ;
-+ #define	    EGX_IMMPAL		0	/* ƒpƒŒƒbƒg’¼Ú */
-+ #define	    EGX_PAL15		1	/* ƒpƒŒƒbƒgŠÔÚ ‚P‚TƒrƒbƒgƒJƒ‰[ */
-+ #define	    EGX_PAL24		2	/* ƒpƒŒƒbƒgŠÔÚ ‚Q‚SƒrƒbƒgƒJƒ‰[ */
-+ #define	    EGX_PAL_RGB15	3	/* ƒpƒŒƒbƒgA‚q‚f‚a¬İ ‚P‚TƒrƒbƒgƒJƒ‰[ */
-+ #define	    EGX_PAL_RGB24	4	/* ƒpƒŒƒbƒgA‚q‚f‚a¬İ ‚Q‚SƒrƒbƒgƒJƒ‰[ */
++ #define	    EGX_IMMPAL		0	/* ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ */
++ #define	    EGX_PAL15		1	/* ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ôï¿½ ï¿½Pï¿½Tï¿½rï¿½bï¿½gï¿½Jï¿½ï¿½ï¿½[ */
++ #define	    EGX_PAL24		2	/* ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ôï¿½ ï¿½Qï¿½Sï¿½rï¿½bï¿½gï¿½Jï¿½ï¿½ï¿½[ */
++ #define	    EGX_PAL_RGB15	3	/* ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Aï¿½qï¿½fï¿½aï¿½ï¿½ï¿½ï¿½ ï¿½Pï¿½Tï¿½rï¿½bï¿½gï¿½Jï¿½ï¿½ï¿½[ */
++ #define	    EGX_PAL_RGB24	4	/* ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Aï¿½qï¿½fï¿½aï¿½ï¿½ï¿½ï¿½ ï¿½Qï¿½Sï¿½rï¿½bï¿½gï¿½Jï¿½ï¿½ï¿½[ */
 + 
 + #define	    USE_EXVDP1		0
 + #define	    USE_DSPDMA		1
 + 
 +     extern  void gxFocus(FIXED , FIXED) ;
 +     extern  void gxCalcMode(Uint16) ;
-+ #define	    CALCNVECTOR		1	/* –@üÄŒvZ */
-+ #define	    USENVECTOR		0	/* –@üg—p */
++ #define	    CALCNVECTOR		1	/* ï¿½@ï¿½ï¿½ï¿½ÄŒvï¿½Z */
++ #define	    USENVECTOR		0	/* ï¿½@ï¿½ï¿½ï¿½gï¿½p */
 + 
-+ #define	    NOSHADE		2	/* ƒVƒF[ƒfƒBƒ“ƒO‚È‚µ */
-+ #define	    FLAT		4	/* ƒtƒ‰ƒbƒgƒVƒF[ƒfƒBƒ“ƒO */
-+ #define	    GOURAUD		8	/* ƒO[ƒ[ƒVƒF[ƒfƒBƒ“ƒO */
++ #define	    NOSHADE		2	/* ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½È‚ï¿½ */
++ #define	    FLAT		4	/* ï¿½tï¿½ï¿½ï¿½bï¿½gï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½O */
++ #define	    GOURAUD		8	/* ï¿½Oï¿½[ï¿½ï¿½ï¿½[ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½O */
 + 
 +     extern  void gxSetMaterial(Uint16 , Uint16 , Uint16 , Uint16 , Uint16) ;
 + 
@@ -7617,19 +8040,435 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 + 
   /*  Peripheral control */
   
-  #define	SMPC_MASK_STE		0x80	/* ‚r‚d‚s‚s‚h‚l‚dÀsÏƒ}ƒXƒN		*/
+! #define	SMPC_MASK_STE		0x80	/* ï¿½rï¿½dï¿½sï¿½sï¿½hï¿½lï¿½dï¿½ï¿½ï¿½sï¿½Ïƒ}ï¿½Xï¿½N		*/
+! #define	SMPC_MASK_RESD		0x40	/* ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½ï¿½}ï¿½Xï¿½N		*/
+! #define	SMPC_MASK_WEEK		0xf0	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½}ï¿½Xï¿½N			*/
+! #define	SMPC_MASK_MONTH		0x0f	/* ï¿½qï¿½sï¿½bï¿½ï¿½ï¿½}ï¿½Xï¿½N			*/
+! #define	SMPC_MASK_CTG1		0x02	/* ï¿½Jï¿½[ï¿½gï¿½ï¿½ï¿½bï¿½Wï¿½Rï¿½[ï¿½hï¿½P			*/
+! #define	SMPC_MASK_CTG0		0x01	/* ï¿½Jï¿½[ï¿½gï¿½ï¿½ï¿½bï¿½Wï¿½Rï¿½[ï¿½hï¿½O			*/
+! #define	SMPC_MASK_DOTSEL	0x4000	/* ï¿½cï¿½nï¿½sï¿½rï¿½dï¿½kï¿½Mï¿½ï¿½			*/
+! #define	SMPC_MASK_MSHNMI	0x0800	/* ï¿½lï¿½rï¿½gï¿½mï¿½lï¿½hï¿½Mï¿½ï¿½			*/
+! #define	SMPC_MASK_SYSRES	0x0200	/* ï¿½rï¿½xï¿½rï¿½qï¿½dï¿½rï¿½Mï¿½ï¿½			*/
+! #define	SMPC_MASK_SNDRES	0x0100	/* ï¿½rï¿½mï¿½cï¿½qï¿½dï¿½rï¿½Mï¿½ï¿½			*/
+! #define	SMPC_MASK_CDRES		0x0040	/* ï¿½bï¿½cï¿½qï¿½dï¿½rï¿½Mï¿½ï¿½			*/
+! 
+! #define	SMPC_SUN	(0 << 4)	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½Ôï¿½ï¿½iï¿½ï¿½ï¿½jï¿½ï¿½ï¿½j		*/
+! #define	SMPC_MON	(1 << 4)	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½Ôï¿½ï¿½iï¿½ï¿½ï¿½jï¿½ï¿½ï¿½j		*/
+! #define	SMPC_TUE	(2 << 4)	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½Ôï¿½ï¿½iï¿½Î—jï¿½ï¿½ï¿½j		*/
+! #define	SMPC_WED	(3 << 4)	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½Ôï¿½ï¿½iï¿½ï¿½ï¿½jï¿½ï¿½ï¿½j		*/
+! #define	SMPC_THU	(4 << 4)	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½Ôï¿½ï¿½iï¿½Ø—jï¿½ï¿½ï¿½j		*/
+! #define	SMPC_FRI	(5 << 4)	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½Ôï¿½ï¿½iï¿½ï¿½ï¿½jï¿½ï¿½ï¿½j		*/
+! #define	SMPC_SAT	(6 << 4)	/* ï¿½qï¿½sï¿½bï¿½jï¿½ï¿½ï¿½Ôï¿½ï¿½iï¿½yï¿½jï¿½ï¿½ï¿½j		*/
+! 
+! #define	PER_RESULT_MAX		30	/* ï¿½Å‘ï¿½ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½			*/
+! 
+! #define	PER_ID_StnPad		0x02	/* ï¿½Tï¿½^ï¿½[ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½pï¿½bï¿½h			*/
+! #define	PER_ID_StnLacing	0x13	/* ï¿½Tï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½Oï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[	*/
+! #define	PER_ID_StnAnalog	0x15	/* ï¿½Tï¿½^ï¿½[ï¿½ï¿½ï¿½Aï¿½iï¿½ï¿½ï¿½Oï¿½Wï¿½ï¿½ï¿½Cï¿½Xï¿½eï¿½Bï¿½bï¿½N	*/
+! #define	PER_ID_StnMouse		0x23	/* ï¿½Tï¿½^ï¿½[ï¿½ï¿½ï¿½}ï¿½Eï¿½X			*/
+! #define	PER_ID_StnShooting	0x25	/* ï¿½Tï¿½^ï¿½[ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ */
+! #define	PER_ID_StnKeyBoard	0x34	/* ï¿½Tï¿½^ï¿½[ï¿½ï¿½ï¿½Lï¿½[ï¿½{ï¿½[ï¿½h			*/
+! #define	PER_ID_MD3BtnPad	0xe1	/* ï¿½ï¿½ï¿½Kï¿½hï¿½ï¿½ï¿½Cï¿½uï¿½Rï¿½{ï¿½^ï¿½ï¿½ï¿½pï¿½bï¿½h		*/
+! #define	PER_ID_MD6BtnPad	0xe2	/* ï¿½ï¿½ï¿½Kï¿½hï¿½ï¿½ï¿½Cï¿½uï¿½Uï¿½{ï¿½^ï¿½ï¿½ï¿½pï¿½bï¿½h		*/
+! #define	PER_ID_ShuttleMouse	0xe3	/* ï¿½Vï¿½ï¿½ï¿½gï¿½ï¿½ï¿½}ï¿½Eï¿½X			*/
+! #define	PER_ID_ExtDigital	0x00	/* ï¿½gï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½fï¿½Wï¿½^ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½X		*/
+! #define	PER_ID_ExtAnalog	0x10	/* ï¿½gï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½Aï¿½iï¿½ï¿½ï¿½Oï¿½fï¿½oï¿½Cï¿½X		*/
+! #define	PER_ID_ExtPointing	0x20	/* ï¿½gï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½|ï¿½Cï¿½ï¿½ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½fï¿½oï¿½Cï¿½X	*/
+! #define	PER_ID_ExtKeyBoard	0x30	/* ï¿½gï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½fï¿½oï¿½Cï¿½X		*/
+! #define	PER_ID_ExtMegaDrive	0xe0	/* ï¿½gï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Kï¿½hï¿½ï¿½ï¿½Cï¿½uï¿½fï¿½oï¿½Cï¿½X	*/
+! #define	PER_ID_NotConnect	0xff	/* ï¿½ï¿½ï¿½Ú‘ï¿½				*/
+  
+! 					/* ï¿½fï¿½Wï¿½^ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½X			*/
+  #define	PER_DGT_KR	(1 << 15)	/* Right Key				*/
+  #define	PER_DGT_KL	(1 << 14)	/*  Left Key				*/
+  #define	PER_DGT_KD	(1 << 13)	/*  Down Key				*/
 ***************
-*** 971,976 ****
---- 1246,1252 ----
-  #define	PER_ID_StnLacing	0x13	/* ƒTƒ^[ƒ“ƒŒ[ƒVƒ“ƒOƒRƒ“ƒgƒ[ƒ‰[	*/
-  #define	PER_ID_StnAnalog	0x15	/* ƒTƒ^[ƒ“ƒAƒiƒƒOƒWƒ‡ƒCƒXƒeƒBƒbƒN	*/
-  #define	PER_ID_StnMouse		0x23	/* ƒTƒ^[ƒ“ƒ}ƒEƒX			*/
-+ #define	PER_ID_StnShooting	0x25	/* ƒTƒ^[ƒ“ƒVƒ…[ƒeƒBƒ“ƒOƒRƒ“ƒgƒ[ƒ‰[ */
-  #define	PER_ID_StnKeyBoard	0x34	/* ƒTƒ^[ƒ“ƒL[ƒ{[ƒh			*/
-  #define	PER_ID_MD3BtnPad	0xe1	/* ƒƒKƒhƒ‰ƒCƒu‚Rƒ{ƒ^ƒ“ƒpƒbƒh		*/
-  #define	PER_ID_MD6BtnPad	0xe2	/* ƒƒKƒhƒ‰ƒCƒu‚Uƒ{ƒ^ƒ“ƒpƒbƒh		*/
+*** 997,1185 ****
+  #define	PER_DGT_TZ	(1 <<  4)	/* Z Trigger				*/
+  #define	PER_DGT_TL	(1 <<  3)	/* L Trigger				*/
+  
+! 					/* ƒL[ƒ{[ƒhƒfƒoƒCƒX			*/
+  #define	PER_KBD_CL	(1 << 6)	/* Caps Lock				*/
+  #define	PER_KBD_NL	(1 << 5)	/* Num Lock				*/
+  #define	PER_KBD_SL	(1 << 4)	/* Scroll Lock				*/
+  #define	PER_KBD_MK	(1 << 3)	/* Make					*/
+  #define	PER_KBD_BR	(1 << 0)	/* Break				*/
+  
+! enum SmpcSelect {			/* ‚r‚l‚o‚b“üo—ÍƒZƒŒƒNƒgƒ‚[ƒh		*/
+! 	SMPC_SH2_DIRECT,		/* (00) ‚r‚g‚Qƒ_ƒCƒŒƒNƒg		*/
+! 	SMPC_CONTROL			/* (01) ‚r‚l‚o‚bƒRƒ“ƒgƒ[ƒ‹		*/
+  };
+  
+! enum SmpcExtLatch {			/* ‚r‚l‚o‚bŠO•”ƒ‰ƒbƒ`“ü—Íƒ‚[ƒh		*/
+! 	SMPC_EXL_ENA,			/* (00) ŠO•”ƒ‰ƒbƒ`“ü—Í‹–‰Â		*/
+! 	SMPC_EXL_DIS			/* (01) ŠO•”ƒ‰ƒbƒ`“ü—Í‹Ö~		*/
+  };
+  
+! enum SmpcResetButton {			/* ‚r‚l‚o‚bƒŠƒZƒbƒgƒ{ƒ^ƒ“ó‘Ô		*/
+! 	SMPC_RES_ON,			/* (00) ƒŠƒZƒbƒgƒ{ƒ^ƒ“‚n‚m		*/
+! 	SMPC_RES_OFF			/* (01) ƒŠƒZƒbƒgƒ{ƒ^ƒ“‚n‚e‚e		*/
+  };
+  
+! enum SmpcAreaCode {			/* ƒGƒŠƒAƒR[ƒh				*/
+! 	SMPC_AREA_RSV_0,		/* (00) g—p‹Ö~			*/
+! 	SMPC_AREA_JP,			/* (01) “ú–{’nˆæ			*/
+! 	SMPC_AREA_AJ_NTSC,		/* (02) ƒAƒWƒA‚m‚s‚r‚b’nˆæ		*/
+! 	SMPC_AREA_RSV_3,		/* (03) g—p‹Ö~			*/
+! 	SMPC_AREA_NA,			/* (04) –k•Ä’nˆæ			*/
+! 	SMPC_AREA_SA_NTSC,		/* (05) ’†“ì•Ä‚m‚s‚r‚b’nˆæ		*/
+! 	SMPC_AREA_KO,			/* (06) ŠØ‘’nˆæ			*/
+! 	SMPC_AREA_RSV_7,		/* (07) g—p‹Ö~			*/
+! 	SMPC_AREA_RSV_8,		/* (08) g—p‹Ö~			*/
+! 	SMPC_AREA_RSV_9,		/* (09) g—p‹Ö~			*/
+! 	SMPC_AREA_AJ_PAL,		/* (0a) ƒAƒWƒA‚o‚`‚k’nˆæ		*/
+! 	SMPC_AREA_RSV_B,		/* (0b) g—p‹Ö~			*/
+! 	SMPC_AREA_EU_PAL,		/* (0c) ƒˆ[ƒƒbƒp‚o‚`‚k’nˆæ		*/
+! 	SMPC_AREA_SA_PAL,		/* (0d) ’†“ì•Ä‚o‚`‚k’nˆæ		*/
+! 	SMPC_AREA_RSV_E,		/* (0e) g—p‹Ö~			*/
+! 	SMPC_AREA_RSV_F			/* (0f) g—p‹Ö~			*/
+  };
+  
+! enum SmpcOptimize {			/* æ“¾ŠÔÅ“K‰»ƒ‚[ƒh			*/
+! 	SMPC_OPT_DIS,			/* (00) æ“¾ŠÔÅ“K‰»‹Ö~		*/
+! 	SMPC_OPT_ENA			/* (01) æ“¾ŠÔÅ“K‰»‹–‰Â		*/
+  };
+  
+! enum SmpcPortMode {			/* ‚r‚l‚o‚bƒ|[ƒgƒ‚[ƒh			*/
+! 	SMPC_PORT_15,			/* (00) ‚P‚TƒoƒCƒgƒ‚[ƒh		*/
+! 	SMPC_PORT_255,			/* (01) ‚Q‚T‚TƒoƒCƒgƒ‚[ƒh		*/
+! 	SMPC_PORT_RSV,			/* (02) İ’è‹Ö~			*/
+! 	SMPC_PORT_ZERO			/* (03) ‚OƒoƒCƒgƒ‚[ƒh			*/
+  };
+  
+! enum SmpcLanguage {			/* ‚r‚l‚o‚bƒƒ‚ƒŠŒ¾Œê”Ô†		*/
+! 	SMPC_ENGLISH,			/* (00) ‰pŒê				*/
+! 	SMPC_DEUTSCH,			/* (01) ƒhƒCƒcŒê			*/
+! 	SMPC_FRANCAIS,			/* (02) ƒtƒ‰ƒ“ƒXŒê			*/
+! 	SMPC_ESPANOL,			/* (03) ƒXƒyƒCƒ“Œê			*/
+! 	SMPC_ITALIANO,			/* (04) ƒCƒ^ƒŠƒAŒê			*/
+! 	SMPC_JAPAN			/* (05) “ú–{Œê				*/
+  };
+  
+! enum SmpcSoundEffect {			/* ‚r‚l‚o‚bƒƒ‚ƒŠŒø‰Ê‰¹ƒ‚[ƒh		*/
+! 	SMPC_EFFECT_OFF,		/* (00) Œø‰Ê‰¹‚n‚e‚e			*/
+! 	SMPC_EFFECT_ON			/* (01) Œø‰Ê‰¹‚n‚m			*/
+  };
+  
+! enum SmpcSoundOutput {			/* ‚r‚l‚o‚bƒƒ‚ƒŠ‰¹ºo—Íƒ‚[ƒh		*/
+! 	SMPC_SOUND_MONO,		/* (00) ƒ‚ƒmƒ‰ƒ‹			*/
+! 	SMPC_SOUND_STEREO		/* (01) ƒXƒeƒŒƒI			*/
+  };
+  
+! enum SmpcHelpWindow {			/* ‚r‚l‚o‚bƒƒ‚ƒŠƒwƒ‹ƒvƒEƒBƒ“ƒhƒEƒ‚[ƒh	*/
+! 	SMPC_HELP_DIS,			/* (00) •\¦‚µ‚È‚¢			*/
+! 	SMPC_HELP_ENA			/* (01) •\¦‚·‚é			*/
+  };
+  
+! enum SmpcMonth {			/* ‚q‚s‚bŒ”Ô†				*/
+! 	SMPC_DMY,			/* (00) ƒ_ƒ~[				*/
+! 	SMPC_JAN,			/* (01) @‚PŒ				*/
+! 	SMPC_FEB,			/* (02) @‚QŒ				*/
+! 	SMPC_MAR,			/* (03) @‚RŒ				*/
+! 	SMPC_APR,			/* (04) @‚SŒ				*/
+! 	SMPC_MAY,			/* (05) @‚TŒ				*/
+! 	SMPC_JUN,			/* (06) @‚UŒ				*/
+! 	SMPC_JUL,			/* (07) @‚VŒ				*/
+! 	SMPC_AUG,			/* (08) @‚WŒ				*/
+! 	SMPC_SEP,			/* (09) @‚XŒ				*/
+! 	SMPC_OCT,			/* (0a) ‚P‚OŒ				*/
+! 	SMPC_NOV,			/* (0b) ‚P‚PŒ				*/
+! 	SMPC_DEC			/* (0c) ‚P‚QŒ				*/
+  };
+  
+! enum SmpcCommand {			/* ‚r‚l‚o‚bƒRƒ}ƒ“ƒh”Ô†			*/
+! 	SMPC_MSHON,			/* (00) ƒ}ƒXƒ^@‚r‚g‚Q@‚n‚m		*/
+! 	SMPC_SSHON,			/* (01) ƒXƒŒ[ƒu@‚r‚g‚Q@‚n‚m		*/
+! 	SMPC_SSHOFF,			/* (02) ƒXƒŒ[ƒu@‚r‚g‚Q@‚n‚e‚e	*/
+! 	SMPC_SNDON,			/* (03) ƒTƒEƒ“ƒh@‚n‚m			*/
+! 	SMPC_SNDOFF,			/* (04) ƒTƒEƒ“ƒh@‚n‚e‚e		*/
+! 	SMPC_CDON,			/* (05) ‚b‚c@‚n‚m			*/
+! 	SMPC_CDOFF,			/* (06) ‚b‚c@‚n‚e‚e			*/
+! 	SMPC_SYSRES,			/* (07) ƒVƒXƒeƒ€‘S‘ÌƒŠƒZƒbƒg		*/
+! 	SMPC_CKC352,			/* (08) ƒNƒƒbƒNƒ`ƒFƒ“ƒW‚R‚T‚Qƒ‚[ƒh	*/
+! 	SMPC_CKC320,			/* (09) ƒNƒƒbƒNƒ`ƒFƒ“ƒW‚R‚Q‚Oƒ‚[ƒh	*/
+! 	SMPC_NMIREQ,			/* (0a) ‚m‚l‚hƒŠƒNƒGƒXƒg		*/
+! 	SMPC_RESENA,			/* (0b) ƒŠƒZƒbƒgƒCƒl[ƒuƒ‹		*/
+! 	SMPC_RESDIS,			/* (0c) ƒŠƒZƒbƒgƒfƒBƒXƒG[ƒuƒ‹		*/
+! 	SMPC_GETSTS,			/* (0d) ƒXƒe[ƒ^ƒXæ“¾			*/
+! 	SMPC_GETPER,			/* (0e) ƒyƒŠƒtƒFƒ‰ƒ‹æ“¾		*/
+! 	SMPC_SETMEM,			/* (0f) ‚r‚l‚o‚bƒƒ‚ƒŠİ’è		*/
+! 	SMPC_SETTIM,			/* (10) İ’è			*/
+! 	SMPC_CMDMAX			/* (11) ƒRƒ}ƒ“ƒh”Ô†Å‘å’l		*/
+  };
+  
+! enum SmpcWaitMode {			/* ‚r‚l‚o‚bƒRƒ}ƒ“ƒhÀsƒ‚[ƒh		*/
+! 	SMPC_NO_WAIT,			/* (00) ƒRƒ}ƒ“ƒhÀsI—¹‘Ò‚¿–³‚µ	*/
+! 	SMPC_WAIT			/* (01) ƒRƒ}ƒ“ƒhÀsI—¹‘Ò‚¿—L‚è	*/
+  };
+  
+! typedef struct {			/* ‚q‚s‚b				*/
+! 	Uint16	year;			/* ¼—ï”N†				*/
+! 	Uint8	month;			/* —j“úEŒ				*/
+! 	Uint8	date;			/* “ú					*/
+! 	Uint8	hour;			/* 					*/
+! 	Uint8	minute;			/* •ª					*/
+! 	Uint8	second;			/* •b					*/
+! 	Uint8	dummy;			/* ƒ_ƒ~[				*/
+  } SmpcDateTime;
+  
+! typedef struct {			/* ‚r‚l‚o‚bƒXƒe[ƒ^ƒX			*/
+! 	Uint8	cond;			/* ó‘ÔƒXƒe[ƒ^ƒX			*/
+! 	Uint8	dummy1;			/* ƒ_ƒ~[‚P				*/
+! 	Uint16	dummy2;			/* ƒ_ƒ~[‚Q				*/
+! 	SmpcDateTime	rtc;		/* ‚q‚s‚b				*/
+! 	Uint8	ctg;			/* ƒJ[ƒgƒŠƒbƒWƒR[ƒh			*/
+! 	Uint8	area;			/* ƒGƒŠƒAƒR[ƒh				*/
+! 	Uint16	system;			/* ƒVƒXƒeƒ€ƒXƒe[ƒ^ƒX			*/
+! 	Uint32	smem;			/* ‚r‚l‚o‚bƒƒ‚ƒŠ•Ûƒf[ƒ^		*/
+  } SmpcStatus;
+  
+! typedef struct {			/* ƒfƒWƒ^ƒ‹ƒfƒoƒCƒX			*/
+! 	Uint8	id;			/* ƒyƒŠƒtƒFƒ‰ƒ‹‚h‚c			*/
+! 	Uint8	ext;			/* Šg’£ƒf[ƒ^ƒTƒCƒY			*/
+! 	Uint16	data;			/* ƒ{ƒ^ƒ“Œ»İƒf[ƒ^			*/
+! 	Uint16	push;			/* ƒ{ƒ^ƒ“‰Ÿ‰ºƒf[ƒ^			*/
+! 	Uint16	pull;			/* ƒ{ƒ^ƒ“ˆøãƒf[ƒ^			*/
+! 	Uint32	dummy2[4];		/* ƒ_ƒ~[‚Q				*/
+  } PerDigital;
+  
+! typedef struct {			/* ƒAƒiƒƒOƒfƒoƒCƒX			*/
+! 	Uint8	id;			/* ƒyƒŠƒtƒFƒ‰ƒ‹‚h‚c			*/
+! 	Uint8	ext;			/* Šg’£ƒf[ƒ^ƒTƒCƒY			*/
+! 	Uint16	data;			/* ƒ{ƒ^ƒ“Œ»İƒf[ƒ^			*/
+! 	Uint16	push;			/* ƒ{ƒ^ƒ“‰Ÿ‰ºƒf[ƒ^			*/
+! 	Uint16	pull;			/* ƒ{ƒ^ƒ“ˆøãƒf[ƒ^			*/
+! 	Uint8	x;			/* ‚w²ƒf[ƒ^â‘Î’l			*/
+! 	Uint8	y;			/* ‚x²ƒf[ƒ^â‘Î’l			*/
+! 	Uint8	z;			/* ‚y²ƒf[ƒ^â‘Î’l			*/
+! 	Uint8	dummy1;			/* ƒ_ƒ~[‚P				*/
+! 	Uint32	dummy2[3];		/* ƒ_ƒ~[‚Q				*/
+  } PerAnalog;
+  
+! typedef struct {			/* ƒ|ƒCƒ“ƒeƒBƒ“ƒOƒfƒoƒCƒX		*/
+! 	Uint8	id;			/* ƒyƒŠƒtƒFƒ‰ƒ‹‚h‚c			*/
+! 	Uint8	ext;			/* Šg’£ƒf[ƒ^ƒTƒCƒY			*/
+! 	Uint16	data;			/* ƒ{ƒ^ƒ“Œ»İƒf[ƒ^			*/
+! 	Uint16	push;			/* ƒ{ƒ^ƒ“‰Ÿ‰ºƒf[ƒ^			*/
+! 	Uint16	pull;			/* ƒ{ƒ^ƒ“ˆøãƒf[ƒ^			*/
+! 	Uint16	x;			/* ‚wÀ•W				*/
+! 	Uint16	y;			/* ‚xÀ•W				*/
+! 	Uint32	dummy2[3];		/* ƒ_ƒ~[‚Q				*/
+  } PerPoint;
+  
+! typedef struct {			/* ƒL[ƒ{[ƒhƒfƒoƒCƒX			*/
+! 	Uint8	id;			/* ƒyƒŠƒtƒFƒ‰ƒ‹‚h‚c			*/
+! 	Uint8	ext;			/* Šg’£ƒf[ƒ^ƒTƒCƒY			*/
+! 	Uint16	data;			/* ƒ{ƒ^ƒ“Œ»İƒf[ƒ^			*/
+! 	Uint16	push;			/* ƒ{ƒ^ƒ“‰Ÿ‰ºƒf[ƒ^			*/
+! 	Uint16	pull;			/* ƒ{ƒ^ƒ“ˆøãƒf[ƒ^			*/
+! 	Uint8	cond;			/* ó‘Ôƒf[ƒ^				*/
+! 	Uint8	code;			/* ƒL[ƒR[ƒh				*/
+! 	Uint16	dummy1;			/* ƒ_ƒ~[‚P				*/
+! 	Uint32	dummy2[3];		/* ƒ_ƒ~[‚Q				*/
+  } PerKeyBoard;
+  
+  extern	Uint8	slGetPortDir1(void);
+--- 1273,1461 ----
+  #define	PER_DGT_TZ	(1 <<  4)	/* Z Trigger				*/
+  #define	PER_DGT_TL	(1 <<  3)	/* L Trigger				*/
+  
+! 					/* ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½fï¿½oï¿½Cï¿½X			*/
+  #define	PER_KBD_CL	(1 << 6)	/* Caps Lock				*/
+  #define	PER_KBD_NL	(1 << 5)	/* Num Lock				*/
+  #define	PER_KBD_SL	(1 << 4)	/* Scroll Lock				*/
+  #define	PER_KBD_MK	(1 << 3)	/* Make					*/
+  #define	PER_KBD_BR	(1 << 0)	/* Break				*/
+  
+! enum SmpcSelect {			/* ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½oï¿½ÍƒZï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½[ï¿½h		*/
+! 	SMPC_SH2_DIRECT,		/* (00) ï¿½rï¿½gï¿½Qï¿½_ï¿½Cï¿½ï¿½ï¿½Nï¿½g		*/
+! 	SMPC_CONTROL			/* (01) ï¿½rï¿½lï¿½oï¿½bï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½		*/
+  };
+  
+! enum SmpcExtLatch {			/* ï¿½rï¿½lï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½bï¿½`ï¿½ï¿½ï¿½Íƒï¿½ï¿½[ï¿½h		*/
+! 	SMPC_EXL_ENA,			/* (00) ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½bï¿½`ï¿½ï¿½ï¿½Í‹ï¿½ï¿½ï¿½		*/
+! 	SMPC_EXL_DIS			/* (01) ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½bï¿½`ï¿½ï¿½ï¿½Í‹Ö~		*/
+  };
+  
+! enum SmpcResetButton {			/* ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		*/
+! 	SMPC_RES_ON,			/* (00) ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½nï¿½m		*/
+! 	SMPC_RES_OFF			/* (01) ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½{ï¿½^ï¿½ï¿½ï¿½nï¿½eï¿½e		*/
+  };
+  
+! enum SmpcAreaCode {			/* ï¿½Gï¿½ï¿½ï¿½Aï¿½Rï¿½[ï¿½h				*/
+! 	SMPC_AREA_RSV_0,		/* (00) ï¿½gï¿½pï¿½Ö~			*/
+! 	SMPC_AREA_JP,			/* (01) ï¿½ï¿½ï¿½{ï¿½nï¿½ï¿½			*/
+! 	SMPC_AREA_AJ_NTSC,		/* (02) ï¿½Aï¿½Wï¿½Aï¿½mï¿½sï¿½rï¿½bï¿½nï¿½ï¿½		*/
+! 	SMPC_AREA_RSV_3,		/* (03) ï¿½gï¿½pï¿½Ö~			*/
+! 	SMPC_AREA_NA,			/* (04) ï¿½kï¿½Ä’nï¿½ï¿½			*/
+! 	SMPC_AREA_SA_NTSC,		/* (05) ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚mï¿½sï¿½rï¿½bï¿½nï¿½ï¿½		*/
+! 	SMPC_AREA_KO,			/* (06) ï¿½Øï¿½ï¿½nï¿½ï¿½			*/
+! 	SMPC_AREA_RSV_7,		/* (07) ï¿½gï¿½pï¿½Ö~			*/
+! 	SMPC_AREA_RSV_8,		/* (08) ï¿½gï¿½pï¿½Ö~			*/
+! 	SMPC_AREA_RSV_9,		/* (09) ï¿½gï¿½pï¿½Ö~			*/
+! 	SMPC_AREA_AJ_PAL,		/* (0a) ï¿½Aï¿½Wï¿½Aï¿½oï¿½`ï¿½kï¿½nï¿½ï¿½		*/
+! 	SMPC_AREA_RSV_B,		/* (0b) ï¿½gï¿½pï¿½Ö~			*/
+! 	SMPC_AREA_EU_PAL,		/* (0c) ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½bï¿½pï¿½oï¿½`ï¿½kï¿½nï¿½ï¿½		*/
+! 	SMPC_AREA_SA_PAL,		/* (0d) ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚oï¿½`ï¿½kï¿½nï¿½ï¿½		*/
+! 	SMPC_AREA_RSV_E,		/* (0e) ï¿½gï¿½pï¿½Ö~			*/
+! 	SMPC_AREA_RSV_F			/* (0f) ï¿½gï¿½pï¿½Ö~			*/
+  };
+  
+! enum SmpcOptimize {			/* ï¿½æ“¾ï¿½ï¿½ï¿½ÔÅ“Kï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h			*/
+! 	SMPC_OPT_DIS,			/* (00) ï¿½æ“¾ï¿½ï¿½ï¿½ÔÅ“Kï¿½ï¿½ï¿½Ö~		*/
+! 	SMPC_OPT_ENA			/* (01) ï¿½æ“¾ï¿½ï¿½ï¿½ÔÅ“Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		*/
+  };
+  
+! enum SmpcPortMode {			/* ï¿½rï¿½lï¿½oï¿½bï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½[ï¿½h			*/
+! 	SMPC_PORT_15,			/* (00) ï¿½Pï¿½Tï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½[ï¿½h		*/
+! 	SMPC_PORT_255,			/* (01) ï¿½Qï¿½Tï¿½Tï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½[ï¿½h		*/
+! 	SMPC_PORT_RSV,			/* (02) ï¿½İ’ï¿½ï¿½Ö~			*/
+! 	SMPC_PORT_ZERO			/* (03) ï¿½Oï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½[ï¿½h			*/
+  };
+  
+! enum SmpcLanguage {			/* ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôï¿½		*/
+! 	SMPC_ENGLISH,			/* (00) ï¿½pï¿½ï¿½				*/
+! 	SMPC_DEUTSCH,			/* (01) ï¿½hï¿½Cï¿½cï¿½ï¿½			*/
+! 	SMPC_FRANCAIS,			/* (02) ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½			*/
+! 	SMPC_ESPANOL,			/* (03) ï¿½Xï¿½yï¿½Cï¿½ï¿½ï¿½ï¿½			*/
+! 	SMPC_ITALIANO,			/* (04) ï¿½Cï¿½^ï¿½ï¿½ï¿½Aï¿½ï¿½			*/
+! 	SMPC_JAPAN			/* (05) ï¿½ï¿½ï¿½{ï¿½ï¿½				*/
+  };
+  
+! enum SmpcSoundEffect {			/* ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‰ï¿½ï¿½ï¿½ï¿½[ï¿½h		*/
+! 	SMPC_EFFECT_OFF,		/* (00) ï¿½ï¿½ï¿½Ê‰ï¿½ï¿½nï¿½eï¿½e			*/
+! 	SMPC_EFFECT_ON			/* (01) ï¿½ï¿½ï¿½Ê‰ï¿½ï¿½nï¿½m			*/
+  };
+  
+! enum SmpcSoundOutput {			/* ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Íƒï¿½ï¿½[ï¿½h		*/
+! 	SMPC_SOUND_MONO,		/* (00) ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½			*/
+! 	SMPC_SOUND_STEREO		/* (01) ï¿½Xï¿½eï¿½ï¿½ï¿½I			*/
+  };
+  
+! enum SmpcHelpWindow {			/* ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½vï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½[ï¿½h	*/
+! 	SMPC_HELP_DIS,			/* (00) ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½			*/
+! 	SMPC_HELP_ENA			/* (01) ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½			*/
+  };
+  
+! enum SmpcMonth {			/* ï¿½qï¿½sï¿½bï¿½ï¿½ï¿½Ôï¿½				*/
+! 	SMPC_DMY,			/* (00) ï¿½_ï¿½~ï¿½[				*/
+! 	SMPC_JAN,			/* (01) ï¿½@ï¿½Pï¿½ï¿½				*/
+! 	SMPC_FEB,			/* (02) ï¿½@ï¿½Qï¿½ï¿½				*/
+! 	SMPC_MAR,			/* (03) ï¿½@ï¿½Rï¿½ï¿½				*/
+! 	SMPC_APR,			/* (04) ï¿½@ï¿½Sï¿½ï¿½				*/
+! 	SMPC_MAY,			/* (05) ï¿½@ï¿½Tï¿½ï¿½				*/
+! 	SMPC_JUN,			/* (06) ï¿½@ï¿½Uï¿½ï¿½				*/
+! 	SMPC_JUL,			/* (07) ï¿½@ï¿½Vï¿½ï¿½				*/
+! 	SMPC_AUG,			/* (08) ï¿½@ï¿½Wï¿½ï¿½				*/
+! 	SMPC_SEP,			/* (09) ï¿½@ï¿½Xï¿½ï¿½				*/
+! 	SMPC_OCT,			/* (0a) ï¿½Pï¿½Oï¿½ï¿½				*/
+! 	SMPC_NOV,			/* (0b) ï¿½Pï¿½Pï¿½ï¿½				*/
+! 	SMPC_DEC			/* (0c) ï¿½Pï¿½Qï¿½ï¿½				*/
+  };
+  
+! enum SmpcCommand {			/* ï¿½rï¿½lï¿½oï¿½bï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ôï¿½			*/
+! 	SMPC_MSHON,			/* (00) ï¿½}ï¿½Xï¿½^ï¿½@ï¿½rï¿½gï¿½Qï¿½@ï¿½nï¿½m		*/
+! 	SMPC_SSHON,			/* (01) ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½@ï¿½rï¿½gï¿½Qï¿½@ï¿½nï¿½m		*/
+! 	SMPC_SSHOFF,			/* (02) ï¿½Xï¿½ï¿½ï¿½[ï¿½uï¿½@ï¿½rï¿½gï¿½Qï¿½@ï¿½nï¿½eï¿½e	*/
+! 	SMPC_SNDON,			/* (03) ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½@ï¿½nï¿½m			*/
+! 	SMPC_SNDOFF,			/* (04) ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½@ï¿½nï¿½eï¿½e		*/
+! 	SMPC_CDON,			/* (05) ï¿½bï¿½cï¿½@ï¿½nï¿½m			*/
+! 	SMPC_CDOFF,			/* (06) ï¿½bï¿½cï¿½@ï¿½nï¿½eï¿½e			*/
+! 	SMPC_SYSRES,			/* (07) ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Sï¿½Ìƒï¿½ï¿½Zï¿½bï¿½g		*/
+! 	SMPC_CKC352,			/* (08) ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½`ï¿½Fï¿½ï¿½ï¿½Wï¿½Rï¿½Tï¿½Qï¿½ï¿½ï¿½[ï¿½h	*/
+! 	SMPC_CKC320,			/* (09) ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½`ï¿½Fï¿½ï¿½ï¿½Wï¿½Rï¿½Qï¿½Oï¿½ï¿½ï¿½[ï¿½h	*/
+! 	SMPC_NMIREQ,			/* (0a) ï¿½mï¿½lï¿½hï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g		*/
+! 	SMPC_RESENA,			/* (0b) ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½Cï¿½lï¿½[ï¿½uï¿½ï¿½		*/
+! 	SMPC_RESDIS,			/* (0c) ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½fï¿½Bï¿½Xï¿½Gï¿½[ï¿½uï¿½ï¿½		*/
+! 	SMPC_GETSTS,			/* (0d) ï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½æ“¾			*/
+! 	SMPC_GETPER,			/* (0e) ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½æ“¾		*/
+! 	SMPC_SETMEM,			/* (0f) ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½		*/
+! 	SMPC_SETTIM,			/* (10) ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½			*/
+! 	SMPC_CMDMAX			/* (11) ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ôï¿½ï¿½Å‘ï¿½ï¿½l		*/
+  };
+  
+! enum SmpcWaitMode {			/* ï¿½rï¿½lï¿½oï¿½bï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½ï¿½ï¿½[ï¿½h		*/
+! 	SMPC_NO_WAIT,			/* (00) ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½Iï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+! 	SMPC_WAIT			/* (01) ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½Iï¿½ï¿½ï¿½Ò‚ï¿½ï¿½Lï¿½ï¿½	*/
+  };
+  
+! typedef struct {			/* ï¿½qï¿½sï¿½bï¿½ï¿½ï¿½ï¿½				*/
+! 	Uint16	year;			/* ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½				*/
+! 	Uint8	month;			/* ï¿½jï¿½ï¿½ï¿½Eï¿½ï¿½				*/
+! 	Uint8	date;			/* ï¿½ï¿½					*/
+! 	Uint8	hour;			/* ï¿½ï¿½					*/
+! 	Uint8	minute;			/* ï¿½ï¿½					*/
+! 	Uint8	second;			/* ï¿½b					*/
+! 	Uint8	dummy;			/* ï¿½_ï¿½~ï¿½[				*/
+  } SmpcDateTime;
+  
+! typedef struct {			/* ï¿½rï¿½lï¿½oï¿½bï¿½Xï¿½eï¿½[ï¿½^ï¿½X			*/
+! 	Uint8	cond;			/* ï¿½ï¿½ï¿½ÔƒXï¿½eï¿½[ï¿½^ï¿½X			*/
+! 	Uint8	dummy1;			/* ï¿½_ï¿½~ï¿½[ï¿½P				*/
+! 	Uint16	dummy2;			/* ï¿½_ï¿½~ï¿½[ï¿½Q				*/
+! 	SmpcDateTime	rtc;		/* ï¿½qï¿½sï¿½bï¿½ï¿½ï¿½ï¿½				*/
+! 	Uint8	ctg;			/* ï¿½Jï¿½[ï¿½gï¿½ï¿½ï¿½bï¿½Wï¿½Rï¿½[ï¿½h			*/
+! 	Uint8	area;			/* ï¿½Gï¿½ï¿½ï¿½Aï¿½Rï¿½[ï¿½h				*/
+! 	Uint16	system;			/* ï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Xï¿½eï¿½[ï¿½^ï¿½X			*/
+! 	Uint32	smem;			/* ï¿½rï¿½lï¿½oï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ûï¿½ï¿½fï¿½[ï¿½^		*/
+  } SmpcStatus;
+  
+! typedef struct {			/* ï¿½fï¿½Wï¿½^ï¿½ï¿½ï¿½fï¿½oï¿½Cï¿½X			*/
+! 	Uint8	id;			/* ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½hï¿½c			*/
+! 	Uint8	ext;			/* ï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Y			*/
+! 	Uint16	data;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İƒfï¿½[ï¿½^			*/
+! 	Uint16	push;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint16	pull;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint32	dummy2[4];		/* ï¿½_ï¿½~ï¿½[ï¿½Q				*/
+  } PerDigital;
+  
+! typedef struct {			/* ï¿½Aï¿½iï¿½ï¿½ï¿½Oï¿½fï¿½oï¿½Cï¿½X			*/
+! 	Uint8	id;			/* ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½hï¿½c			*/
+! 	Uint8	ext;			/* ï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Y			*/
+! 	Uint16	data;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İƒfï¿½[ï¿½^			*/
+! 	Uint16	push;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint16	pull;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint8	x;			/* ï¿½wï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Î’l			*/
+! 	Uint8	y;			/* ï¿½xï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Î’l			*/
+! 	Uint8	z;			/* ï¿½yï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Î’l			*/
+! 	Uint8	dummy1;			/* ï¿½_ï¿½~ï¿½[ï¿½P				*/
+! 	Uint32	dummy2[3];		/* ï¿½_ï¿½~ï¿½[ï¿½Q				*/
+  } PerAnalog;
+  
+! typedef struct {			/* ï¿½|ï¿½Cï¿½ï¿½ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½fï¿½oï¿½Cï¿½X		*/
+! 	Uint8	id;			/* ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½hï¿½c			*/
+! 	Uint8	ext;			/* ï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Y			*/
+! 	Uint16	data;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İƒfï¿½[ï¿½^			*/
+! 	Uint16	push;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint16	pull;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint16	x;			/* ï¿½wï¿½ï¿½ï¿½W				*/
+! 	Uint16	y;			/* ï¿½xï¿½ï¿½ï¿½W				*/
+! 	Uint32	dummy2[3];		/* ï¿½_ï¿½~ï¿½[ï¿½Q				*/
+  } PerPoint;
+  
+! typedef struct {			/* ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½fï¿½oï¿½Cï¿½X			*/
+! 	Uint8	id;			/* ï¿½yï¿½ï¿½ï¿½tï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½hï¿½c			*/
+! 	Uint8	ext;			/* ï¿½gï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Tï¿½Cï¿½Y			*/
+! 	Uint16	data;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İƒfï¿½[ï¿½^			*/
+! 	Uint16	push;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint16	pull;			/* ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^			*/
+! 	Uint8	cond;			/* ï¿½ï¿½ï¿½Ôƒfï¿½[ï¿½^				*/
+! 	Uint8	code;			/* ï¿½Lï¿½[ï¿½Rï¿½[ï¿½h				*/
+! 	Uint16	dummy1;			/* ï¿½_ï¿½~ï¿½[ï¿½P				*/
+! 	Uint32	dummy2[3];		/* ï¿½_ï¿½~ï¿½[ï¿½Q				*/
+  } PerKeyBoard;
+  
+  extern	Uint8	slGetPortDir1(void);
 ***************
-*** 1235,1245 ****
+*** 1231,1245 ****
+  
+  extern	Bool	slRequestCommand(Uint8, Uint8);
+  
+  extern	SmpcStatus*	Smpc_Status;
   extern	PerDigital*	Smpc_Peripheral;
   extern	Uint8		Per_Connect1, Per_Connect2;
   
@@ -7641,7 +8480,13 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
   #define	slCDOn()			slRequestCommand(SMPC_CDON  , SMPC_NO_WAIT)
   #define	slCDOff()			slRequestCommand(SMPC_CDOFF , SMPC_NO_WAIT)
   #define	slSystemReset()			slRequestCommand(SMPC_SYSRES, SMPC_NO_WAIT)
---- 1511,1556 ----
+--- 1507,1558 ----
+  
+  extern	Bool	slRequestCommand(Uint8, Uint8);
+  
++ extern  Bool slCheckIntBackSet(void);
++ 
+  extern	SmpcStatus*	Smpc_Status;
   extern	PerDigital*	Smpc_Peripheral;
   extern	Uint8		Per_Connect1, Per_Connect2;
   
@@ -7656,11 +8501,11 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 +     extern  PerDigital  PerDigitalBuf[4] ;
 +     extern  SysSwitch   SystemSwitchBuf ;
 + 
-+ #define     _ServiceSw          0x80    /* Šî”Õã‚ÌƒXƒCƒbƒ`‚Æ‚i‚`‚l‚l‚`“ü—Í‚Ì ‚n‚q‚µ‚½‚à‚Ì */
++ #define     _ServiceSw          0x80    /* ï¿½ï¿½ï¿½Õï¿½ï¿½ÌƒXï¿½Cï¿½bï¿½`ï¿½Æ‚iï¿½`ï¿½lï¿½lï¿½`ï¿½ï¿½ï¿½Í‚ï¿½ ï¿½nï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 + #define     _TestSw             0x40
-+ #define     _ServiceSwBD        0x20    /* Šî”Õã‚Ìƒ^ƒNƒgƒXƒCƒbƒ` */
++ #define     _ServiceSwBD        0x20    /* ï¿½ï¿½ï¿½Õï¿½ï¿½Ìƒ^ï¿½Nï¿½gï¿½Xï¿½Cï¿½bï¿½` */
 + #define     _TestSwBD           0x10
-+ #define     _ServiceSwJM        0x08    /* ‚i‚`‚l‚l‚`ƒRƒlƒNƒ^‚©‚ç‚ÌƒXƒCƒbƒ`“ü—Í */
++ #define     _ServiceSwJM        0x08    /* ï¿½iï¿½`ï¿½lï¿½lï¿½`ï¿½Rï¿½lï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒXï¿½Cï¿½bï¿½`ï¿½ï¿½ï¿½ï¿½ */
 + #define     _TestSwJM           0x04
 + #define     _Coin2              0x02
 + #define     _Coin1              0x01
@@ -7701,7 +8546,7 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
       extern  void   SetCDFunc(void (*func)()) ;
       extern  void   slSetTrayCheck(Uint8) ;
       extern  void   slCashPurge() ;
---- 1600,1615 ----
+--- 1602,1617 ----
       extern void    slSlaveFunc(void (*func)() , void *) ;
   
   /*  System library */
@@ -7727,7 +8572,7 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
       extern  Bool   slSoundAllOff() ;
       extern  Bool   slSoundAllPause() ;
       extern  Bool   slSoundAllCont() ;
---- 1622,1628 ----
+--- 1624,1630 ----
       extern  Bool   slBGMOff() ;
       extern  Bool   slBGMFade(Uint8 , Uint8) ;
       extern  Bool   slBGMTempo(Sint16) ;
@@ -7759,7 +8604,7 @@ diff -crBN --binary sbl6/segalib/include/sl_def.h sbl6_patch/segalib/include/sl_
 ! #endif  /* SL_DEF_H */
 ! 
 \ No newline at end of file
---- 1641,1678 ----
+--- 1643,1680 ----
       extern  void   slWaitSound(void *) ;
       extern  Bool   slCDDAOn(Uint8 , Uint8 , Sint8 , Sint8) ;
       extern  Bool   slCDDAOff() ;
