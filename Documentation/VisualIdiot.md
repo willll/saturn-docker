@@ -92,9 +92,11 @@ Those are configured to use a local SSH server on 127.0.0.1:2222, but for a loca
     {
         "label": "Compile Docker [RELEASE]",
         "type": "shell",
-        "command": "docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:latest /bin/sh -c \"mkdir -p /saturn/build && \
+        "command": "docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:latest /bin/sh -c \"\
+                    mkdir -p /saturn/build && \
                     cd /saturn/build && rm -rf * && \
-                    cmake -DCMAKE_TOOLCHAIN_FILE=\\$SATURN_CMAKE/sega_saturn.cmake -DCMAKE_INSTALL_PREFIX=/saturn/ .. && \
+                    cmake -DCMAKE_TOOLCHAIN_FILE=\\$SATURN_CMAKE/sega_saturn.cmake \
+                            -DCMAKE_INSTALL_PREFIX=/saturn/ .. && \
                     make all && \
                     make install && \
                     chmod 777 -R /saturn/build/ && \
