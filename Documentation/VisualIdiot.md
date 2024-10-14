@@ -13,7 +13,7 @@
 
 ### Container Configuration - The Easiest Way
 
-Pre-build images are available from docker.hub (https://hub.docker.com/r/willll/saturn-docker/tags
+Pre-built images are available from Docker Hub: [Docker Hub](https://hub.docker.com/r/willll/saturn-docker/tags).
 
 + `docker pull willll/saturn-docker:gcc_13.3.0`
 + `docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:gcc_13.3 /bin/bash`
@@ -51,10 +51,10 @@ That does not apply if you are running docker on your computer, but for people u
 
 ### Visual Studio Code Configuration
 
-Lets try to build https://github.com/willll/saturn_helloworld
+Let's try to build [saturn_helloworld](https://github.com/willll/saturn_helloworld).
 
-+ Clone the repository, either from VSCode (https://code.visualstudio.com/docs/sourcecontrol/intro-to-git) or CLI, make sure to clone it into the folder shared with the docker images
-+ Tasks are already configured into .vscode/tasks.json :
++ Clone the repository, either from VSCode ([Git Integration Documentation](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git)) or via CLI. Make sure to clone it into the folder shared with the Docker images.
++ Tasks are already configured in `.vscode/tasks.json`:
 
 ```JSON
     {
@@ -88,7 +88,7 @@ Lets try to build https://github.com/willll/saturn_helloworld
 
 ![Remote Explorer](Images/VSCode-Tasks.png)
 
-Those are configured to use a local SSH server on 127.0.0.1:2222, but for a local docker is it way easier to use :
+These tasks are configured to use a local SSH server on `127.0.0.1:2222`. However, for a local Docker container is it way easier to use :
 ```JSON
     {
         "label": "Compile Docker [RELEASE]",
@@ -111,29 +111,29 @@ Those are configured to use a local SSH server on 127.0.0.1:2222, but for a loca
     }
 ```
 
-+ If you are using SSH, you need to configure it (https://code.visualstudio.com/docs/remote/ssh) before going any further :
-  - Note : Remote connection will prevent to run tasks on the local computer (https://stackoverflow.com/questions/69171275/vscode-using-remote-ssh-run-tasks-on-host-machine), hence it will not be a 100% integrated solution.
-  - Install the Remote-SSH extension (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
-  - Install Remote Explorer extention (https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer)
-  - In Remote Explorer add a SSH connection :
++ If you are using SSH, you need to configure it ([Remote SSH Documentation](https://code.visualstudio.com/docs/remote/ssh)) before proceeding:
+  - Note: Remote connection will prevent tasks from running on the local computer ([StackOverflow Discussion](https://stackoverflow.com/questions/69171275/vscode-using-remote-ssh-run-tasks-on-host-machine)). Hence, it will not be a fully integrated solution.
+  - Install the Remote-SSH extension: [Remote-SSH Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
+  - Install the Remote Explorer extension: [Remote Explorer Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer)
+  - In Remote Explorer, add an SSH connection:
 
   ![Remote Explorer](Images/VSCode-Remote_Server.png)
 
-  - Enter the connection string you would normally used to connect to your server, for example : ssh root@192.168.1.161 -p 2222
-  - It should update your configuration file such as :
+  - Enter the connection string you would normally use to connect to your server, for example: `ssh root@192.168.1.161 -p 2222`
+  - It should update your configuration file to something like:
 
   ![SSH Config](Images/VSCode-SSH_Configuration.png)
 
-  - You will be prompted for the SSH user account password (eventually),
-  - Once connected it should look like this :
+  - You will be prompted for the SSH user account password (eventually).
+  - Once connected, it should look like this:
 
   ![SSH Config](Images/VSCode-Remote_Server_Connected.png)
 
-+ Since the project is using CMake, lets install CMake Tools :
-  - https://github.com/microsoft/vscode-cmake-tools/blob/HEAD/docs/cmake-presets.md
-  - Enable presets :
++ Since the project is using CMake, install CMake Tools:
+  - [CMake Presets Documentation](https://github.com/microsoft/vscode-cmake-tools/blob/HEAD/docs/cmake-presets.md)
+  - Enable presets:
 
-![CMake Tools Enable presets](Images/CMake_Tools-Enable_presets.png)
+![CMake Tools Enable Presets](Images/CMake_Tools-Enable_presets.png)
 
- - CMake tools configuration : https://code.visualstudio.com/docs/cpp/CMake-linux
- - CMake Tools documentation : https://github.com/microsoft/vscode-cmake-tools/tree/main/docs#cmake-tools-for-visual-studio-code-documentation
+  - CMake tools configuration: [CMake Tools Configuration](https://code.visualstudio.com/docs/cpp/CMake-linux)
+  - CMake Tools documentation: [CMake Tools Documentation](https://github.com/microsoft/vscode-cmake-tools/tree/main/docs#cmake-tools-for-visual-studio-code-documentation)
