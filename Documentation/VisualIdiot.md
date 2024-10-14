@@ -2,7 +2,7 @@
 
 ## Configuration
 
-### List of required extensions
+### List of Required Extensions
 
 + C/C++ by Microsoft
 + C/C++ Extension Pack by Microsoft
@@ -11,23 +11,22 @@
 + CMake Tools by Microsoft (optional)
 + ...
 
-### Container Configuration, the easiest way
+### Container Configuration - The Easiest Way
 
 Pre-build images are available from docker.hub (https://hub.docker.com/r/willll/saturn-docker/tags
 
-+ docker pull willll/saturn-docker:gcc_13.3.0
-+ docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:gcc_13.3 /bin/bash
-+ Note : $(pwd) being the local folder shared between the docker and your host computer.
++ `docker pull willll/saturn-docker:gcc_13.3.0`
++ `docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:gcc_13.3 /bin/bash`
++ Note: `$(pwd)` represents the local folder shared between the Docker container and your host computer.
 
-### Container Configuration, the easy way
+### Container Configuration - An Easy Way
 
-Portainer.io (https://www.portainer.io/) can be used to pull the content of github (https://docs.portainer.io/user/docker/stacks/add) :
+You can use [Portainer.io](https://www.portainer.io/) to pull content from GitHub: [Portainer Documentation](https://docs.portainer.io/user/docker/stacks/add).
 
-+ Repository URL
- :https://github.com/willll/saturn-docker/
-+ Repository reference : refs/heads/main
-+ Compose path : compose.yaml
-+ Use portainer.env (https://github.com/willll/saturn-docker/blob/main/portainer.env) to fine tune the variables
++ Repository URL: `https://github.com/willll/saturn-docker/`
++ Repository Reference: `refs/heads/main`
++ Compose Path: `compose.yaml`
++ Use `portainer.env`: [portainer.env](https://github.com/willll/saturn-docker/blob/main/portainer.env)
 
 Once done, save, pull & redepoy. A new container shall be added and running once the image is built.
 
