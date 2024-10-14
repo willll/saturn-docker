@@ -39,6 +39,8 @@ Build you own image from github :
 + build the image : cd saturn-docker && docker build --build-arg GCC_VERSION_ARG=14.1.0 -t saturn-docker . --file ./Dockerfile
 + run it : docker run -it -p 2222:22 --rm -v /tmp/shared:/saturn saturn-docker /bin/bash
 + Note : /tmp/shared being the local folder shared between the docker and your host computer.
++ Note2 : 2222 will be the SSH port to reach out the container.
++ Share your SSH certificate with the container (TODO : make it permanent) : ssh-copy-id -p 2222 root@127.0.0.1
 
 ### Share your code between docker and Visual Studio
 
@@ -52,8 +54,60 @@ That does not apply if you are running docker on your computer, but for people u
 
 Lets try to build https://github.com/willll/saturn_helloworld
 
-+ clone the repository, either from VSCode (https://code.visualstudio.com/docs/sourcecontrol/intro-to-git) or CLI, make sure to clone it into the folder shared with the docker images
++ Clone the repository, either from VSCode (https://code.visualstudio.com/docs/sourcecontrol/intro-to-git) or CLI, make sure to clone it into the folder shared with the docker images
++ Tasks are already configured into .vscode/tasks.json :
+
+```JSON
+    {
+        "label": "Compile [RELEASE]",
+        "type": "shell",
+        "command": "ssh root@127.0.0.1 -p 2222 \"mkdir -p /saturn/build && \
+                    cd /saturn/build && rm -rf * && \
+                    cmake -DCMAKE_TOOLCHAIN_FILE=\\$SATURN_CMAKE/sega_saturn.cmake -DCMAKE_INSTALL_PREFIX=/saturn/ .. && \
+                    make all && \
+                    make install && \
+                    chmod 777 -R /saturn/{build,helloworld}/\"",
+    },
+    {
+        "label": "Clean",
+        "type": "shell",
+        "command": "ssh root@127.0.0.1 -p 2222 \"rm -rf /saturn/build/* && rm -rf /saturn/helloworld/*\"",
+    },
+    {
+        "label": "Run with Kronos",
+        "type": "shell",
+        "command": "kronos -a ${workspaceFolder}/helloworld/helloworld.cue",
+    },
+    {
+        "label": "Run with Mednafen",
+        "type": "shell",
+        "command": "mednafen ${workspaceFolder}/helloworld/helloworld.cue",
+    }
+```
+![Remote Explorer](Images/VSCode-Tasks.png)
+Those are configured to use a local SSH server on 127.0.0.1:2222, but for a local docker is it way easier to use :
+```JSON
+    {
+        "label": "Compile Docker [RELEASE]",
+        "type": "shell",
+        "command": "docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:latest /bin/sh -c \"mkdir -p /saturn/build && \
+                    cd /saturn/build && rm -rf * && \
+                    cmake -DCMAKE_TOOLCHAIN_FILE=\\$SATURN_CMAKE/sega_saturn.cmake -DCMAKE_INSTALL_PREFIX=/saturn/ .. && \
+                    make all && \
+                    make install && \
+                    chmod 777 -R /saturn/build/ && \
+                    chmod 777 -R /saturn/helloworld/ \"",
+    },
+    {
+        "label": "Clean Docker",
+        "type": "shell",
+        "command": "docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:latest /bin/sh -c \
+                    \"rm -rf /saturn/build/* && rm -rf /saturn/helloworld/*\"",
+    }
+```
+
 + If you are using SSH, you need to configure it (https://code.visualstudio.com/docs/remote/ssh) before going any further :
+  - Note : Remote connection will prevent to run tasks on the local computer (https://stackoverflow.com/questions/69171275/vscode-using-remote-ssh-run-tasks-on-host-machine), hence it will not be a 100% integrated solution.
   - Install the Remote-SSH extension (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
   - Install Remote Explorer extention (https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer)
   - In Remote Explorer add a SSH connection :
@@ -69,4 +123,4 @@ Lets try to build https://github.com/willll/saturn_helloworld
   - Enable presets :
 ![CMake Tools Enable presets](Images/CMake_Tools-Enable_presets.png)
  - CMake tools configuration : https://code.visualstudio.com/docs/cpp/CMake-linux
- - CMake Tools documentaion : https://github.com/microsoft/vscode-cmake-tools/tree/main/docs#cmake-tools-for-visual-studio-code-documentation
+ - CMake Tools documentation : https://github.com/microsoft/vscode-cmake-tools/tree/main/docs#cmake-tools-for-visual-studio-code-documentation
