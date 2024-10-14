@@ -61,9 +61,11 @@ Lets try to build https://github.com/willll/saturn_helloworld
     {
         "label": "Compile [RELEASE]",
         "type": "shell",
-        "command": "ssh root@127.0.0.1 -p 2222 \"mkdir -p /saturn/build && \
+        "command": "ssh root@127.0.0.1 -p 2222 \"\
+                    mkdir -p /saturn/build && \
                     cd /saturn/build && rm -rf * && \
-                    cmake -DCMAKE_TOOLCHAIN_FILE=\\$SATURN_CMAKE/sega_saturn.cmake -DCMAKE_INSTALL_PREFIX=/saturn/ .. && \
+                    cmake -DCMAKE_TOOLCHAIN_FILE=\\$SATURN_CMAKE/sega_saturn.cmake \
+                            -DCMAKE_INSTALL_PREFIX=/saturn/ .. && \
                     make all && \
                     make install && \
                     chmod 777 -R /saturn/{build,helloworld}/\"",
