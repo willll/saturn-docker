@@ -286,8 +286,8 @@ Mount it with SSHFS :
   - [ ] dual **(required or just sample code ?)**
   - [ ] fld
       - [ ] smpfld01 **(Crash at runtime)**
-  - [?] game  **(black screen at runtime)**
-  - [?] game_cd **(black screen at runtime)**
+  - [ ] game  **(black screen at runtime)**
+  - [ ] game_cd **(black screen at runtime)**
   - [ ] gfs
     - [ ] smpgfs1a **(Crash at runtime)**
     - [ ] smpgfs1b **(Crash at runtime)**
