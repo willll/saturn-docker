@@ -119,16 +119,22 @@ Those are configured to use a local SSH server on 127.0.0.1:2222, but for a loca
   - In Remote Explorer add a SSH connection :
 
   ![Remote Explorer](Images/VSCode-Remote_Server.png)
-  
+
   - Enter the connection string you would normally used to connect to your server, for example : ssh root@192.168.1.161 -p 2222
   - It should update your configuration file such as :
+
   ![SSH Config](Images/VSCode-SSH_Configuration.png)
+
   - You will be prompted for the SSH user account password (eventually),
   - Once connected it should look like this :
+
   ![SSH Config](Images/VSCode-Remote_Server_Connected.png)
+
 + Since the project is using CMake, lets install CMake Tools :
   - https://github.com/microsoft/vscode-cmake-tools/blob/HEAD/docs/cmake-presets.md
   - Enable presets :
+
 ![CMake Tools Enable presets](Images/CMake_Tools-Enable_presets.png)
+
  - CMake tools configuration : https://code.visualstudio.com/docs/cpp/CMake-linux
  - CMake Tools documentation : https://github.com/microsoft/vscode-cmake-tools/tree/main/docs#cmake-tools-for-visual-studio-code-documentation
