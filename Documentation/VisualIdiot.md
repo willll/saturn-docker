@@ -86,7 +86,9 @@ Lets try to build https://github.com/willll/saturn_helloworld
         "command": "mednafen ${workspaceFolder}/helloworld/helloworld.cue",
     }
 ```
+
 ![Remote Explorer](Images/VSCode-Tasks.png)
+
 Those are configured to use a local SSH server on 127.0.0.1:2222, but for a local docker is it way easier to use :
 ```JSON
     {
@@ -115,7 +117,9 @@ Those are configured to use a local SSH server on 127.0.0.1:2222, but for a loca
   - Install the Remote-SSH extension (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
   - Install Remote Explorer extention (https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer)
   - In Remote Explorer add a SSH connection :
+
   ![Remote Explorer](Images/VSCode-Remote_Server.png)
+  
   - Enter the connection string you would normally used to connect to your server, for example : ssh root@192.168.1.161 -p 2222
   - It should update your configuration file such as :
   ![SSH Config](Images/VSCode-SSH_Configuration.png)
