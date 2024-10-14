@@ -5,28 +5,28 @@ Get a cross platform starting point, with everything up and running out of the b
 ## Usage
 
 build it :
-docker build -t saturn-docker . --file ./Dockerfile
+`docker build -t saturn-docker . --file ./Dockerfile`
 
 Run it :
-docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
+`docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash`
 
 Use it in an IDE :
-TODO
+ - [VSCode](Documentation/VisualIdiot.md)
 
 Change GCC version (default 13.2.0) :
- - 8.4.0 : docker build --build-arg GCC_VERSION_ARG=8.4.0 -t saturn-docker . --file ./Dockerfile
- - 9.5.0 : docker build --build-arg GCC_VERSION_ARG=9.5.0 -t saturn-docker . --file ./Dockerfile
- - 10.4.0 : docker build --build-arg GCC_VERSION_ARG=10.4.0 -t saturn-docker . --file ./Dockerfile
- - 11.3.0 : docker build --build-arg GCC_VERSION_ARG=11.3.0 -t saturn-docker . --file ./Dockerfile
- - 12.2.0 : docker build --build-arg GCC_VERSION_ARG=12.2.0 -t saturn-docker . --file ./Dockerfile
- - 12.3.0 : docker build --build-arg GCC_VERSION_ARG=12.3.0 -t saturn-docker . --file ./Dockerfile
- - 13.2.0 : docker build --build-arg GCC_VERSION_ARG=13.2.0 -t saturn-docker . --file ./Dockerfile
- - 13.3.0 : docker build --build-arg GCC_VERSION_ARG=13.3.0 -t saturn-docker . --file ./Dockerfile
- - 14.1.0 : docker build --build-arg GCC_VERSION_ARG=14.1.0 -t saturn-docker . --file ./Dockerfile
- - 14.2.0 : docker build --build-arg GCC_VERSION_ARG=14.2.0 -t saturn-docker . --file ./Dockerfile
+ - 8.4.0 : `docker build --build-arg GCC_VERSION_ARG=8.4.0 -t saturn-docker . --file ./Dockerfile`
+ - 9.5.0 : `docker build --build-arg GCC_VERSION_ARG=9.5.0 -t saturn-docker . --file ./Dockerfile`
+ - 10.4.0 : `docker build --build-arg GCC_VERSION_ARG=10.4.0 -t saturn-docker . --file ./Dockerfile`
+ - 11.3.0 : `docker build --build-arg GCC_VERSION_ARG=11.3.0 -t saturn-docker . --file ./Dockerfile`
+ - 12.2.0 : `docker build --build-arg GCC_VERSION_ARG=12.2.0 -t saturn-docker . --file ./Dockerfile`
+ - 12.3.0 : `docker build --build-arg GCC_VERSION_ARG=12.3.0 -t saturn-docker . --file ./Dockerfile`
+ - 13.2.0 : `docker build --build-arg GCC_VERSION_ARG=13.2.0 -t saturn-docker . --file ./Dockerfile`
+ - 13.3.0 : `docker build --build-arg GCC_VERSION_ARG=13.3.0 -t saturn-docker . --file ./Dockerfile`
+ - 14.1.0 : `docker build --build-arg GCC_VERSION_ARG=14.1.0 -t saturn-docker . --file ./Dockerfile`
+ - 14.2.0 : `docker build --build-arg GCC_VERSION_ARG=14.2.0 -t saturn-docker . --file ./Dockerfile`
 
 Examples :
- - docker build \
+ - `docker build \
   --build-arg GCC_VERSION_ARG=11.3.0 \
   --build-arg INSTALL_SATURNSDK_SAMPLES=0 \
   --build-arg INSTALL_JO_ENGINE_LIB=0 \
@@ -38,9 +38,9 @@ Examples :
   --build-arg INSTALL_SBL_EXAMPLES=0 \
   --build-arg INSTALL_SGL_LIB=0 \
   --build-arg INSTALL_SGL_SAMPLES=0 \
-  -t saturn-docker . --file ./Dockerfile
+  -t saturn-docker . --file ./Dockerfile`
 
-- docker build  --build-arg GCC_VERSION_ARG=12.3.0 \
+- `docker build  --build-arg GCC_VERSION_ARG=12.3.0 \
   --build-arg INSTALL_SATURNSDK_SAMPLES=1 \
   --build-arg INSTALL_JO_ENGINE_LIB=1 \
   --build-arg INSTALL_JO_ENGINE_SAMPLES=1 \
@@ -52,14 +52,13 @@ Examples :
   --build-arg INSTALL_SGL_LIB=1 \
   --build-arg INSTALL_SGL_SAMPLES=1 \
   --build-arg MAKEFLAGS_ARG="-j 8" \
-  -t saturn-docker . --file ./Dockerfile
+  -t saturn-docker . --file ./Dockerfile`
 
 Docker Hub :
 https://hub.docker.com/r/willll/saturn-docker/tags
 
-
 Mount it with SSHFS :
-sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 2222
+`sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 2222`
 
 ## Content
 
@@ -139,7 +138,7 @@ sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 22
 - [x] GCC 13.2.0 for SH2 (Default) : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.2.0
 - [x] GCC 13.3.0 for SH2 (Default) : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
 - [X] GCC 14.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.1.0
-- [ ] GCC 14.2.0 for SH2 **(not stable)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
+- [ ] GCC 14.2.0 for SH2 **(not stable ?)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
 - [ ] GDB for SH2 **(Not tested yet)**
 - [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K **(To be integrated)**
 - [x] CMake profile
