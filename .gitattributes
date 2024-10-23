@@ -4,5 +4,6 @@ Dockerfile  eol=lf
 *.a         -text
 *.patch     -text
 *.sh        eol=lf
+*.env        eol=lf
 #* text      eol=lf
 *.bat       eol=crlf
