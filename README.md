@@ -60,9 +60,19 @@ https://hub.docker.com/r/willll/saturn-docker/tags
 Mount it with SSHFS :
 `sudo sshfs -o allow_other root@192.168.1.161:/saturn /home/will/tmp/sshfs/ -p 2222`
 
+Copy your SSH key into the container :
+
+`docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash  -t saturn-docker . --file ./Dockerfile`
+
 ## Content
 
 ### List of variables
+
+#### SSHD variables
+
+| SSHD variables | Default Value | Description |
+| --------------------------------------------------- | ---------- | ------- |
+| ssh_pub_key |  | SSH public key content  |
 
 #### GCC build variables
 
