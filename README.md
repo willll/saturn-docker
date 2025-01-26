@@ -46,12 +46,14 @@ The default GCC version is **14.2.0**. To change it, use the `--build-arg GCC_VE
 - **8.4.0**
 - **9.5.0**
 - **10.4.0**
-- **11.3.0**
-- **12.2.0**
-- **12.3.0**
-- **13.2.0**
+- ~~**11.3.0**~~
+- **11.5.0**
+- ~~**12.2.0**~~
+- ~~**12.3.0**~~
+- **12.4.0**
+- ~~**13.2.0**~~
 - **13.3.0**
-- **14.1.0**
+- ~~**14.1.0**~~
 - **14.2.0** (default)
 
 #### Example:
@@ -185,13 +187,10 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [x] GCC 8.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_8.4.0
 - [x] GCC 9.5.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_9.5.0
 - [x] GCC 10.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_10.4.0
-- [x] GCC 11.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_11.3.0
-- [x] GCC 12.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.2.0
-- [x] GCC 12.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.3.0
-- [x] GCC 13.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.2.0
+- [x] GCC 11.5.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_11.5.0
+- [x] GCC 12.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.4.0
 - [x] GCC 13.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
-- [X] GCC 14.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.1.0
-- [ ] GCC 14.2.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
+- [x] GCC 14.2.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
 - [ ] GDB for SH2 **(Not tested yet)**
 - [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K **(To be integrated)**
 - [x] CMake profile
