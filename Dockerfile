@@ -3,6 +3,7 @@
 # * https://github.com/vbt1/Saturn-SDK-GCC-SH2
 # * https://github.com/willll/Saturn-SDK-GCC-SH2
 # * https://github.com/SaturnSDK/Saturn-SDK-GCC-SH2
+# * https://github.com/willll/Saturn-SDK-GCC-M68K
 # * https://github.com/shicky256/SaturnDev
 # * https://github.com/johannes-fetz/joengine
 # * https://github.com/SaturnSDK/Saturn-SDK-SGL
@@ -189,15 +190,30 @@ ARG CREATEINSTALLER="NO"
 ENV BUILDMACH=i686-pc-linux-gnu
 ENV HOSTMACH=i686-pc-linux-gnu
 
+COPY Resources/Toolchain/* $SATURN_TMP/
+
+WORKDIR "${SATURN_TMP}"
+
+#
+# Motorola 68EC000 (SCSP) compiler
+#
+
+#RUN ./dl-m68k.sh
+#RUN ./build-SDK-elf.sh
+
+#
+# Hitashi SH2 compiler
+#
+
 ENV BINUTILS_CFLAGS="-s"
 ENV GCC_BOOTSTRAP_FLAGS="--with-cpu=m2"
 ENV GCC_FINAL_FLAGS="--with-cpu=m2 --with-sysroot=$SYSROOTDIR"
 
 ENV BUILD_FOLDER="${SATURN_TMP}/elf"
 
-WORKDIR "${SATURN_TMP}"
 
-COPY Resources/Toolchain/* $SATURN_TMP/
+
+
 
 RUN ./dl-SDK.sh
 RUN ./build-SDK-elf.sh
