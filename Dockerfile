@@ -196,7 +196,7 @@ FROM tools AS m68k
 # Motorola 68EC000 (SCSP) compiler
 #
 
-ARG INSTALL_M68K_GCC=1
+ARG INSTALL_M68K_GCC=0
 
 ENV ROOTDIR=$PWD/m68k_toolchain
 ENV SRCDIR=$ROOTDIR/source
