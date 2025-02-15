@@ -44,12 +44,6 @@ ENV SATURN_TMP=$SATURN_ROOT/tmp
 ENV PWD=$SATURN_TMP
 
 ENV RELSRCDIR=./toolchain/source
-ENV SRCDIR=$PWD/toolchain/source
-ENV BUILDDIR=$PWD/toolchain/build
-ENV INSTALLDIR=$SATURN_ROOT/toolchain
-ENV SYSROOTDIR=$INSTALLDIR/sysroot
-ENV ROOTDIR=$PWD/toolchain
-ENV DOWNLOADDIR=$PWD/toolchain/download
 ENV QTIFWDIR=./installer
 
 ENV BOOST_ROOT=/opt/lib/boost
@@ -129,6 +123,8 @@ WORKDIR "${SATURN_ROOT}"
 # pipx setup
 RUN pipx ensurepath && pipx completions
 
+FROM linux AS tools
+
 #
 # Setup
 #
@@ -194,26 +190,48 @@ COPY Resources/Toolchain/* $SATURN_TMP/
 
 WORKDIR "${SATURN_TMP}"
 
+FROM tools AS m68k
+
 #
 # Motorola 68EC000 (SCSP) compiler
 #
 
-#RUN ./dl-m68k.sh
-#RUN ./build-SDK-elf.sh
+ARG INSTALL_M68K_GCC=1
+
+ENV ROOTDIR=$PWD/m68k_toolchain
+ENV SRCDIR=$ROOTDIR/source
+ENV BUILDDIR=$ROOTDIR/build
+ENV INSTALLDIR=$SATURN_ROOT/m68k_toolchain
+ENV SYSROOTDIR=$INSTALLDIR/sysroot
+ENV DOWNLOADDIR=$ROOTDIR/download
+
+ENV BUILD_FOLDER="${SATURN_TMP}/m68k"
+
+ENV BINUTILS_CFLAGS=""
+ENV GCC_BOOTSTRAP_FLAGS=""
+ENV GCC_FINAL_FLAGS=""
+
+RUN ./dl-m68k.sh
+RUN ./build-m68k-elf.sh
+
+FROM m68k AS sh2
 
 #
 # Hitashi SH2 compiler
 #
+
+ENV SRCDIR=$PWD/toolchain/source
+ENV BUILDDIR=$PWD/toolchain/build
+ENV INSTALLDIR=$SATURN_ROOT/toolchain
+ENV SYSROOTDIR=$INSTALLDIR/sysroot
+ENV ROOTDIR=$PWD/toolchain
+ENV DOWNLOADDIR=$PWD/toolchain/download
 
 ENV BINUTILS_CFLAGS="-s"
 ENV GCC_BOOTSTRAP_FLAGS="--with-cpu=m2"
 ENV GCC_FINAL_FLAGS="--with-cpu=m2 --with-sysroot=$SYSROOTDIR"
 
 ENV BUILD_FOLDER="${SATURN_TMP}/elf"
-
-
-
-
 
 RUN ./dl-SDK.sh
 RUN ./build-SDK-elf.sh
@@ -267,6 +285,8 @@ RUN source $SATURN_COMMON/gcc_sh2.env
 ARG BUILD_TYPE_ARG=Release
 ENV BUILD_TYPE=$BUILD_TYPE_ARG
 
+FROM sh2 AS sgl
+
 #
 # Install SGL
 #
@@ -283,6 +303,8 @@ RUN $SATURN_TMP/dl-sgl302.sh
 COPY Resources/build-sgl302.sh $SATURN_TMP
 COPY Resources/sgl302.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
+
+FROM sgl AS sbl
 
 #
 # Install SBL
@@ -327,6 +349,8 @@ COPY Resources/sgl $SATURN_TMP/sgl_
 COPY Resources/build-sgl302-samples.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 
+FROM sbl AS samples
+
 #
 # Samples
 #
@@ -339,6 +363,8 @@ RUN $SATURN_SAMPLES/dl-SaturnSDK-samples.sh
 COPY Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
 RUN rm -rf "$SATURN_TMP/*"
+
+FROM samples AS joengine
 
 #
 # Install Jo Engine
@@ -375,6 +401,8 @@ RUN "$SATURN_TMP/build-joengine-samples.sh"
 
 RUN rm -rf "$SATURN_TMP/*"
 
+FROM joengine AS yaul
+
 #
 # Install Yaul
 #
@@ -399,13 +427,15 @@ RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
 # Clean up temporary files
 RUN rm -rf "$SATURN_TMP/*"
 
+FROM yaul AS iapetus
+
 #
 # Install Iapetus
 #
 
 ARG INSTALL_IAPETUS_SAMPLES=0
 ARG INSTALL_IAPETUS_LIB=0
-# IAPETUS commit from 2019.03.19 https://github.com/cyberwarriorx/iapetus/tree/955d7c50f634cdd18722657c920987200d9ba3a5
+  # IAPETUS commit from 2019.03.19 https://github.com/cyberwarriorx/iapetus/tree/955d7c50f634cdd18722657c920987200d9ba3a5
 ARG IAPETUS_COMMIT_SHA=955d7c50f634cdd18722657c920987200d9ba3a5
 
 COPY Resources/iapetus/dl-iapetus.sh "$SATURN_TMP"
@@ -416,6 +446,8 @@ COPY Resources/iapetus/build-iapetus-samples.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/build-iapetus-samples.sh"
 
 RUN rm -rf "$SATURN_TMP/*"
+
+FROM iapetus AS cdc
 
 #
 # CyberWarriorX's CDC Library : Reverse-engineering of the Sega's CDC library
@@ -432,6 +464,8 @@ RUN "$SATURN_TMP/build-CyberWarriorX-CDC.sh" $SATURN_CYBERWARRIORX_CDC
 # Set Volume and Workdir
 VOLUME /saturn
 WORKDIR /opt/saturn/tmp/
+
+FROM cdc AS end
 
 # Bash Settings
 RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc \

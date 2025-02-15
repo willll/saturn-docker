@@ -39,21 +39,21 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 For IDE integration, refer to:
 - [VSCode Setup](Documentation/VisualIdiot.md)
 
-### Change GCC Version
+### Change GCC Version for SH2
 The default GCC version is **14.2.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
 #### Available GCC Versions:
 - **8.4.0**
 - **9.5.0**
 - **10.4.0**
-- ~~**11.3.0**~~
+- ~~**11.3.0**~~ (depracated)
 - **11.5.0**
-- ~~**12.2.0**~~
-- ~~**12.3.0**~~
+- ~~**12.2.0**~~ (depracated)
+- ~~**12.3.0**~~ (depracated)
 - **12.4.0**
-- ~~**13.2.0**~~
+- ~~**13.2.0**~~ (depracated)
 - **13.3.0**
-- ~~**14.1.0**~~
+- ~~**14.1.0**~~ (depracated)
 - **14.2.0** (default)
 
 #### Example:
@@ -120,7 +120,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 |------------------|---------------|----------------------|
 | `ssh_pub_key`    | *(empty)*     | SSH public key content |
 
-#### GCC build variables
+#### GCC(SH2) build variables
 
 | Variable           | Default Value | Description                         |
 |---------------------|---------------|-------------------------------------|
@@ -192,7 +192,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [x] GCC 13.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
 - [x] GCC 14.2.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
 - [ ] GDB for SH2 **(Not tested yet)**
-- [ ] GCC 10.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K **(To be integrated)**
+- [X] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
 - [x] CMake profile
 - [x] schily-tools : ISO generation tools
 - [x] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
