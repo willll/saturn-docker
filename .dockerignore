@@ -1,0 +1,38 @@
+# Ignore version control files
+.git
+.gitignore
+
+# Ignore temporary files
+*.log
+*.tmp
+*.swp
+*.bak
+*.old
+
+# Ignore build artifacts
+build/
+dist/
+*.o
+*.out
+*.class
+
+# Ignore node_modules (if applicable)
+node_modules/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.iml
+
+# Ignore Docker-related files
+Dockerfile~
+.dockerignore~
+
+# Ignore system files
+.DS_Store
+Thumbs.db
