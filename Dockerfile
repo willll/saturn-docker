@@ -1,18 +1,28 @@
 # Sources :
 # * https://github.com/misterkun-io/Toolchain_MiSTer
+
 # * https://github.com/vbt1/Saturn-SDK-GCC-SH2
 # * https://github.com/willll/Saturn-SDK-GCC-SH2
 # * https://github.com/SaturnSDK/Saturn-SDK-GCC-SH2
+
 # * https://github.com/willll/Saturn-SDK-GCC-M68K
+
 # * https://github.com/shicky256/SaturnDev
+
 # * https://github.com/johannes-fetz/joengine
+
 # * https://github.com/SaturnSDK/Saturn-SDK-SGL
+
 # * https://github.com/Pixinn/docker-vbcc-amiga
 
 # * https://github.com/yaul-org/libyaul
 # * https://github.com/yaul-org/libyaul-docker
 # * https://github.com/yaul-org/libyaul-examples
+
+# * https://github.com/ReyeMe/SaturnRingLib
+
 # * https://github.com/cyberwarriorx/iapetus
+
 # * http://vberthelot.free.fr/SX/satdev/Tools.html
 
 FROM ubuntu:latest AS linux
@@ -31,6 +41,7 @@ ENV SATURN_SBL=$SATURN_ROOT/sbl
 ENV SATURN_CMAKE=$SATURN_ROOT/CMake
 ENV SATURN_JOENGINE=$SATURN_ROOT/joengine
 ENV SATURN_YAUL=$SATURN_ROOT/yaul
+ENV SATURN_SRL=$SATURN_ROOT/SaturnRingLib           
 ENV SATURN_CYBERWARRIORX=$SATURN_ROOT/cyberwarriorx
 ENV SATURN_IAPETUS=$SATURN_CYBERWARRIORX/iapetus
 ENV SATURN_CYBERWARRIORX_CDC=$SATURN_CYBERWARRIORX/cdc
@@ -104,6 +115,7 @@ RUN apt-get update \
   pipx \
   libgmp-dev \
   libmpfr-dev \
+  sox \
   ## && xargs -a /tmp/ubuntu-packages.list apt-get install --no-install-recommends -y \
   ## Make sure we leave any X11 related library behind
   && apt-get purge -y 'libx11*' x11-common libxt6 \
@@ -115,7 +127,7 @@ RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
                       ${SATURN_CMAKE} ${SATURN_JOENGINE} ${SATURN_YAUL} \
                       ${SATURN_IAPETUS} ${SATURN_TMP} "${SATURN_CD}" "${SATURN_SAMPLES}" \
                       "${SATURN_IPMAKER}" "${SATURN_SATCONV}" "${SATURN_COMMON}" \
-                      "${SATURN_CYBERWARRIORX_CDC}";\
+                      "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}";\
     do mkdir -p "$directory" && chmod -R 777 "$directory"; done
 
 WORKDIR "${SATURN_ROOT}"
@@ -349,7 +361,7 @@ COPY Resources/sgl $SATURN_TMP/sgl_
 COPY Resources/build-sgl302-samples.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 
-FROM sbl AS samples
+FROM sbl AS sbl-samples
 
 #
 # Samples
@@ -364,7 +376,7 @@ COPY Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
 RUN rm -rf "$SATURN_TMP/*"
 
-FROM samples AS joengine
+FROM sbl-samples AS joengine
 
 #
 # Install Jo Engine
@@ -461,11 +473,25 @@ COPY Resources/CyberWarriorX-CDC/CMakeLists.txt "$SATURN_CYBERWARRIORX_CDC"
 COPY Resources/CyberWarriorX-CDC/build-CyberWarriorX-CDC.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/build-CyberWarriorX-CDC.sh" $SATURN_CYBERWARRIORX_CDC
 
+FROM cdc AS srl
+
+#
+# SRL : Easy to use SGL wrapper written in C++
+#
+
+ARG INSTALL_SRL_LIB=1
+ARG SRL_LIB_TAG=0.9
+
+COPY Resources/SRL/dl-SRL.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/dl-SRL.sh"
+COPY Resources/SRL/build-SRL.sh "$SATURN_TMP"
+RUN "$SATURN_TMP/build-SRL.sh"
+
+FROM srl AS end
+
 # Set Volume and Workdir
 VOLUME /saturn
 WORKDIR /opt/saturn/tmp/
-
-FROM cdc AS end
 
 # Bash Settings
 RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc \

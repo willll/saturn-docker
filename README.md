@@ -167,6 +167,13 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | `YAUL_TAG`                    | 0.3.1                             | Tag to retrieve from Yaul's GitHub         |
 | `YAUL_EXAMPLES_COMMIT_SHA`    | 21fd76d83dffd49afc4926d6a8408eecfec474f5 | Commit matching `YAUL_TAG` in Yaul examples GitHub |
 
+#### SRL variables
+
+| Variable                 | Default Value | Description       |
+|---------------------------|---------------|-------------------|
+| `INSTALL_SRL_LIB`   | 1             | 0 to disable      |
+| `SRL_LIB_TAG`           | 0.8       | Specify the version/tag |
+
 #### IAPETUS variables
 
 | Variable                   | Default Value                     | Description       |
