@@ -43,18 +43,18 @@ For IDE integration, refer to:
 The default GCC version is **14.2.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
 #### Available GCC Versions:
-- **8.4.0**
-- **9.5.0**
-- **10.4.0**
-- ~~**11.3.0**~~ (depracated)
-- **11.5.0**
-- ~~**12.2.0**~~ (depracated)
-- ~~**12.3.0**~~ (depracated)
-- **12.4.0**
-- ~~**13.2.0**~~ (depracated)
-- **13.3.0**
-- ~~**14.1.0**~~ (depracated)
 - **14.2.0** (default)
+- ~~**14.1.0**~~ (deprecated)
+- **13.3.0**
+- ~~**13.2.0**~~ (deprecated)
+- **12.4.0**
+- ~~**12.3.0**~~ (deprecated)
+- ~~**12.2.0**~~ (deprecated)
+- **11.5.0**
+- ~~**11.3.0**~~ (deprecated)
+- **10.4.0**
+- **9.5.0**
+- **8.4.0**
 
 #### Example:
 ```bash
@@ -172,7 +172,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | Variable                 | Default Value | Description       |
 |---------------------------|---------------|-------------------|
 | `INSTALL_SRL_LIB`   | 1             | 0 to disable      |
-| `SRL_LIB_TAG`           | 0.8       | Specify the version/tag |
+| `SRL_LIB_TAG`           | 0.9       | Specify the version/tag |
 
 #### IAPETUS variables
 
@@ -207,6 +207,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 
 #### [SGL 3.02](SGL_3.02/README.md)
+<details>
 
 - [X] `SGL` **(patched)**
 - [ ] `SGL Samples`
@@ -305,12 +306,18 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [ ] `cdda_sgl` **(Missing files in src folder)**
   - [x] `chrome`
   - [x] `flying`
+</details>
 
 #### SGL 3.20
+<details>
+
 - [ ] `SGL`
 - [ ] `SGL Samples`
+</details>
 
 #### SBL 6.01
+<details>
+
 - [ ] `SBL Libs`
   - [x] `blp`
   - [x] `cdc` **(copied from https://github.com/shicky256/sbl/tree/master/segalib/cdc)**
@@ -411,15 +418,21 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [ ] `tim`
     - [ ] `smp0` **(Crash at runtime)**
     - [ ] `smp1` **(Crash at runtime)**
+</details>
 
 #### SDK Samples
+<details>
+
 - [x] `SDK Samples`
   - [x] `Basic`
   - [x] `Sprite`
   - [x] `Textured Sprite`
   - [ ] `CDBrowser`
+</details>
 
-#### Jo Engine 2025.1 (https://www.jo-engine.org/)
+#### [Jo Engine 2025.1](https://www.jo-engine.org/)
+<details>
+
 - [X] `Jo Engine`
 - [X] `Jo Engine Samples`
   - [X] `demo1`
@@ -460,8 +473,11 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [X] `demo - hardcoded image`
   - [X] `demo - visual novel`
   - [X] `demo - voxel`
+</details>
 
-#### Yaul (https://github.com/yaul-org/libyaul) (Version 0.3.1)
+#### [Yaul Version 0.3.1](https://github.com/yaul-org/libyaul)
+<details>
+
 - [ ] `Yaul`
   - [X] `Yaul Library`
   - [ ] `Yaul Examples` (https://github.com/yaul-org/libyaul-examples)
@@ -510,11 +526,44 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `vdp2-reduction-bitmap`
     - [x] `vdp2-special-function`
     - [x] `vdp2-zooming`
+</details>
 
+#### [SRL Version 0.9](https://github.com/ReyeMe/SaturnRingLib)
+<details>
 
-## Misc notes :
+- [x] `SRL`
+  - [x] `SRL Library` (Headers only, no static library)
+  - [x] `SRL Samples` (https://github.com/ReyeMe/SaturnRingLib/tree/main/Samples)
+    - [x] `CD - File reading`
+    - [x] `Input - Analog`
+    - [x] `Input - Gamepad`
+    - [x] `Input - Gun`
+    - [x] `Logs`
+    - [x] `Makefile - pre and post build`
+    - [x] `Math - Random`
+    - [x] `Math - Random image`
+    - [x] `SH2 - Slave`
+    - [x] `SMPC - Clock`
+    - [x] `Sound - CDDA`
+    - [x] `Sound - PCM`
+    - [x] `SRL - Event`
+    - [x] `STL`
+    - [x] `VDP1 - 3D - Animation`
+    - [x] `VDP1 - 3D - Flat teapot`
+    - [x] `VDP1 - 3D - Smooth teapot`
+    - [x] `VDP1 - Clipping`
+    - [x] `VDP1 - Distorted sprite`
+    - [x] `VDP1 - Gouraud`
+    - [x] `VDP1 - Interactive polygon`
+    - [x] `VDP1 - Lines`
+    - [x] `VDP1 - Sprite effects`
+    - [x] `VDP1 - Sprites`
+    - [x] `VDP2 - Bmp2Tile`
+    - [x] `VDP2 - Layers`
+    - [x] `VDP2 - RBG0 Rotation`
+</details>
+
+## Misc notes:
 
 - [RetroReversing Guide](https://github.com/RetroReversing/retroReversing/tree/master/pages/sega/saturn)
 - [Boost Preprocessor Introduction](https://www.boost.org/doc/libs/1_76_0/libs/preprocessor/doc/AppendixA-AnIntroductiontoPreprocessorMetaprogramming.html)
-
----
