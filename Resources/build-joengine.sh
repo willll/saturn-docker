@@ -15,10 +15,10 @@ if [ $INSTALL_JO_ENGINE_LIB -eq 1 ]; then
 	#
 	# copy Jo Engine
 	#
-  cp --verbose -rf $SATURN_TMP/jo/jo_engine $SATURN_JOENGINE
-  cp --verbose -rf $SATURN_TMP/jo/Samples/ $SATURN_JOENGINE/
+  	cp --verbose -rf $SATURN_TMP/jo/jo_engine $SATURN_JOENGINE
+  	cp --verbose -rf $SATURN_TMP/jo/Samples/ $SATURN_JOENGINE/
 	mkdir -p $SATURN_JOENGINE/common/
-  cp --verbose -rf $SATURN_TMP/jo/Compiler/COMMON/* $SATURN_JOENGINE/common/
+  	cp --verbose -rf $SATURN_TMP/jo/Compiler/COMMON/* $SATURN_JOENGINE/common/
 	cp --verbose -f $SATURN_TMP/jo_engine_makefile $SATURN_JOENGINE/common/
 
 	#
