@@ -82,40 +82,14 @@ ENV LC_ALL en_US.UTF-8
 # Core Development Packages
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
-  build-essential \
-  git \
-  nano \
-  unzip \
-  wget \
-  ca-certificates \
-  dos2unix \
-  gpg \
-  bison \
-  curl \
-  texinfo \
-  autotools-dev \
-  automake \
-  cmake \
-  shtool \
-  intltool \
-  libtool \
-  gettext \
-  autogen \
-  autoconf-archive \
-  xutils-dev \
-  xorriso \
-  doxygen \
-  ffmpeg \
-  ninja-build \
-  python3-pip \
-  python-is-python3 \
-  openssh-server \
-  rsync \
-  zip \
-  pipx \
-  libgmp-dev \
-  libmpfr-dev \
-  sox \
+  build-essential git nano unzip wget \
+  ca-certificates dos2unix gpg bison \
+  curl texinfo autotools-dev automake \
+  cmake shtool intltool libtool gettext \
+  autogen autoconf-archive xutils-dev \
+  xorriso doxygen ffmpeg ninja-build \
+  python3-pip python-is-python3 openssh-server \
+  rsync zip pipx libgmp-dev libmpfr-dev sox \
   ## && xargs -a /tmp/ubuntu-packages.list apt-get install --no-install-recommends -y \
   ## Make sure we leave any X11 related library behind
   && apt-get purge -y 'libx11*' x11-common libxt6 \
@@ -158,6 +132,7 @@ RUN $SATURN_TMP/build-IPMaker.sh "IPMaker_0.2"
 #
 # Install Boost preprocessor, System, filesystem, program_options 1.78.0
 #
+ARG INSTALL_BOOST_LIB=1
 COPY Resources/Install/build-Boost.sh $SATURN_TMP
 RUN $SATURN_TMP/build-Boost.sh "boost-1.78.0"
 

@@ -120,6 +120,12 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 |------------------|---------------|----------------------|
 | `ssh_pub_key`    | *(empty)*     | SSH public key content |
 
+#### Boost variables
+
+| Variable        | Default Value | Description          |
+|------------------|---------------|----------------------|
+| `INSTALL_BOOST_LIB`    | 1     | 0 to disable Boost installation |
+
 #### GCC(SH2) build variables
 
 | Variable           | Default Value | Description                         |
