@@ -43,6 +43,7 @@ For IDE integration, refer to:
 The default GCC version is **14.2.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
 #### Available GCC Versions:
+- **14.3.0**
 - **14.2.0** (default)
 - ~~**14.1.0**~~ (deprecated)
 - **13.3.0**
