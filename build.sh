@@ -7,7 +7,7 @@ if [[ $# -eq 0 ]] ; then
 fi
 
 # Build the container
-docker build --no-cache \
+docker build --no-cache --progress=plain \
               --build-arg MAKEFLAGS_ARG="-j `nproc`" \
               --build-arg GCC_VERSION_ARG=$1 \
               -t willll/saturn-docker:gcc_$1 . --file ./Dockerfile || exit 1
