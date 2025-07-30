@@ -1,6 +1,40 @@
 # Using alongside with Visual Studio
 
-## Configuration
+## Configuration - Option A
+
+### List of Required Extensions
+
+Source : https://code.visualstudio.com/docs/devcontainers/containers
+
++  Dev Containers extension
++ ...
+
+### Container Configuration
+
+[Container Configuration - The Easiest Way](#Container-Configuration---The-Easiest-Way)
+
+[Container Configuration - An Easy Way](#Container-Configuration---An-Easy-Way)
+
+[Container Configuration - The Hard way](#Container-Configuration-the-hard-way)
+
+### Visual Studio Code Configuration
+
+Let's try to build [saturn_helloworld](https://github.com/willll/saturn_helloworld).
+
++ Clone the repository, either from VSCode ([Git Integration Documentation](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git)) or via CLI. Make sure to clone it into the folder shared with the Docker images.
+
++ Within the Coontainer plug-in, select the saturn-docker container :
+![Dev Container plug-in](Images/VSCode-dev_container.png)
+
++ If required, do File/Open Folder to open the aturn_helloworld folder :
+![Connected to Dev Container](Images/VSCode-connect_to_container.png)
+
++ At this point you should be able to build your code within the container from the terminal, or Tasks (if configured) 
+![Build within the Dev Container](Images/CMake_command_within_the_container.png)
+
+Note : since the terminal is connected to the docker container, **you cannot directly start an emulator**.
+
+## Configuration - Option B
 
 ### List of Required Extensions
 
@@ -30,7 +64,7 @@ You can use [Portainer.io](https://www.portainer.io/) to pull content from GitHu
 
 Once done, save, pull & redepoy. A new container shall be added and running once the image is built.
 
-### Container Configuration, the hard way
+### Container Configuration - the hard way
 
 Build you own image from github :
 
