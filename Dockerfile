@@ -25,7 +25,7 @@
 
 # * http://vberthelot.free.fr/SX/satdev/Tools.html
 
-FROM ubuntu:latest AS linux
+FROM ubuntu:noble AS linux
 
 SHELL ["/bin/bash", "-c"]
 
@@ -90,7 +90,7 @@ RUN apt-get update \
   xorriso doxygen ffmpeg ninja-build \
   python3-pip python-is-python3 openssh-server \
   rsync zip pipx libgmp-dev libmpfr-dev sox \
-  ## && xargs -a /tmp/ubuntu-packages.list apt-get install --no-install-recommends -y \
+  libsox-fmt-all libsox-fmt-mp3 \
   ## Make sure we leave any X11 related library behind
   && apt-get purge -y 'libx11*' x11-common libxt6 \
   && apt autoremove -y --purge \
