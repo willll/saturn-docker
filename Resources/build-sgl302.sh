@@ -19,8 +19,6 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 
 	cd $SATURN_TMP/sgl302
 
-	chmod -R 644 $SATURN_TMP/sgl302
-
 	# Patch the code
 
 	patch -p0 -d $SATURN_TMP < $SATURN_TMP/sgl302.patch --binary
@@ -66,7 +64,7 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	cp -r $SATURN_TMP/sgl302/sample/common/* $1/common
 	cp -r $SATURN_TMP/sgl302/sample/scroll/ $1/demos/biplane
 
-	if [ $INSTALL_SBL_LIB -eq 1 ]; then
+	if [[ $INSTALL_SBL_LIB != 1 ]]; then
 		# Removed, will come from SBL
 		rm $1/include/sl_def.h
 	fi

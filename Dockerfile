@@ -68,14 +68,35 @@ ENV CTEMPLATE_ROOT=/opt/lib/Ctemplate
 ARG MAKEFLAGS_ARG="-j 1"
 ENV MAKEFLAGS=$MAKEFLAGS_ARG
 
+ARG UNAME=ubuntu
+ARG UID=1000
+ARG GID=1000
+
+# Add a non-root user and group
+RUN groupadd -g $GID -o $UNAME; exit 0
+RUN useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME; exit 0
+RUN usermod -a -G root $UNAME
+
+# Set home directory for the non-root user
+RUN usermod -d /root $UNAME
+
+# Add saturn to sudoers
+RUN echo "$UNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Link root and saturn home directories
+RUN chown -R $UNAME:$UNAME /root /opt /etc/environment
+
+# Set Root password
+RUN echo 'root:root' | chpasswd
+
 RUN apt-get update && apt-get install -y locales \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 # Set System Locales
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 # COPY Resources/Install/ubuntu-packages.list /tmp
 
@@ -103,6 +124,36 @@ RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
                       "${SATURN_IPMAKER}" "${SATURN_SATCONV}" "${SATURN_COMMON}" \
                       "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}";\
     do mkdir -p "$directory" && chmod -R 777 "$directory"; done
+
+RUN chown -R $UNAME:$UNAME "${SATURN_ROOT}"
+
+# Establish the operating directory of OpenSSH
+RUN mkdir -p /var/run/sshd
+
+# For remote connection (VS Code)
+RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config \
+    && echo 'PermitEmptyPasswords yes' >> /etc/ssh/sshd_config \
+    && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config \
+    && echo 'Port 22' >> /etc/ssh/sshd_config \
+    && ssh-keygen -A \
+    && echo -e 'if [[ -n $SSH_CONNECTION ]] ; then\n /opt/saturn/common/startup.sh \n fi\n' >> ~/.bashrc
+
+# SSH login fix
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
+    pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+# Authorize SSH Host
+RUN mkdir -p /root/.ssh && \
+    chmod 0700 /root/.ssh /etc/ssh/*
+
+# Add the keys and set permissions
+ARG ssh_pub_key
+RUN echo "$ssh_pub_key" > /root/.ssh/id_rsa.pub && \
+    chmod 600 /root/.ssh/id_rsa.pub && \
+    cat /root/.ssh/id_rsa.pub >> /root//.ssh/authorized_keys && \
+    chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys
+
+USER $UNAME
 
 WORKDIR "${SATURN_ROOT}"
 
@@ -132,9 +183,19 @@ RUN $SATURN_TMP/build-IPMaker.sh "IPMaker_0.2"
 #
 # Install Boost preprocessor, System, filesystem, program_options 1.78.0
 #
+USER root
 ARG INSTALL_BOOST_LIB=1
 COPY Resources/Install/build-Boost.sh $SATURN_TMP
 RUN $SATURN_TMP/build-Boost.sh "boost-1.78.0"
+
+#
+# Install gdown https://pypi.org/project/gdown/
+#
+RUN pipx install gdown
+RUN echo -e '#!/bin/bash\npipx run gdown "$@"' > /usr/bin/gdown \
+    && chmod +x /usr/bin/gdown
+
+USER $UNAME
 
 #
 # Install CueMaker 1.0
@@ -149,15 +210,8 @@ COPY Resources/Install/build-satconv.sh $SATURN_TMP
 RUN $SATURN_TMP/build-satconv.sh
 ENV PATH="$PATH:$SATURN_SATCONV"
 
-#
-# Install gdown https://pypi.org/project/gdown/
-#
-RUN pipx install gdown
-RUN echo -e '#!/bin/bash\npipx run gdown "$@"' > /usr/bin/gdown \
-    && chmod +x /usr/bin/gdown
-
 # Clean up
-RUN rm -rf "$SATURN_TMP"
+RUN rm -rf "$SATURN_TMP/*"
 
 #
 # Install base tools
@@ -223,7 +277,7 @@ ENV BUILD_FOLDER="${SATURN_TMP}/elf"
 RUN ./dl-SDK.sh
 RUN ./build-SDK-elf.sh
 
-RUN rm -rf "$SATURN_TMP"
+RUN rm -rf "$SATURN_TMP/*"
 
 # Set GCC env variables and flags
 ENV PROGRAM_PREFIX=sh-elf-
@@ -422,7 +476,7 @@ FROM yaul AS iapetus
 
 ARG INSTALL_IAPETUS_SAMPLES=0
 ARG INSTALL_IAPETUS_LIB=0
-  # IAPETUS commit from 2019.03.19 https://github.com/cyberwarriorx/iapetus/tree/955d7c50f634cdd18722657c920987200d9ba3a5
+# IAPETUS commit from 2019.03.19 https://github.com/cyberwarriorx/iapetus/tree/955d7c50f634cdd18722657c920987200d9ba3a5
 ARG IAPETUS_COMMIT_SHA=955d7c50f634cdd18722657c920987200d9ba3a5
 
 COPY Resources/iapetus/dl-iapetus.sh "$SATURN_TMP"
@@ -466,7 +520,7 @@ FROM srl AS end
 
 # Set Volume and Workdir
 VOLUME /saturn
-WORKDIR /opt/saturn/tmp/
+WORKDIR /saturn
 
 # Bash Settings
 RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc \
@@ -474,37 +528,10 @@ RUN echo "export HISTTIMEFORMAT='%d/%m/%y %T '" >> ~/.bashrc \
     && echo "alias ll='ls -lah'" >> ~/.bashrc \
     && echo "alias ls='ls --color=auto'" >> ~/.bashrc
 
-# Establish the operating directory of OpenSSH
-RUN mkdir -p /var/run/sshd
-
-# Set Root password
-RUN echo 'root:root' | chpasswd
-
-# For remote connection (VS Code)
-RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config \
-    && echo 'PermitEmptyPasswords yes' >> /etc/ssh/sshd_config \
-    && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config \
-    && echo 'Port 22' >> /etc/ssh/sshd_config \
-    && ssh-keygen -A \
-    && echo -e 'if [[ -n $SSH_CONNECTION ]] ; then\n /opt/saturn/common/startup.sh \n fi\n' >> ~/.bashrc
-
-# SSH login fix
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional \
-    pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-# Authorize SSH Host
-RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh
-
-# Add the keys and set permissions
-ARG ssh_pub_key
-RUN echo "$ssh_pub_key" > /root/.ssh/id_rsa.pub && \
-    chmod 600 /root/.ssh/id_rsa.pub && \
-    cat /root/.ssh/id_rsa.pub >> /root//.ssh/authorized_keys && \
-    chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys
-
 # Freeze environment variables for SSH login
 RUN "$SATURN_COMMON/set_env.sh"
+
+USER root
 
 # Metadata Params
 ARG BUILD_DATE
@@ -515,7 +542,7 @@ ARG BUILD_VERSION
 LABEL \
 	org.label-schema.schema-version="1.0" \
 	org.label-schema.vendor="willll" \
-  org.opencontainers.image.authors="willll" \
+    org.opencontainers.image.authors="willll" \
 	org.label-schema.name="willll/saturn-docker" \
 	org.label-schema.description="SH2 SuperH Compiler" \
 	org.label-schema.url="https://github.com/willll/saturn-docker" \

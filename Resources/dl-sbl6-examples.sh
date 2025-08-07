@@ -19,7 +19,7 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 	    exit 1
 	fi
 
-	unzip $SATURN_TMP/examples.zip -d $SATURN_TMP
+	umask 664 && unzip $SATURN_TMP/examples.zip -d $SATURN_TMP
 
 fi
 

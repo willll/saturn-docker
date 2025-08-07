@@ -18,7 +18,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	    exit 1
 	fi
 
-	unzip $SATURN_TMP/sdk_10j.zip -d $SATURN_TMP
+	umask 664 && unzip $SATURN_TMP/sdk_10j.zip -d $SATURN_TMP
 
 fi
 

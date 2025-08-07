@@ -34,6 +34,10 @@ To run the container interactively:
 ```bash
 docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 ```
+To run the container with SSH support and current user:
+```bash
+docker run -it -p 2222:22 --rm --user $(id -u):$(id -g) -v $(pwd):/saturn saturn-docker:latest /bin/bash
+```
 
 ### Use it in an IDE
 For IDE integration, refer to:

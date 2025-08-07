@@ -24,7 +24,7 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 	#
 	# Extract
 	#
-	unzip $SATURN_TMP/sgl320.zip -d $SATURN_TMP
+	umask 664 && unzip $SATURN_TMP/sgl320.zip -d $SATURN_TMP
 
 fi
 
