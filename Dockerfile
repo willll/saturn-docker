@@ -516,6 +516,8 @@ RUN "$SATURN_TMP/dl-SRL.sh"
 COPY Resources/SRL/build-SRL.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/build-SRL.sh"
 
+ENV SRL_INSTALL_ROOT=$SATURN_SRL
+
 FROM srl AS end
 
 # Set Volume and Workdir
