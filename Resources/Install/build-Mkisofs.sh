@@ -12,7 +12,7 @@ fi
 #
 # build schily-tools
 #
-git clone https://github.com/willll/schily-tools.git "$SATURN_TMP/tmp"
+git clone --depth 1 https://github.com/willll/schily-tools.git "$SATURN_TMP/tmp"
 
 make -f $SATURN_TMP/tmp/Makefile -C $SATURN_TMP/tmp LINKMODE=static $MAKEFLAGS && \
 make -f $SATURN_TMP/tmp/Makefile -C $SATURN_TMP/tmp \

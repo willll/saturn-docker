@@ -25,6 +25,8 @@
 
 # * http://vberthelot.free.fr/SX/satdev/Tools.html
 
+# * https://github.com/buhman/scu-dsp-asm
+
 FROM ubuntu:noble AS linux
 
 SHELL ["/bin/bash", "-c"]
@@ -50,6 +52,7 @@ ENV SATURN_SAMPLES=$SATURN_ROOT/samples
 ENV SATURN_IPMAKER=$SATURN_ROOT/IPMaker
 ENV SATURN_SATCONV=$SATURN_ROOT/satconv
 ENV SATURN_COMMON=$SATURN_ROOT/common
+ENV SATURN_SCU_DSP=$SATURN_ROOT/scu-dsp
 
 ENV SATURN_TMP=$SATURN_ROOT/tmp
 ENV PWD=$SATURN_TMP
@@ -122,7 +125,7 @@ RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
                       ${SATURN_CMAKE} ${SATURN_JOENGINE} ${SATURN_YAUL} \
                       ${SATURN_IAPETUS} ${SATURN_TMP} "${SATURN_CD}" "${SATURN_SAMPLES}" \
                       "${SATURN_IPMAKER}" "${SATURN_SATCONV}" "${SATURN_COMMON}" \
-                      "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}";\
+                      "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}" "${SATURN_SCU_DSP}"; \
     do mkdir -p "$directory" && chmod -R 777 "$directory"; done
 
 RUN chown -R $UNAME:$UNAME "${SATURN_ROOT}"
@@ -209,6 +212,13 @@ RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_1.0"
 COPY Resources/Install/build-satconv.sh $SATURN_TMP
 RUN $SATURN_TMP/build-satconv.sh
 ENV PATH="$PATH:$SATURN_SATCONV"
+
+#
+# Install SCU DSP Compiler
+#
+COPY Resources/Install/build-scu-dsp-asm.sh $SATURN_TMP
+RUN $SATURN_TMP/build-scu-dsp-asm.sh
+ENV PATH="$PATH:$SATURN_SCU_DSP"
 
 # Clean up
 RUN rm -rf "$SATURN_TMP/*"
