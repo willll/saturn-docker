@@ -30,6 +30,12 @@ unzip -o "$SATURN_MEDNAFEN/Mednafen.Linux.zip" -d "$SATURN_MEDNAFEN"
 
 rm -f "$SATURN_MEDNAFEN/Mednafen.Linux.zip"
 
+mkdir -p "$SATURN_MEDNAFEN/firmware"
+
+gdown 1miIZbAytFFRGlmL8H2gM8Hs__A3AC23P -O "$SATURN_MEDNAFEN/firmware/mpr-17933.bin"
+         
+gdown 1YvFP-7DCGq4AVd2Xo-HAaUQmikV6ufVT -O "$SATURN_MEDNAFEN/firmware/sega_101.bin"
+      
 if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi

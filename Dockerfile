@@ -106,6 +106,7 @@ ENV LC_ALL=en_US.UTF-8
 
 # Core Development Packages
 RUN apt-get update \
+  && apt-get upgrade -y \
   && apt-get install --no-install-recommends -y \
   build-essential git nano unzip wget \
   ca-certificates dos2unix gpg bison \
@@ -116,9 +117,11 @@ RUN apt-get update \
   python3-pip python-is-python3 openssh-server \
   rsync zip pipx libgmp-dev libmpfr-dev sox \
   libsox-fmt-all libsox-fmt-mp3 \
-  libsdl2-2.0-0 libflac-dev \
   ## Make sure we leave any X11 related library behind
   && apt-get purge -y 'libx11*' x11-common libxt6 \
+  ## Reinstall SDL2 for Mednafen
+  && apt-get install --no-install-recommends -y \
+  libsdl2-2.0-0 libflac-dev \
   && apt autoremove -y --purge \
   && rm -r /var/lib/apt/lists/*
 
@@ -228,6 +231,8 @@ ENV PATH="$PATH:$SATURN_SCU_DSP"
 COPY Resources/Install/build-mednafen.sh $SATURN_TMP
 RUN $SATURN_TMP/build-mednafen.sh
 ENV PATH="$PATH:$SATURN_MEDNAFEN"
+ENV MEDNAFEN_HOME="$SATURN_MEDNAFEN"
+ENV SDL_VIDEODRIVER="dummy"
 
 # Clean up
 RUN rm -rf "$SATURN_TMP/*"
