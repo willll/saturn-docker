@@ -228,7 +228,7 @@ RUN rm -rf "$SATURN_TMP/*"
 #
 
 # GCC_VERSION_ARG : must match tags from https://github.com/willll/Saturn-SDK-GCC-SH2/tags
-ARG GCC_VERSION_ARG=14.2.0_0
+ARG GCC_VERSION_ARG=14.3.0
 ENV GCC_VERSION=$GCC_VERSION_ARG
 
 ARG NCPU=1

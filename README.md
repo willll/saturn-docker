@@ -44,11 +44,11 @@ For IDE integration, refer to:
 - [VSCode Setup](Documentation/VisualIdiot.md)
 
 ### Change GCC Version for SH2
-The default GCC version is **14.2.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
+The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
 #### Available GCC Versions:
-- **14.3.0**
-- **14.2.0** (default)
+- **14.3.0** (default)
+- **14.2.0** 
 - ~~**14.1.0**~~ (deprecated)
 - **13.3.0**
 - ~~**13.2.0**~~ (deprecated)
@@ -136,7 +136,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | Variable           | Default Value | Description                         |
 |---------------------|---------------|-------------------------------------|
 | `MAKEFLAGS_ARG`     | "-j 1"        | Extra parameters for `make`         |
-| `GCC_VERSION_ARG`   | 13.2.0        | GCC version                        |
+| `GCC_VERSION_ARG`   | 14.3.0        | GCC version                        |
 | `NCPU`              | 1             | Number of CPUs for GCC build        |
 | `BUILD_TYPE_ARG`    | Release       | Build type (Release/Debug)          |
 
@@ -183,7 +183,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | Variable                 | Default Value | Description       |
 |---------------------------|---------------|-------------------|
 | `INSTALL_SRL_LIB`   | 1             | 0 to disable      |
-| `SRL_LIB_TAG`           | 0.9       | Specify the version/tag |
+| `SRL_LIB_TAG`           | 0.9.1       | Specify the version/tag |
 
 #### IAPETUS variables
 
@@ -208,7 +208,8 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [x] GCC 11.5.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_11.5.0
 - [x] GCC 12.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_12.4.0
 - [x] GCC 13.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
-- [x] GCC 14.2.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
+- [x] GCC 14.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
+- [x] GCC 14.3.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.3.0
 - [ ] GDB for SH2 **(Not tested yet)**
 - [X] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
 - [x] CMake profile
