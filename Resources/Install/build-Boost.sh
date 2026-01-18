@@ -1,14 +1,27 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 if [ "$DOCKER_BUILDKIT" == "1" ]; then
 	set -x
 fi
 
-if [ $INSTALL_BOOST_LIB -eq 1 ]; then
+: "${INSTALL_BOOST_LIB:?INSTALL_BOOST_LIB is not set}"
+: "${BOOST_ROOT:?BOOST_ROOT is not set}"
+: "${SATURN_TMP:?SATURN_TMP is not set}"
 
-	if [ ! -d $BOOST_ROOT ]; then
-		mkdir -p $BOOST_ROOT
+if ! command -v git >/dev/null 2>&1; then
+	echo "git is required but not installed" >&2
+	exit 1
+fi
+
+if [ "$INSTALL_BOOST_LIB" -eq 1 ]; then
+	if [ "$#" -lt 1 ] || [ -z "${1:-}" ]; then
+		echo "Boost git branch is required as the first argument" >&2
+		exit 1
+	fi
+
+	if [ ! -d "$BOOST_ROOT" ]; then
+		mkdir -p "$BOOST_ROOT"
 	fi
 
 	#
@@ -57,7 +70,7 @@ if [ $INSTALL_BOOST_LIB -eq 1 ]; then
 						libs/program_options
 						)
 
-	git clone --depth 1 --branch $1 \
+	git clone --depth 1 --branch "$1" \
 		https://github.com/boostorg/boost.git "$SATURN_TMP/tmp"
 
 	cd "$SATURN_TMP/tmp"
