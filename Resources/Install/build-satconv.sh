@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 fi
 
@@ -39,7 +39,7 @@ cp "$SATURN_TMP/tmp/satconv" "$SATURN_TMP/tmp/readme.txt" "$SATURN_TMP/tmp/licen
 
 rm -rf "$SATURN_TMP/tmp"
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi
 

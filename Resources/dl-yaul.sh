@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 fi
 
@@ -14,7 +14,7 @@ if [ $INSTALL_YAUL_LIB -eq 1 ]; then
 
 fi
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi
 

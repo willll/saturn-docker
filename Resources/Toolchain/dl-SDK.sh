@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 fi
 
@@ -14,7 +14,7 @@ dos2unix "$BUILD_FOLDER"/*
 
 chmod +x "$BUILD_FOLDER"/*.sh
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi
 

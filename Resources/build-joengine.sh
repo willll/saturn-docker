@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 fi
 
@@ -34,7 +34,7 @@ else
 
 fi
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi
 

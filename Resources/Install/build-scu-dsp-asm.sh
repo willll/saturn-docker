@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 fi
 
@@ -34,7 +34,7 @@ mv "$SATURN_TMP/tmp/scu-dsp-asm" "$SATURN_TMP/tmp/scu-dsp-dis" \
 
 rm -rf "$SATURN_TMP/tmp"
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi
 

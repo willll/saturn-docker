@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 fi
 
@@ -30,7 +30,7 @@ unzip -o "$SATURN_MEDNAFEN/Mednafen.Linux.zip" -d "$SATURN_MEDNAFEN"
 
 rm -f "$SATURN_MEDNAFEN/Mednafen.Linux.zip"
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi
 

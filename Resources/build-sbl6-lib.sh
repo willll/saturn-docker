@@ -3,7 +3,7 @@ set -e
 
 VERBOSE=""
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 	$VERBOSE="VERBOSE=1"
 fi
@@ -76,7 +76,7 @@ else
 
 fi
 
-if [ "$DOCKER_BUILDKIT" == "1" ]; then
+if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
 fi
 
