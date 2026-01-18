@@ -116,6 +116,7 @@ RUN apt-get update \
   python3-pip python-is-python3 openssh-server \
   rsync zip pipx libgmp-dev libmpfr-dev sox \
   libsox-fmt-all libsox-fmt-mp3 \
+  libsdl2-2.0-0 libflac-dev \
   ## Make sure we leave any X11 related library behind
   && apt-get purge -y 'libx11*' x11-common libxt6 \
   && apt autoremove -y --purge \
@@ -220,6 +221,13 @@ ENV PATH="$PATH:$SATURN_SATCONV"
 COPY Resources/Install/build-scu-dsp-asm.sh $SATURN_TMP
 RUN $SATURN_TMP/build-scu-dsp-asm.sh
 ENV PATH="$PATH:$SATURN_SCU_DSP"
+
+#
+# Install Mednafen (for testing/emulation)
+#
+COPY Resources/Install/build-mednafen.sh $SATURN_TMP
+RUN $SATURN_TMP/build-mednafen.sh
+ENV PATH="$PATH:$SATURN_MEDNAFEN"
 
 # Clean up
 RUN rm -rf "$SATURN_TMP/*"
