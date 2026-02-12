@@ -37,13 +37,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TERM=xterm
 
 ENV SATURN_ROOT=/opt/saturn
-
 ENV SATURN_SGL=$SATURN_ROOT/sgl
 ENV SATURN_SBL=$SATURN_ROOT/sbl
 ENV SATURN_CMAKE=$SATURN_ROOT/CMake
 ENV SATURN_JOENGINE=$SATURN_ROOT/joengine
 ENV SATURN_YAUL=$SATURN_ROOT/yaul
-ENV SATURN_SRL=$SATURN_ROOT/SaturnRingLib           
+ENV SATURN_SRL=$SATURN_ROOT/SaturnRingLib
 ENV SATURN_CYBERWARRIORX=$SATURN_ROOT/cyberwarriorx
 ENV SATURN_IAPETUS=$SATURN_CYBERWARRIORX/iapetus
 ENV SATURN_CYBERWARRIORX_CDC=$SATURN_CYBERWARRIORX/cdc
@@ -54,8 +53,9 @@ ENV SATURN_SATCONV=$SATURN_ROOT/satconv
 ENV SATURN_COMMON=$SATURN_ROOT/common
 ENV SATURN_MEDNAFEN=$SATURN_ROOT/mednafen
 ENV SATURN_SCU_DSP=$SATURN_ROOT/scu-dsp
-
+ENV SATURN_FTX=$SATURN_ROOT/ftx
 ENV SATURN_TMP=$SATURN_ROOT/tmp
+
 ENV PWD=$SATURN_TMP
 
 ENV RELSRCDIR=./toolchain/source
@@ -75,23 +75,16 @@ ENV MAKEFLAGS=$MAKEFLAGS_ARG
 ARG UNAME=ubuntu
 ARG UID=1000
 ARG GID=1000
+ENV UNAME=$UNAME
 
 # Add a non-root user and group
-RUN groupadd -g $GID -o $UNAME; exit 0
-RUN useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME; exit 0
-RUN usermod -a -G root $UNAME
-
-# Set home directory for the non-root user
-RUN usermod -d /root $UNAME
-
-# Add saturn to sudoers
-RUN echo "$UNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-# Link root and saturn home directories
-RUN chown -R $UNAME:$UNAME /root /opt /etc/environment
-
-# Set Root password
-RUN echo 'root:root' | chpasswd
+RUN groupadd -g $GID -o $UNAME || true \
+    && useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME || true \
+    && usermod -a -G root $UNAME \
+    && usermod -d /root $UNAME \
+    && echo "$UNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+    && chown -R $UNAME:$UNAME /root /opt /etc/environment \
+    && echo 'root:root' | chpasswd
 
 RUN apt-get update && apt-get install -y locales \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
@@ -106,8 +99,7 @@ ENV LC_ALL=en_US.UTF-8
 
 # Core Development Packages
 RUN apt-get update \
-  && apt-get upgrade -y \
-  && apt-get install --no-install-recommends -y \
+    && apt-get install --no-install-recommends -y \
   build-essential git nano unzip wget \
   ca-certificates dos2unix gpg bison \
   curl texinfo autotools-dev automake \
@@ -116,7 +108,8 @@ RUN apt-get update \
   xorriso doxygen ffmpeg ninja-build \
   python3-pip python-is-python3 openssh-server \
   rsync zip pipx libgmp-dev libmpfr-dev sox \
-  libsox-fmt-all libsox-fmt-mp3 \
+    libsox-fmt-all libsox-fmt-mp3 pkg-config \
+    libftdi1-dev libusb-1.0-0-dev libudev-dev \
   ## Make sure we leave any X11 related library behind
   && apt-get purge -y 'libx11*' x11-common libxt6 \
   ## Reinstall SDL2 for Mednafen
@@ -130,7 +123,7 @@ RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
                       ${SATURN_CMAKE} ${SATURN_JOENGINE} ${SATURN_YAUL} \
                       ${SATURN_IAPETUS} ${SATURN_TMP} "${SATURN_CD}" "${SATURN_SAMPLES}" \
                       "${SATURN_IPMAKER}" "${SATURN_SATCONV}" "${SATURN_COMMON}" \
-                      "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}" "${SATURN_SCU_DSP}"; \
+                      "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}" "${SATURN_SCU_DSP}" "${SATURN_FTX}"; \
     do mkdir -p "$directory" && chmod -R 777 "$directory"; done
 
 RUN chown -R $UNAME:$UNAME "${SATURN_ROOT}"
@@ -169,73 +162,20 @@ WORKDIR "${SATURN_ROOT}"
 RUN pipx ensurepath && pipx completions
 
 FROM linux AS tools
-
-#
-# Setup
-#
-COPY Resources/Install/setup-git.sh $SATURN_TMP
-RUN $SATURN_TMP/setup-git.sh
-
-#
-# Install mkisofs
-#
-COPY Resources/Install/build-Mkisofs.sh $SATURN_TMP
-RUN $SATURN_TMP/build-Mkisofs.sh
-
-#
-# Install Saturn-SDK-Tool-IPMaker 0.2
-#
-COPY Resources/Install/build-IPMaker.sh $SATURN_TMP
-RUN $SATURN_TMP/build-IPMaker.sh "IPMaker_0.2"
-
-#
-# Install Boost preprocessor, System, filesystem, program_options 1.78.0
-#
-USER root
 ARG INSTALL_BOOST_LIB=1
-COPY Resources/Install/build-Boost.sh $SATURN_TMP
-RUN $SATURN_TMP/build-Boost.sh "boost-1.78.0"
-
-#
-# Install gdown https://pypi.org/project/gdown/
-#
-RUN pipx install gdown
-RUN echo -e '#!/bin/bash\npipx run gdown "$@"' > /usr/bin/gdown \
-    && chmod +x /usr/bin/gdown
-
+ARG FTX_TAG=v0.9
+USER root
+COPY Resources/Install/ $SATURN_TMP/Install/
+RUN bash "$SATURN_TMP/Install/build-tools.sh"
 USER $UNAME
-
-#
-# Install CueMaker 1.0
-#
-COPY Resources/Install/build-CueMaker.sh $SATURN_TMP
-RUN $SATURN_TMP/build-CueMaker.sh "CueMaker_1.0"
-
-#
-# Install satconv
-#
-COPY Resources/Install/build-satconv.sh $SATURN_TMP
-RUN $SATURN_TMP/build-satconv.sh
-ENV PATH="$PATH:$SATURN_SATCONV"
-
-#
-# Install SCU DSP Compiler
-#
-COPY Resources/Install/build-scu-dsp-asm.sh $SATURN_TMP
-RUN $SATURN_TMP/build-scu-dsp-asm.sh
-ENV PATH="$PATH:$SATURN_SCU_DSP"
-
-#
-# Install Mednafen (for testing/emulation)
-#
-COPY Resources/Install/build-mednafen.sh $SATURN_TMP
-RUN $SATURN_TMP/build-mednafen.sh
-ENV PATH="$PATH:$SATURN_MEDNAFEN"
+ENV PATH="$PATH:$SATURN_SATCONV:$SATURN_FTX:$SATURN_SCU_DSP:$SATURN_MEDNAFEN"
 ENV MEDNAFEN_HOME="$SATURN_MEDNAFEN"
 ENV SDL_VIDEODRIVER="dummy"
 
 # Clean up
-RUN rm -rf "$SATURN_TMP/*"
+USER root
+RUN rm -rf "${SATURN_TMP:?}/"*
+USER $UNAME
 
 #
 # Install base tools
@@ -276,8 +216,8 @@ ENV BINUTILS_CFLAGS=""
 ENV GCC_BOOTSTRAP_FLAGS=""
 ENV GCC_FINAL_FLAGS=""
 
-RUN ./dl-m68k.sh
-RUN ./build-m68k-elf.sh
+RUN ./dl-m68k.sh \
+    && ./build-m68k-elf.sh
 
 FROM m68k AS sh2
 
@@ -298,10 +238,10 @@ ENV GCC_FINAL_FLAGS="--with-cpu=m2 --with-sysroot=$SYSROOTDIR"
 
 ENV BUILD_FOLDER="${SATURN_TMP}/elf"
 
-RUN ./dl-SDK.sh
-RUN ./build-SDK-elf.sh
+RUN ./dl-SDK.sh \
+    && ./build-SDK-elf.sh
 
-RUN rm -rf "$SATURN_TMP/*"
+RUN rm -rf "${SATURN_TMP:?}/"*
 
 # Set GCC env variables and flags
 ENV PROGRAM_PREFIX=sh-elf-
@@ -364,10 +304,10 @@ ENV SEGASGL=${SATURN_SGL}
 WORKDIR "${SATURN_TMP}"
 
 COPY Resources/dl-sgl302.sh $SATURN_TMP
-RUN $SATURN_TMP/dl-sgl302.sh
 COPY Resources/build-sgl302.sh $SATURN_TMP
 COPY Resources/sgl302.patch $SATURN_TMP
-RUN $SATURN_TMP/build-sgl302.sh $SATURN_SGL
+RUN $SATURN_TMP/dl-sgl302.sh \
+    && $SATURN_TMP/build-sgl302.sh $SATURN_SGL
 
 FROM sgl AS sbl
 
@@ -391,10 +331,8 @@ COPY Resources/sbl6/segasmp $SATURN_TMP/sbl6_/segasmp
 COPY Resources/build-sbl6-lib.sh $SATURN_TMP
 COPY Resources/build-sbl6-samples.sh $SATURN_TMP
 COPY Resources/sbl6.patch $SATURN_TMP
-RUN $SATURN_TMP/build-sbl6-lib.sh
-RUN $SATURN_TMP/build-sbl6-samples.sh
-
-RUN rm -rf "$SATURN_TMP/*"
+RUN $SATURN_TMP/build-sbl6-lib.sh \
+    && $SATURN_TMP/build-sbl6-samples.sh
 
 # Download SBL examples
 COPY Resources/dl-sbl6-examples.sh $SATURN_TMP
@@ -402,9 +340,20 @@ RUN $SATURN_TMP/dl-sbl6-examples.sh
 COPY Resources/sbl6/examples $SATURN_TMP/sbl6_/examples
 COPY Resources/build-sbl6-examples.sh $SATURN_TMP
 COPY Resources/sbl6_examples.patch $SATURN_TMP
-RUN $SATURN_TMP/build-sbl6-examples.sh
-
-RUN rm -rf "$SATURN_TMP/*"
+RUN $SATURN_TMP/build-sbl6-examples.sh \
+    && true
+USER root
+RUN rm -rf "${SATURN_TMP:?}/sbl6_" \
+    "${SATURN_TMP:?}/sbl6.zip" \
+    "${SATURN_TMP:?}/examples.zip" \
+    "${SATURN_TMP:?}/build-sbl6-lib.sh" \
+    "${SATURN_TMP:?}/build-sbl6-samples.sh" \
+    "${SATURN_TMP:?}/build-sbl6-examples.sh" \
+    "${SATURN_TMP:?}/sbl6.patch" \
+    "${SATURN_TMP:?}/sbl6_examples.patch" \
+    "${SATURN_TMP:?}/dl-sbl6.sh" \
+    "${SATURN_TMP:?}/dl-sbl6-examples.sh"
+USER $UNAME
 
 #
 # Install SGL samples
@@ -426,8 +375,11 @@ COPY Resources/dl-SaturnSDK-samples.sh $SATURN_SAMPLES
 COPY Resources/build-SaturnSDK-samples.sh $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/dl-SaturnSDK-samples.sh
 COPY Resources/Samples $SATURN_SAMPLES
-RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh
-RUN rm -rf "$SATURN_TMP/*"
+RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh \
+    && true
+USER root
+RUN rm -rf "${SATURN_TMP:?}/"*
+USER $UNAME
 
 FROM sbl-samples AS joengine
 
@@ -460,11 +412,10 @@ COPY Resources/dl-joengine.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-joengine.sh"
 COPY Resources/build-joengine.sh "$SATURN_TMP"
 COPY Resources/jo-engine/jo_engine_makefile "$SATURN_TMP"
-RUN "$SATURN_TMP/build-joengine.sh"
 COPY Resources/build-joengine-samples.sh "$SATURN_TMP"
-RUN "$SATURN_TMP/build-joengine-samples.sh"
-
-RUN rm -rf "$SATURN_TMP/*"
+RUN "$SATURN_TMP/build-joengine.sh" \
+    && "$SATURN_TMP/build-joengine-samples.sh" \
+    && rm -rf "${SATURN_TMP:?}/"*
 
 FROM joengine AS yaul
 
@@ -485,12 +436,10 @@ COPY Resources/build-yaul.sh "$SATURN_TMP"
 COPY Resources/yaul/yaul.env.in "$SATURN_YAUL"
 RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul.sh"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
-RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh"
+RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh" \
+    && rm -rf "${SATURN_TMP:?}/"*
 
 # TODO : Add https://github.com/ijacquez/saturn-compos.git
-
-# Clean up temporary files
-RUN rm -rf "$SATURN_TMP/*"
 
 FROM yaul AS iapetus
 
@@ -506,11 +455,10 @@ ARG IAPETUS_COMMIT_SHA=955d7c50f634cdd18722657c920987200d9ba3a5
 COPY Resources/iapetus/dl-iapetus.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-iapetus.sh"
 COPY Resources/iapetus/build-iapetus.sh "$SATURN_TMP"
-RUN "$SATURN_TMP/build-iapetus.sh"
 COPY Resources/iapetus/build-iapetus-samples.sh "$SATURN_TMP"
-RUN "$SATURN_TMP/build-iapetus-samples.sh"
-
-RUN rm -rf "$SATURN_TMP/*"
+RUN "$SATURN_TMP/build-iapetus.sh" \
+    && "$SATURN_TMP/build-iapetus-samples.sh" \
+    && rm -rf "${SATURN_TMP:?}/"*
 
 FROM iapetus AS cdc
 
@@ -536,9 +484,9 @@ ARG INSTALL_SRL_LIB=1
 ARG SRL_LIB_TAG=0.9.1
 
 COPY Resources/SRL/dl-SRL.sh "$SATURN_TMP"
-RUN "$SATURN_TMP/dl-SRL.sh"
 COPY Resources/SRL/build-SRL.sh "$SATURN_TMP"
-RUN "$SATURN_TMP/build-SRL.sh"
+RUN "$SATURN_TMP/dl-SRL.sh" \
+    && "$SATURN_TMP/build-SRL.sh"
 
 ENV SRL_INSTALL_ROOT=$SATURN_SRL
 
