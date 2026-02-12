@@ -3,6 +3,7 @@
 2. [Usage](#usage)
    - [Build Instructions](#build-it)
    - [Run Instructions](#run-it)
+   - [Map a device from host to container](#map-a-device-from-host-to-container)
    - [IDE Integration](#use-it-in-an-ide)
    - [Change GCC Version](#change-gcc-version)
    - [Docker Hub](#docker-hub)
@@ -38,6 +39,32 @@ To run the container with SSH support and current user:
 ```bash
 docker run -it -p 2222:22 --rm --user $(id -u):$(id -g) -v $(pwd):/saturn saturn-docker:latest /bin/bash
 ```
+
+### Map a device from host to container
+To map a device from the host to the container, you can use the `--device` flag with `docker run`. For example, to map `/dev/ttyUSB0` on the host to `/dev/ttyUSB0` in the container:
+```bash
+docker run -it --rm --device=/dev/ttyUSB0:/dev/ttyUSB0 -v $(pwd):/saturn saturn-docker /bin/bash
+```
+Alternatively, you can modify the `compose.yaml` to include the device mapping:
+```yaml
+services:
+  build-saturn:
+    build: .
+    ports:
+      - "${SSH_PORT:-2222}:22"
+    command: /bin/bash
+    tty: true
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+```
+
+For dynamic device access (when device paths change), you can allow a class of devices with `--device-cgroup-rule`. For example, allow all USB serial (`ttyUSB*`) devices (major 188):
+```bash
+docker run -it --rm \
+  --device-cgroup-rule='c 188:* rmw' \
+  -v $(pwd):/saturn saturn-docker /bin/bash
+```
+You still need the device node to exist in the container. If it does not appear automatically, add a bind mount for a specific device or run the container in privileged mode.
 
 ### Use it in an IDE
 For IDE integration, refer to:
