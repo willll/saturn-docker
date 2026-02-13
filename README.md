@@ -1,18 +1,40 @@
 ## Table of Contents
 1. [Goal](#goal)
 2. [Usage](#usage)
-   - [Build Instructions](#build-it)
-   - [Run Instructions](#run-it)
-   - [Map a device from host to container](#map-a-device-from-host-to-container)
-   - [IDE Integration](#use-it-in-an-ide)
-   - [Change GCC Version](#change-gcc-version)
-   - [Docker Hub](#docker-hub)
-   - [Mount with SSHFS](#mount-with-sshfs)
-   - [Copy SSH Key](#copy-your-ssh-key-into-the-container)
+  - [Build it](#build-it)
+  - [Run it](#run-it)
+  - [Map a device from host to container](#map-a-device-from-host-to-container)
+  - [Use it in an IDE](#use-it-in-an-ide)
+  - [Change GCC Version for SH2](#change-gcc-version-for-sh2)
+    - [Available GCC Versions](#available-gcc-versions)
+    - [Example](#example)
+    - [Advanced Build Examples](#advanced-build-examples)
+  - [Docker Hub](#docker-hub)
+  - [Mount with SSHFS](#mount-with-sshfs)
+  - [Copy Your SSH Key into the Container](#copy-your-ssh-key-into-the-container)
 3. [Content](#content)
-   - [List of Variables](#list-of-variables)
-   - [Build Status](#build-status)
-4. [Miscellaneous Notes](#misc-notes)
+  - [List of variables](#list-of-variables)
+    - [SSHD variables](#sshd-variables)
+    - [Boost variables](#boost-variables)
+    - [GCC(SH2) build variables](#gccsh2-build-variables)
+    - [SGL variables](#sgl-variables)
+    - [SBL variables](#sbl-variables)
+    - [SATURN SDK variables](#saturn-sdk-variables)
+    - [JO ENGINE variables](#jo-engine-variables)
+    - [Yaul variables](#yaul-variables)
+    - [SRL variables](#srl-variables)
+    - [IAPETUS variables](#iapetus-variables)
+    - [CyberwarriorX CDC](#cyberwarriorx-cdc)
+  - [Build status](#build-status)
+    - [Tools](#tools)
+    - [SGL 3.02](#sgl-302)
+    - [SGL 3.20](#sgl-320)
+    - [SBL 6.01](#sbl-601)
+    - [SDK Samples](#sdk-samples)
+    - [Jo Engine 2025.1](#jo-engine-20251)
+    - [Yaul Version 0.3.1](#yaul-version-031)
+    - [SRL Version 0.9](#srl-version-09)
+4. [Misc notes](#misc-notes)
 
 ---
 
@@ -58,10 +80,13 @@ services:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
 ```
 
-For dynamic device access (when device paths change), you can allow a class of devices with `--device-cgroup-rule`. For example, allow all USB serial (`ttyUSB*`) devices (major 188):
+For dynamic device access (when device paths change), you can allow a class of devices with `--device-cgroup-rule`. For example, allow all USB serial (`ttyUSB*`) devices (major 188), and give access rights to /dev/bus/usb (major 189):
 ```bash
 docker run -it --rm \
-  --device-cgroup-rule='c 188:* rmw' \
+  --device-cgroup-rule='c 188:0 rmw' \
+  --device-cgroup-rule='c 189:* rmw' \
+  -v /dev/bus/usb:/dev/bus/usb \
+  -v /dev:/dev \
   -v $(pwd):/saturn saturn-docker /bin/bash
 ```
 You still need the device node to exist in the container. If it does not appear automatically, add a bind mount for a specific device or run the container in privileged mode.
