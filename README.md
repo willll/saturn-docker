@@ -59,7 +59,7 @@ docker run -it --rm -v $(pwd):/saturn saturn-docker /bin/bash
 ```
 To run the container with SSH support and current user:
 ```bash
-docker run -it -p 2222:22 --rm --user $(id -u):$(id -g) -v $(pwd):/saturn saturn-docker:latest /bin/bash
+docker run -it -p 2222:22 --rm --user $(id -u):$(id -g) -v $(pwd):/saturn saturn-docker /bin/bash
 ```
 
 ### Map a device from host to container
@@ -115,13 +115,13 @@ The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VE
 
 #### Example:
 ```bash
-docker build --build-arg GCC_VERSION_ARG=11.3.0 -t saturn-docker . --file ./Dockerfile
+docker build --build-arg GCC_VERSION_ARG=14.3.0 -t saturn-docker . --file ./Dockerfile
 ```
 
 #### Advanced Build Examples:
 ```bash
 docker build \
-  --build-arg GCC_VERSION_ARG=11.3.0 \
+  --build-arg GCC_VERSION_ARG=14.3.0 \
   --build-arg INSTALL_SATURNSDK_SAMPLES=0 \
   --build-arg INSTALL_JO_ENGINE_LIB=0 \
   --build-arg INSTALL_JO_ENGINE_SAMPLES=0 \
@@ -136,7 +136,7 @@ docker build \
 ```
 
 ```bash
-docker build  --build-arg GCC_VERSION_ARG=12.3.0 \
+docker build  --build-arg GCC_VERSION_ARG=12.4.0 \
   --build-arg INSTALL_SATURNSDK_SAMPLES=1 \
   --build-arg INSTALL_JO_ENGINE_LIB=1 \
   --build-arg INSTALL_JO_ENGINE_SAMPLES=1 \
