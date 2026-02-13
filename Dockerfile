@@ -100,30 +100,31 @@ ENV LC_ALL=en_US.UTF-8
 # Core Development Packages
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-  build-essential git nano unzip wget \
-  ca-certificates dos2unix gpg bison \
-  curl texinfo autotools-dev automake \
-  cmake shtool intltool libtool gettext \
-  autogen autoconf-archive xutils-dev \
-  xorriso doxygen ffmpeg ninja-build \
-  python3-pip python-is-python3 openssh-server \
-  rsync zip pipx libgmp-dev libmpfr-dev sox \
+    build-essential git nano unzip wget \
+    ca-certificates dos2unix gpg bison \
+    curl texinfo autotools-dev automake \
+    cmake shtool intltool libtool gettext \
+    autogen autoconf-archive xutils-dev \
+    xorriso doxygen ffmpeg ninja-build \
+    python3-pip python-is-python3 openssh-server \
+    rsync zip pipx libgmp-dev libmpfr-dev sox \
     libsox-fmt-all libsox-fmt-mp3 pkg-config \
     libftdi1-dev libusb-1.0-0-dev libudev-dev \
-  ## Make sure we leave any X11 related library behind
-  && apt-get purge -y 'libx11*' x11-common libxt6 \
-  ## Reinstall SDL2 for Mednafen
-  && apt-get install --no-install-recommends -y \
-  libsdl2-2.0-0 libflac-dev \
-  && apt autoremove -y --purge \
-  && rm -r /var/lib/apt/lists/*
+    usbutils \
+    ## Make sure we leave any X11 related library behind
+    && apt-get purge -y 'libx11*' x11-common libxt6 \
+    ## Reinstall SDL2 for Mednafen
+    && apt-get install --no-install-recommends -y \
+    libsdl2-2.0-0 libflac-dev \
+    && apt autoremove -y --purge \
+    && rm -r /var/lib/apt/lists/*
 
 # Base Directories
 RUN for directory in ${SATURN_ROOT} ${SATURN_SGL} ${SATURN_SBL} \
-                      ${SATURN_CMAKE} ${SATURN_JOENGINE} ${SATURN_YAUL} \
-                      ${SATURN_IAPETUS} ${SATURN_TMP} "${SATURN_CD}" "${SATURN_SAMPLES}" \
-                      "${SATURN_IPMAKER}" "${SATURN_SATCONV}" "${SATURN_COMMON}" \
-                      "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}" "${SATURN_SCU_DSP}" "${SATURN_FTX}"; \
+    ${SATURN_CMAKE} ${SATURN_JOENGINE} ${SATURN_YAUL} \
+    ${SATURN_IAPETUS} ${SATURN_TMP} "${SATURN_CD}" "${SATURN_SAMPLES}" \
+    "${SATURN_IPMAKER}" "${SATURN_SATCONV}" "${SATURN_COMMON}" \
+    "${SATURN_CYBERWARRIORX_CDC}" "${SATURN_SRL}" "${SATURN_SCU_DSP}" "${SATURN_FTX}"; \
     do mkdir -p "$directory" && chmod -R 777 "$directory"; done
 
 RUN chown -R $UNAME:$UNAME "${SATURN_ROOT}"
@@ -514,17 +515,17 @@ ARG BUILD_VERSION
 
 # Metadata
 LABEL \
-	org.label-schema.schema-version="1.0" \
-	org.label-schema.vendor="willll" \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.vendor="willll" \
     org.opencontainers.image.authors="willll" \
-	org.label-schema.name="willll/saturn-docker" \
-	org.label-schema.description="SH2 SuperH Compiler" \
-	org.label-schema.url="https://github.com/willll/saturn-docker" \
-	org.label-schema.vcs-url="https://github.com/willll/saturn-docker.git" \
-	org.label-schema.build-date=$BUILD_DATE \
-	org.label-schema.vcs-ref=$VCS_REF \
-	org.label-schema.version=$BUILD_VERSION \
-	org.label-schema.docker.cmd="docker run -it -p 2222:22 --rm -v ${pwd}:/saturn saturn-docker"
+    org.label-schema.name="willll/saturn-docker" \
+    org.label-schema.description="SH2 SuperH Compiler" \
+    org.label-schema.url="https://github.com/willll/saturn-docker" \
+    org.label-schema.vcs-url="https://github.com/willll/saturn-docker.git" \
+    org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.version=$BUILD_VERSION \
+    org.label-schema.docker.cmd="docker run -it -p 2222:22 --rm -v ${pwd}:/saturn saturn-docker"
 
 ENTRYPOINT ["/opt/saturn/common/startup.sh"]
 
