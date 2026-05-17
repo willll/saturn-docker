@@ -12,7 +12,10 @@ if [ $INSTALL_SRL_LIB -eq 1 ]; then
 		exit 1
 	fi
 
-  	git clone --recurse-submodules -j2 -b $SRL_LIB_TAG --depth 1 https://github.com/ReyeMe/SaturnRingLib.git "$SATURN_SRL"
+	git clone --recurse-submodules -j2 -b $SRL_LIB_TAG --depth 1 https://github.com/ReyeMe/SaturnRingLib.git "$SATURN_SRL"
+	pushd "$SATURN_SRL"
+	./tools/scripts/getiso2raw.sh "v0.2.2"
+	popd
 
 fi
 
