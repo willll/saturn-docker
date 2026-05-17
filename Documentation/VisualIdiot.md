@@ -49,8 +49,8 @@ Note : since the terminal is connected to the docker container, **you cannot dir
 
 Pre-built images are available from Docker Hub: [Docker Hub](https://hub.docker.com/r/willll/saturn-docker/tags).
 
-+ `docker pull willll/saturn-docker:gcc_13.3.0`
-+ `docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:gcc_13.3 /bin/bash`
++ `docker pull willll/saturn-docker:gcc_14.3.0`
++ `docker run -it -p 2222:22 --rm -v $(pwd):/saturn saturn-docker:gcc_14.3.0 /bin/bash`
 + Note: `$(pwd)` represents the local folder shared between the Docker container and your host computer.
 
 ### Container Configuration - An Easy Way
@@ -69,7 +69,7 @@ Once done, save, pull & redepoy. A new container shall be added and running once
 Build you own image from github :
 
 + clone the Repository : git clone https://github.com/willll/saturn-docker.git
-+ build the image : cd saturn-docker && docker build --build-arg GCC_VERSION_ARG=14.1.0 -t saturn-docker . --file ./Dockerfile
++ build the image : cd saturn-docker && docker build --build-arg GCC_VERSION_ARG=14.3.0 -t saturn-docker . --file ./Dockerfile
 + run it : docker run -it -p 2222:22 --rm -v /tmp/shared:/saturn saturn-docker /bin/bash
 + Note : /tmp/shared being the local folder shared between the docker and your host computer.
 + Note2 : 2222 will be the SSH port to reach out the container.
