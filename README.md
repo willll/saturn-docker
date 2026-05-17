@@ -171,6 +171,15 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 ### List of variables
 
+#### System & Build variables
+
+| Variable          | Default Value | Description                         |
+|-------------------|---------------|-------------------------------------|
+| `UNAME`           | ubuntu        | User name inside the container      |
+| `UID`             | 1000          | User ID                             |
+| `GID`             | 1000          | Group ID                            |
+| `CREATEINSTALLER` | "NO"          | Create an installer                 |
+
 #### SSHD variables
 
 | Variable        | Default Value | Description          |
@@ -183,6 +192,12 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 |------------------|---------------|----------------------|
 | `INSTALL_BOOST_LIB`    | 1     | 0 to disable Boost installation |
 
+#### FTX variables
+
+| Variable           | Default Value | Description                         |
+|---------------------|---------------|-------------------------------------|
+| `FTX_TAG`           | v0.9          | Specify the version/tag             |
+
 #### GCC(SH2) build variables
 
 | Variable           | Default Value | Description                         |
@@ -191,6 +206,12 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | `GCC_VERSION_ARG`   | 14.3.0        | GCC version                        |
 | `NCPU`              | 1             | Number of CPUs for GCC build        |
 | `BUILD_TYPE_ARG`    | Release       | Build type (Release/Debug)          |
+
+#### GCC(M68K) build variables
+
+| Variable           | Default Value | Description                         |
+|---------------------|---------------|-------------------------------------|
+| `INSTALL_M68K_GCC`  | 0             | 1 to install M68K GCC compiler      |
 
 #### SGL variables
 
@@ -219,7 +240,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 |---------------------------|---------------|-------------------|
 | `INSTALL_JO_ENGINE_LIB`   | 1             | 0 to disable      |
 | `INSTALL_JO_ENGINE_SAMPLES` | 1           | 0 to disable      |
-| `JO_ENGINE_TAG`           | v2024.2       | Specify the version/tag |
+| `JO_ENGINE_TAG`           | v2025.1       | Specify the version/tag |
 
 #### Yaul variables
 
@@ -268,6 +289,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [x] schily-tools : ISO generation tools
 - [x] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
 - [x] satcon : Sega Saturn image convertor https://git.sr.ht/~ndiddy/satconv/
+- [x] ftx : https://github.com/willll/ftx
 
 
 #### [SGL 3.02](SGL_3.02/README.md)
