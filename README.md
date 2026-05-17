@@ -256,7 +256,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | Variable                 | Default Value | Description       |
 |---------------------------|---------------|-------------------|
 | `INSTALL_SRL_LIB`   | 1             | 0 to disable      |
-| `SRL_LIB_TAG`           | 0.9.1       | Specify the version/tag |
+| `SRL_LIB_TAG`           | 0.9.2       | Specify the version/tag |
 
 #### IAPETUS variables
 

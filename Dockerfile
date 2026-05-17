@@ -482,7 +482,7 @@ FROM cdc AS srl
 #
 
 ARG INSTALL_SRL_LIB=1
-ARG SRL_LIB_TAG=0.9.1
+ARG SRL_LIB_TAG=0.9.2
 
 COPY Resources/SRL/dl-SRL.sh "$SATURN_TMP"
 COPY Resources/SRL/build-SRL.sh "$SATURN_TMP"
