@@ -24,11 +24,8 @@ fi
 #
 # build mednafen
 #
-curl -fSL -o "$SATURN_MEDNAFEN/Mednafen.Linux.zip" https://github.com/willll/mednafenSSDev/releases/download/initial/Mednafen.Linux.zip
 
-unzip -o "$SATURN_MEDNAFEN/Mednafen.Linux.zip" -d "$SATURN_MEDNAFEN"
-
-rm -f "$SATURN_MEDNAFEN/Mednafen.Linux.zip"
+curl -fSL -o "$SATURN_MEDNAFEN/mednafen" https://github.com/willll/mednafenSSDev/releases/download/v.01/mednafen
 
 mkdir -p "$SATURN_MEDNAFEN/firmware"
 
