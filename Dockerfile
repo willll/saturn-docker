@@ -110,7 +110,7 @@ RUN apt-get update \
     rsync zip pipx libgmp-dev libmpfr-dev sox \
     libsox-fmt-all libsox-fmt-mp3 pkg-config \
     libftdi1-dev libusb-1.0-0-dev libudev-dev \
-    usbutils ripgrep \
+    usbutils ripgrep socat gdb-multiarch \
     ## Make sure we leave any X11 related library behind
     && apt-get purge -y 'libx11*' x11-common libxt6 \
     ## Reinstall SDL2 for Mednafen
