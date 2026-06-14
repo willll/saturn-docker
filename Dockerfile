@@ -76,21 +76,22 @@ ARG UNAME=ubuntu
 ARG UID=1000
 ARG GID=1000
 ENV UNAME=$UNAME
+ENV HOME=/home/$UNAME
 
 # Add a non-root user and group
 RUN groupadd -g $GID -o $UNAME || true \
     && useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME || true \
     && usermod -a -G root $UNAME \
-    && usermod -d /root $UNAME \
     && echo "$UNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
-    && chown -R $UNAME:$UNAME /root /opt /etc/environment \
+    && chown -R $UNAME:$UNAME /home/$UNAME /opt /etc/environment \
     && echo 'root:root' | chpasswd
 
-RUN apt-get update && apt-get install -y locales \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+RUN apt-get update \
+    && apt-get install -y locales
 
 # Set System Locales
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
+RUN sed -i 's/^# \?en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
@@ -108,9 +109,10 @@ RUN apt-get update \
     xorriso doxygen ffmpeg ninja-build \
     python3-pip python-is-python3 openssh-server \
     rsync zip pipx libgmp-dev libmpfr-dev sox \
+    libboost-filesystem-dev libboost-program-options-dev \
     libsox-fmt-all libsox-fmt-mp3 pkg-config \
     libftdi1-dev libusb-1.0-0-dev libudev-dev \
-    usbutils ripgrep socat gdb-multiarch \
+    usbutils ripgrep socat bubblewrap gdb-multiarch \
     ## Make sure we leave any X11 related library behind
     && apt-get purge -y 'libx11*' x11-common libxt6 \
     ## Reinstall SDL2 for Mednafen
