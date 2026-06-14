@@ -602,6 +602,26 @@ diff -crBN --binary examples/devcon96/util/int.c examples_patch/devcon96/util/in
 ! 		while ((volatile Uint8) inVblank)
   			;
   }
+diff -crBN --binary examples/devcon96/util/slave.h examples_patch/devcon96/util/slave.h
+*** examples/devcon96/util/slave.h	1996-02-29 04:56:16.000000000 -0500
+--- examples_patch/devcon96/util/slave.h	2026-06-14 17:30:59.060045921 -0400
+***************
+*** 25,31 ****
+                                     slaveArg2 = (Uint32) (b),\
+  								   slaveArg3 = (Uint32) (c),\
+  								   slaveArg4 = (Uint32) (d),\
+! 								   SlaveFunc = (volatile void (*)()) f,\
+  								   *((Uint16 *) 0x21000000) = 0xffff)
+  
+  /***************************************************************************
+--- 25,31 ----
+                                     slaveArg2 = (Uint32) (b),\
+  								   slaveArg3 = (Uint32) (c),\
+  								   slaveArg4 = (Uint32) (d),\
+! 								   SlaveFunc = (volatile void (*)(Uint32, Uint32, Uint32, Uint32)) f,\
+  								   *((Uint16 *) 0x21000000) = 0xffff)
+  
+  /***************************************************************************
 diff -crBN --binary examples/devcon96/util/stmem.c examples_patch/devcon96/util/stmem.c
 *** examples/devcon96/util/stmem.c	1996-03-20 11:02:52.000000000 -0500
 --- examples_patch/devcon96/util/stmem.c	2022-02-12 18:09:38.000000000 -0500
