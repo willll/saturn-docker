@@ -13,10 +13,28 @@
   - [Mount with SSHFS](#mount-with-sshfs)
   - [Copy Your SSH Key into the Container](#copy-your-ssh-key-into-the-container)
 3. [Content](#content)
+- [Table of Contents](#table-of-contents)
+- [Goal](#goal)
+- [Usage](#usage)
+  - [Build it](#build-it)
+  - [Run it](#run-it)
+  - [Map a device from host to container](#map-a-device-from-host-to-container)
+  - [Use it in an IDE](#use-it-in-an-ide)
+  - [Change GCC Version for SH2](#change-gcc-version-for-sh2)
+    - [Available GCC Versions:](#available-gcc-versions)
+    - [Example:](#example)
+    - [Advanced Build Examples:](#advanced-build-examples)
+  - [Docker Hub](#docker-hub)
+  - [Mount with SSHFS](#mount-with-sshfs)
+  - [Copy Your SSH Key into the Container](#copy-your-ssh-key-into-the-container)
+- [Content](#content)
   - [List of variables](#list-of-variables)
+    - [System \& Build variables](#system--build-variables)
     - [SSHD variables](#sshd-variables)
     - [Boost variables](#boost-variables)
+    - [FTX variables](#ftx-variables)
     - [GCC(SH2) build variables](#gccsh2-build-variables)
+    - [GCC(M68K) build variables](#gccm68k-build-variables)
     - [SGL variables](#sgl-variables)
     - [SBL variables](#sbl-variables)
     - [SATURN SDK variables](#saturn-sdk-variables)
@@ -26,7 +44,7 @@
     - [IAPETUS variables](#iapetus-variables)
     - [CyberwarriorX CDC](#cyberwarriorx-cdc)
   - [Build status](#build-status)
-    - [Tools](#tools)
+  - [Tools](#tools)
     - [SGL 3.02](#sgl-302)
     - [SGL 3.20](#sgl-320)
     - [SBL 6.01](#sbl-601)
@@ -34,6 +52,7 @@
     - [Jo Engine 2025.1](#jo-engine-20251)
     - [Yaul Version 0.3.1](#yaul-version-031)
     - [SRL Version 0.9](#srl-version-09)
+- [Misc notes:](#misc-notes)
 4. [Misc notes](#misc-notes)
 
 ---
@@ -99,6 +118,9 @@ For IDE integration, refer to:
 The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
 #### Available GCC Versions:
+- **16.1.0**
+- **15.2.0**
+- **15.1.0**
 - **14.3.0** (default)
 - **14.2.0** 
 - ~~**14.1.0**~~ (deprecated)
