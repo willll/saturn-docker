@@ -5,7 +5,7 @@ if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set -x
 fi
 
-if [ $INSTALL_SGL_SAMPLES -eq 1 ]; then
+if [ "${INSTALL_SGL_SAMPLES:-0}" -eq 1 ]; then
 
 	if [ ! -d $SATURN_TMP ]; then
 		echo "Temporary directory not found"
