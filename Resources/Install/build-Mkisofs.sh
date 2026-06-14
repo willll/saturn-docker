@@ -33,8 +33,19 @@ make -f "$SATURN_TMP/tmp/Makefile" -C "$SATURN_TMP/tmp" \
 
 if [ -d "$SATURN_CD/bin" ]; then
 	mv "$SATURN_CD/bin/"* "$SATURN_CD"
-	rm -rf "$SATURN_CD/bin" "$SATURN_CD/ccs" "$SATURN_CD/etc" "$SATURN_CD/include" \
-		"$SATURN_CD/lib" "$SATURN_CD/sbin" "$SATURN_CD/share" "$SATURN_CD/xpg4"
+fi
+
+if [ -d "$SATURN_CD/sbin" ]; then
+	mv "$SATURN_CD/sbin/"* "$SATURN_CD"
+fi
+
+# Keep tool directories tidy, but preserve installed binaries moved above.
+rm -rf "$SATURN_CD/bin" "$SATURN_CD/ccs" "$SATURN_CD/etc" "$SATURN_CD/include" \
+	"$SATURN_CD/lib" "$SATURN_CD/sbin" "$SATURN_CD/share" "$SATURN_CD/xpg4"
+
+if [ ! -x "$SATURN_CD/mkisofs" ]; then
+	echo "mkisofs was not installed and no fallback (xorrisofs) is available" >&2
+	exit 1
 fi
 
 rm -rf "$SATURN_TMP/tmp"
