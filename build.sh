@@ -8,7 +8,7 @@ fi
 
 # Build the container
 docker build --no-cache --progress=plain \
-              --build-arg MAKEFLAGS_ARG="-j `nproc`" \
+              --build-arg MAKEFLAGS_ARG="$MAKEFLAGS" \
               --build-arg GCC_VERSION_ARG=$1 \
               -t willll/saturn-docker:gcc_$1 . --file ./Dockerfile || exit 1
 

@@ -165,8 +165,9 @@ WORKDIR "${SATURN_ROOT}"
 RUN pipx ensurepath && pipx completions
 
 FROM linux AS tools
+
 ARG INSTALL_BOOST_LIB=1
-ARG FTX_TAG=v0.9
+ARG FTX_TAG=v0.95
 USER root
 COPY Resources/Install/ $SATURN_TMP/Install/
 RUN bash "$SATURN_TMP/Install/build-tools.sh"
