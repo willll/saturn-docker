@@ -83,7 +83,7 @@ RUN groupadd -g $GID -o $UNAME || true \
     && useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME || true \
     && usermod -a -G root $UNAME \
     && echo "$UNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
-    && chown -R $UNAME:$UNAME /home/$UNAME /opt /etc/environment \
+    && chown -R $UNAME:$UNAME /home/$UNAME /opt /etc/environment /tmp \
     && echo 'root:root' | chpasswd
 
 RUN apt-get update \
