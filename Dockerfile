@@ -62,14 +62,15 @@ ENV CTEMPLATE_ROOT=/opt/lib/Ctemplate
 ARG MAKEFLAGS_ARG="-j 1"
 ENV MAKEFLAGS=$MAKEFLAGS_ARG
 
-RUN apt-get update && apt-get install -y locales \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+RUN apt-get update \
+    && apt-get install -y locales
 
 # Set System Locales
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+RUN sed -i 's/^# \?en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 # COPY Resources/Install/ubuntu-packages.list /tmp
 
