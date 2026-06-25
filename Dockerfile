@@ -85,7 +85,6 @@ RUN groupadd -g $GID -o $UNAME || true \
     && echo "$UNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
     && chown -R $UNAME:$UNAME /home/$UNAME /opt /etc/environment /tmp \
     && echo 'root:root' | chpasswd
-
 RUN apt-get update \
     && apt-get install -y locales
 
