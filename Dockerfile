@@ -437,9 +437,6 @@ RUN "$SATURN_TMP/dl-yaul.sh"
 COPY Resources/yaul/ "$SATURN_TMP/yaul/"
 COPY Resources/build-yaul.sh "$SATURN_TMP"
 COPY Resources/yaul/yaul.env.in "$SATURN_YAUL"
-USER root
-RUN chown -R $UNAME:$UNAME "$SATURN_TMP/yaul" "$SATURN_TMP/build-yaul.sh" "$SATURN_YAUL/yaul.env.in"
-USER $UNAME
 RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul.sh"
 COPY Resources/build-yaul-examples.sh $SATURN_TMP
 RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh" \
