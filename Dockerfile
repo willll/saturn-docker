@@ -168,7 +168,7 @@ FROM linux AS tools
 ARG INSTALL_BOOST_LIB=1
 ARG FTX_TAG=v0.95
 USER root
-COPY Resources/Install/ $SATURN_TMP/Install/
+COPY --chown=$UNAME:$UNAME Resources/Install/ $SATURN_TMP/Install/
 RUN bash "$SATURN_TMP/Install/build-tools.sh"
 USER $UNAME
 ENV PATH="$PATH:$SATURN_SATCONV:$SATURN_FTX:$SATURN_SCU_DSP:$SATURN_MEDNAFEN"
@@ -194,7 +194,7 @@ ARG CREATEINSTALLER="NO"
 ENV BUILDMACH=i686-pc-linux-gnu
 ENV HOSTMACH=i686-pc-linux-gnu
 
-COPY Resources/Toolchain/* $SATURN_TMP/
+COPY --chown=$UNAME:$UNAME Resources/Toolchain/* $SATURN_TMP/
 
 WORKDIR "${SATURN_TMP}"
 
@@ -268,13 +268,13 @@ ENV OBJCOPY=${INSTALLDIR}/bin/${PROGRAM_PREFIX}objcopy
 ENV PATH="${INSTALLDIR}/bin:${PATH}"
 
 # Copy CMake configuration files
-COPY Resources/CMake/* $SATURN_CMAKE/
+COPY --chown=$UNAME:$UNAME Resources/CMake/* $SATURN_CMAKE/
 
 # Copy common files for all the projects
-COPY Resources/Common/* $SATURN_COMMON/
+COPY --chown=$UNAME:$UNAME Resources/Common/* $SATURN_COMMON/
 
 # Install Files for ISO creation
-COPY Resources/CD $SATURN_CD
+COPY --chown=$UNAME:$UNAME Resources/CD $SATURN_CD
 
 # CMAKE variables
 ENV CMAKE_MODULE_PATH=${SATURN_CMAKE}
@@ -306,9 +306,9 @@ ENV SEGASGL=${SATURN_SGL}
 
 WORKDIR "${SATURN_TMP}"
 
-COPY Resources/dl-sgl302.sh $SATURN_TMP
-COPY Resources/build-sgl302.sh $SATURN_TMP
-COPY Resources/sgl302.patch $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/dl-sgl302.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/build-sgl302.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/sgl302.patch $SATURN_TMP
 RUN $SATURN_TMP/dl-sgl302.sh \
     && $SATURN_TMP/build-sgl302.sh $SATURN_SGL
 
@@ -326,23 +326,23 @@ ARG INSTALL_SBL_EXAMPLES=1
 ENV SEGALIB=${SATURN_SBL}/segalib
 ENV SEGASMP=${SATURN_SBL}/segasmp
 
-COPY Resources/dl-sbl6.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/dl-sbl6.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sbl6.sh
 
-COPY Resources/sbl6/segalib $SATURN_TMP/sbl6_/segalib
-COPY Resources/sbl6/segasmp $SATURN_TMP/sbl6_/segasmp
-COPY Resources/build-sbl6-lib.sh $SATURN_TMP
-COPY Resources/build-sbl6-samples.sh $SATURN_TMP
-COPY Resources/sbl6.patch $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/sbl6/segalib $SATURN_TMP/sbl6_/segalib
+COPY --chown=$UNAME:$UNAME Resources/sbl6/segasmp $SATURN_TMP/sbl6_/segasmp
+COPY --chown=$UNAME:$UNAME Resources/build-sbl6-lib.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/build-sbl6-samples.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/sbl6.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6-lib.sh \
     && $SATURN_TMP/build-sbl6-samples.sh
 
 # Download SBL examples
-COPY Resources/dl-sbl6-examples.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/dl-sbl6-examples.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sbl6-examples.sh
-COPY Resources/sbl6/examples $SATURN_TMP/sbl6_/examples
-COPY Resources/build-sbl6-examples.sh $SATURN_TMP
-COPY Resources/sbl6_examples.patch $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/sbl6/examples $SATURN_TMP/sbl6_/examples
+COPY --chown=$UNAME:$UNAME Resources/build-sbl6-examples.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/sbl6_examples.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6-examples.sh \
     && true
 USER root
@@ -362,8 +362,8 @@ USER $UNAME
 # Install SGL samples
 #
 
-COPY Resources/sgl $SATURN_TMP/sgl_
-COPY Resources/build-sgl302-samples.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/sgl $SATURN_TMP/sgl_
+COPY --chown=$UNAME:$UNAME Resources/build-sgl302-samples.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 
 FROM sbl AS sbl-samples
@@ -374,10 +374,10 @@ FROM sbl AS sbl-samples
 
 ARG INSTALL_SATURNSDK_SAMPLES=1
 
-COPY Resources/dl-SaturnSDK-samples.sh $SATURN_SAMPLES
-COPY Resources/build-SaturnSDK-samples.sh $SATURN_SAMPLES
+COPY --chown=$UNAME:$UNAME Resources/dl-SaturnSDK-samples.sh $SATURN_SAMPLES
+COPY --chown=$UNAME:$UNAME Resources/build-SaturnSDK-samples.sh $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/dl-SaturnSDK-samples.sh
-COPY Resources/Samples $SATURN_SAMPLES
+COPY --chown=$UNAME:$UNAME Resources/Samples $SATURN_SAMPLES
 RUN $SATURN_SAMPLES/build-SaturnSDK-samples.sh \
     && true
 USER root
@@ -411,11 +411,11 @@ ENV JO_COMPILE_WITH_SPRITE_HASHTABLE=1
 ENV JO_COMPILE_WITH_RAM_CARD_MODULE=1
 ENV JO_COMPILE_WITH_DUAL_CPU_MODULE=1
 
-COPY Resources/dl-joengine.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/dl-joengine.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-joengine.sh"
-COPY Resources/build-joengine.sh "$SATURN_TMP"
-COPY Resources/jo-engine/jo_engine_makefile "$SATURN_TMP"
-COPY Resources/build-joengine-samples.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/build-joengine.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/jo-engine/jo_engine_makefile "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/build-joengine-samples.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/build-joengine.sh" \
     && "$SATURN_TMP/build-joengine-samples.sh" \
     && rm -rf "${SATURN_TMP:?}/"*
@@ -432,13 +432,13 @@ ARG INSTALL_YAUL_SAMPLES=0
 ARG YAUL_TAG=0.3.1
 ARG YAUL_EXAMPLES_COMMIT_SHA=21fd76d83dffd49afc4926d6a8408eecfec474f5
 
-COPY Resources/dl-yaul.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/dl-yaul.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-yaul.sh"
-COPY Resources/yaul/ "$SATURN_TMP/yaul/"
-COPY Resources/build-yaul.sh "$SATURN_TMP"
-COPY Resources/yaul/yaul.env.in "$SATURN_YAUL"
+COPY --chown=$UNAME:$UNAME Resources/yaul/ "$SATURN_TMP/yaul/"
+COPY --chown=$UNAME:$UNAME Resources/build-yaul.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/yaul/yaul.env.in "$SATURN_YAUL"
 RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul.sh"
-COPY Resources/build-yaul-examples.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/build-yaul-examples.sh $SATURN_TMP
 RUN "$SATURN_TMP/yaul/set_env.sh" "$SATURN_TMP/build-yaul-examples.sh" \
     && rm -rf "${SATURN_TMP:?}/"*
 
@@ -455,10 +455,10 @@ ARG INSTALL_IAPETUS_LIB=0
 # IAPETUS commit from 2019.03.19 https://github.com/cyberwarriorx/iapetus/tree/955d7c50f634cdd18722657c920987200d9ba3a5
 ARG IAPETUS_COMMIT_SHA=955d7c50f634cdd18722657c920987200d9ba3a5
 
-COPY Resources/iapetus/dl-iapetus.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/iapetus/dl-iapetus.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-iapetus.sh"
-COPY Resources/iapetus/build-iapetus.sh "$SATURN_TMP"
-COPY Resources/iapetus/build-iapetus-samples.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/iapetus/build-iapetus.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/iapetus/build-iapetus-samples.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/build-iapetus.sh" \
     && "$SATURN_TMP/build-iapetus-samples.sh" \
     && rm -rf "${SATURN_TMP:?}/"*
@@ -471,10 +471,10 @@ FROM iapetus AS cdc
 
 ARG INSTALL_CYBERWARRIORX_CDC_LIB=0
 
-COPY Resources/CyberWarriorX-CDC/dl-CyberWarriorX-CDC.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/CyberWarriorX-CDC/dl-CyberWarriorX-CDC.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-CyberWarriorX-CDC.sh"
-COPY Resources/CyberWarriorX-CDC/CMakeLists.txt "$SATURN_CYBERWARRIORX_CDC"
-COPY Resources/CyberWarriorX-CDC/build-CyberWarriorX-CDC.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/CyberWarriorX-CDC/CMakeLists.txt "$SATURN_CYBERWARRIORX_CDC"
+COPY --chown=$UNAME:$UNAME Resources/CyberWarriorX-CDC/build-CyberWarriorX-CDC.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/build-CyberWarriorX-CDC.sh" $SATURN_CYBERWARRIORX_CDC
 
 FROM cdc AS srl
@@ -486,8 +486,8 @@ FROM cdc AS srl
 ARG INSTALL_SRL_LIB=1
 ARG SRL_LIB_TAG=0.9.2
 
-COPY Resources/SRL/dl-SRL.sh "$SATURN_TMP"
-COPY Resources/SRL/build-SRL.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/SRL/dl-SRL.sh "$SATURN_TMP"
+COPY --chown=$UNAME:$UNAME Resources/SRL/build-SRL.sh "$SATURN_TMP"
 RUN "$SATURN_TMP/dl-SRL.sh" \
     && "$SATURN_TMP/build-SRL.sh"
 
