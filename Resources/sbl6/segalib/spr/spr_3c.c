@@ -1253,8 +1253,10 @@ transCluster(SprCluster *cluster)
 	    if((obj->dispFlag & SHADING_MASK) == GOURAUD_SHADING) {
                 if(obj->dispFlag & INBETWEEN_OBJECT) {
   	            polyTransParm.gourVertCount = 0;
-  	            memcpy(cBuf->vertBright,obj->vertNormal,
-  	                                  obj->vertCount*sizeof(Sint32));
+  	            if(obj->vertCount > 0 &&
+  	               (Uint32)obj->vertCount <= polyTransParm.transViewVertCount)
+  	                memcpy(cBuf->vertBright,obj->vertNormal,
+  	                                  (Uint32)obj->vertCount*sizeof(Sint32));
                 } else {
 	            polyTransParm.gourVertCount = obj->vertCount;
 	            polyTransParm.vertNormal    = obj->vertNormal;
