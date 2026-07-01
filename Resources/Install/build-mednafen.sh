@@ -26,6 +26,7 @@ fi
 #
 
 curl -fSL -o "$SATURN_MEDNAFEN/mednafen" https://github.com/willll/mednafenSSDev/releases/download/v.01/mednafen
+chmod +x "$SATURN_MEDNAFEN/mednafen"
 
 mkdir -p "$SATURN_MEDNAFEN/firmware"
 
