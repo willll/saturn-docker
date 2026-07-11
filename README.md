@@ -218,7 +218,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 | Variable           | Default Value | Description                         |
 |---------------------|---------------|-------------------------------------|
-| `FTX_TAG`           | v0.9          | Specify the version/tag             |
+| `FTX_TAG`           | v0.98          | Specify the version/tag             |
 
 #### GCC(SH2) build variables
 
@@ -305,7 +305,11 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [x] GCC 13.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
 - [x] GCC 14.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
 - [x] GCC 14.3.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.3.0
+- [?] GCC 15.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_15.1.0_1
+- [?] GCC 15.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_15.2.0_1
+- [?] GCC 16.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_16.1.0_1
 - [ ] GDB for SH2 **(Not tested yet)**
+- [X] GDB Multiarch
 - [X] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
 - [x] CMake profile
 - [x] schily-tools : ISO generation tools

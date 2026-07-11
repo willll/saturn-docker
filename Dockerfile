@@ -116,7 +116,7 @@ RUN apt-get update \
     && apt-get purge -y 'libx11*' x11-common libxt6 \
     ## Reinstall SDL2 for Mednafen
     && apt-get install --no-install-recommends -y \
-    libsdl2-2.0-0 libflac-dev \
+    libsdl2-2.0-0 libflac-dev libgl1 libopengl0 libglib2.0-0 \
     && apt autoremove -y --purge \
     && rm -r /var/lib/apt/lists/*
 
@@ -166,7 +166,7 @@ RUN pipx ensurepath && pipx completions
 FROM linux AS tools
 
 ARG INSTALL_BOOST_LIB=1
-ARG FTX_TAG=v0.95
+ARG FTX_TAG=v0.98
 USER root
 COPY --chown=$UNAME:$UNAME Resources/Install/ $SATURN_TMP/Install/
 RUN bash "$SATURN_TMP/Install/build-tools.sh"
