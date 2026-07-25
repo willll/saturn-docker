@@ -32,42 +32,59 @@ if [ "$INSTALL_BOOST_LIB" -eq 1 ]; then
 	LIBS=(
 						tools/build
 						tools/boost_install
+						libs/algorithm
 						libs/align
 						libs/any
-						libs/assert
 						libs/array
+						libs/asio
+						libs/assert
 						libs/atomic
+						libs/beast
 						libs/bind
-						libs/config
-						libs/container_hash
+						libs/chrono
 						libs/concept_check
-						libs/core
+						libs/config
 						libs/container
+						libs/container_hash
+						libs/core
+						libs/date_time
+						libs/describe
 						libs/detail
+						libs/endian
 						libs/exception
+						libs/filesystem
+						libs/foreach
 						libs/function
+						libs/headers
 						libs/integer
 						libs/intrusive
 						libs/io
-						libs/mpl
-						libs/utility
-						libs/move
-						libs/numeric
-						libs/lexical_cast
 						libs/iterator
-						libs/headers
+						libs/lexical_cast
+						libs/logic
+						libs/move
+						libs/mp11
+						libs/mpl
+						libs/numeric
+						libs/optional
 						libs/predef
-						libs/static_assert
+						libs/preprocessor
+						libs/program_options
+						libs/property_tree
+						libs/multi_index
+						libs/serialization
 						libs/range
 						libs/smart_ptr
+						libs/static_assert
+						libs/system
+						libs/throw_exception
 						libs/tokenizer
+						libs/tuple
 						libs/type_index
 						libs/type_traits
-						libs/throw_exception
-						libs/preprocessor
-						libs/filesystem
-						libs/system
-						libs/program_options
+						libs/utility
+						libs/variant
+						libs/winapi
 						)
 
 	git clone --depth 1 --branch "$1" \
@@ -77,11 +94,11 @@ if [ "$INSTALL_BOOST_LIB" -eq 1 ]; then
 
 	for lib in "${LIBS[@]}"
 	do
-		git submodule update --init -- $lib
+		git submodule update --init --recursive -- $lib
 	done
 
 	"$SATURN_TMP/tmp/bootstrap.sh" --prefix="$BOOST_ROOT"
-	"$SATURN_TMP/tmp/b2" install
+	"$SATURN_TMP/tmp/b2" install --with-filesystem --with-program_options --with-system
 	"$SATURN_TMP/tmp/b2" headers
 
 	rm -rf "$SATURN_TMP/tmp"

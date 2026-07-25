@@ -105,10 +105,11 @@ RUN apt-get update \
     curl texinfo autotools-dev automake \
     cmake shtool intltool libtool gettext \
     autogen autoconf-archive xutils-dev \
+    clang-tidy clang-format cppcheck \
     xorriso doxygen ffmpeg ninja-build \
     python3-pip python-is-python3 openssh-server \
     rsync zip pipx libgmp-dev libmpfr-dev sox \
-    libboost-filesystem-dev libboost-program-options-dev \
+    libboost-all-dev \
     libsox-fmt-all libsox-fmt-mp3 pkg-config \
     libftdi1-dev libusb-1.0-0-dev libudev-dev \
     usbutils ripgrep socat bubblewrap gdb-multiarch \
@@ -116,7 +117,7 @@ RUN apt-get update \
     && apt-get purge -y 'libx11*' x11-common libxt6 \
     ## Reinstall SDL2 for Mednafen
     && apt-get install --no-install-recommends -y \
-    libsdl2-2.0-0 libflac-dev libgl1 libopengl0 libglib2.0-0 \
+    libsdl2-2.0-0 libflac-dev libgl1 libopengl0 libglib2.0-0 xvfb \
     && apt autoremove -y --purge \
     && rm -r /var/lib/apt/lists/*
 
@@ -166,7 +167,8 @@ RUN pipx ensurepath && pipx completions
 FROM linux AS tools
 
 ARG INSTALL_BOOST_LIB=1
-ARG FTX_TAG=v0.98
+ARG FTX_TAG=v1.01
+ARG MEDNAFEN_TAG=v.02
 USER root
 COPY --chown=$UNAME:$UNAME Resources/Install/ $SATURN_TMP/Install/
 RUN bash "$SATURN_TMP/Install/build-tools.sh"
@@ -174,6 +176,7 @@ USER $UNAME
 ENV PATH="$PATH:$SATURN_SATCONV:$SATURN_FTX:$SATURN_SCU_DSP:$SATURN_MEDNAFEN"
 ENV MEDNAFEN_HOME="$SATURN_MEDNAFEN"
 ENV SDL_VIDEODRIVER="dummy"
+ENV DISPLAY=":0"
 
 # Clean up
 USER root

@@ -25,7 +25,9 @@ fi
 # build mednafen
 #
 
-curl -fSL -o "$SATURN_MEDNAFEN/mednafen" https://github.com/willll/mednafenSSDev/releases/download/v.01/mednafen
+MEDNAFEN_TAG_VAL="${1:-${MEDNAFEN_TAG:-v.01}}"
+
+curl -fSL -o "$SATURN_MEDNAFEN/mednafen" "https://github.com/willll/mednafenSSDev/releases/download/${MEDNAFEN_TAG_VAL}/mednafen"
 chmod +x "$SATURN_MEDNAFEN/mednafen"
 
 mkdir -p "$SATURN_MEDNAFEN/firmware"

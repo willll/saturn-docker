@@ -1,59 +1,43 @@
 ## Table of Contents
 1. [Goal](#goal)
 2. [Usage](#usage)
-  - [Build it](#build-it)
-  - [Run it](#run-it)
-  - [Map a device from host to container](#map-a-device-from-host-to-container)
-  - [Use it in an IDE](#use-it-in-an-ide)
-  - [Change GCC Version for SH2](#change-gcc-version-for-sh2)
-    - [Available GCC Versions](#available-gcc-versions)
-    - [Example](#example)
-    - [Advanced Build Examples](#advanced-build-examples)
-  - [Docker Hub](#docker-hub)
-  - [Mount with SSHFS](#mount-with-sshfs)
-  - [Copy Your SSH Key into the Container](#copy-your-ssh-key-into-the-container)
+   - [Build it](#build-it)
+   - [Run it](#run-it)
+   - [Map a device from host to container](#map-a-device-from-host-to-container)
+   - [Use it in an IDE](#use-it-in-an-ide)
+   - [Change GCC Version for SH2](#change-gcc-version-for-sh2)
+     - [Available GCC Versions](#available-gcc-versions)
+     - [Example](#example)
+     - [Advanced Build Examples](#advanced-build-examples)
+   - [Docker Hub](#docker-hub)
+   - [Mount with SSHFS](#mount-with-sshfs)
+   - [Copy Your SSH Key into the Container](#copy-your-ssh-key-into-the-container)
 3. [Content](#content)
-- [Table of Contents](#table-of-contents)
-- [Goal](#goal)
-- [Usage](#usage)
-  - [Build it](#build-it)
-  - [Run it](#run-it)
-  - [Map a device from host to container](#map-a-device-from-host-to-container)
-  - [Use it in an IDE](#use-it-in-an-ide)
-  - [Change GCC Version for SH2](#change-gcc-version-for-sh2)
-    - [Available GCC Versions:](#available-gcc-versions)
-    - [Example:](#example)
-    - [Advanced Build Examples:](#advanced-build-examples)
-  - [Docker Hub](#docker-hub)
-  - [Mount with SSHFS](#mount-with-sshfs)
-  - [Copy Your SSH Key into the Container](#copy-your-ssh-key-into-the-container)
-- [Content](#content)
-  - [List of variables](#list-of-variables)
-    - [System \& Build variables](#system--build-variables)
-    - [SSHD variables](#sshd-variables)
-    - [Boost variables](#boost-variables)
-    - [FTX variables](#ftx-variables)
-    - [GCC(SH2) build variables](#gccsh2-build-variables)
-    - [GCC(M68K) build variables](#gccm68k-build-variables)
-    - [SGL variables](#sgl-variables)
-    - [SBL variables](#sbl-variables)
-    - [SATURN SDK variables](#saturn-sdk-variables)
-    - [JO ENGINE variables](#jo-engine-variables)
-    - [Yaul variables](#yaul-variables)
-    - [SRL variables](#srl-variables)
-    - [IAPETUS variables](#iapetus-variables)
-    - [CyberwarriorX CDC](#cyberwarriorx-cdc)
-  - [Build status](#build-status)
-  - [Tools](#tools)
-    - [SGL 3.02](#sgl-302)
-    - [SGL 3.20](#sgl-320)
-    - [SBL 6.01](#sbl-601)
-    - [SDK Samples](#sdk-samples)
-    - [Jo Engine 2025.1](#jo-engine-20251)
-    - [Yaul Version 0.3.1](#yaul-version-031)
-    - [SRL Version 0.9](#srl-version-09)
-- [Misc notes:](#misc-notes)
-4. [Misc notes](#misc-notes)
+   - [List of variables](#list-of-variables)
+     - [System & Build variables](#system--build-variables)
+     - [SSHD variables](#sshd-variables)
+     - [Boost variables](#boost-variables)
+     - [FTX variables](#ftx-variables)
+     - [Mednafen variables](#mednafen-variables)
+     - [GCC(SH2) build variables](#gccsh2-build-variables)
+     - [GCC(M68K) build variables](#gccm68k-build-variables)
+     - [SGL variables](#sgl-variables)
+     - [SBL variables](#sbl-variables)
+     - [SATURN SDK variables](#saturn-sdk-variables)
+     - [JO ENGINE variables](#jo-engine-variables)
+     - [Yaul variables](#yaul-variables)
+     - [SRL variables](#srl-variables)
+     - [IAPETUS variables](#iapetus-variables)
+     - [CyberwarriorX CDC](#cyberwarriorx-cdc)
+   - [Tools](#tools)
+     - [SGL 3.02](#sgl-302)
+     - [SGL 3.20](#sgl-320)
+     - [SBL 6.01](#sbl-601)
+     - [SDK Samples](#sdk-samples)
+     - [Jo Engine 2025.1](#jo-engine-20251)
+     - [Yaul Version 0.3.1](#yaul-version-031)
+     - [SRL Version 0.9.2](#srl-version-092)
+4. [Misc Notes](#misc-notes)
 
 ---
 
@@ -117,7 +101,7 @@ For IDE integration, refer to:
 ### Change GCC Version for SH2
 The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
-#### Available GCC Versions:
+#### Available GCC Versions
 - **16.1.0**
 - **15.2.0**
 - **15.1.0**
@@ -135,12 +119,12 @@ The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VE
 - **9.5.0**
 - **8.4.0**
 
-#### Example:
+#### Example
 ```bash
 docker build --build-arg GCC_VERSION_ARG=14.3.0 -t saturn-docker . --file ./Dockerfile
 ```
 
-#### Advanced Build Examples:
+#### Advanced Build Examples
 ```bash
 docker build \
   --build-arg GCC_VERSION_ARG=14.3.0 \
@@ -218,7 +202,13 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 | Variable           | Default Value | Description                         |
 |---------------------|---------------|-------------------------------------|
-| `FTX_TAG`           | v0.98          | Specify the version/tag             |
+| `FTX_TAG`           | v1.01         | Specify the version/tag             |
+
+#### Mednafen variables
+
+| Variable           | Default Value | Description                         |
+|---------------------|---------------|-------------------------------------|
+| `MEDNAFEN_TAG`      | v.01          | Specify the version/tag             |
 
 #### GCC(SH2) build variables
 
@@ -294,8 +284,6 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 |----------------------------------|---------------|-------------------|
 | `INSTALL_CYBERWARRIORX_CDC_LIB` | 0             | 1 to enable       |
 
-### Build status
-
 ### Tools
 - [x] GCC 8.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_8.4.0
 - [x] GCC 9.5.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_9.5.0
@@ -309,13 +297,16 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [?] GCC 15.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_15.2.0_1
 - [?] GCC 16.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_16.1.0_1
 - [ ] GDB for SH2 **(Not tested yet)**
-- [X] GDB Multiarch
-- [X] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
+- [x] GDB Multiarch
+- [x] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
 - [x] CMake profile
 - [x] schily-tools : ISO generation tools
 - [x] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
 - [x] satcon : Sega Saturn image convertor https://git.sr.ht/~ndiddy/satconv/
 - [x] ftx : https://github.com/willll/ftx
+- [x] Mednafen : Sega Saturn emulator (headless mode supported)
+- [x] scu-dsp-asm : SCU DSP assembler https://github.com/buhman/scu-dsp-asm
+- [x] CueMaker : CUE file generator
 
 
 #### [SGL 3.02](SGL_3.02/README.md)
@@ -640,7 +631,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `vdp2-zooming`
 </details>
 
-#### [SRL Version 0.9](https://github.com/ReyeMe/SaturnRingLib)
+#### [SRL Version 0.9.2](https://github.com/ReyeMe/SaturnRingLib)
 <details>
 
 - [x] `SRL`
@@ -675,7 +666,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `VDP2 - RBG0 Rotation`
 </details>
 
-## Misc notes:
+## Misc Notes
 
 - [RetroReversing Guide](https://github.com/RetroReversing/retroReversing/tree/master/pages/sega/saturn)
 - [Boost Preprocessor Introduction](https://www.boost.org/doc/libs/1_76_0/libs/preprocessor/doc/AppendixA-AnIntroductiontoPreprocessorMetaprogramming.html)

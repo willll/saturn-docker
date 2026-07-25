@@ -50,7 +50,11 @@ fi
 run_as_user "bash \"$SCRIPT_DIR/build-scu-dsp-asm.sh\""
 
 # Install Mednafen (for testing/emulation)
-run_as_user "bash \"$SCRIPT_DIR/build-mednafen.sh\""
+if [ -n "${MEDNAFEN_TAG:-}" ]; then
+	run_as_user "bash \"$SCRIPT_DIR/build-mednafen.sh\" \"$MEDNAFEN_TAG\""
+else
+	run_as_user "bash \"$SCRIPT_DIR/build-mednafen.sh\""
+fi
 
 if [ "${DOCKER_BUILDKIT:-}" == "1" ]; then
 	set +x
