@@ -202,7 +202,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 | Variable           | Default Value | Description                         |
 |---------------------|---------------|-------------------------------------|
-| `FTX_TAG`           | v1.01         | Specify the version/tag             |
+| `FTX_TAG`           | v1.2          | Specify the version/tag             |
 
 #### Mednafen variables
 
@@ -252,7 +252,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 |---------------------------|---------------|-------------------|
 | `INSTALL_JO_ENGINE_LIB`   | 1             | 0 to disable      |
 | `INSTALL_JO_ENGINE_SAMPLES` | 1           | 0 to disable      |
-| `JO_ENGINE_TAG`           | v2025.1       | Specify the version/tag |
+| `JO_ENGINE_TAG`           | v2026.5       | Specify the version/tag |
 
 #### Yaul variables
 

@@ -42,6 +42,7 @@ if [ "$INSTALL_BOOST_LIB" -eq 1 ]; then
 						libs/beast
 						libs/bind
 						libs/chrono
+						libs/compat
 						libs/concept_check
 						libs/config
 						libs/container
@@ -55,6 +56,8 @@ if [ "$INSTALL_BOOST_LIB" -eq 1 ]; then
 						libs/filesystem
 						libs/foreach
 						libs/function
+						libs/function_types
+						libs/fusion
 						libs/headers
 						libs/integer
 						libs/intrusive
@@ -65,25 +68,29 @@ if [ "$INSTALL_BOOST_LIB" -eq 1 ]; then
 						libs/move
 						libs/mp11
 						libs/mpl
+						libs/multi_index
 						libs/numeric
 						libs/optional
 						libs/predef
 						libs/preprocessor
 						libs/program_options
 						libs/property_tree
-						libs/multi_index
-						libs/serialization
 						libs/range
+						libs/scope
+						libs/serialization
 						libs/smart_ptr
 						libs/static_assert
+						libs/static_string
 						libs/system
 						libs/throw_exception
 						libs/tokenizer
 						libs/tuple
 						libs/type_index
 						libs/type_traits
+						libs/typeof
 						libs/utility
 						libs/variant
+						libs/variant2
 						libs/winapi
 						)
 
