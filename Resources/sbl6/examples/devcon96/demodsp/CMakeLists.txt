@@ -22,7 +22,7 @@ target_include_directories(${TARGET_NAME}.elf PUBLIC
      ${SEGALIB}/include
 )
 
-set(c_flags -Wall -m2 -MMD)
+set(c_flags -Wall -m2 -MMD -std=gnu89)
 
 target_compile_options(${TARGET_NAME}.elf PUBLIC $<$<COMPILE_LANGUAGE:C>:${c_flags}>)
 
