@@ -23,8 +23,8 @@ run_as_user "bash \"$SCRIPT_DIR/build-Mkisofs.sh\""
 # Install Saturn-SDK-Tool-IPMaker 0.2
 run_as_user "bash \"$SCRIPT_DIR/build-IPMaker.sh\" \"IPMaker_0.2\""
 
-# Install Boost preprocessor, System, filesystem, program_options 1.78.0
-bash "$SCRIPT_DIR/build-Boost.sh" "boost-1.78.0"
+# Install Boost preprocessor, System, filesystem, program_options 1.92.0
+bash "$SCRIPT_DIR/build-Boost.sh" "boost-1.92.0"
 
 # Install gdown https://pypi.org/project/gdown/
 if ! command -v gdown >/dev/null 2>&1; then
