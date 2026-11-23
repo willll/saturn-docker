@@ -622,3 +622,61 @@ diff -crBN --binary examples/devcon96/util/stmem.c examples_patch/devcon96/util/
   	}
   
   	i = firstBlock[heapIndex];
+diff -crBN --binary examples/gfsdemo/spr_demo.c examples_patch/gfsdemo/spr_demo.c
+*** examples/gfsdemo/spr_demo.c	2026-11-22 18:45:45.658882100 -0500
+--- examples_patch/gfsdemo/spr_demo.c	2026-11-22 18:45:51.992157593 -0500
+***************
+*** 12,20 ****
+  #include    "sega_dbg.h"
+  #include    "smp_pad.h"
+  
+! #include	<machine\machine.h>
+  #include    "sega_scl.h"
+! #include	"../../v_blank/v_blank.h"
+  
+  
+  Uint16 tut160[(160*160*2)+4];
+--- 12,20 ----
+  #include    "sega_dbg.h"
+  #include    "smp_pad.h"
+  
+! #include	<machine.h>
+  #include    "sega_scl.h"
+! #include	"v_blank/v_blank.h"
+  
+  
+  Uint16 tut160[(160*160*2)+4];
+***************
+*** 183,189 ****
+  	return 1;
+      }
+  
+!     gfs = GFS_Open(3); /* tut160.bin has a file ID of 3 */
+  	if (gfs == NULL) return 2;
+  
+      GFS_Fread(gfs, ((2*160*160)/SECT_SIZE), (void *)tut160, (2*160*160)+4);
+--- 183,189 ----
+  	return 1;
+      }
+  
+!     gfs = GFS_Open(GFS_NameToId((Sint8 *)"TUT160.BIN")); /* the file ID depends on the other files of the CD */
+  	if (gfs == NULL) return 2;
+  
+      GFS_Fread(gfs, ((2*160*160)/SECT_SIZE), (void *)tut160, (2*160*160)+4);
+diff -crBN --binary examples/periphs/source/lib/spaint.c examples_patch/periphs/source/lib/spaint.c
+*** examples/periphs/source/lib/spaint.c	2026-11-22 18:48:37.697967058 -0500
+--- examples_patch/periphs/source/lib/spaint.c	2026-11-22 18:48:37.712141115 -0500
+***************
+*** 12,17 ****
+--- 12,22 ----
+  
+  #include "ssp.h"
+  
++ /* called before their definitions: K&R implicit declarations conflict with the Sint16/Uint8 parameters */
++ paint_line(Sint16 x1,Sint16 y1,Sint16 x2,Sint16 y2,Uint8 col,Uint8 flag);
++ paint_box(Sint16 x1,Sint16 y1,Sint16 x2,Sint16 y2,Uint8 col,Uint8 flag);
++ paint_line_endpoint(Uint8 flag);
++ 
+  #define PAINT_PSET 0
+  #define PAINT_LINE 1
+  #define PAINT_CIRC 2
