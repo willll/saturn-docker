@@ -14,8 +14,8 @@ if [ $INSTALL_SBL_EXAMPLES -eq 1 ]; then
 
 	cd $SATURN_TMP
 
-	# Clean the code
-	find $SATURN_TMP/examples -type f -exec sed -i 's/\o32//g' {} \;
+	# Clean the code: drop the DOS end of file (0x1A) of the text files only (it is data in the binaries)
+	find $SATURN_TMP/examples -type f -exec env LC_ALL=C grep -Iq . {} \; -exec sed -i 's/\o32//g' {} \;
 
 	# Patch the code
 	patch -p0 -d $SATURN_TMP < sbl6_examples.patch

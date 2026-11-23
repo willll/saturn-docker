@@ -20,10 +20,11 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 	# Patch the code
 	patch -p0 -d $SATURN_TMP < sbl6.patch
 
-	# Clean the code
+	# Clean the code: drop the DOS end of file (0x1A) of the text files only
+	# (it is data in the binaries: "*.[o,a,lib,bin]" matched one character, so fld_knl.bin lost its 0x1A bytes)
 	find $SATURN_TMP \
-		! -name "*.[o,a,lib,bin]" \
 		-type f \
+		-exec env LC_ALL=C grep -Iq . {} \; \
 		-exec sed -i 's/\o32//g' {} \;
 
 	rm $SATURN_TMP/sbl6/segalib/spr/sega_spr.h
