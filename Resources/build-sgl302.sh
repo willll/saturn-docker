@@ -43,10 +43,11 @@ if [ $INSTALL_SGL_LIB -eq 1 ]; then
 		mv -f "$SATURN_TMP/sgl302/libsgl_real_elf.a" "$SATURN_TMP/sgl302/lib/libsgl.a"
 	fi
 
-	# Clean the code
+	# Clean the code: drop the DOS end of file (0x1A) of the text files only
+	# (it is data in the binaries: "*.[a,o,lib]" matched one character, the sound driver, sound and model data lost bytes)
 	find $SATURN_TMP/sgl302 \
-		! -name "*.[a,o,lib]" \
 		-type f \
+		-exec env LC_ALL=C grep -Iq . {} \; \
 		-exec sed -i 's/\o32//g' {} \;
 
 	#
