@@ -46,6 +46,8 @@ SH_OBJS_UNIQ:= $(addsuffix .o,$(foreach SRC,$(SH_SRCS_C) $(SH_SRCS_CXX) $(SH_SRC
 SH_OBJS_UNIQ:= $(foreach OBJ,$(SH_OBJS_UNIQ),$(call macro-convert-build-path,$(OBJ)))
 
 SH_LDFLAGS+= $(SH_DEFSYMS)
+# Here and not in build.pre.mk: SH_PROGRAM is set by the Makefile of the program
+SH_LDFLAGS+= -Wl,-Map,$(SH_BUILD_PATH)/$(SH_PROGRAM).map
 
 ifeq ($(strip $(SH_SPECS)),)
   SH_SPECS:= $(YAUL_INSTALL_ROOT)/$(YAUL_ARCH_SH_PREFIX)/lib/yaul.specs \

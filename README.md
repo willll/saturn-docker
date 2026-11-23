@@ -259,7 +259,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | Variable                     | Default Value                     | Description                                |
 |-------------------------------|-----------------------------------|--------------------------------------------|
 | `INSTALL_YAUL_LIB_ARG`        | 1                                 | 0 to disable                               |
-| `INSTALL_YAUL_SAMPLES`        | 0                                 | 0 to disable                               |
+| `INSTALL_YAUL_SAMPLES`        | 1                                 | 0 to disable                               |
 | `YAUL_TAG`                    | 0.3.1                             | Tag to retrieve from Yaul's GitHub         |
 | `YAUL_EXAMPLES_COMMIT_SHA`    | 21fd76d83dffd49afc4926d6a8408eecfec474f5 | Commit matching `YAUL_TAG` in Yaul examples GitHub |
 
