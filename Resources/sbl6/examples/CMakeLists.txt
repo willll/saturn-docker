@@ -23,7 +23,9 @@ project( segasmp VERSION 1.0
 
 add_subdirectory(backram)
 add_subdirectory(devcon96)
+# dualcpu is not built: it is the Hitachi compiler build of segasmp/dual (built there), and links slave.lib, a binary Hitachi library without source
 #add_subdirectory(dualcpu)
-#add_subdirectory(gfsdemo)
-#add_subdirectory(periphs)
+add_subdirectory(gfsdemo)
+add_subdirectory(periphs)
+# sgl is not built: it is the same as the demos of SGL, built by build-sgl302-samples.sh
 #add_subdirectory(sgl)

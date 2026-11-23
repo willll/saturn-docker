@@ -4,10 +4,11 @@ set(SOURCES
   ${SATURN_COMMON}/crt0.s
   ${PROJECT_SOURCE_DIR}/v_blank/v_blank.c
   ${PROJECT_SOURCE_DIR}/v_blank/set_vb.c
-  spr_sinc.src
-  spr_fmat.src
-  spr_mtx3.src
-  slv_mtx3.src
+  # GNU as conversions of the Hitachi .src files (sbl6.patch)
+  spr_sinc.s
+  spr_fmat.s
+  spr_mtx3.s
+  slv_mtx3.s
   slvsamp.c
   slavesh.c
   spr_xpt.c

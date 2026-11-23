@@ -27805,3 +27805,1920 @@ diff -crBN --binary sbl6/segasmp/v_blank/v_blank.c sbl6_patch/segasmp/v_blank/v_
   	}
 ! }*/
 ! 
+diff -crBN --binary sbl6/segasmp/dual/spr_sinc.s sbl6_patch/segasmp/dual/spr_sinc.s
+*** sbl6/segasmp/dual/spr_sinc.s	1969-12-31 19:00:00.000000000 -0500
+--- sbl6_patch/segasmp/dual/spr_sinc.s	1969-12-31 19:00:00.000000000 -0500
+***************
+*** 0 ****
+--- 1,155 ----
++ !-----------------------------------------------------------------------------
++ !   spr_sinc.src -- SPR ライブラリ SINC モジュール
++ !   Copyright(c) 1994 SEGA
++ !   Written by Y.S on 1994-02-15 Ver.0.80
++ !   Updated by H.E on 1994-02-15 Ver.0.80
++ !
++ !   このライブラリはＳＨにおけるＳＩＮ、ＣＯＳテーブルサーチルーチン。
++ !
++ !   _fsin                   -  ０から８９度のＳＩＮ値を返す
++ !   _fcos                   -  １から９０度のＣＯＳ値を返す
++ !
++ !-----------------------------------------------------------------------------
++ !
++ 	.global	_fsin
++ 	.global	_fcos
++ !
++ !	Cosine(a) Subroutine
++ !	Cosine(a) = Sine(90-a)
++ !	In :a		(R4)
++ !	Out:Cosine(a)   (R0)
++ ! 
++ 	.text
++ 	.balign 4
++ _fcos:
++ 	MOV.L	NINTY,R2	!90-a ->R4
++ 	NEG	R4,R4
++ 	ADD	R2,R4
++ !
++ !
++ !	Sine (a) Subroutine 
++ !	In:a = angle (0 - 89)(R4)
++ !	Out:Sine(a)          (R0)
++ !
++ _fsin:
++ 	MOVA	SINTBL,R0	!sine table start address ->R1	
++ 	STS	MACL,R3
++ 
++ 	SWAP.W	R4,R1
++ 	EXTU.W	R1,R1
++ 	SHLL2	R1		!R0<-Entry of The Table
++ 	MOV.W	@(R0,R1),R2	!sin(a) GRAD->R2
++ 
++ 	ADD	#2,R0
++ 	MULU	R4,R2
++ 	MOV.W	@(R0,R1),R0	!sin(a) value->R0
++ 	STS	MACL,R2
++ 	EXTU.W	R0,R0
++ 	LDS	R3,MACL
++ 	SWAP.W	R2,R2
++ 	EXTU.W	R2,R2
++ 	RTS
++ 	ADD	R2,R0
++ 
++ !	Constant Data definiton
++ 	.balign	4
++ NINTY:	.long	0x005A0000	!90
++ !Sine Table Data Area(AREA SIZE = 91 x 2 x 2 = 364BYTES
++ !	 ALIGN=4
++ SINTBL:
++ !	         delta, value 
++ 	.short	0x0477,0x0000		!00deg
++ 	.short	0x0478,0x0477		!01deg
++ 	.short	0x0476,0x08EF		!02deg
++ 	.short	0x0476,0x0D65		!03deg
++ 	.short	0x0474,0x11DB		!04deg
++ 	.short	0x0473,0x164F		!05deg
++ 	.short	0x0470,0x1AC2		!06deg
++ 	.short	0x046E,0x1F32		!07deg
++ 	.short	0x046C,0x23A0		!08deg
++ 	.short	0x0468,0x280C		!09deg
++ 	.short	0x0464,0x2C74		!10deg
++ 	.short	0x0461,0x30D8		!11deg
++ 	.short	0x045D,0x3539		!12deg
++ 	.short	0x0458,0x3996		!13deg
++ 	.short	0x0453,0x3DEE		!14deg
++ 	.short	0x044F,0x4241		!15deg
++ 	.short	0x0448,0x4690		!16deg
++ 	.short	0x0443,0x4AD8		!17deg
++ 	.short	0x043D,0x4F1B		!18deg
++ 	.short	0x0436,0x5358		!19deg
++ 	.short	0x0430,0x578E		!20deg
++ 	.short	0x0428,0x5BBE		!21deg
++ 	.short	0x0420,0x5FE6		!22deg
++ 	.short	0x0419,0x6406		!23deg
++ 	.short	0x0411,0x681F		!24deg
++ 	.short	0x0409,0x6C30		!25deg
++ 	.short	0x03FF,0x7039		!26deg
++ 	.short	0x03F7,0x7438		!27deg
++ 	.short	0x03ED,0x782F		!28deg
++ 	.short	0x03E3,0x7C1C		!29deg
++ 	.short	0x03DA,0x7FFF		!30deg
++ 	.short	0x03CF,0x83D9		!31deg
++ 	.short	0x03C5,0x87A8		!32deg
++ 	.short	0x03BA,0x8B6D		!33deg
++ 	.short	0x03AE,0x8F27		!34deg
++ 	.short	0x03A4,0x92D5		!35deg
++ 	.short	0x0397,0x9679		!36deg
++ 	.short	0x038B,0x9A10		!37deg
++ 	.short	0x0380,0x9D9B		!38deg
++ 	.short	0x0372,0xA11B		!39deg
++ 	.short	0x0366,0xA48D		!40deg
++ 	.short	0x0359,0xA7F3		!41deg
++ 	.short	0x034B,0xAB4C		!42deg
++ 	.short	0x033E,0xAE97		!43deg
++ 	.short	0x032F,0xB1D5		!44deg
++ 	.short	0x0322,0xB504		!45deg
++ 	.short	0x0313,0xB826		!46deg
++ 	.short	0x0305,0xBB39		!47deg
++ 	.short	0x02F6,0xBE3E		!48deg
++ 	.short	0x02E7,0xC134		!49deg
++ 	.short	0x02D8,0xC41B		!50deg
++ 	.short	0x02C8,0xC6F3		!51deg
++ 	.short	0x02B8,0xC9BB		!52deg
++ 	.short	0x02A8,0xCC73		!53deg
++ 	.short	0x0298,0xCF1B		!54deg
++ 	.short	0x0288,0xD1B3		!55deg
++ 	.short	0x0278,0xD43B		!56deg
++ 	.short	0x0266,0xD6B3		!57deg
++ 	.short	0x0256,0xD919		!58deg
++ 	.short	0x0244,0xDB6F		!59deg
++ 	.short	0x0234,0xDDB3		!60deg
++ 	.short	0x0221,0xDFE7		!61deg
++ 	.short	0x0211,0xE208		!62deg
++ 	.short	0x01FE,0xE419		!63deg
++ 	.short	0x01EC,0xE617		!64deg
++ 	.short	0x01DB,0xE803		!65deg
++ 	.short	0x01C8,0xE9DE		!66deg
++ 	.short	0x01B5,0xEBA6		!67deg
++ 	.short	0x01A4,0xED5B		!68deg
++ 	.short	0x0190,0xEEFF		!69deg
++ 	.short	0x017E,0xF08F		!70deg
++ 	.short	0x016B,0xF20D		!71deg
++ 	.short	0x0158,0xF378		!72deg
++ 	.short	0x0145,0xF4D0		!73deg
++ 	.short	0x0131,0xF615		!74deg
++ 	.short	0x011F,0xF746		!75deg
++ 	.short	0x010B,0xF865		!76deg
++ 	.short	0x00F7,0xF970		!77deg
++ 	.short	0x00E4,0xFA67		!78deg
++ 	.short	0x00D1,0xFB4B		!79deg
++ 	.short	0x00BD,0xFC1C		!80deg
++ 	.short	0x00A9,0xFCD9		!81deg
++ 	.short	0x0095,0xFD82		!82deg
++ 	.short	0x0081,0xFE17		!83deg
++ 	.short	0x006E,0xFE98		!84deg
++ 	.short	0x005A,0xFF06		!85deg
++ 	.short	0x0046,0xFF60		!86deg
++ 	.short	0x0032,0xFFA6		!87deg
++ 	.short	0x001E,0xFFD8		!88deg
++ 	.short	0x000A,0xFFF6		!89deg
++ 	.short	0x0000,0xFFFF		!90deg
++ 
++ 	.end
++ 
++ !   end of file
+diff -crBN --binary sbl6/segasmp/dual/spr_fmat.s sbl6_patch/segasmp/dual/spr_fmat.s
+*** sbl6/segasmp/dual/spr_fmat.s	1969-12-31 19:00:00.000000000 -0500
+--- sbl6_patch/segasmp/dual/spr_fmat.s	1969-12-31 19:00:00.000000000 -0500
+***************
+*** 0 ****
+--- 1,112 ----
++ !-----------------------------------------------------------------------------
++ !   spr_fmat.src -- SPR ライブラリ FMAT モジュール
++ !   Copyright(c) 1994 SEGA
++ !   Written by T.S on 1994-01-24 Ver.0.80
++ !   Updated by H.E on 1994-02-15 Ver.0.80
++ !
++ !   このライブラリはＳＨにおける３２ビット固定小数点の演算と、Ｃ言語の割り算
++ !   ルーチンの高速版を含む。
++ !
++ !   _SPR_MULF               -  固定小数点の乗算
++ !   _SPR_DIVF               -  固定小数点の除算
++ !   _SPR_ITOF               -  整数を固定小数点に変換
++ !   _SPR_FTOI               -  固定小数点を整数に変換
++ !   __divls                 -  Ｃ言語の割り算ルーチン
++ !
++ !   このライブラリを使用するには次のインクルードファイルを定義する必要がある。
++ !
++ !   #include "sega_xpt.h"
++ !   #include "sega_spr.h"
++ !
++ !-----------------------------------------------------------------------------
++ !
++ !---------------------------------------------------------------------
++ !  SH2 fixed point multiplication routine                   '94.01.24
++ !---------------------------------------------------------------------
++ !	C Langage Interface:
++ !
++ !	Fixed32 SPR_MULF( Fixed32 a, Fixed32 b );
++ !
++ !	  Fixed point multiplication:
++ !	  H16.L16 x H16.L16 -> e16 H16.L16 o16
++ !	                           ~~~~~~~
++ !	    R4    x   R5    ->       R0
++ !
++ !       REGs USED:
++ !	       R0, R3..R5
++ !
++ !---------------------------------------------------------------------
++ !  SH2 fixed point division routine                         '94.01.24
++ !---------------------------------------------------------------------
++ !	C Langage Interface:
++ !
++ !	Fixed32 SPR_DIVF( Fixed32 a, Fixed32 b );
++ !
++ !	   Fixed point division:
++ !	   e16 H16.L16 o16/ H16.L16 -> H16.L16
++ !	       ~~~~~~~
++ !	          R4      /   R5    ->   R0
++ !
++ !       REGs USED:
++ !	       R0, R4, R5
++ !
++ 	.global _SPR_MULF
++ 	.global _SPR_DIVF
++ 	.global	_SPR_ITOF
++ 	.global	_SPR_FTOI
++ 	.global	__divls
++ 	.text
++ 	.balign 4
++ _SPR_MULF:
++  	STS	MACH,R1
++  	STS	MACL,R2
++ 	DMULS.L R4,R5
++  	STS	MACH,R3
++  	STS	MACL,R0
++  	LDS	R1,MACH
++  	LDS	R2,MACL
++ 	RTS		! return
++  	XTRCT	R3,R0	! xtract for Fixed32
++ _SPR_DIVF:
++ 	MOV.L	A_DIV,R0
++ 	SWAP.W	R4,R2	! make R2:R4 64bit pair
++ 	MOV.L	R5,@R0
++ 	EXTS.W	R2,R2	!  0  R4H   R4L  0
++ 	MOV.L	R2,@(0x10,R0)
++ 	SHLL16	R4
++ 	MOV.L	R4,@(0x14,R0)
++ 	RTS
++  	MOV.L	@(0x14,R0),R0
++ _SPR_ITOF:
++ 	MOV  	R4,R0
++ 	RTS
++ 	SHLL16	R0
++ _SPR_FTOI:
++ 	MOV  	R4,R0
++ 	SHLR16	R0
++ 	RTS
++ 	EXTS.W	R0,R0
++ 	.balign	4
++ __divls:
++ 	MOV.L	R3,@-R15
++ 	MOV	#0xF0,R3
++ 	STC.L	SR,@-R15
++ 	EXTU.B	R3,R3
++ 	LDC	R3,SR
++ 	MOV.L	A_DIV,R3
++ 	MOV.L	R0,@R3		! SH2 DIV Unit
++ 	NOP
++ 	MOV.L	R1,@(0x4,R3)
++ 	NOP
++  	MOV.L	@(0x14,R3),R0	! get DIV result
++ 	NOP
++ 	LDC.L	@R15+,SR
++ 	MOV.L	@R15+,R3
++ 	RTS
++ 	MOV	R0,R1
++ 	.balign	4
++ A_DIV:	.long	0xFFFFFF00
++ !---------------------------------------------------------------------
++ 	.end
++ !---------------------------------------------------------------------
++ !   end of file
+diff -crBN --binary sbl6/segasmp/dual/spr_mtx3.s sbl6_patch/segasmp/dual/spr_mtx3.s
+*** sbl6/segasmp/dual/spr_mtx3.s	1969-12-31 19:00:00.000000000 -0500
+--- sbl6_patch/segasmp/dual/spr_mtx3.s	1969-12-31 19:00:00.000000000 -0500
+***************
+*** 0 ****
+--- 1,813 ----
++ !-----------------------------------------------------------------------------
++ !   spr_mtx3.src -- SPR ライブラリ MTX3 モジュール
++ !   Copyright(c) 1994 SEGA
++ !   Written by K.M on 1993-12-14 Ver.0.80
++ !   Updated by H.E on 1994-02-15 Ver.0.80
++ !   Updated by T.S on 1994-02-15 Ver.0.80
++ !
++ !   このライブラリはスプライト３Ｄ表示のマトリックス演算ルーチンの高速版で以下
++ !   のルーチンのを含む。
++ !   高速版にするため、 spr_mtx3.c をＳＨＣコンパイラにて一旦アセンブラソース出
++ !   力し、命令の最適化を行った。
++ !
++ !   _sp3InitialMatrix       -  マトリックス演算処理モジュールの初期化処理
++ !   _sp3ViewCoordMatrix     -  カレントマトリックスに視点座標系への変換マトリ
++ !                              ックスをセット
++ !   _sp3ClearCurrentMatrix  -  カレントマトリックスのクリア
++ !   _sp3ViewPointAngle      -  ビューポイントの座標とアングルを設定する
++ !   _sp3LightAngle          -  光源のアングルを設定する
++ !   _sp3PushMatrix          -  カレントマトリックスのプッシュ
++ !   _sp3PopMatrix           -  カレントマトリックスのポップ
++ !   _sp3RotateMatrixX       -  カレントマトリックスのＸ回転
++ !   _sp3RotateMatrixY       -  カレントマトリックスのＹ回転
++ !   _sp3RotateMatrixZ       -  カレントマトリックスのＺ回転
++ !   _sp3ReversMatrixZ       -  カレントマトリックスのＺ値符号反転
++ !   _sp3MoveMatrix          -  カレントマトリックスの平行移動
++ !   _sp3SurfaceBright       -  面データ群の輝度計算
++ !   _sp3CoordTrans          -  頂点データ群の座標変換
++ !   _sp3CoordTransSub       -  １頂点データの座標変換
++ !   _sp3VertBright          -  頂点データ群の輝度計算
++ !   _sp3NormalTrans         -  法線の座標変換
++ !   _sp3ComputeBrightness   -  １データの輝度計算
++ !
++ !   このライブラリを使用するには次のインクルードファイルを定義する必要がある。
++ !
++ !   #include "sega_xpt.h"
++ !   #include "spr_mtx3.h"
++ !
++ !-----------------------------------------------------------------------------
++ !
++           !.import     _SPR_FTOI
++           !.import     _SPR_MULF
++           !.import     _fxsin
++           !.import     _fxcos
++           .global     _sp3currentMatrix
++           .global     _sp3InitialMatrix
++           .global     _sp3ClearCurrentMatrix
++           .global     _sp3ViewPointAngle
++           .global     _sp3LightAngle
++           .global     _sp3ViewCoordMatrix
++           .global     _sp3PushMatrix
++           .global     _sp3PopMatrix
++           .global     _sp3RotateMatrixX
++           .global     _sp3RotateMatrixY
++           .global     _sp3RotateMatrixZ
++           .global     _sp3ReversMatrixZ
++           .global     _sp3MoveMatrix
++           .global     _sp3SurfaceBright
++           .global     _sp3CoordTrans
++           .global     _sp3VertBright
++           .global     _sp3CoordTransSub
++           .global     _sp3NormalTrans
++           .global     _sp3ComputeBrightness
++ 	.macro	CSSC P,Q
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#\Q-\P-4,R7
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#-\Q+\P-4,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	CLRMAC
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#\Q-\P-4,R7
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#-\Q-4,R7
++ 	XTRCT	R1,R0
++ 	MOV.L	R0,@(\P,R7)
++ 	ADD	#-16,R5
++ 	STS	MACH,R3
++ 	STS	MACL,R2
++ 	XTRCT	R3,R2
++ 	MOV.L	R2,@(\Q,R7)
++ 	.endm
++ 
++ 	.macro	M123 P
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R5+
++ 	MAC.L	@R7+,@R5+
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#-12,R5
++ 	MOV.L	@R7,R2
++ 	ADD	#-\P-12,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	XTRCT	R1,R0
++ 	ADD	R2,R0
++ 	MOV.L	R0,@(\P+12,R7)
++ 	.endm
++ 
++ 	.macro	T123 P
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	ADD	#-12,R4
++ 	MOV.L	@R7,R2
++ 	ADD	#-\P-12,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	XTRCT	R1,R0
++ 	ADD	R2,R0
++ 	MOV.L	R0,@R5
++ 	ADD	#4,R5
++ 	.endm
++ 
++ 	.macro	N123 P
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	ADD	#-12,R4
++ 	ADD	#-\P-12,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	XTRCT	R1,R0
++ 	MOV.L	R0,@R5
++ 	ADD	#4,R5
++ 	.endm
++ 
++ 	.macro	PROD RP,RQ,RR
++ 	CLRMAC
++ 	MAC.L	@\RP+,@\RQ+
++ 	MAC.L	@\RP+,@\RQ+
++ 	MAC.L	@\RP+,@\RQ+
++ 	ADD	#-12,\RP
++ 	ADD	#-12,\RQ
++ 	STS	MACH,R0
++ 	STS	MACL,\RR
++ 	XTRCT	R0,\RR
++ 	.endm
++           .text
++ 	.balign 4
++ _sp3InitialMatrix:               ! function: sp3InitialMatrix
++                                  ! frame size=4
++           STS.L       PR,@-R15
++           MOV         #0,R3
++           MOV.L       L419+2,R2
++           MOV.W       R3,@R2
++           MOV.L       L419+6,R3
++           MOV.L       L419+10,R2
++           MOV.L       R3,@R2
++           BRA         _sp3ClearCurrentMatrix
++           LDS.L       @R15+,PR
++ _sp3ViewCoordMatrix:             ! function: sp3ViewCoordMatrix
++                                  ! frame size=12
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L419+14,R13
++           MOV.L       L419+18,R14
++           BSR         _sp3InitialMatrix
++           NOP
++           BSR         _sp3ReversMatrixZ
++           NOP
++ 
++           BSR         _sp3RotateMatrixZ
++           MOV.L       @(8,R14),R4
++           MOV.L       @(4,R14),R4
++           BSR         _sp3RotateMatrixY
++           NEG         R4,R4
++           MOV.L       @R14,R4
++           BSR         _sp3RotateMatrixX
++           NEG         R4,R4
++ 
++           MOV.L       @(8,R13),R6
++           MOV.L       @(4,R13),R5
++           MOV.L       @R13,R4
++           NEG         R6,R6
++           NEG         R5,R5
++           BSR         _sp3MoveMatrix
++           NEG         R4,R4
++           MOV.L       L419+22,R5
++           MOV.L       L419+26,R4
++           LDS.L       @R15+,PR
++           MOV.L       @R15+,R13
++           BRA         _sp3NormalTrans
++           MOV.L       @R15+,R14
++ _sp3ClearCurrentMatrix:          ! function: sp3ClearCurrentMatrix
++                                  ! frame size=0
++           MOV.L       L419+30,R6
++           MOV.L       L419+10,R5
++           MOV.L       @R5,R5
++           MOV         #0,R4
++ L390:                             
++           ADD         #1,R4
++           MOV         #12,R2
++           MOV.L       @R6+,R1
++           EXTU.W      R4,R3
++           MOV.L       R1,@R5
++           CMP/GE      R2,R3
++           BF/S        L390
++           ADD         #4,R5
++           RTS
++           NOP
++ L419:                             
++           .space 2*(1)
++           .long     L271
++           .long     L270
++           .long     _sp3currentMatrix
++           .long     L276
++           .long     L277
++           .long     L275
++           .long     L274
++           .long     L279
++ _sp3ViewPointAngle:              ! function: sp3ViewPointAngle
++                                  ! frame size=0
++           MOV.L       L420+2,R7
++           MOV.L       L420+6,R6
++           MOV.L       @R4,R3
++           MOV.L       R3,@R6
++           MOV.L       @(4,R4),R2
++           MOV.L       R2,@(4,R6)
++           MOV.L       @(8,R4),R3
++           MOV.L       R3,@(8,R6)
++           MOV.L       @R5,R2
++           MOV.L       R2,@R7
++           MOV.L       @(4,R5),R3
++           MOV.L       R3,@(4,R7)
++           MOV.L       @(8,R5),R2
++           RTS
++           MOV.L       R2,@(8,R7)
++ _sp3LightAngle:                  ! function: sp3LightAngle
++                                  ! frame size=8
++           MOV.L       R14,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L420+10,R14
++           MOV.L       @R4,R3
++           MOV.L       R3,@R14
++           MOV.L       @(4,R4),R2
++           MOV.L       R2,@(4,R14)
++           MOV.L       @(8,R4),R3
++           MOV.L       R3,@(8,R14)
++           BSR         _sp3InitialMatrix
++           NOP
++ 
++           BSR         _sp3RotateMatrixZ
++ 	  MOV.L       @(8,R14),R4
++           BSR         _sp3RotateMatrixY
++           MOV.L       @(4,R14),R4
++           BSR         _sp3RotateMatrixX
++           MOV.L       @R14,R4
++ 
++           MOV.L       L420+14,R5
++           MOV.L       L420+18,R4
++           LDS.L       @R15+,PR
++           BRA         _sp3NormalTrans
++           MOV.L       @R15+,R14
++ L420:                             
++           .space 2*(1)
++           .long     L277
++           .long     L276
++           .long     L273
++           .long     L274
++           .long     L278
++ _sp3PushMatrix:                  ! function: sp3PushMatrix
++                                  ! frame size=0
++           MOV.L       L421+2,R7
++           MOV.L       L421+6,R6
++           MOV.W       @R7,R5
++           MOV.L       @R6,R6
++           ADD         #1,R5
++           MOV         R5,R3
++           MOV.W       R5,@R7
++           SHLL2       R3
++           SHLL2       R5
++           SHLL2       R3
++           SHLL2       R5
++           SHLL        R3
++           ADD         R3,R5
++           EXTS.W      R5,R5
++           MOV.L       L421+10,R2
++           ADD         R2,R5
++           MOV         #0,R4
++ L393:                             
++           ADD         #1,R4
++           MOV         #12,R2
++           MOV.L       @R6+,R1
++           EXTU.W      R4,R3
++           MOV.L       R1,@R5
++           CMP/GE      R2,R3
++           BF/S        L393
++           ADD         #4,R5
++           MOV.W       @R7,R2
++           MOV.L       L421+10,R1
++           MOV         R2,R3
++           SHLL2       R2
++           SHLL2       R3
++           SHLL2       R2
++           SHLL2       R3
++           SHLL        R3
++           ADD         R3,R2
++           EXTS.W      R2,R2
++           MOV.L       L421+6,R3
++           ADD         R1,R2
++           RTS
++           MOV.L       R2,@R3
++ _sp3PopMatrix:                   ! function: sp3PopMatrix
++                                  ! frame size=0
++           MOV.L       L421+2,R3
++           MOV.L       L421+2,R2
++           MOV.W       @R3,R3
++           ADD         #-1,R3
++           MOV         R3,R1
++           MOV.W       R3,@R2
++           SHLL2       R1
++           SHLL2       R3
++           MOV.L       L421+10,R2
++           SHLL2       R1
++           SHLL2       R3
++           SHLL        R1
++           ADD         R1,R3
++           EXTS.W      R3,R3
++           MOV.L       L421+6,R1
++           ADD         R2,R3
++           RTS
++           MOV.L       R3,@R1
++ L421:                             
++           .space 2*(1)
++           .long     L271
++           .long     _sp3currentMatrix
++           .long     L270
++ _sp3RotateMatrixX:               ! function: sp3RotateMatrixX
++                                  ! frame size=60
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L422+14,R3	! fxcos
++           JSR         @R3
++           MOV         R4,R13
++ 	MOV.L         R0,@-R15
++           MOV         R0,R12
++           MOV.L       L422+10,R3	! fxsin
++           JSR         @R3
++           MOV         R13,R4
++ 	MOV.L       L422+2,R7		! cur *Matx
++ 	NEG	R0,R1
++ 	MOV.L         R1,@-R15
++ 	MOV.L         R0,@-R15
++ 	MOV.L         R12,@-R15
++ 	MOV.L       @R7,R7		! Matx
++ !
++ 	MOV	R15,R5
++ 	CSSC	4,8
++ 	CSSC	20,24
++ 	CSSC	36,40
++           ADD         #16,R15
++ !
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R12
++           RTS
++           MOV.L       @R15+,R13
++ L422:                             
++           .space 2*(1)
++           .long     _sp3currentMatrix
++           .long     _SPR_MULF
++           .long     _fxsin
++           .long     _fxcos
++ _sp3RotateMatrixY:               ! function: sp3RotateMatrixY
++                                  ! frame size=60
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L423+12,R3
++           JSR         @R3
++           MOV         R4,R12
++ 	MOV.L         R0,@-R15
++           MOV         R0,R13
++           MOV.L       L423+8,R3
++           JSR         @R3
++           MOV         R12,R4
++ 	MOV.L       L423,R7
++ 	NEG	R0,R1
++ 	MOV.L         R0,@-R15
++ 	MOV.L         R1,@-R15
++ 	MOV.L         R13,@-R15
++ 	MOV.L       @R7,R7		! Matx
++ !
++ 	MOV	R15,R5
++ 	CSSC	0,8
++ 	CSSC	16,24
++ 	CSSC	32,40
++           ADD         #16,R15
++ !
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R12
++           RTS
++           MOV.L       @R15+,R13
++ 	NOP
++ L423:                             
++           .long     _sp3currentMatrix
++           .long     _SPR_MULF
++           .long     _fxsin
++           .long     _fxcos
++ _sp3RotateMatrixZ:               ! function: sp3RotateMatrixZ
++                                  ! frame size=60
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L424+14,R3
++           JSR         @R3
++           MOV         R4,R12
++ 	MOV.L         R0,@-R15
++           MOV         R0,R13
++           MOV.L       L424+10,R3
++           JSR         @R3
++           MOV         R12,R4
++ 	MOV.L       L424+2,R7
++ 	NEG	R0,R1
++ 	MOV.L         R1,@-R15
++ 	MOV.L         R0,@-R15
++ 	MOV.L         R13,@-R15
++ 	MOV.L       @R7,R7		! Matx
++ !
++ 	MOV	R15,R5
++ 	CSSC	0,4
++ 	CSSC	16,20
++ 	CSSC	32,36
++           ADD         #16,R15
++ !
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R12
++           RTS
++           MOV.L       @R15+,R13
++ L424:                             
++           .space 2*(1)
++           .long     _sp3currentMatrix
++           .long     _SPR_MULF
++           .long     _fxsin
++           .long     _fxcos
++ _sp3ReversMatrixZ:               ! function: sp3ReversMatrixZ
++                                  ! frame size=0
++           MOV.L       L425+2,R4
++           MOV.L       @R4,R4
++           ADD         #8,R4
++           MOV.L       @R4,R3
++           NEG         R3,R3
++           MOV.L       R3,@R4
++ !
++           MOV.L       L425+2,R4
++           MOV.L       @R4,R4
++           ADD         #24,R4
++           MOV.L       @R4,R3
++           NEG         R3,R3
++           MOV.L       R3,@R4
++           MOV.L       L425+2,R4
++           MOV.L       @R4,R4
++           ADD         #40,R4
++           MOV.L       @R4,R2
++           NEG         R2,R2
++           RTS
++           MOV.L       R2,@R4
++ _sp3MoveMatrix:                  ! function: sp3MoveMatrix
++                                  ! frame size=32
++           STS.L       MACL,@-R15
++           MOV.L       L425+2,R7
++           MOV.L       @R7,R7		! Matx
++ 	MOV.L	R6,@-R15
++ 	MOV.L	R5,@-R15
++ 	MOV.L	R4,@-R15
++ !
++ 	MOV	R15,R5
++ 	M123	0
++ 	M123	16
++ 	M123	32
++ !
++ 	ADD	#12,R15
++           RTS
++           LDS.L       @R15+,MACL
++ 	NOP
++ L425:                             
++           .space 2*(1)
++           .long     _sp3currentMatrix
++           .long     _SPR_MULF
++ _sp3SurfaceBright:               ! function: sp3SurfaceBright
++                                  ! frame size=72
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV         R5,R13
++           MOV.L       R11,@-R15
++           MOV         #12,R11
++           MOV.L       R10,@-R15
++           MOV         R4,R10
++           MOV.L       R9,@-R15
++           EXTU.W      R10,R3
++           MOV.L       R8,@-R15
++           MOV         R6,R9
++           STS.L       PR,@-R15
++           MOV         R7,R8
++           STS.L       MACL,@-R15
++           ADD         #-36,R15
++           CMP/PL      R3
++           BF/S        L400
++           MOV         #0,R14
++ L401:                             
++           MOV         R15,R5
++           ADD         #12,R5
++           BSR         _sp3CoordTransSub
++           MOV         R13,R4
++           MOV         R15,R5
++           EXTU.W      R14,R12
++           MOV.L       @(12,R15),R2
++           MUL.L       R11,R12
++           NEG         R2,R2
++           STS         MACL,R4
++           MOV.L       R2,@(24,R15)
++           MOV.L       @(16,R15),R3
++           NEG         R3,R3
++           MOV.L       R3,@(28,R15)
++           MOV.L       @(20,R15),R3
++           NEG         R3,R3
++           MOV.L       R3,@(32,R15)
++           BSR         _sp3NormalTrans
++           ADD         R9,R4
++           MOV         R12,R6
++           MOV         R15,R5
++           MOV         R15,R4
++           ADD         R8,R6
++           BSR         _sp3ComputeBrightness
++           ADD         #24,R4
++           ADD         #1,R14
++           EXTU.W      R10,R3
++           EXTU.W      R14,R2
++           CMP/GE      R3,R2
++           BF/S        L401
++           ADD         #12,R13
++ L400:                             
++           ADD         #36,R15
++           LDS.L       @R15+,MACL
++           LDS.L       @R15+,PR
++           MOV.L       @R15+,R8
++           MOV.L       @R15+,R9
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ !#####
++ _sp3CoordTrans:                  ! function: sp3CoordTrans
++                                  ! frame size=32
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV.L       R11,@-R15
++           MOV         R4,R12
++           MOV.L       R10,@-R15
++           MOV         #12,R11
++           EXTU.W      R12,R3
++           MOV         R6,R10
++           MOV.L       R9,@-R15
++           MOV         R5,R9
++           STS.L       PR,@-R15
++           STS.L       MACL,@-R15
++           CMP/PL      R3
++           BF/S        HL409
++           MOV         #0,R14
++ HL410:                             
++           EXTU.W      R14,R13
++           MUL.L       R11,R13
++           STS         MACL,R13
++           MOV         R13,R5
++           MOV         R13,R4
++           ADD         R10,R5
++           BSR         _sp3CoordTransSub
++           ADD         R9,R4
++           ADD         #1,R14
++           EXTU.W      R12,R3
++           EXTU.W      R14,R2
++           CMP/GE      R3,R2
++           BF          HL410
++ HL409:                             
++           LDS.L       @R15+,MACL
++           LDS.L       @R15+,PR
++           MOV.L       @R15+,R9
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ !#####
++ _sp3CoordTransSub:               ! function: sp3CoordTransSub
++                                  ! frame size=28
++           MOV.L       L427,R7		! *Matx
++           STS.L       MACL,@-R15
++           MOV.L       @R7,R7		! Matx
++ !
++ 	T123	0
++ 	T123	16
++ 	T123	32
++ !
++           RTS
++           LDS.L       @R15+,MACL
++ L427:                             
++           .long     _sp3currentMatrix
++           .long     _SPR_MULF
++ !####
++ _sp3VertBright:                  ! function: sp3VertBright
++                                  ! frame size=48
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV.L       R11,@-R15
++           MOV.L       R10,@-R15
++           MOV         R6,R10
++           MOV.L       R9,@-R15
++           MOV         #0,R9
++           MOV.L       R8,@-R15
++           MOV         R4,R8
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           EXTU.W      R8,R3
++           ADD         #-16,R15
++           MOV.L       L428+4,R12
++           MOV.L       L428+8,R13
++           MOV.L       R5,@R15
++           CMP/PL      R3
++           BF/S        L408
++           EXTU.W      R9,R14
++ L409:                             
++           EXTU.W      R14,R0
++           MOV.W       L428,R2
++           MOV.B       @(R0,R10),R3
++           EXTU.B      R3,R3
++           CMP/EQ      R2,R3
++           BT          L410
++           MOV         R15,R5
++           EXTU.W      R14,R4
++           MOV.L       @R15,R2
++           ADD         #4,R5
++           MOV         R4,R3
++           SHLL2       R4
++           SHLL2       R3
++           SHLL        R3
++           ADD         R3,R4
++           BSR         _sp3NormalTrans
++           ADD         R2,R4
++ !
++ 	MOV	R15,R4
++ 	ADD	#4,R4
++ 	PROD	R12,R4,R11
++ !
++           MOV.L       L428+12,R4
++           MOV.L       L428+16,R3
++           ADD         R11,R4
++           SHLL2       R4
++           JSR         @R3
++           SHLL2       R4
++           EXTS.W      R0,R4
++           EXTS.W      R4,R2
++           CMP/PZ      R2
++           BT          L411
++           EXTS.W      R9,R4
++ L411:                             
++           EXTS.W      R4,R2
++           MOV         #31,R3
++           CMP/GT      R3,R2
++           BF          L412
++           MOV         #31,R4
++ L412:                             
++           EXTU.W      R14,R0
++           EXTU.B      R4,R4
++           MOV.B       R4,@(R0,R10)
++ L410:                             
++           ADD         #1,R14
++           EXTU.W      R8,R2
++           EXTU.W      R14,R3
++           CMP/GE      R2,R3
++           BF          L409
++ L408:                             
++           ADD         #16,R15
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R8
++           MOV.L       @R15+,R9
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ 	NOP
++ L428:                             
++           .short     0x00FF
++           .space 2*(1)
++           .long     L275
++           .long     _SPR_MULF
++           .long     0x00010000
++           .long     _SPR_FTOI
++ !####
++ _sp3NormalTrans:                 ! function: sp3NormalTrans
++                                  ! frame size=32
++           MOV.L       L429+2,R7		! *Matx
++           STS.L       MACL,@-R15
++           MOV.L       @R7,R7		! Matx
++ !
++ 	N123	0
++ 	N123	16
++ 	N123	32
++ !
++           RTS
++           LDS.L       @R15+,MACL
++ L429:                             
++           .space 2*(1)
++           .long     _sp3currentMatrix
++           .long     _SPR_MULF
++ _sp3ComputeBrightness:           ! function: sp3ComputeBrightness
++                                  ! frame size=28
++           MOV.L       R14,@-R15
++           MOV         R5,R14
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV.L       R11,@-R15
++           MOV         R4,R11
++           MOV.L       R10,@-R15
++           MOV         R6,R10
++           MOV.L       R8,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L430,R12
++ !
++ 	PROD	R11,R14,R8
++           CMP/PL      R8
++           BF          L415
++ !
++ 	PROD	R12,R14,R14
++           MOV.L       L430+8,R4
++           MOV.L       L430+12,R3
++           ADD         R14,R4
++           SHLL2       R4
++           JSR         @R3
++           SHLL2       R4
++           EXTS.B      R0,R4
++           EXTS.B      R4,R2
++           CMP/PZ      R2
++           BT          L416
++           MOV         #0,R4
++ L416:                             
++           EXTS.B      R4,R2
++           MOV         #31,R3
++           CMP/GT      R3,R2
++           BF          L418
++           BRA         L418
++           MOV         #31,R4
++ L415:                             
++           MOV         #-1,R4
++ L418:                             
++           MOV.B       R4,@R10
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R8
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ L430:                             
++           .long     L275
++           .long     _SPR_MULF
++           .long     0x00010000
++           .long     _SPR_FTOI
++           .data
++ 	.balign 4
++ L278:                            ! static: orgLightVect
++           .long     0x00000000,0x00000000,0xFFFF0000
++           .section .rodata
++ 	.balign 4
++ L279:                            ! static: sp3unitMatrix
++           .long     0x00010000,0x00000000,0x00000000,0x00000000,0x00000000,0x00010000,0x00000000,0x00000000,0x00000000,0x00000000,0x00010000,0x00000000
++           .bss
++ 	.balign 4
++ L270:                            ! static: sp3matrixStack
++           .space 4*(384)
++ L271:                            ! static: sp3currentStackPt
++           .space 2*(1)
++           .space 2*(1)
++ _sp3currentMatrix:               ! static: sp3currentMatrix
++           .space 4*(1)
++ L273:                            ! static: lightAngle
++           .space 4*(3)
++ L274:                            ! static: worldLightVector
++           .space 4*(3)
++ L275:                            ! static: lightVector
++           .space 4*(3)
++ L276:                            ! static: viewPoint
++           .space 4*(3)
++ L277:                            ! static: viewAngle
++           .space 4*(3)
++           .end
++ 
++ !   end of file
+diff -crBN --binary sbl6/segasmp/dual/slv_mtx3.s sbl6_patch/segasmp/dual/slv_mtx3.s
+*** sbl6/segasmp/dual/slv_mtx3.s	1969-12-31 19:00:00.000000000 -0500
+--- sbl6_patch/segasmp/dual/slv_mtx3.s	1969-12-31 19:00:00.000000000 -0500
+***************
+*** 0 ****
+--- 1,813 ----
++ !-----------------------------------------------------------------------------
++ !   spr_mtx3.src -- SPR ライブラリ MTX3 モジュール
++ !   Copyright(c) 1994 SEGA
++ !   Written by K.M on 1993-12-14 Ver.0.80
++ !   Updated by H.E on 1994-02-15 Ver.0.80
++ !   Updated by T.S on 1994-02-15 Ver.0.80
++ !
++ !   このライブラリはスプライト３Ｄ表示のマトリックス演算ルーチンの高速版で以下
++ !   のルーチンのを含む。
++ !   高速版にするため、 spr_mtx3.c をＳＨＣコンパイラにて一旦アセンブラソース出
++ !   力し、命令の最適化を行った。
++ !
++ !   _sp3InitialMatrix       -  マトリックス演算処理モジュールの初期化処理
++ !   _sp3ViewCoordMatrix     -  カレントマトリックスに視点座標系への変換マトリ
++ !                              ックスをセット
++ !   _sp3ClearCurrentMatrix  -  カレントマトリックスのクリア
++ !   _sp3ViewPointAngle      -  ビューポイントの座標とアングルを設定する
++ !   _sp3LightAngle          -  光源のアングルを設定する
++ !   _sp3PushMatrix          -  カレントマトリックスのプッシュ
++ !   _sp3PopMatrix           -  カレントマトリックスのポップ
++ !   _sp3RotateMatrixX       -  カレントマトリックスのＸ回転
++ !   _sp3RotateMatrixY       -  カレントマトリックスのＹ回転
++ !   _sp3RotateMatrixZ       -  カレントマトリックスのＺ回転
++ !   _sp3ReversMatrixZ       -  カレントマトリックスのＺ値符号反転
++ !   _sp3MoveMatrix          -  カレントマトリックスの平行移動
++ !   _sp3SurfaceBright       -  面データ群の輝度計算
++ !   _sp3CoordTrans          -  頂点データ群の座標変換
++ !   _sp3CoordTransSub       -  １頂点データの座標変換
++ !   _sp3VertBright          -  頂点データ群の輝度計算
++ !   _sp3NormalTrans         -  法線の座標変換
++ !   _sp3ComputeBrightness   -  １データの輝度計算
++ !
++ !   このライブラリを使用するには次のインクルードファイルを定義する必要がある。
++ !
++ !   #include "sega_xpt.h"
++ !   #include "spr_mtx3.h"
++ !
++ !-----------------------------------------------------------------------------
++ !
++           !.import     _SPR_FTOI
++           !.import     _SPR_MULF
++           !.import     _fxsin
++           !.import     _fxcos
++           .global     _s_sp3currentMatrix
++           .global     _s_sp3InitialMatrix
++           .global     _s_sp3ClearCurrentMatrix
++           .global     _s_sp3ViewPointAngle
++           .global     _s_sp3LightAngle
++           .global     _s_sp3ViewCoordMatrix
++           .global     _s_sp3PushMatrix
++           .global     _s_sp3PopMatrix
++           .global     _s_sp3RotateMatrixX
++           .global     _s_sp3RotateMatrixY
++           .global     _s_sp3RotateMatrixZ
++           .global     _s_sp3ReversMatrixZ
++           .global     _s_sp3MoveMatrix
++           .global     _s_sp3SurfaceBright
++           .global     _s_sp3CoordTrans
++           .global     _s_sp3VertBright
++           .global     _s_sp3CoordTransSub
++           .global     _s_sp3NormalTrans
++           .global     _s_sp3ComputeBrightness
++ 	.macro	CSSC P,Q
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#\Q-\P-4,R7
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#-\Q+\P-4,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	CLRMAC
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#\Q-\P-4,R7
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#-\Q-4,R7
++ 	XTRCT	R1,R0
++ 	MOV.L	R0,@(\P,R7)
++ 	ADD	#-16,R5
++ 	STS	MACH,R3
++ 	STS	MACL,R2
++ 	XTRCT	R3,R2
++ 	MOV.L	R2,@(\Q,R7)
++ 	.endm
++ 
++ 	.macro	M123 P
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R5+
++ 	MAC.L	@R7+,@R5+
++ 	MAC.L	@R7+,@R5+
++ 	ADD	#-12,R5
++ 	MOV.L	@R7,R2
++ 	ADD	#-\P-12,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	XTRCT	R1,R0
++ 	ADD	R2,R0
++ 	MOV.L	R0,@(\P+12,R7)
++ 	.endm
++ 
++ 	.macro	T123 P
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	ADD	#-12,R4
++ 	MOV.L	@R7,R2
++ 	ADD	#-\P-12,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	XTRCT	R1,R0
++ 	ADD	R2,R0
++ 	MOV.L	R0,@R5
++ 	ADD	#4,R5
++ 	.endm
++ 
++ 	.macro	N123 P
++ 	CLRMAC
++ 	ADD	#\P,R7
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	MAC.L	@R7+,@R4+
++ 	ADD	#-12,R4
++ 	ADD	#-\P-12,R7
++ 	STS	MACH,R1
++ 	STS	MACL,R0
++ 	XTRCT	R1,R0
++ 	MOV.L	R0,@R5
++ 	ADD	#4,R5
++ 	.endm
++ 
++ 	.macro	PROD RP,RQ,RR
++ 	CLRMAC
++ 	MAC.L	@\RP+,@\RQ+
++ 	MAC.L	@\RP+,@\RQ+
++ 	MAC.L	@\RP+,@\RQ+
++ 	ADD	#-12,\RP
++ 	ADD	#-12,\RQ
++ 	STS	MACH,R0
++ 	STS	MACL,\RR
++ 	XTRCT	R0,\RR
++ 	.endm
++           .text
++ 	.balign 4
++ _s_sp3InitialMatrix:               ! function: sp3InitialMatrix
++                                  ! frame size=4
++           STS.L       PR,@-R15
++           MOV         #0,R3
++           MOV.L       L419+2,R2
++           MOV.W       R3,@R2
++           MOV.L       L419+6,R3
++           MOV.L       L419+10,R2
++           MOV.L       R3,@R2
++           BRA         _s_sp3ClearCurrentMatrix
++           LDS.L       @R15+,PR
++ _s_sp3ViewCoordMatrix:             ! function: sp3ViewCoordMatrix
++                                  ! frame size=12
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L419+14,R13
++           MOV.L       L419+18,R14
++           BSR         _s_sp3InitialMatrix
++           NOP
++           BSR         _s_sp3ReversMatrixZ
++           NOP
++ 
++           BSR         _s_sp3RotateMatrixZ
++           MOV.L       @(8,R14),R4
++           MOV.L       @(4,R14),R4
++           BSR         _s_sp3RotateMatrixY
++           NEG         R4,R4
++           MOV.L       @R14,R4
++           BSR         _s_sp3RotateMatrixX
++           NEG         R4,R4
++ 
++           MOV.L       @(8,R13),R6
++           MOV.L       @(4,R13),R5
++           MOV.L       @R13,R4
++           NEG         R6,R6
++           NEG         R5,R5
++           BSR         _s_sp3MoveMatrix
++           NEG         R4,R4
++           MOV.L       L419+22,R5
++           MOV.L       L419+26,R4
++           LDS.L       @R15+,PR
++           MOV.L       @R15+,R13
++           BRA         _s_sp3NormalTrans
++           MOV.L       @R15+,R14
++ _s_sp3ClearCurrentMatrix:          ! function: sp3ClearCurrentMatrix
++                                  ! frame size=0
++           MOV.L       L419+30,R6
++           MOV.L       L419+10,R5
++           MOV.L       @R5,R5
++           MOV         #0,R4
++ L390:                             
++           ADD         #1,R4
++           MOV         #12,R2
++           MOV.L       @R6+,R1
++           EXTU.W      R4,R3
++           MOV.L       R1,@R5
++           CMP/GE      R2,R3
++           BF/S        L390
++           ADD         #4,R5
++           RTS
++           NOP
++ L419:                             
++           .space 2*(1)
++           .long     L271
++           .long     L270
++           .long     _s_sp3currentMatrix
++           .long     L276
++           .long     L277
++           .long     L275
++           .long     L274
++           .long     L279
++ _s_sp3ViewPointAngle:              ! function: sp3ViewPointAngle
++                                  ! frame size=0
++           MOV.L       L420+2,R7
++           MOV.L       L420+6,R6
++           MOV.L       @R4,R3
++           MOV.L       R3,@R6
++           MOV.L       @(4,R4),R2
++           MOV.L       R2,@(4,R6)
++           MOV.L       @(8,R4),R3
++           MOV.L       R3,@(8,R6)
++           MOV.L       @R5,R2
++           MOV.L       R2,@R7
++           MOV.L       @(4,R5),R3
++           MOV.L       R3,@(4,R7)
++           MOV.L       @(8,R5),R2
++           RTS
++           MOV.L       R2,@(8,R7)
++ _s_sp3LightAngle:                  ! function: sp3LightAngle
++                                  ! frame size=8
++           MOV.L       R14,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L420+10,R14
++           MOV.L       @R4,R3
++           MOV.L       R3,@R14
++           MOV.L       @(4,R4),R2
++           MOV.L       R2,@(4,R14)
++           MOV.L       @(8,R4),R3
++           MOV.L       R3,@(8,R14)
++           BSR         _s_sp3InitialMatrix
++           NOP
++ 
++           BSR         _s_sp3RotateMatrixZ
++ 	  MOV.L       @(8,R14),R4
++           BSR         _s_sp3RotateMatrixY
++           MOV.L       @(4,R14),R4
++           BSR         _s_sp3RotateMatrixX
++           MOV.L       @R14,R4
++ 
++           MOV.L       L420+14,R5
++           MOV.L       L420+18,R4
++           LDS.L       @R15+,PR
++           BRA         _s_sp3NormalTrans
++           MOV.L       @R15+,R14
++ L420:                             
++           .space 2*(1)
++           .long     L277
++           .long     L276
++           .long     L273
++           .long     L274
++           .long     L278
++ _s_sp3PushMatrix:                  ! function: sp3PushMatrix
++                                  ! frame size=0
++           MOV.L       L421+2,R7
++           MOV.L       L421+6,R6
++           MOV.W       @R7,R5
++           MOV.L       @R6,R6
++           ADD         #1,R5
++           MOV         R5,R3
++           MOV.W       R5,@R7
++           SHLL2       R3
++           SHLL2       R5
++           SHLL2       R3
++           SHLL2       R5
++           SHLL        R3
++           ADD         R3,R5
++           EXTS.W      R5,R5
++           MOV.L       L421+10,R2
++           ADD         R2,R5
++           MOV         #0,R4
++ L393:                             
++           ADD         #1,R4
++           MOV         #12,R2
++           MOV.L       @R6+,R1
++           EXTU.W      R4,R3
++           MOV.L       R1,@R5
++           CMP/GE      R2,R3
++           BF/S        L393
++           ADD         #4,R5
++           MOV.W       @R7,R2
++           MOV.L       L421+10,R1
++           MOV         R2,R3
++           SHLL2       R2
++           SHLL2       R3
++           SHLL2       R2
++           SHLL2       R3
++           SHLL        R3
++           ADD         R3,R2
++           EXTS.W      R2,R2
++           MOV.L       L421+6,R3
++           ADD         R1,R2
++           RTS
++           MOV.L       R2,@R3
++ _s_sp3PopMatrix:                   ! function: sp3PopMatrix
++                                  ! frame size=0
++           MOV.L       L421+2,R3
++           MOV.L       L421+2,R2
++           MOV.W       @R3,R3
++           ADD         #-1,R3
++           MOV         R3,R1
++           MOV.W       R3,@R2
++           SHLL2       R1
++           SHLL2       R3
++           MOV.L       L421+10,R2
++           SHLL2       R1
++           SHLL2       R3
++           SHLL        R1
++           ADD         R1,R3
++           EXTS.W      R3,R3
++           MOV.L       L421+6,R1
++           ADD         R2,R3
++           RTS
++           MOV.L       R3,@R1
++ L421:                             
++           .space 2*(1)
++           .long     L271
++           .long     _s_sp3currentMatrix
++           .long     L270
++ _s_sp3RotateMatrixX:               ! function: sp3RotateMatrixX
++                                  ! frame size=60
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L422+14,R3	! fxcos
++           JSR         @R3
++           MOV         R4,R13
++ 	  MOV.L       R0,@-R15
++           MOV         R0,R12
++           MOV.L       L422+10,R3	! fxsin
++           JSR         @R3
++           MOV         R13,R4
++ 	MOV.L       L422+2,R7		! cur *Matx
++ 	NEG	R0,R1
++ 	MOV.L       R1,@-R15
++ 	MOV.L       R0,@-R15
++ 	MOV.L       R12,@-R15
++ 	MOV.L       @R7,R7		! Matx
++ !
++ 	MOV	R15,R5
++ 	CSSC	4,8
++ 	CSSC	20,24
++ 	CSSC	36,40
++           ADD         #16,R15
++ !
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R12
++           RTS
++           MOV.L       @R15+,R13
++ L422:                             
++           .space 2*(1)
++           .long     _s_sp3currentMatrix
++           .long     _SPR_MULF
++           .long     _fxsin
++           .long     _fxcos
++ _s_sp3RotateMatrixY:               ! function: sp3RotateMatrixY
++                                  ! frame size=60
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L423+12,R3
++           JSR         @R3
++           MOV         R4,R12
++ 	  MOV.L       R0,@-R15
++           MOV         R0,R13
++           MOV.L       L423+8,R3
++           JSR         @R3
++           MOV         R12,R4
++ 	MOV.L       L423,R7
++ 	NEG	R0,R1
++ 	MOV.L       R0,@-R15
++ 	MOV.L       R1,@-R15
++ 	MOV.L       R13,@-R15
++ 	MOV.L       @R7,R7		! Matx
++ !
++ 	MOV	R15,R5
++ 	CSSC	0,8
++ 	CSSC	16,24
++ 	CSSC	32,40
++           ADD         #16,R15
++ !
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R12
++           RTS
++           MOV.L       @R15+,R13
++ 	NOP
++ L423:                             
++           .long     _s_sp3currentMatrix
++           .long     _SPR_MULF
++           .long     _fxsin
++           .long     _fxcos
++ _s_sp3RotateMatrixZ:               ! function: sp3RotateMatrixZ
++                                  ! frame size=60
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L424+14,R3
++           JSR         @R3
++           MOV         R4,R12
++ 	  MOV.L       R0,@-R15
++           MOV         R0,R13
++           MOV.L       L424+10,R3
++           JSR         @R3
++           MOV         R12,R4
++ 	MOV.L       L424+2,R7
++ 	NEG	R0,R1
++ 	MOV.L       R1,@-R15
++ 	MOV.L       R0,@-R15
++ 	MOV.L       R13,@-R15
++ 	MOV.L       @R7,R7		! Matx
++ !
++ 	MOV	R15,R5
++ 	CSSC	0,4
++ 	CSSC	16,20
++ 	CSSC	32,36
++           ADD         #16,R15
++ !
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R12
++           RTS
++           MOV.L       @R15+,R13
++ L424:                             
++           .space 2*(1)
++           .long     _s_sp3currentMatrix
++           .long     _SPR_MULF
++           .long     _fxsin
++           .long     _fxcos
++ _s_sp3ReversMatrixZ:               ! function: sp3ReversMatrixZ
++                                  ! frame size=0
++           MOV.L       L425+2,R4
++           MOV.L       @R4,R4
++           ADD         #8,R4
++           MOV.L       @R4,R3
++           NEG         R3,R3
++           MOV.L       R3,@R4
++ !
++           MOV.L       L425+2,R4
++           MOV.L       @R4,R4
++           ADD         #24,R4
++           MOV.L       @R4,R3
++           NEG         R3,R3
++           MOV.L       R3,@R4
++           MOV.L       L425+2,R4
++           MOV.L       @R4,R4
++           ADD         #40,R4
++           MOV.L       @R4,R2
++           NEG         R2,R2
++           RTS
++           MOV.L       R2,@R4
++ _s_sp3MoveMatrix:                  ! function: sp3MoveMatrix
++                                  ! frame size=32
++           STS.L       MACL,@-R15
++           MOV.L       L425+2,R7
++           MOV.L       @R7,R7		! Matx
++ 	MOV.L	R6,@-R15
++ 	MOV.L	R5,@-R15
++ 	MOV.L	R4,@-R15
++ !
++ 	MOV	R15,R5
++ 	M123	0
++ 	M123	16
++ 	M123	32
++ !
++ 	ADD	#12,R15
++           RTS
++           LDS.L       @R15+,MACL
++ 	NOP
++ L425:                             
++           .space 2*(1)
++           .long     _s_sp3currentMatrix
++           .long     _SPR_MULF
++ _s_sp3SurfaceBright:               ! function: sp3SurfaceBright
++                                  ! frame size=72
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV         R5,R13
++           MOV.L       R11,@-R15
++           MOV         #12,R11
++           MOV.L       R10,@-R15
++           MOV         R4,R10
++           MOV.L       R9,@-R15
++           EXTU.W      R10,R3
++           MOV.L       R8,@-R15
++           MOV         R6,R9
++           STS.L       PR,@-R15
++           MOV         R7,R8
++           STS.L       MACL,@-R15
++           ADD         #-36,R15
++           CMP/PL      R3
++           BF/S        L400
++           MOV         #0,R14
++ L401:                             
++           MOV         R15,R5
++           ADD         #12,R5
++           BSR         _s_sp3CoordTransSub
++           MOV         R13,R4
++           MOV         R15,R5
++           EXTU.W      R14,R12
++           MOV.L       @(12,R15),R2
++           MUL.L       R11,R12
++           NEG         R2,R2
++           STS         MACL,R4
++           MOV.L       R2,@(24,R15)
++           MOV.L       @(16,R15),R3
++           NEG         R3,R3
++           MOV.L       R3,@(28,R15)
++           MOV.L       @(20,R15),R3
++           NEG         R3,R3
++           MOV.L       R3,@(32,R15)
++           BSR         _s_sp3NormalTrans
++           ADD         R9,R4
++           MOV         R12,R6
++           MOV         R15,R5
++           MOV         R15,R4
++           ADD         R8,R6
++           BSR         _s_sp3ComputeBrightness
++           ADD         #24,R4
++           ADD         #1,R14
++           EXTU.W      R10,R3
++           EXTU.W      R14,R2
++           CMP/GE      R3,R2
++           BF/S        L401
++           ADD         #12,R13
++ L400:                             
++           ADD         #36,R15
++           LDS.L       @R15+,MACL
++           LDS.L       @R15+,PR
++           MOV.L       @R15+,R8
++           MOV.L       @R15+,R9
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ !#####
++ _s_sp3CoordTrans:                  ! function: sp3CoordTrans
++                                  ! frame size=32
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV.L       R11,@-R15
++           MOV         R4,R12
++           MOV.L       R10,@-R15
++           MOV         #12,R11
++           EXTU.W      R12,R3
++           MOV         R6,R10
++           MOV.L       R9,@-R15
++           MOV         R5,R9
++           STS.L       PR,@-R15
++           STS.L       MACL,@-R15
++           CMP/PL      R3
++           BF/S        HL409
++           MOV         #0,R14
++ HL410:                             
++           EXTU.W      R14,R13
++           MUL.L       R11,R13
++           STS         MACL,R13
++           MOV         R13,R5
++           MOV         R13,R4
++           ADD         R10,R5
++           BSR         _s_sp3CoordTransSub
++           ADD         R9,R4
++           ADD         #1,R14
++           EXTU.W      R12,R3
++           EXTU.W      R14,R2
++           CMP/GE      R3,R2
++           BF          HL410
++ HL409:                             
++           LDS.L       @R15+,MACL
++           LDS.L       @R15+,PR
++           MOV.L       @R15+,R9
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ !#####
++ _s_sp3CoordTransSub:               ! function: sp3CoordTransSub
++                                  ! frame size=28
++           MOV.L       L427,R7		! *Matx
++           STS.L       MACL,@-R15
++           MOV.L       @R7,R7		! Matx
++ !
++ 	T123	0
++ 	T123	16
++ 	T123	32
++ !
++           RTS
++           LDS.L       @R15+,MACL
++ L427:                             
++           .long     _s_sp3currentMatrix
++           .long     _SPR_MULF
++ !####
++ _s_sp3VertBright:                  ! function: sp3VertBright
++                                  ! frame size=48
++           MOV.L       R14,@-R15
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV.L       R11,@-R15
++           MOV.L       R10,@-R15
++           MOV         R6,R10
++           MOV.L       R9,@-R15
++           MOV         #0,R9
++           MOV.L       R8,@-R15
++           MOV         R4,R8
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           EXTU.W      R8,R3
++           ADD         #-16,R15
++           MOV.L       L428+4,R12
++           MOV.L       L428+8,R13
++           MOV.L       R5,@R15
++           CMP/PL      R3
++           BF/S        L408
++           EXTU.W      R9,R14
++ L409:                             
++           EXTU.W      R14,R0
++           MOV.W       L428,R2
++           MOV.B       @(R0,R10),R3
++           EXTU.B      R3,R3
++           CMP/EQ      R2,R3
++           BT          L410
++           MOV         R15,R5
++           EXTU.W      R14,R4
++           MOV.L       @R15,R2
++           ADD         #4,R5
++           MOV         R4,R3
++           SHLL2       R4
++           SHLL2       R3
++           SHLL        R3
++           ADD         R3,R4
++           BSR         _s_sp3NormalTrans
++           ADD         R2,R4
++ !
++ 	MOV	R15,R4
++ 	ADD	#4,R4
++ 	PROD	R12,R4,R11
++ !
++           MOV.L       L428+12,R4
++           MOV.L       L428+16,R3
++           ADD         R11,R4
++           SHLL2       R4
++           JSR         @R3
++           SHLL2       R4
++           EXTS.W      R0,R4
++           EXTS.W      R4,R2
++           CMP/PZ      R2
++           BT          L411
++           EXTS.W      R9,R4
++ L411:                             
++           EXTS.W      R4,R2
++           MOV         #31,R3
++           CMP/GT      R3,R2
++           BF          L412
++           MOV         #31,R4
++ L412:                             
++           EXTU.W      R14,R0
++           EXTU.B      R4,R4
++           MOV.B       R4,@(R0,R10)
++ L410:                             
++           ADD         #1,R14
++           EXTU.W      R8,R2
++           EXTU.W      R14,R3
++           CMP/GE      R2,R3
++           BF          L409
++ L408:                             
++           ADD         #16,R15
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R8
++           MOV.L       @R15+,R9
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ 	NOP
++ L428:                             
++           .short     0x00FF
++           .space 2*(1)
++           .long     L275
++           .long     _SPR_MULF
++           .long     0x00010000
++           .long     _SPR_FTOI
++ !####
++ _s_sp3NormalTrans:                 ! function: sp3NormalTrans
++                                  ! frame size=32
++           MOV.L       L429+2,R7		! *Matx
++           STS.L       MACL,@-R15
++           MOV.L       @R7,R7		! Matx
++ !
++ 	N123	0
++ 	N123	16
++ 	N123	32
++ !
++           RTS
++           LDS.L       @R15+,MACL
++ L429:                             
++           .space 2*(1)
++           .long     _s_sp3currentMatrix
++           .long     _SPR_MULF
++ _s_sp3ComputeBrightness:           ! function: sp3ComputeBrightness
++                                  ! frame size=28
++           MOV.L       R14,@-R15
++           MOV         R5,R14
++           MOV.L       R13,@-R15
++           MOV.L       R12,@-R15
++           MOV.L       R11,@-R15
++           MOV         R4,R11
++           MOV.L       R10,@-R15
++           MOV         R6,R10
++           MOV.L       R8,@-R15
++           STS.L       MACL,@-R15
++           STS.L       PR,@-R15
++           MOV.L       L430,R12
++ !
++ 	PROD	R11,R14,R8
++           CMP/PL      R8
++           BF          L415
++ !
++ 	PROD	R12,R14,R14
++           MOV.L       L430+8,R4
++           MOV.L       L430+12,R3
++           ADD         R14,R4
++           SHLL2       R4
++           JSR         @R3
++           SHLL2       R4
++           EXTS.B      R0,R4
++           EXTS.B      R4,R2
++           CMP/PZ      R2
++           BT          L416
++           MOV         #0,R4
++ L416:                             
++           EXTS.B      R4,R2
++           MOV         #31,R3
++           CMP/GT      R3,R2
++           BF          L418
++           BRA         L418
++           MOV         #31,R4
++ L415:                             
++           MOV         #-1,R4
++ L418:                             
++           MOV.B       R4,@R10
++           LDS.L       @R15+,PR
++           LDS.L       @R15+,MACL
++           MOV.L       @R15+,R8
++           MOV.L       @R15+,R10
++           MOV.L       @R15+,R11
++           MOV.L       @R15+,R12
++           MOV.L       @R15+,R13
++           RTS
++           MOV.L       @R15+,R14
++ L430:                             
++           .long     L275
++           .long     _SPR_MULF
++           .long     0x00010000
++           .long     _SPR_FTOI
++           .data
++ 	.balign 4
++ L278:                            ! static: orgLightVect
++           .long     0x00000000,0x00000000,0xFFFF0000
++           .section .rodata
++ 	.balign 4
++ L279:                            ! static: sp3unitMatrix
++           .long     0x00010000,0x00000000,0x00000000,0x00000000,0x00000000,0x00010000,0x00000000,0x00000000,0x00000000,0x00000000,0x00010000,0x00000000
++           .bss
++ 	.balign 4
++ L270:                            ! static: sp3matrixStack
++           .space 4*(384)
++ L271:                            ! static: sp3currentStackPt
++           .space 2*(1)
++           .space 2*(1)
++ _s_sp3currentMatrix:               ! static: sp3currentMatrix
++           .space 4*(1)
++ L273:                            ! static: lightAngle
++           .space 4*(3)
++ L274:                            ! static: worldLightVector
++           .space 4*(3)
++ L275:                            ! static: lightVector
++           .space 4*(3)
++ L276:                            ! static: viewPoint
++           .space 4*(3)
++ L277:                            ! static: viewAngle
++           .space 4*(3)
++           .end
++ 
++ !   end of file

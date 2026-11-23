@@ -65,6 +65,10 @@ FetchContent_Declare(
 FetchContent_GetProperties(saturn_helloworld)
 
 FetchContent_MakeAvailable(saturn_helloworld)
+# helloworld 1,0 predates newlib 4.4: its libc calls (_sbrk, _write...) need the nosys stubs
+target_link_options(helloworld.elf PUBLIC "SHELL:--specs=nosys.specs")
+# its -Map is relative (written in the top build folder) but its install looks in its own build folder: the last -Map wins
+target_link_options(helloworld.elf PUBLIC "SHELL:-Xlinker -Map -Xlinker ${saturn_helloworld_BINARY_DIR}/helloworld.map")
 
 add_custom_command(OUTPUT ${TARGET_NAME}.bin
                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
