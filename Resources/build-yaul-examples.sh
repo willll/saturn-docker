@@ -7,8 +7,10 @@ fi
 
 build () {
 	echo "BUILDING $1"
-	SILENT=1 make -C $1 clean $MAKEFLAGS
-	make -C $1 all $MAKEFLAGS
+	# -j1: some Makefiles have rules with two targets (dbgio-font: "work/mrc_squa.cpd work/mrc_squa.pal:"), run twice at
+	# the same time in parallel, one deleting the file the other reads. The examples are small: serial costs little
+	SILENT=1 make -C $1 clean -j1
+	make -C $1 all -j1
 }
 
 if [[ $INSTALL_YAUL_SAMPLES -eq 1 ]]; then
@@ -24,6 +26,9 @@ if [[ $INSTALL_YAUL_SAMPLES -eq 1 ]]; then
   	popd
 
 	cd $SATURN_YAUL/examples
+
+	# Not built: fileserver and scu-timers are disabled upstream ($(error This example is disabled)),
+	# netlink-template (no yaul.h with its netlink specs) and overlay (fix16.h errors with its specs) don't compile
 
 	EXAMPLES=(
 						arp-comm

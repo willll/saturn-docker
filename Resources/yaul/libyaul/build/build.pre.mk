@@ -143,10 +143,11 @@ SH_CFLAGS_shared:= \
 	-Wunused-parameter \
 	-save-temps=obj
 
+# The map file (-Map) is added in build.post.bin.mk: SH_PROGRAM is only set by the Makefile of the program after this
+# file (expanded here, it was /unknown-program.map)
 SH_LDFLAGS:= \
 	-static \
 	-Wl,--gc-sections \
-	-Wl,-Map,$(SH_BUILD_PATH)/$(SH_PROGRAM).map \
 	$(YAUL_LDFLAGS)
 
 SH_CFLAGS:= \
