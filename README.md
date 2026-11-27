@@ -525,7 +525,108 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
 
 - [x] `SBL Libs` : `$SATURN_SBL63/segalib/lib_elf` (includes the ADX audio libraries)
 - [x] `SGL 3.20 Libs` : `$SATURN_SBL63/sgl/lib_elf`
-- [ ] `SBL Samples` : 84 samples in `$SATURN_SBL63/segasmp`, output in each sample's `elf/` folder **(Build only, not tested)**
+- [ ] `SBL Samples` : 84 samples in `$SATURN_SBL63/segasmp`, output in each sample's `elf/` folder, 50 of the 83 programs work in Mednafen
+  - [x] `bup`
+  - [ ] `cpk`
+    - [ ] `smpcpk12` **(Missing CPK movie files)**
+    - [ ] `smpcpk2` **(Missing CPK movie files)**
+    - [ ] `smpcpk3` **(Missing CPK movie files)**
+    - [ ] `smpcpk4` **(Missing CPK movie files)**
+    - [ ] `smpcpk5` **(Missing CPK movie files)**
+    - [ ] `smpcpk6` **(Missing CPK movie files)**
+    - [ ] `smpcpk7` **(Missing CPK movie files)**
+    - [ ] `smpcpk8` **(Missing CPK movie files)**
+    - [ ] `smpcpk9` **(Missing CPK movie files)**
+    - [ ] `smpcpkax` **(Missing CPK movie files)**
+  - [x] `csh` (No display, checked in RAM)
+  - [x] `dbg`
+    - [x] `smpdbg1`
+  - [ ] `dma`
+    - [x] `smpdma0` (No display, checked in RAM)
+    - [x] `smpdma1` (No display, checked in RAM)
+    - [x] `smpdma10` (No display, checked in RAM)
+    - [x] `smpdma12` (No display, checked in RAM)
+    - [ ] `smpdma2` **(Noise on screen)**
+  - [x] `dual`
+  - [x] `erm`
+    - [x] `sample1`
+  - [x] `fld`
+    - [x] `smpfld01`
+  - [x] `game`
+  - [ ] `game_cd` **(Black screen)**
+  - [ ] `gfs`
+    - [x] `smpgfs1a` (No display, checked in RAM)
+    - [ ] `smpgfs1b` **(Missing data files)**
+    - [ ] `smpgfs2` **(Missing data files)**
+  - [x] `mem`
+    - [x] `smpmem0` (No display, checked in RAM)
+    - [x] `smpmem1` (No display, checked in RAM)
+  - [ ] `mpg`
+    - [ ] `smpmpg1` **(Needs the MPEG card)**
+  - [ ] `pcm`
+    - [ ] `3pcmt` **(Missing data files)**
+    - [ ] `adpcm` **(Missing data files)**
+    - [ ] `adxloop` **(Missing data files)**
+    - [ ] `pcm2` **(Missing data files)**
+    - [ ] `pcm3` **(Silent: its sound data was preloaded by the E7000 debugger)**
+    - [x] `pcm4` (Sound only)
+    - [ ] `pcm5` **(Missing data files)**
+    - [ ] `smppcm21` **(Missing data files)**
+    - [ ] `smppcm41` **(Missing data files)**
+    - [ ] `xa` **(Missing data files)**
+  - [x] `per`
+    - [x] `getsys`
+    - [x] `smpper0` (No display, checked in RAM)
+    - [x] `smpper0a`
+    - [x] `smpper1` (No display, checked in RAM)
+    - [x] `smpper7`
+    - [x] `smpper8`
+    - [x] `v_gun`
+  - [x] `sblsgl`
+    - [x] `sblsgl00`
+    - [x] `sblsgl01`
+    - [x] `sblsgl02`
+    - [x] `sblsgl03`
+    - [x] `sblsgl04`
+  - [x] `scl`
+    - [x] `dblbmp`
+    - [x] `dblline`
+    - [x] `smpscl1`
+    - [x] `smpscl3`
+    - [x] `smpscl5`
+  - [ ] `sgl`
+    - [x] `demo_a`
+    - [x] `demo_b`
+    - [x] `demo_c`
+    - [x] `s_2_2`
+    - [x] `s_3_2`
+    - [x] `s_4_2`
+    - [x] `s_4_3_1`
+    - [x] `s_4_3_2`
+    - [x] `s_4_3_3`
+    - [x] `s_4_3_4`
+    - [x] `s_4_5`
+    - [x] `s_5_2`
+    - [x] `s_6_3`
+    - [ ] `s_7_2` **(Black screen)**
+    - [ ] `s_7_4` **(Black screen)**
+    - [x] `s_7_6`
+  - [ ] `snd`
+    - [ ] `smpsnd1` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+    - [ ] `smpsnd4` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+    - [ ] `smpsnd5` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+    - [ ] `smpsnd6` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+  - [ ] `spr`
+    - [x] `smpspr2`
+    - [ ] `smpspr7` **(Blue screen)**
+    - [x] `smpspr8`
+  - [ ] `stm`
+    - [ ] `smpstm1` **(Missing data files)**
+    - [ ] `smpstm2` **(Missing data files)**
+  - [x] `sys` (Builds `ip.bin` only, nothing to run)
+  - [x] `tim`
+    - [x] `smp0` (No display, checked in RAM)
+    - [x] `smp1` (No display, checked in RAM)
 - [ ] `SGL 3.20 Samples` : 89 samples in `$SATURN_SBL63/sgl`, output in each sample's `elf/` folder, 64 work in Mednafen
   - [ ] `sample`
     - [x] `demo_a`
