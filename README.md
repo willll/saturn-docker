@@ -102,9 +102,11 @@ For IDE integration, refer to:
 The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
 #### Available GCC Versions
-- **16.1.0**
+- **16.2.0**
+- ~~**16.1.0**~~ (deprecated)
+- **15.3.0**
 - **15.2.0**
-- **15.1.0**
+- ~~**15.1.0**~~ (deprecated)
 - **14.3.0** (default)
 - **14.2.0** 
 - ~~**14.1.0**~~ (deprecated)
@@ -293,9 +295,9 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [x] GCC 13.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
 - [x] GCC 14.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
 - [x] GCC 14.3.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.3.0
-- [?] GCC 15.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_15.1.0_1
-- [?] GCC 15.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_15.2.0_1
-- [?] GCC 16.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_16.1.0_1
+- [?] GCC 15.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_15.2.0
+- [?] GCC 15.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_15.3.0
+- [?] GCC 16.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_16.2.0
 - [ ] GDB for SH2 **(Not tested yet)**
 - [x] GDB Multiarch
 - [x] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
