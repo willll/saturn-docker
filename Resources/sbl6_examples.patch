@@ -623,8 +623,8 @@ diff -crBN --binary examples/devcon96/util/stmem.c examples_patch/devcon96/util/
   
   	i = firstBlock[heapIndex];
 diff -crBN --binary examples/gfsdemo/spr_demo.c examples_patch/gfsdemo/spr_demo.c
-*** examples/gfsdemo/spr_demo.c	2026-11-22 18:45:45.658882100 -0500
---- examples_patch/gfsdemo/spr_demo.c	2026-11-22 18:45:51.992157593 -0500
+*** examples/gfsdemo/spr_demo.c	2026-11-22 21:03:36.035499651 -0500
+--- examples_patch/gfsdemo/spr_demo.c	2026-11-22 21:03:36.054014240 -0500
 ***************
 *** 12,20 ****
   #include    "sega_dbg.h"
@@ -646,6 +646,44 @@ diff -crBN --binary examples/gfsdemo/spr_demo.c examples_patch/gfsdemo/spr_demo.
   
   
   Uint16 tut160[(160*160*2)+4];
+***************
+*** 27,33 ****
+  
+  Uint32 work[GFS_WORK_SIZE(OPEN_MAX) / 4]; /* library working area */
+  GfsDirTbl dirtbl;
+! GfsDirId dirid[MAX_DIR];
+  
+  #define   COLOR_BANK       0x0000
+  
+--- 27,33 ----
+  
+  Uint32 work[GFS_WORK_SIZE(OPEN_MAX) / 4]; /* library working area */
+  GfsDirTbl dirtbl;
+! GfsDirName dirname[MAX_DIR];
+  
+  #define   COLOR_BANK       0x0000
+  
+***************
+*** 173,181 ****
+  
+  
+  
+! 	GFS_DIRTBL_TYPE(&dirtbl) = GFS_DIR_ID;
+  	GFS_DIRTBL_NDIR(&dirtbl) = MAX_DIR;
+! 	GFS_DIRTBL_DIRID(&dirtbl) = dirid;
+  
+  
+  	ret = GFS_Init(OPEN_MAX,work,&dirtbl);
+--- 173,181 ----
+  
+  
+  
+! 	GFS_DIRTBL_TYPE(&dirtbl) = GFS_DIR_NAME;
+  	GFS_DIRTBL_NDIR(&dirtbl) = MAX_DIR;
+! 	GFS_DIRTBL_DIRNAME(&dirtbl) = dirname;
+  
+  
+  	ret = GFS_Init(OPEN_MAX,work,&dirtbl);
 ***************
 *** 183,189 ****
   	return 1;

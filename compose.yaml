@@ -1,6 +1,12 @@
 services:
   build-saturn:
-    build: .
+    build:
+      context: .
+      args:
+        MAKEFLAGS_ARG: "-j 4"
+        NCPU: "4"
+        ssh_pub_key: "${SSH_PUB_KEY:-}"
+    cpus: 4
     ports:
       - "${SSH_PORT:-2222}:22"
     command: /bin/bash
