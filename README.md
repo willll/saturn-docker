@@ -34,7 +34,7 @@
      - [SGL 3.20](#sgl-320)
      - [SBL 6.01](#sbl-601)
      - [SDK Samples](#sdk-samples)
-     - [Jo Engine 2025.1](#jo-engine-20251)
+     - [Jo Engine 2026.5](#jo-engine-20265)
      - [Yaul Version 0.3.1](#yaul-version-031)
      - [SRL Version 0.9.2](#srl-version-092)
 4. [Misc Notes](#misc-notes)
@@ -210,7 +210,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 | Variable           | Default Value | Description                         |
 |---------------------|---------------|-------------------------------------|
-| `MEDNAFEN_TAG`      | v.01          | Specify the version/tag             |
+| `MEDNAFEN_TAG`      | v.02          | Specify the version/tag             |
 
 #### GCC(SH2) build variables
 
@@ -359,7 +359,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [x] `s_cd4`
   - [x] `sampsnd1`
   - [x] `sampsnd2`
-  - [ ] `sbklib`
+  - [ ] `sbklib` **(Not tested)**
   - [x] `sega2d_1`
   - [x] `sega3d_1`
   - [x] `sega3d_2`
@@ -444,7 +444,9 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [x] `spr` **(copied from https://github.com/shicky256/sbl/tree/master/segalib/spr)**
   - [x] `stm`
 - [ ] `SBL Samples`
+  - [ ] `abs` **(Not tested)**
   - [x] `bup`
+  - [ ] `cof` **(Not tested)**
   - [x] `csh`
   - [x] `dbg`
     - [x] `smpdbg1`
@@ -463,6 +465,8 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [ ] `smpgfs1a` **(Crash at runtime)**
     - [ ] `smpgfs1b` **(Crash at runtime)**
     - [ ] `smpgfs2` **(Crash at runtime)**
+  - [ ] `lib` **(Not tested)**
+  - [ ] `man` **(Not tested)**
   - [ ] `mem`
     - [ ] `smpmem0` **(Crash at runtime)**
     - [?] `smpmem1` **(black screen at runtime)**
@@ -475,6 +479,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [ ] `pcm5` **(Crash at runtime)**
     - [ ] `pcm13` **(black screen at runtime)**
   - [X] `per`
+    - [ ] `smpclib` **(Not tested)**
     - [X] `smpper0` **(no output)**
     - [X] `smpper1` **(no output)**
     - [X] `smpper7` **(controls ?)**
@@ -523,6 +528,28 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [ ] `tim`
     - [ ] `smp0` **(Crash at runtime)**
     - [ ] `smp1` **(Crash at runtime)**
+  - [ ] `v_blank` **(Not tested)**
+- [ ] `SBL Examples`
+  - [ ] `backram` **(Not tested)**
+    - [ ] `gnu` **(Not tested)**
+  - [ ] `devcon96`
+    - [ ] `3d` **(Not tested)**
+    - [ ] `democoef` **(Not tested)**
+    - [ ] `demodsp` **(Not tested)**
+    - [ ] `demodual` **(Not tested)**
+    - [ ] `demodul2` **(Not tested)**
+    - [ ] `demodul3` **(Not tested)**
+    - [ ] `demogour` **(Not tested)**
+    - [ ] `demomist` **(Not tested)**
+    - [ ] `demotb14` **(Not tested)**
+    - [ ] `demowin` **(Not tested)**
+    - [ ] `math` **(Not tested)**
+    - [ ] `profile` **(Not tested)**
+    - [ ] `util` **(Not tested)**
+  - [ ] `dualcpu` **(Disabled)**
+  - [ ] `gfsdemo` **(Not tested)**
+  - [ ] `periphs` **(Not tested)**
+  - [ ] `sgl` **(Disabled)**
 </details>
 
 #### SDK Samples
@@ -535,7 +562,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [ ] `CDBrowser`
 </details>
 
-#### [Jo Engine 2025.1](https://www.jo-engine.org/)
+#### [Jo Engine 2026.5](https://www.jo-engine.org/)
 <details>
 
 - [X] `Jo Engine`
@@ -578,6 +605,23 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [X] `demo - hardcoded image`
   - [X] `demo - visual novel`
   - [X] `demo - voxel`
+  - [ ] `demo - 3D camera` **(Not tested)**
+  - [ ] `demo - 3D model` **(Not tested)**
+  - [ ] `demo - 3D vertex animation` **(Not tested)**
+  - [ ] `demo - 3D water` **(Not tested)**
+  - [ ] `demo - analog - mission stick` **(Not tested)**
+  - [ ] `demo - analog - wheel` **(Not tested)**
+  - [ ] `demo - benchmark` **(Not tested)**
+  - [ ] `demo - display modes` **(Not tested)**
+  - [ ] `demo - environment mapping` **(Not tested)**
+  - [ ] `demo - fighters` **(Not tested)**
+  - [ ] `demo - first person shooter` **(Not tested)**
+  - [ ] `demo - light gun` **(Not tested)**
+  - [ ] `demo - minimal` **(Not tested)**
+  - [ ] `demo - serial link` **(Not tested)**
+  - [ ] `demo - transparency` **(Not tested)**
+  - [ ] `demo - vcd card` **(Not tested)**
+  - [ ] `demo - vdp2 map` **(Not tested)**
 </details>
 
 #### [Yaul Version 0.3.1](https://github.com/yaul-org/libyaul)
@@ -586,7 +630,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [ ] `Yaul`
   - [X] `Yaul Library`
   - [ ] `Yaul Examples` (https://github.com/yaul-org/libyaul-examples)
-    - [x] `arp-comm` << This example is disabled
+    - [x] `arp-comm`
     - [x] `bcl`
     - [x] `c++`
     - [x] `cd-block`
@@ -595,18 +639,20 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `cpu-dual`
     - [x] `cpu-frt`
     - [x] `cpu-wdt`
-    - [ ] `dbgio-font`
+    - [ ] `dbgio-font` **(Not tested)**
     - [x] `dbgio-menu`
     - [x] `dbgio-usb-cart`
     - [x] `dma-queue`
     - [x] `dram-cart`
     - [x] `fibers`
-    - [ ] `fileserver`
+    - [ ] `fileserver` **(Disabled upstream)**
+    - [ ] `gamemath` **(Not tested)**
     - [x] `gdb`
     - [x] `mm-stats`
-    - [ ] `netlink-template`
+    - [ ] `netlink-template` **(Does not compile)**
+    - [ ] `overlay` **(Does not compile)**
     - [x] `scu-dsp`
-    - [ ] `scu-timers` << This example is disabled
+    - [ ] `scu-timers` **(Disabled upstream)**
     - [x] `smpc-rtc`
     - [x] `usb-cart`
     - [x] `vdp1-balls`
@@ -614,7 +660,6 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `vdp1-interlace`
     - [x] `vdp1-mesh`
     - [x] `vdp1-mic3d`
-    - [ ] `vdp1-normal-sprite`
     - [x] `vdp1-software-blending`
     - [x] `vdp1-st-niccc`
     - [x] `vdp1-uv-coords`
@@ -623,7 +668,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `vdp2-all-nbgs`
     - [x] `vdp2-back-screen`
     - [x] `vdp2-effect-tunnel`
-    - [x] `dp2-line-scroll`
+    - [x] `vdp2-line-scroll`
     - [x] `vdp2-nbg0`
     - [x] `vdp2-normal-bitmap`
     - [x] `vdp2-rbg0-bitmap`
@@ -640,6 +685,8 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [x] `SRL Library` (Headers only, no static library)
   - [x] `SRL Samples` (https://github.com/ReyeMe/SaturnRingLib/tree/main/Samples)
     - [x] `CD - File reading`
+    - [ ] `CD - Folders` **(Not tested)**
+    - [ ] `Debug - Print` **(Not tested)**
     - [x] `Input - Analog`
     - [x] `Input - Gamepad`
     - [x] `Input - Gun`
@@ -650,12 +697,16 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `SH2 - Slave`
     - [x] `SMPC - Clock`
     - [x] `Sound - CDDA`
+    - [ ] `Sound - CDDA (simple)` **(Not tested)**
     - [x] `Sound - PCM`
     - [x] `SRL - Event`
     - [x] `STL`
+    - [ ] `TestProject` **(Not tested)**
+    - [ ] `VDP1 - 2D Sprite sphere` **(Not tested)**
     - [x] `VDP1 - 3D - Animation`
     - [x] `VDP1 - 3D - Flat teapot`
     - [x] `VDP1 - 3D - Smooth teapot`
+    - [ ] `VDP1 - Cinepak` **(Not tested)**
     - [x] `VDP1 - Clipping`
     - [x] `VDP1 - Distorted sprite`
     - [x] `VDP1 - Gouraud`
@@ -664,6 +715,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `VDP1 - Sprite effects`
     - [x] `VDP1 - Sprites`
     - [x] `VDP2 - Bmp2Tile`
+    - [ ] `VDP2 - ColorCalc` **(Not tested)**
     - [x] `VDP2 - Layers`
     - [x] `VDP2 - RBG0 Rotation`
 </details>
