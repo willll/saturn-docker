@@ -525,7 +525,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
 
 - [x] `SBL Libs` : `$SATURN_SBL63/segalib/lib_elf` (includes the ADX audio libraries)
 - [x] `SGL 3.20 Libs` : `$SATURN_SBL63/sgl/lib_elf`
-- [ ] `SBL Samples` : 84 samples in `$SATURN_SBL63/segasmp`, output in each sample's `elf/` folder, 50 of the 83 programs work in Mednafen
+- [ ] `SBL Samples` : 84 samples in `$SATURN_SBL63/segasmp`, output in each sample's `elf/` folder, 53 of the 83 programs work in Mednafen
   - [x] `bup`
   - [ ] `cpk`
     - [ ] `smpcpk12` **(Missing CPK movie files)**
@@ -553,7 +553,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
   - [x] `fld`
     - [x] `smpfld01`
   - [x] `game`
-  - [ ] `game_cd` **(Black screen)**
+  - [x] `game_cd`
   - [ ] `gfs`
     - [x] `smpgfs1a` (No display, checked in RAM)
     - [ ] `smpgfs1b` **(Missing data files)**
@@ -594,7 +594,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `smpscl1`
     - [x] `smpscl3`
     - [x] `smpscl5`
-  - [ ] `sgl`
+  - [x] `sgl`
     - [x] `demo_a`
     - [x] `demo_b`
     - [x] `demo_c`
@@ -608,8 +608,8 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `s_4_5`
     - [x] `s_5_2`
     - [x] `s_6_3`
-    - [ ] `s_7_2` **(Black screen)**
-    - [ ] `s_7_4` **(Black screen)**
+    - [x] `s_7_2`
+    - [x] `s_7_4`
     - [x] `s_7_6`
   - [ ] `snd`
     - [ ] `smpsnd1` **(Sound driver not loaded: the E7000 debugger preloaded it)**
@@ -627,7 +627,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
   - [x] `tim`
     - [x] `smp0` (No display, checked in RAM)
     - [x] `smp1` (No display, checked in RAM)
-- [ ] `SGL 3.20 Samples` : 89 samples in `$SATURN_SBL63/sgl`, output in each sample's `elf/` folder, 64 work in Mednafen
+- [ ] `SGL 3.20 Samples` : 89 samples in `$SATURN_SBL63/sgl`, output in each sample's `elf/` folder, 69 work in Mednafen
   - [ ] `sample`
     - [x] `demo_a`
     - [x] `demo_b`
@@ -648,8 +648,8 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `s_4_5`
     - [x] `s_5_2`
     - [x] `s_6_3`
-    - [ ] `s_7_2` **(Title only)**
-    - [ ] `s_7_4` **(Title only)**
+    - [x] `s_7_2`
+    - [x] `s_7_4`
     - [x] `s_7_6`
     - [x] `s_8_10_1`
     - [x] `s_8_10_2`
@@ -664,9 +664,9 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `s_cd1`
     - [x] `s_cd2`
     - [x] `s_cd3`
-    - [ ] `s_cd4` **(Black screen)**
-    - [ ] `sampsnd1` **(Black screen)**
-    - [ ] `sampsnd2` **(Black screen)**
+    - [ ] `s_cd4` **(Missing CD audio file `cdda1`)**
+    - [x] `sampsnd1`
+    - [x] `sampsnd2`
     - [x] `sbklib`
     - [ ] `smpcpk2` **(Missing CPK movie files)**
     - [ ] `smpcpk3` **(Missing CPK movie files)**
@@ -719,7 +719,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
       - [x] `msb`
       - [x] `sprite`
     - [ ] `sound`
-      - [ ] `mapchg` **(Black screen)**
+      - [x] `mapchg`
       - [ ] `sndtest` **(Menu only, no sound)**
     - [x] `spccalc`
       - [x] `cel`
