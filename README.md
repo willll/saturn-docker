@@ -526,7 +526,111 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
 - [x] `SBL Libs` : `$SATURN_SBL63/segalib/lib_elf` (includes the ADX audio libraries)
 - [x] `SGL 3.20 Libs` : `$SATURN_SBL63/sgl/lib_elf`
 - [ ] `SBL Samples` : 84 samples in `$SATURN_SBL63/segasmp`, output in each sample's `elf/` folder **(Build only, not tested)**
-- [ ] `SGL 3.20 Samples` : 89 samples in `$SATURN_SBL63/sgl`, output in each sample's `elf/` folder **(Build only, not tested)**
+- [ ] `SGL 3.20 Samples` : 89 samples in `$SATURN_SBL63/sgl`, output in each sample's `elf/` folder, 64 work in Mednafen
+  - [ ] `sample`
+    - [x] `demo_a`
+    - [x] `demo_b`
+    - [x] `demo_c`
+    - [x] `demo_d`
+    - [x] `demogun`
+    - [x] `design1`
+    - [x] `design2`
+    - [x] `design3`
+    - [x] `s_10`
+    - [x] `s_2_2`
+    - [x] `s_3_2`
+    - [x] `s_4_2`
+    - [x] `s_4_3_1`
+    - [x] `s_4_3_2`
+    - [x] `s_4_3_3`
+    - [x] `s_4_3_4`
+    - [x] `s_4_5`
+    - [x] `s_5_2`
+    - [x] `s_6_3`
+    - [ ] `s_7_2` **(Title only)**
+    - [ ] `s_7_4` **(Title only)**
+    - [x] `s_7_6`
+    - [x] `s_8_10_1`
+    - [x] `s_8_10_2`
+    - [x] `s_8_11`
+    - [x] `s_8_12`
+    - [x] `s_8_8_1`
+    - [x] `s_8_8_2`
+    - [x] `s_8_8_3`
+    - [x] `s_8_9_1`
+    - [x] `s_8_9_2`
+    - [x] `s_9_1`
+    - [x] `s_cd1`
+    - [x] `s_cd2`
+    - [x] `s_cd3`
+    - [ ] `s_cd4` **(Black screen)**
+    - [ ] `sampsnd1` **(Black screen)**
+    - [ ] `sampsnd2` **(Black screen)**
+    - [x] `sbklib`
+    - [ ] `smpcpk2` **(Missing CPK movie files)**
+    - [ ] `smpcpk3` **(Missing CPK movie files)**
+    - [ ] `smpcpk4` **(Missing CPK movie files)**
+    - [ ] `smpcpk5` **(Missing CPK movie files)**
+    - [ ] `smpcpk6` **(Missing CPK movie files)**
+    - [ ] `smpcpk7` **(Missing CPK movie files)**
+    - [ ] `smpcpk8` **(Missing CPK movie files)**
+    - [ ] `smpcpk9` **(Missing CPK movie files)**
+  - [x] `sample2`
+    - [x] `sega2d_1`
+    - [x] `sega3d_1`
+    - [x] `sega3d_2`
+    - [x] `sega3d_3`
+  - [x] `sample3`
+    - [x] `akira`
+    - [x] `akira3`
+    - [x] `camera`
+    - [x] `driving`
+    - [x] `driving2`
+    - [x] `fighting`
+    - [x] `shooting`
+    - [x] `torus2`
+    - [x] `torus3`
+  - [ ] `sample4`
+    - [x] `bitmap`
+    - [ ] `cdda` **(Missing CD audio tracks)**
+    - [x] `coloff`
+    - [x] `expccalc`
+    - [x] `grad`
+    - [x] `linecol`
+    - [x] `linscl`
+      - [x] `truecol`
+    - [ ] `pcm`
+      - [ ] `seamless`
+        - [ ] `all` **(Missing PCM data files)**
+        - [ ] `basic` **(Missing PCM data files)**
+        - [ ] `ff` **(Missing PCM data files)**
+        - [ ] `pause` **(Missing PCM data files)**
+      - [ ] `simple`
+        - [ ] `all` **(Missing PCM data files)**
+        - [ ] `gfs` **(Missing PCM data files)**
+        - [ ] `mem` **(Missing PCM data files)**
+        - [ ] `stm` **(Missing PCM data files)**
+        - [ ] `xa` **(Missing PCM data files)**
+    - [x] `rotatebg`
+      - [x] `coef`
+      - [x] `linecol`
+    - [x] `shadow`
+      - [x] `msb`
+      - [x] `sprite`
+    - [ ] `sound`
+      - [ ] `mapchg` **(Black screen)**
+      - [ ] `sndtest` **(Menu only, no sound)**
+    - [x] `spccalc`
+      - [x] `cel`
+      - [x] `dot`
+    - [x] `spprio`
+      - [x] `cel`
+      - [x] `dot`
+    - [x] `sprcc2bg`
+      - [x] `apply`
+      - [x] `basic`
+    - [x] `window`
+      - [x] `sprwin`
 </details>
 
 #### SDK Samples
