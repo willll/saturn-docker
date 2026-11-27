@@ -321,14 +321,14 @@ RUN $SATURN_TMP/dl-sgl302.sh \
 FROM sgl AS sbl
 
 #
-# Install SBL
+# Install SBL 6.01
 #
 
 ARG INSTALL_SBL_LIB=1
 ARG INSTALL_SBL_SAMPLES=1
 ARG INSTALL_SBL_EXAMPLES=1
 
-# Download SBL
+# Download SBL 6.01
 ENV SEGALIB=${SATURN_SBL}/segalib
 ENV SEGASMP=${SATURN_SBL}/segasmp
 
@@ -343,7 +343,7 @@ COPY --chown=$UNAME:$UNAME Resources/sbl6.patch $SATURN_TMP
 RUN $SATURN_TMP/build-sbl6-lib.sh \
     && $SATURN_TMP/build-sbl6-samples.sh
 
-# Download SBL examples
+# Download SBL 6.01 examples
 COPY --chown=$UNAME:$UNAME Resources/dl-sbl6-examples.sh $SATURN_TMP
 RUN $SATURN_TMP/dl-sbl6-examples.sh
 COPY --chown=$UNAME:$UNAME Resources/sbl6/examples $SATURN_TMP/sbl6_/examples
@@ -372,7 +372,26 @@ COPY --chown=$UNAME:$UNAME Resources/sgl $SATURN_TMP/sgl_
 COPY --chown=$UNAME:$UNAME Resources/build-sgl302-samples.sh $SATURN_TMP
 RUN $SATURN_TMP/build-sgl302-samples.sh $SATURN_SGL
 
-FROM sbl AS sbl-samples
+FROM sbl AS sbl63
+
+#
+# Install SBL 6.3 (with its SGL 3.20), next to SBL 6.01
+#
+
+ARG INSTALL_SBL63_LIB=1
+ARG INSTALL_SBL63_SAMPLES=1
+
+ENV SATURN_SBL63=$SATURN_ROOT/sbl63
+
+COPY --chown=$UNAME:$UNAME Resources/dl-sbl63.sh $SATURN_TMP
+COPY --chown=$UNAME:$UNAME Resources/build-sbl63.sh $SATURN_TMP
+RUN $SATURN_TMP/dl-sbl63.sh \
+    && $SATURN_TMP/build-sbl63.sh
+USER root
+RUN rm -f "${SATURN_TMP:?}/dl-sbl63.sh" "${SATURN_TMP:?}/build-sbl63.sh"
+USER $UNAME
+
+FROM sbl63 AS sbl-samples
 
 #
 # Samples

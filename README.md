@@ -23,6 +23,7 @@
      - [GCC(M68K) build variables](#gccm68k-build-variables)
      - [SGL variables](#sgl-variables)
      - [SBL variables](#sbl-variables)
+     - [SBL 6.3 variables](#sbl-63-variables)
      - [SATURN SDK variables](#saturn-sdk-variables)
      - [JO ENGINE variables](#jo-engine-variables)
      - [Yaul variables](#yaul-variables)
@@ -33,6 +34,7 @@
      - [SGL 3.02](#sgl-302)
      - [SGL 3.20](#sgl-320)
      - [SBL 6.01](#sbl-601)
+     - [SBL 6.3](#sbl-63)
      - [SDK Samples](#sdk-samples)
      - [Jo Engine 2026.5](#jo-engine-20265)
      - [Yaul Version 0.3.1](#yaul-version-031)
@@ -236,11 +238,22 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 #### SBL variables
 
+These install SBL **6.01** in `$SATURN_SBL` (`/opt/saturn/sbl`).
+
 | Variable               | Default Value | Description       |
 |-------------------------|---------------|-------------------|
 | `INSTALL_SBL_LIB`      | 1             | 0 to disable      |
 | `INSTALL_SBL_SAMPLES`  | 1             | 0 to disable      |
 | `INSTALL_SBL_EXAMPLES` | 1             | 0 to disable      |
+
+#### SBL 6.3 variables
+
+These install SBL **6.3** in `$SATURN_SBL63` (`/opt/saturn/sbl63`), next to SBL 6.01.
+
+| Variable                | Default Value | Description       |
+|--------------------------|---------------|-------------------|
+| `INSTALL_SBL63_LIB`     | 1             | 0 to disable      |
+| `INSTALL_SBL63_SAMPLES` | 1             | 0 to disable (needs `INSTALL_SBL63_LIB=1`) |
 
 #### SATURN SDK variables
 
@@ -550,6 +563,17 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [ ] `gfsdemo` **(Not tested)**
   - [ ] `periphs` **(Not tested)**
   - [ ] `sgl` **(Disabled)**
+</details>
+
+#### SBL 6.3
+<details>
+
+SBL 6.2 with the binary-only libraries rebuilt from source, built with the image's SH2 GCC into ELF. It also ships SGL 3.20. Its file and folder names are lowercase, like SBL 6.01. See `$SATURN_SBL63/readme.md` for its makefiles and how to start a project.
+
+- [x] `SBL Libs` : `$SATURN_SBL63/segalib/lib_elf` (includes the ADX audio libraries)
+- [x] `SGL 3.20 Libs` : `$SATURN_SBL63/sgl/lib_elf`
+- [ ] `SBL Samples` : 84 samples in `$SATURN_SBL63/segasmp`, output in each sample's `elf/` folder **(Build only, not tested)**
+- [ ] `SGL 3.20 Samples` : 89 samples in `$SATURN_SBL63/sgl`, output in each sample's `elf/` folder **(Build only, not tested)**
 </details>
 
 #### SDK Samples
