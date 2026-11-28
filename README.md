@@ -812,7 +812,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
 - [ ] `Yaul`
   - [X] `Yaul Library`
   - [ ] `Yaul Examples` (https://github.com/yaul-org/libyaul-examples)
-    - [x] `arp-comm`
+    - [ ] `arp-comm` **(Needs an Action Replay cartridge: Mednafen's `-ss.cart ar4mp` needs its `satar4mp.bin` ROM, not in the image)**
     - [x] `bcl`
     - [x] `c++`
     - [x] `cd-block`
@@ -823,13 +823,13 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `cpu-wdt`
     - [x] `dbgio-font`
     - [x] `dbgio-menu`
-    - [x] `dbgio-usb-cart`
+    - [ ] `dbgio-usb-cart` **(Needs a USB dev cartridge: black screen in Mednafen)**
     - [x] `dma-queue`
-    - [x] `dram-cart`
+    - [x] `dram-cart` (run Mednafen with `-ss.cart extram1` or `-ss.cart extram4`: otherwise it asks for the RAM cartridge)
     - [x] `fibers`
     - [ ] `fileserver` **(Disabled upstream)**
     - [x] `gamemath` (green screen: all tests pass)
-    - [x] `gdb`
+    - [ ] `gdb` **(Waits for a GDB connection over a USB dev cartridge)**
     - [x] `mm-stats`
     - [ ] `netlink-template` **(Does not compile)**
     - [ ] `overlay` **(Does not compile)**
@@ -837,7 +837,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `scu-dsp`
     - [ ] `scu-timers` **(Disabled upstream)**
     - [x] `smpc-rtc`
-    - [x] `usb-cart`
+    - [ ] `usb-cart` **(Needs a USB dev cartridge: black screen in Mednafen)**
     - [x] `vdp1-balls`
     - [x] `vdp1-drawing`
     - [x] `vdp1-interlace`
