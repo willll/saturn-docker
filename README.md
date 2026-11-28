@@ -121,6 +121,8 @@ The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VE
 - **10.4.0**
 - **9.5.0**
 - **8.4.0**
+- **4.9.4**
+- **2.95.3** (the Saturn-era GCC: C and C++, no C++ standard library)
 
 #### Example
 ```bash
@@ -299,6 +301,8 @@ These install SBL **6.3** in `$SATURN_SBL63` (`/opt/saturn/sbl63`), next to SBL 
 | `INSTALL_CYBERWARRIORX_CDC_LIB` | 0             | 1 to enable       |
 
 ### Tools
+- [?] GCC 2.95.3 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_2.95.3
+- [?] GCC 4.9.4 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_4.9.4
 - [x] GCC 8.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_8.4.0
 - [x] GCC 9.5.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_9.5.0
 - [x] GCC 10.4.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_10.4.0
@@ -312,7 +316,7 @@ These install SBL **6.3** in `$SATURN_SBL63` (`/opt/saturn/sbl63`), next to SBL 
 - [?] GCC 16.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_16.2.0
 - [ ] GDB for SH2 **(Not tested yet)**
 - [x] GDB Multiarch
-- [x] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
+- [x] GCC 14.3.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
 - [x] CMake profile
 - [x] schily-tools : ISO generation tools
 - [x] Saturn-SDK-Tool-IPMaker : IP.BIN generation tool : https://github.com/willll/Saturn-SDK-Tool-IPMaker
