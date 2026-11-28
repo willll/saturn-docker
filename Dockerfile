@@ -187,7 +187,7 @@ USER $UNAME
 # Install base tools
 #
 
-# GCC_VERSION_ARG : must match tags from https://github.com/willll/Saturn-SDK-GCC-SH2/tags
+# GCC_VERSION_ARG : dl-SDK.sh clones branch gcc_$GCC_VERSION_ARG from https://github.com/willll/Saturn-SDK-GCC-SH2/branches
 ARG GCC_VERSION_ARG=14.3.0
 ENV GCC_VERSION=$GCC_VERSION_ARG
 
