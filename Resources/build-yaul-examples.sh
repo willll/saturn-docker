@@ -27,6 +27,12 @@ if [[ $INSTALL_YAUL_SAMPLES -eq 1 ]]; then
 
 	cd $SATURN_YAUL/examples
 
+	# vdp1-software-blending passes NULL coords to vdp1_env_preamble_populate, which reads them without a check:
+	# GCC 14 turns that NULL read into abort(). Pass the screen's coords (local origin at the centre, as the example draws)
+	grep -q 'vdp1_env_preamble_populate(_cmdt_list->cmdts, NULL);' vdp1-software-blending/vdp1-software-blending.c
+	sed -i 's/vdp1_env_preamble_populate(_cmdt_list->cmdts, NULL);/vdp1_env_preamble_populate(_cmdt_list->cmdts, \&(const vdp1_env_coords_t) { .system_clip = INT16_VEC2_INITIALIZER(SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1), .user_clip_ul = INT16_VEC2_INITIALIZER(0, 0), .user_clip_lr = INT16_VEC2_INITIALIZER(SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1), .local = INT16_VEC2_INITIALIZER(SCREEN_WIDTH \/ 2, SCREEN_HEIGHT \/ 2) });/' \
+		vdp1-software-blending/vdp1-software-blending.c
+
 	# Not built: fileserver and scu-timers are disabled upstream ($(error This example is disabled)),
 	# netlink-template (no yaul.h with its netlink specs) and overlay (fix16.h errors with its specs) don't compile
 

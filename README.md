@@ -843,7 +843,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `vdp1-interlace`
     - [x] `vdp1-mesh`
     - [x] `vdp1-mic3d`
-    - [ ] `vdp1-software-blending` **(Aborts at start: passes NULL to `vdp1_env_preamble_populate`, which GCC 14 compiles to a trap)**
+    - [x] `vdp1-software-blending` (patched at build time: upstream passes NULL coords to `vdp1_env_preamble_populate`, which GCC 14 compiles to `abort()`)
     - [x] `vdp1-st-niccc`
     - [x] `vdp1-uv-coords`
     - [x] `vdp1-zoom-sprite`
