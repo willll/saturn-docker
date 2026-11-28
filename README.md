@@ -23,6 +23,7 @@
      - [GCC(M68K) build variables](#gccm68k-build-variables)
      - [SGL variables](#sgl-variables)
      - [SBL variables](#sbl-variables)
+     - [SBL 6.3 variables](#sbl-63-variables)
      - [SATURN SDK variables](#saturn-sdk-variables)
      - [JO ENGINE variables](#jo-engine-variables)
      - [Yaul variables](#yaul-variables)
@@ -31,10 +32,10 @@
      - [CyberwarriorX CDC](#cyberwarriorx-cdc)
    - [Tools](#tools)
      - [SGL 3.02](#sgl-302)
-     - [SGL 3.20](#sgl-320)
      - [SBL 6.01](#sbl-601)
+     - [SBL 6.3](#sbl-63)
      - [SDK Samples](#sdk-samples)
-     - [Jo Engine 2025.1](#jo-engine-20251)
+     - [Jo Engine 2026.5](#jo-engine-20265)
      - [Yaul Version 0.3.1](#yaul-version-031)
      - [SRL Version 0.9.2](#srl-version-092)
 4. [Misc Notes](#misc-notes)
@@ -102,9 +103,11 @@ For IDE integration, refer to:
 The default GCC version is **14.3.0**. To change it, use the `--build-arg GCC_VERSION_ARG` parameter during the build process.
 
 #### Available GCC Versions
-- **16.1.0**
+- **16.2.0**
+- ~~**16.1.0**~~ (deprecated)
+- **15.3.0**
 - **15.2.0**
-- **15.1.0**
+- ~~**15.1.0**~~ (deprecated)
 - **14.3.0** (default)
 - **14.2.0** 
 - ~~**14.1.0**~~ (deprecated)
@@ -208,7 +211,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 | Variable           | Default Value | Description                         |
 |---------------------|---------------|-------------------------------------|
-| `MEDNAFEN_TAG`      | v.01          | Specify the version/tag             |
+| `MEDNAFEN_TAG`      | v.02          | Specify the version/tag             |
 
 #### GCC(SH2) build variables
 
@@ -234,11 +237,22 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 
 #### SBL variables
 
+These install SBL **6.01** in `$SATURN_SBL` (`/opt/saturn/sbl`).
+
 | Variable               | Default Value | Description       |
 |-------------------------|---------------|-------------------|
 | `INSTALL_SBL_LIB`      | 1             | 0 to disable      |
 | `INSTALL_SBL_SAMPLES`  | 1             | 0 to disable      |
 | `INSTALL_SBL_EXAMPLES` | 1             | 0 to disable      |
+
+#### SBL 6.3 variables
+
+These install SBL **6.3** in `$SATURN_SBL63` (`/opt/saturn/sbl63`), next to SBL 6.01.
+
+| Variable                | Default Value | Description       |
+|--------------------------|---------------|-------------------|
+| `INSTALL_SBL63_LIB`     | 1             | 0 to disable      |
+| `INSTALL_SBL63_SAMPLES` | 1             | 0 to disable (needs `INSTALL_SBL63_LIB=1`) |
 
 #### SATURN SDK variables
 
@@ -261,7 +275,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 | `INSTALL_YAUL_LIB_ARG`        | 1                                 | 0 to disable                               |
 | `INSTALL_YAUL_SAMPLES`        | 1                                 | 0 to disable                               |
 | `YAUL_TAG`                    | 0.3.1                             | Tag to retrieve from Yaul's GitHub         |
-| `YAUL_EXAMPLES_COMMIT_SHA`    | 21fd76d83dffd49afc4926d6a8408eecfec474f5 | Commit matching `YAUL_TAG` in Yaul examples GitHub |
+| `YAUL_EXAMPLES_COMMIT_SHA`    | 66b648eb059bb8bb7392eac70821605a68205b85 | Commit to build from Yaul examples GitHub (latest `develop`, 2025-03-06) |
 
 #### SRL variables
 
@@ -293,9 +307,9 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [x] GCC 13.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_13.3.0
 - [x] GCC 14.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.2.0
 - [x] GCC 14.3.0 for SH2 **(Default)** : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_14.3.0
-- [?] GCC 15.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_15.1.0_1
-- [?] GCC 15.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_15.2.0_1
-- [?] GCC 16.1.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/releases/tag/gcc_16.1.0_1
+- [?] GCC 15.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_15.2.0
+- [?] GCC 15.3.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_15.3.0
+- [?] GCC 16.2.0 for SH2 : https://github.com/willll/Saturn-SDK-GCC-SH2/tree/gcc_16.2.0
 - [ ] GDB for SH2 **(Not tested yet)**
 - [x] GDB Multiarch
 - [x] GCC 14.2.0 for M68K : https://github.com/willll/Saturn-SDK-GCC-M68K
@@ -357,7 +371,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [x] `s_cd4`
   - [x] `sampsnd1`
   - [x] `sampsnd2`
-  - [ ] `sbklib`
+  - [ ] `sbklib` **(Not tested)**
   - [x] `sega2d_1`
   - [x] `sega3d_1`
   - [x] `sega3d_2`
@@ -365,57 +379,11 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [x] `shooting`
   - [x] `torus2`
   - [x] `torus3`
-- [ ] `SGL Samples from SGL 3.20`
-  - [X] `bitmap`
-  - [X] `cdda` **(Missing tracks ?)**
-  - [X] `coloff`
-  - [X] `expccalc`
-  - [X] `grad`
-  - [X] `linecol`
-  - [X] `linscl`
-  - [ ] `pcm`
-    - [ ] `seamless`
-      - [ ] `all` **(Error : Stream System open)**
-      - [ ] `basic` **(Error : Stream System open)**      
-      - [ ] `ff` **(Error : Stream System open)**     
-      - [ ] `pause` **(Error : Stream System open)**                 
-    - [ ] `simple`
-      - [ ] `all` **(Error : Stream System open)**
-      - [ ] `gfs` **(Error : Stream System open)**      
-      - [ ] `mem` **(Error : Stream System open)**     
-      - [ ] `stm` **(Error : Stream System open)**   
-  - [X] `rotatebg`
-    - [X] `coef`
-    - [X] `linecol`
-  - [X] `shadow`
-    - [X] `msb`
-    - [X] `sprite`
-  - [ ] `sound`
-      - [ ] `mapchg` **(Black screen)**
-      - [ ] `sndtest` **(no sounds ?)**
-  - [X] `spccalc`
-    - [X] `cel`
-    - [X] `dot`
-  - [X] `spprio`
-    - [X] `cel`
-    - [X] `dot`
-  - [X] `sprcc2bg`
-    - [X] `apply`
-    - [X] `basic`  
-  - [X] `window`
-    - [X] `sprwin`
 - [ ] `SGL Demos`
   - [ ] `biplane` **(Missing files in scroll folder)**
   - [ ] `cdda_sgl` **(Missing files in src folder)**
   - [x] `chrome`
   - [x] `flying`
-</details>
-
-#### SGL 3.20
-<details>
-
-- [ ] `SGL`
-- [ ] `SGL Samples`
 </details>
 
 #### SBL 6.01
@@ -442,7 +410,9 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [x] `spr` **(copied from https://github.com/shicky256/sbl/tree/master/segalib/spr)**
   - [x] `stm`
 - [ ] `SBL Samples`
+  - [ ] `abs` **(Not tested)**
   - [x] `bup`
+  - [ ] `cof` **(Not tested)**
   - [x] `csh`
   - [x] `dbg`
     - [x] `smpdbg1`
@@ -461,6 +431,8 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [ ] `smpgfs1a` **(Crash at runtime)**
     - [ ] `smpgfs1b` **(Crash at runtime)**
     - [ ] `smpgfs2` **(Crash at runtime)**
+  - [ ] `lib` **(Not tested)**
+  - [ ] `man` **(Not tested)**
   - [ ] `mem`
     - [ ] `smpmem0` **(Crash at runtime)**
     - [?] `smpmem1` **(black screen at runtime)**
@@ -473,6 +445,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [ ] `pcm5` **(Crash at runtime)**
     - [ ] `pcm13` **(black screen at runtime)**
   - [X] `per`
+    - [ ] `smpclib` **(Not tested)**
     - [X] `smpper0` **(no output)**
     - [X] `smpper1` **(no output)**
     - [X] `smpper7` **(controls ?)**
@@ -521,6 +494,244 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [ ] `tim`
     - [ ] `smp0` **(Crash at runtime)**
     - [ ] `smp1` **(Crash at runtime)**
+  - [ ] `v_blank` **(Not tested)**
+- [ ] `SBL Examples`
+  - [ ] `backram` **(Not tested)**
+    - [ ] `gnu` **(Not tested)**
+  - [ ] `devcon96`
+    - [ ] `3d` **(Not tested)**
+    - [ ] `democoef` **(Not tested)**
+    - [ ] `demodsp` **(Not tested)**
+    - [ ] `demodual` **(Not tested)**
+    - [ ] `demodul2` **(Not tested)**
+    - [ ] `demodul3` **(Not tested)**
+    - [ ] `demogour` **(Not tested)**
+    - [ ] `demomist` **(Not tested)**
+    - [ ] `demotb14` **(Not tested)**
+    - [ ] `demowin` **(Not tested)**
+    - [ ] `math` **(Not tested)**
+    - [ ] `profile` **(Not tested)**
+    - [ ] `util` **(Not tested)**
+  - [ ] `dualcpu` **(Disabled)**
+  - [ ] `gfsdemo` **(Not tested)**
+  - [ ] `periphs` **(Not tested)**
+  - [ ] `sgl` **(Disabled)**
+</details>
+
+#### SBL 6.3
+<details>
+
+SBL 6.2 with the binary-only libraries rebuilt from source, built with the image's SH2 GCC into ELF. It also ships SGL 3.20. Its file and folder names are lowercase, like SBL 6.01. See `$SATURN_SBL63/readme.md` for its makefiles and how to start a project.
+
+- [x] `SBL Libs` : `$SATURN_SBL63/segalib/lib_elf` (includes the ADX audio libraries)
+- [x] `SGL 3.20 Libs` : `$SATURN_SBL63/sgl/lib_elf`
+- [ ] `SBL Samples` : 84 samples in `$SATURN_SBL63/segasmp`, output in each sample's `elf/` folder, 53 of the 83 programs work in Mednafen
+  - [x] `bup`
+  - [ ] `cpk`
+    - [ ] `smpcpk12` **(Missing CPK movie files)**
+    - [ ] `smpcpk2` **(Missing CPK movie files)**
+    - [ ] `smpcpk3` **(Missing CPK movie files)**
+    - [ ] `smpcpk4` **(Missing CPK movie files)**
+    - [ ] `smpcpk5` **(Missing CPK movie files)**
+    - [ ] `smpcpk6` **(Missing CPK movie files)**
+    - [ ] `smpcpk7` **(Missing CPK movie files)**
+    - [ ] `smpcpk8` **(Missing CPK movie files)**
+    - [ ] `smpcpk9` **(Missing CPK movie files)**
+    - [ ] `smpcpkax` **(Missing CPK movie files)**
+  - [x] `csh` (No display, checked in RAM)
+  - [x] `dbg`
+    - [x] `smpdbg1`
+  - [ ] `dma`
+    - [x] `smpdma0` (No display, checked in RAM)
+    - [x] `smpdma1` (No display, checked in RAM)
+    - [x] `smpdma10` (No display, checked in RAM)
+    - [x] `smpdma12` (No display, checked in RAM)
+    - [ ] `smpdma2` **(Noise on screen)**
+  - [x] `dual`
+  - [x] `erm`
+    - [x] `sample1`
+  - [x] `fld`
+    - [x] `smpfld01`
+  - [x] `game`
+  - [x] `game_cd`
+  - [ ] `gfs`
+    - [x] `smpgfs1a` (No display, checked in RAM)
+    - [ ] `smpgfs1b` **(Missing data files)**
+    - [ ] `smpgfs2` **(Missing data files)**
+  - [x] `mem`
+    - [x] `smpmem0` (No display, checked in RAM)
+    - [x] `smpmem1` (No display, checked in RAM)
+  - [ ] `mpg`
+    - [ ] `smpmpg1` **(Needs the MPEG card)**
+  - [ ] `pcm`
+    - [ ] `3pcmt` **(Missing data files)**
+    - [ ] `adpcm` **(Missing data files)**
+    - [ ] `adxloop` **(Missing data files)**
+    - [ ] `pcm2` **(Missing data files)**
+    - [ ] `pcm3` **(Silent: its sound data was preloaded by the E7000 debugger)**
+    - [x] `pcm4` (Sound only)
+    - [ ] `pcm5` **(Missing data files)**
+    - [ ] `smppcm21` **(Missing data files)**
+    - [ ] `smppcm41` **(Missing data files)**
+    - [ ] `xa` **(Missing data files)**
+  - [x] `per`
+    - [x] `getsys`
+    - [x] `smpper0` (No display, checked in RAM)
+    - [x] `smpper0a`
+    - [x] `smpper1` (No display, checked in RAM)
+    - [x] `smpper7`
+    - [x] `smpper8`
+    - [x] `v_gun`
+  - [x] `sblsgl`
+    - [x] `sblsgl00`
+    - [x] `sblsgl01`
+    - [x] `sblsgl02`
+    - [x] `sblsgl03`
+    - [x] `sblsgl04`
+  - [x] `scl`
+    - [x] `dblbmp`
+    - [x] `dblline`
+    - [x] `smpscl1`
+    - [x] `smpscl3`
+    - [x] `smpscl5`
+  - [x] `sgl`
+    - [x] `demo_a`
+    - [x] `demo_b`
+    - [x] `demo_c`
+    - [x] `s_2_2`
+    - [x] `s_3_2`
+    - [x] `s_4_2`
+    - [x] `s_4_3_1`
+    - [x] `s_4_3_2`
+    - [x] `s_4_3_3`
+    - [x] `s_4_3_4`
+    - [x] `s_4_5`
+    - [x] `s_5_2`
+    - [x] `s_6_3`
+    - [x] `s_7_2`
+    - [x] `s_7_4`
+    - [x] `s_7_6`
+  - [ ] `snd`
+    - [ ] `smpsnd1` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+    - [ ] `smpsnd4` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+    - [ ] `smpsnd5` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+    - [ ] `smpsnd6` **(Sound driver not loaded: the E7000 debugger preloaded it)**
+  - [ ] `spr`
+    - [x] `smpspr2`
+    - [ ] `smpspr7` **(Blue screen)**
+    - [x] `smpspr8`
+  - [ ] `stm`
+    - [ ] `smpstm1` **(Missing data files)**
+    - [ ] `smpstm2` **(Missing data files)**
+  - [x] `sys` (Builds `ip.bin` only, nothing to run)
+  - [x] `tim`
+    - [x] `smp0` (No display, checked in RAM)
+    - [x] `smp1` (No display, checked in RAM)
+- [ ] `SGL 3.20 Samples` : 89 samples in `$SATURN_SBL63/sgl`, output in each sample's `elf/` folder, 69 work in Mednafen
+  - [ ] `sample`
+    - [x] `demo_a`
+    - [x] `demo_b`
+    - [x] `demo_c`
+    - [x] `demo_d`
+    - [x] `demogun`
+    - [x] `design1`
+    - [x] `design2`
+    - [x] `design3`
+    - [x] `s_10`
+    - [x] `s_2_2`
+    - [x] `s_3_2`
+    - [x] `s_4_2`
+    - [x] `s_4_3_1`
+    - [x] `s_4_3_2`
+    - [x] `s_4_3_3`
+    - [x] `s_4_3_4`
+    - [x] `s_4_5`
+    - [x] `s_5_2`
+    - [x] `s_6_3`
+    - [x] `s_7_2`
+    - [x] `s_7_4`
+    - [x] `s_7_6`
+    - [x] `s_8_10_1`
+    - [x] `s_8_10_2`
+    - [x] `s_8_11`
+    - [x] `s_8_12`
+    - [x] `s_8_8_1`
+    - [x] `s_8_8_2`
+    - [x] `s_8_8_3`
+    - [x] `s_8_9_1`
+    - [x] `s_8_9_2`
+    - [x] `s_9_1`
+    - [x] `s_cd1`
+    - [x] `s_cd2`
+    - [x] `s_cd3`
+    - [ ] `s_cd4` **(Missing CD audio file `cdda1`)**
+    - [x] `sampsnd1`
+    - [x] `sampsnd2`
+    - [x] `sbklib`
+    - [ ] `smpcpk2` **(Missing CPK movie files)**
+    - [ ] `smpcpk3` **(Missing CPK movie files)**
+    - [ ] `smpcpk4` **(Missing CPK movie files)**
+    - [ ] `smpcpk5` **(Missing CPK movie files)**
+    - [ ] `smpcpk6` **(Missing CPK movie files)**
+    - [ ] `smpcpk7` **(Missing CPK movie files)**
+    - [ ] `smpcpk8` **(Missing CPK movie files)**
+    - [ ] `smpcpk9` **(Missing CPK movie files)**
+  - [x] `sample2`
+    - [x] `sega2d_1`
+    - [x] `sega3d_1`
+    - [x] `sega3d_2`
+    - [x] `sega3d_3`
+  - [x] `sample3`
+    - [x] `akira`
+    - [x] `akira3`
+    - [x] `camera`
+    - [x] `driving`
+    - [x] `driving2`
+    - [x] `fighting`
+    - [x] `shooting`
+    - [x] `torus2`
+    - [x] `torus3`
+  - [ ] `sample4`
+    - [x] `bitmap`
+    - [ ] `cdda` **(Missing CD audio tracks)**
+    - [x] `coloff`
+    - [x] `expccalc`
+    - [x] `grad`
+    - [x] `linecol`
+    - [x] `linscl`
+      - [x] `truecol`
+    - [ ] `pcm`
+      - [ ] `seamless`
+        - [ ] `all` **(Missing PCM data files)**
+        - [ ] `basic` **(Missing PCM data files)**
+        - [ ] `ff` **(Missing PCM data files)**
+        - [ ] `pause` **(Missing PCM data files)**
+      - [ ] `simple`
+        - [ ] `all` **(Missing PCM data files)**
+        - [ ] `gfs` **(Missing PCM data files)**
+        - [ ] `mem` **(Missing PCM data files)**
+        - [ ] `stm` **(Missing PCM data files)**
+        - [ ] `xa` **(Missing PCM data files)**
+    - [x] `rotatebg`
+      - [x] `coef`
+      - [x] `linecol`
+    - [x] `shadow`
+      - [x] `msb`
+      - [x] `sprite`
+    - [ ] `sound`
+      - [x] `mapchg`
+      - [ ] `sndtest` **(Menu only, no sound)**
+    - [x] `spccalc`
+      - [x] `cel`
+      - [x] `dot`
+    - [x] `spprio`
+      - [x] `cel`
+      - [x] `dot`
+    - [x] `sprcc2bg`
+      - [x] `apply`
+      - [x] `basic`
+    - [x] `window`
+      - [x] `sprwin`
 </details>
 
 #### SDK Samples
@@ -533,7 +744,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [ ] `CDBrowser`
 </details>
 
-#### [Jo Engine 2025.1](https://www.jo-engine.org/)
+#### [Jo Engine 2026.5](https://www.jo-engine.org/)
 <details>
 
 - [X] `Jo Engine`
@@ -576,6 +787,23 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [X] `demo - hardcoded image`
   - [X] `demo - visual novel`
   - [X] `demo - voxel`
+  - [ ] `demo - 3D camera` **(Not tested)**
+  - [ ] `demo - 3D model` **(Not tested)**
+  - [ ] `demo - 3D vertex animation` **(Not tested)**
+  - [ ] `demo - 3D water` **(Not tested)**
+  - [ ] `demo - analog - mission stick` **(Not tested)**
+  - [ ] `demo - analog - wheel` **(Not tested)**
+  - [ ] `demo - benchmark` **(Not tested)**
+  - [ ] `demo - display modes` **(Not tested)**
+  - [ ] `demo - environment mapping` **(Not tested)**
+  - [ ] `demo - fighters` **(Not tested)**
+  - [ ] `demo - first person shooter` **(Not tested)**
+  - [ ] `demo - light gun` **(Not tested)**
+  - [ ] `demo - minimal` **(Not tested)**
+  - [ ] `demo - serial link` **(Not tested)**
+  - [ ] `demo - transparency` **(Not tested)**
+  - [ ] `demo - vcd card` **(Not tested)**
+  - [ ] `demo - vdp2 map` **(Not tested)**
 </details>
 
 #### [Yaul Version 0.3.1](https://github.com/yaul-org/libyaul)
@@ -584,7 +812,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
 - [ ] `Yaul`
   - [X] `Yaul Library`
   - [ ] `Yaul Examples` (https://github.com/yaul-org/libyaul-examples)
-    - [x] `arp-comm` << This example is disabled
+    - [ ] `arp-comm` **(Needs an Action Replay cartridge: Mednafen's `-ss.cart ar4mp` needs its `satar4mp.bin` ROM, not in the image)**
     - [x] `bcl`
     - [x] `c++`
     - [x] `cd-block`
@@ -593,27 +821,29 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `cpu-dual`
     - [x] `cpu-frt`
     - [x] `cpu-wdt`
-    - [ ] `dbgio-font`
+    - [x] `dbgio-font`
     - [x] `dbgio-menu`
-    - [x] `dbgio-usb-cart`
+    - [ ] `dbgio-usb-cart` **(Needs a USB dev cartridge: black screen in Mednafen)**
     - [x] `dma-queue`
-    - [x] `dram-cart`
+    - [x] `dram-cart` (run Mednafen with `-ss.cart extram1` or `-ss.cart extram4`: otherwise it asks for the RAM cartridge)
     - [x] `fibers`
-    - [ ] `fileserver`
-    - [x] `gdb`
+    - [ ] `fileserver` **(Disabled upstream)**
+    - [x] `gamemath` (green screen: all tests pass)
+    - [ ] `gdb` **(Waits for a GDB connection over a USB dev cartridge)**
     - [x] `mm-stats`
-    - [ ] `netlink-template`
+    - [ ] `netlink-template` **(Does not compile)**
+    - [ ] `overlay` **(Does not compile)**
+    - [x] `scsp-ponesound-pcm8` (press A to play)
     - [x] `scu-dsp`
-    - [ ] `scu-timers` << This example is disabled
+    - [ ] `scu-timers` **(Disabled upstream)**
     - [x] `smpc-rtc`
-    - [x] `usb-cart`
+    - [ ] `usb-cart` **(Needs a USB dev cartridge: black screen in Mednafen)**
     - [x] `vdp1-balls`
     - [x] `vdp1-drawing`
     - [x] `vdp1-interlace`
     - [x] `vdp1-mesh`
     - [x] `vdp1-mic3d`
-    - [ ] `vdp1-normal-sprite`
-    - [x] `vdp1-software-blending`
+    - [x] `vdp1-software-blending` (patched at build time: upstream passes NULL coords to `vdp1_env_preamble_populate`, which GCC 14 compiles to `abort()`)
     - [x] `vdp1-st-niccc`
     - [x] `vdp1-uv-coords`
     - [x] `vdp1-zoom-sprite`
@@ -621,7 +851,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `vdp2-all-nbgs`
     - [x] `vdp2-back-screen`
     - [x] `vdp2-effect-tunnel`
-    - [x] `dp2-line-scroll`
+    - [x] `vdp2-line-scroll`
     - [x] `vdp2-nbg0`
     - [x] `vdp2-normal-bitmap`
     - [x] `vdp2-rbg0-bitmap`
@@ -638,6 +868,8 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
   - [x] `SRL Library` (Headers only, no static library)
   - [x] `SRL Samples` (https://github.com/ReyeMe/SaturnRingLib/tree/main/Samples)
     - [x] `CD - File reading`
+    - [ ] `CD - Folders` **(Not tested)**
+    - [ ] `Debug - Print` **(Not tested)**
     - [x] `Input - Analog`
     - [x] `Input - Gamepad`
     - [x] `Input - Gun`
@@ -648,12 +880,16 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `SH2 - Slave`
     - [x] `SMPC - Clock`
     - [x] `Sound - CDDA`
+    - [ ] `Sound - CDDA (simple)` **(Not tested)**
     - [x] `Sound - PCM`
     - [x] `SRL - Event`
     - [x] `STL`
+    - [ ] `TestProject` **(Not tested)**
+    - [ ] `VDP1 - 2D Sprite sphere` **(Not tested)**
     - [x] `VDP1 - 3D - Animation`
     - [x] `VDP1 - 3D - Flat teapot`
     - [x] `VDP1 - 3D - Smooth teapot`
+    - [ ] `VDP1 - Cinepak` **(Not tested)**
     - [x] `VDP1 - Clipping`
     - [x] `VDP1 - Distorted sprite`
     - [x] `VDP1 - Gouraud`
@@ -662,6 +898,7 @@ docker build --build-arg ssh_pub_key="$(cat ~/.ssh/host_ca.pub)" --squash -t sat
     - [x] `VDP1 - Sprite effects`
     - [x] `VDP1 - Sprites`
     - [x] `VDP2 - Bmp2Tile`
+    - [ ] `VDP2 - ColorCalc` **(Not tested)**
     - [x] `VDP2 - Layers`
     - [x] `VDP2 - RBG0 Rotation`
 </details>

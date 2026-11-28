@@ -11,6 +11,7 @@ if [ $INSTALL_SBL_LIB -eq 1 ]; then
 		mkdir -p $SATURN_TMP
 	fi
 
+	# SBL 6.01 (latest module: GFS/STM 2.10, 1996-02-01)
 	gdown 1Nz-aCEe9U3Rxc9QUn3IA6rMP4GY_EwSZ -O "$SATURN_TMP/sbl6.zip"
 
 	if [ ! -f "$SATURN_TMP/sbl6.zip" ]; then
