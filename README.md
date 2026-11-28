@@ -275,7 +275,7 @@ These install SBL **6.3** in `$SATURN_SBL63` (`/opt/saturn/sbl63`), next to SBL 
 | `INSTALL_YAUL_LIB_ARG`        | 1                                 | 0 to disable                               |
 | `INSTALL_YAUL_SAMPLES`        | 1                                 | 0 to disable                               |
 | `YAUL_TAG`                    | 0.3.1                             | Tag to retrieve from Yaul's GitHub         |
-| `YAUL_EXAMPLES_COMMIT_SHA`    | 21fd76d83dffd49afc4926d6a8408eecfec474f5 | Commit matching `YAUL_TAG` in Yaul examples GitHub |
+| `YAUL_EXAMPLES_COMMIT_SHA`    | 66b648eb059bb8bb7392eac70821605a68205b85 | Commit to build from Yaul examples GitHub (latest `develop`, 2025-03-06) |
 
 #### SRL variables
 
@@ -821,18 +821,19 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `cpu-dual`
     - [x] `cpu-frt`
     - [x] `cpu-wdt`
-    - [ ] `dbgio-font` **(Not tested)**
+    - [x] `dbgio-font`
     - [x] `dbgio-menu`
     - [x] `dbgio-usb-cart`
     - [x] `dma-queue`
     - [x] `dram-cart`
     - [x] `fibers`
     - [ ] `fileserver` **(Disabled upstream)**
-    - [ ] `gamemath` **(Not tested)**
+    - [x] `gamemath` (green screen: all tests pass)
     - [x] `gdb`
     - [x] `mm-stats`
     - [ ] `netlink-template` **(Does not compile)**
     - [ ] `overlay` **(Does not compile)**
+    - [x] `scsp-ponesound-pcm8` (press A to play)
     - [x] `scu-dsp`
     - [ ] `scu-timers` **(Disabled upstream)**
     - [x] `smpc-rtc`
@@ -842,7 +843,7 @@ SBL 6.2 with the binary-only libraries rebuilt from source, built with the image
     - [x] `vdp1-interlace`
     - [x] `vdp1-mesh`
     - [x] `vdp1-mic3d`
-    - [x] `vdp1-software-blending`
+    - [ ] `vdp1-software-blending` **(Aborts at start: passes NULL to `vdp1_env_preamble_populate`, which GCC 14 compiles to a trap)**
     - [x] `vdp1-st-niccc`
     - [x] `vdp1-uv-coords`
     - [x] `vdp1-zoom-sprite`

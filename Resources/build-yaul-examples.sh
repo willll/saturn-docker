@@ -52,6 +52,7 @@ if [[ $INSTALL_YAUL_SAMPLES -eq 1 ]]; then
 						mm-stats
 						#netlink-template fatal error: sys/init.h: No such file or directory
 						#overlay : missing files ?
+						scsp-ponesound-pcm8
 						scu-dsp
 						#scu-timers << This example is disabled\
 						smpc-rtc
